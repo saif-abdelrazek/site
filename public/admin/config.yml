@@ -1,0 +1,22 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "public/uploads" # Where uploaded files are stored (relative to repo root)
+public_folder: "/uploads" # How those files are accessed in the browser
+
+media_library:
+  name: uploadcare # Or leave this out for the default
+
+collections:
+  - name: "blog"
+    label: "Blog"
+    folder: "src/content/posts"
+    create: true
+    fields:
+      - { label: "Layout", name: "layout", widget: "hidden", default: "blog" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Featured Image", name: "thumbnail", widget: "image" }
+      - { label: "Rating (scale of 1-5)", name: "rating", widget: "number" }
+      - { label: "Body", name: "body", widget: "markdown" }
