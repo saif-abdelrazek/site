@@ -1,0 +1,29 @@
+---
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+const posts = await getCollection("posts");
+---
+
+<ul class="space-y-8">
+  {posts.map(post => (
+    <li class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-slate-200">
+      <a href={`/blog/${post.slug}/`} class="block hover:underline">
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">{post.data.title}</h2>
+      </a>
+      <div class="flex items-center gap-4 text-sm text-slate-500 mb-2">
+        <span>{post.data.date?.toLocaleDateString?.() ?? "Unknown date"}</span>
+        {post.data.tags && (
+          <span class="flex flex-wrap gap-2">
+            {post.data.tags.map(tag => (
+              <span class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded text-xs font-medium" >{tag}</span>
+            ))}
+          </span>
+        )}
+      </div>
+      {post.data.image && (
+        <Image src={post.data.image} alt={post.data.title} class="w-full h-48 object-cover rounded mb-2" />
+      )}
+      <p class="text-slate-600 dark:text-slate-300">{post.data.description}</p>
+    </li>
+  ))}
+</ul>

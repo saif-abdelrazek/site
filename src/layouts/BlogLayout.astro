@@ -1,0 +1,42 @@
+---
+import '../styles/global.css';
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description}: Props = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+</head>
+<body class="bg-white dark:bg-gray-900 flex flex-col min-h-screen">
+  <header class="bg-white dark:bg-gray-800 shadow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{title}</h1>
+      </div>
+    </div>
+  </header>
+
+  <main class="py-12 flex-1">
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <article class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+        {description && <p class="text-gray-600 dark:text-gray-300 mb-4">{description}</p>}
+        <slot />
+      </article>
+    </section>
+  </main>
+  
+  <footer class="bg-white dark:bg-gray-800 shadow mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-gray-600 dark:text-gray-400">
+      <p>&copy; {new Date().getFullYear()} My Blog. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
