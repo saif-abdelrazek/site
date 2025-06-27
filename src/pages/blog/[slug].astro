@@ -5,16 +5,16 @@ import BlogLayout from "../../layouts/BlogLayout.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("posts");
-  return posts.map(post => ({
-    params: { slug: post.slug},
-    props: { post }
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
   }));
 }
 
 const { post } = Astro.props;
-
 ---
 
 <BlogLayout title={post.data.title} description={post.data.description}>
+  <a href="/blog" class="mb-4 text-blue-500 hover:underline">← Back to posts</a>
   <Post post={post} />
 </BlogLayout>
