@@ -1,0 +1,104 @@
+---
+// filepath: /mnt/World/site/src/components/stats/UserInfo.astro
+---
+
+<div
+  class="cursor-pointer rounded-xl border border-gray-800 bg-gray-900/90 p-4 shadow-lg transition-all duration-300 hover:scale-105 hover:border-sky-500 hover:bg-gray-900/95 hover:shadow-2xl"
+>
+  <div class="mb-4 flex items-center gap-4">
+    <span
+      class="inline-block rounded-full bg-sky-700/30 px-3 py-1 text-xs font-semibold text-sky-300"
+      >Browser</span
+    >
+    <span
+      class="inline-block rounded-full bg-emerald-700/30 px-3 py-1 text-xs font-semibold text-emerald-300"
+      >OS</span
+    >
+  </div>
+  <dl
+    class="grid grid-cols-1 gap-x-6 gap-y-2 text-sm text-slate-200 sm:grid-cols-2"
+  >
+    <div>
+      <dt class="font-semibold text-sky-400">IPv4 Address</dt>
+      <dd id="ipv4" class="truncate">—</dd>
+    </div>
+    <div>
+      <dt class="font-semibold text-sky-400">Location</dt>
+      <dd id="location" class="truncate">—</dd>
+    </div>
+    <div>
+      <dt class="font-semibold text-sky-400">Hostname</dt>
+      <dd id="hostname" class="truncate">—</dd>
+    </div>
+    <div>
+      <dt class="font-semibold text-sky-400">ISP</dt>
+      <dd id="isp" class="truncate">—</dd>
+    </div>
+    <div>
+      <dt class="font-semibold text-sky-400">City</dt>
+      <dd id="city" class="truncate">—</dd>
+    </div>
+    <div>
+      <dt class="font-semibold text-sky-400">Country</dt>
+      <dd id="country" class="truncate">—</dd>
+    </div>
+    <div>
+      <dt class="font-semibold text-sky-400">Country Code</dt>
+      <dd id="countryCode" class="truncate">—</dd>
+    </div>
+    <div>
+      <dt class="font-semibold text-sky-400">User Agent</dt>
+      <dd id="userAgent" class="truncate">—</dd>
+    </div>
+    <div>
+      <dt class="font-semibold text-sky-400">Window Size</dt>
+      <dd>
+        <span id="windowWidth">—</span> × <span id="windowHeight">—</span>
+      </dd>
+    </div>
+    <div>
+      <dt class="font-semibold text-sky-400">Window Ratio</dt>
+      <dd id="windowRatio" class="truncate">—</dd>
+    </div>
+    <div>
+      <dt class="font-semibold text-sky-400">Screen Size</dt>
+      <dd>
+        <span id="screenWidth">—</span> × <span id="screenHeight">—</span>
+      </dd>
+    </div>
+    <div>
+      <dt class="font-semibold text-sky-400">Screen Ratio</dt>
+      <dd id="screenRatio" class="truncate">—</dd>
+    </div>
+    <div>
+      <dt class="font-semibold text-sky-400">Color Depth</dt>
+      <dd id="colorDepth" class="truncate">—</dd>
+    </div>
+    <div>
+      <dt class="font-semibold text-sky-400">Do Not Track</dt>
+      <dd id="doNotTrack" class="truncate">—</dd>
+    </div>
+    <div>
+      <dt class="font-semibold text-sky-400">Global Privacy Control</dt>
+      <dd id="globalPrivacyControl" class="truncate">—</dd>
+    </div>
+    <div>
+      <dt class="font-semibold text-sky-400">Cookies</dt>
+      <dd id="cookies" class="truncate">—</dd>
+    </div>
+    <div>
+      <dt class="font-semibold text-sky-400">WebGL Enabled</dt>
+      <dd id="webGLEnabled" class="truncate">—</dd>
+    </div>
+    <div>
+      <dt class="font-semibold text-sky-400">Browser Language</dt>
+      <dd id="browserLanguage" class="truncate">—</dd>
+    </div>
+    <div>
+      <dt class="font-semibold text-sky-400">CPU Threads</dt>
+      <dd id="cpuThreads" class="truncate">—</dd>
+    </div>
+  </dl>
+</div>
+
+<script src="../../lib/userInfo.ts"></script>

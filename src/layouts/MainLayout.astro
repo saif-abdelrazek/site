@@ -1,0 +1,39 @@
+---
+import "../styles/global.css";
+import { CLOUDFLARE_ANALYTICS_TOKEN } from "../config/env.ts";
+
+const cfToken = CLOUDFLARE_ANALYTICS_TOKEN;
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title = "Saif Abdelrazek | Website",
+  description = "Personal website of Saif Abdelrazek || Not just a website",
+  image,
+}: Props = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:image" content={image} />
+  </head>
+  <body>
+    <main>
+      <slot />
+    </main>
+    <script
+      defer
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon={`{"token": ${cfToken}}`}></script>
+  </body>
+</html>
