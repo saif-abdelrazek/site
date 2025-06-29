@@ -3,7 +3,7 @@ backend:
   branch: main
 
 media_folder: "src/content/posts/images" # Where uploaded files are stored (relative to repo root)
-public_folder: "/uploads" # How those files are accessed in the browser
+public_folder: "/src/content/posts/images" # How those files are accessed in the browser
 
 media_library:
   name: uploadcare # Or leave this out for the default
@@ -16,7 +16,6 @@ collections:
     format: "frontmatter"
     create: true
     fields:
-      - { label: "Layout", name: "layout", widget: "hidden", default: "blog" }
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Publish Date", name: "date", widget: "datetime" }
       - { label: "Featured Image", name: "image", widget: "image" }
