@@ -1,37 +1,25 @@
 ---
 import "../styles/global.css";
 import MainLayout from "./MainLayout.astro";
+import NavBar from "../components/main/NavBar.astro";
+import BlogFooter from "../components/blog/BlogFooter.astro";
 interface Props {
   title: string;
   description?: string;
 }
 const {
-  title = "Saif Abdelrazek Blog",
+  title = "SaiBLOG | Saif Abdelrazek",
   description = "Personal blog of Saif Abdelrazek || Could sometimes be the trash of my mind",
 }: Props = Astro.props;
 ---
 
 <MainLayout title={title} description={description}>
-  <main class="flex-1 py-12">
-    <section class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-      <article class="rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
-        {
-          description && (
-            <p class="mb-4 text-gray-600 dark:text-gray-300">{description}</p>
-          )
-        }
-        <slot />
-      </article>
+  <main>
+    <NavBar />
+    <section>
+      {description && <p>{description}</p>}
+      <slot />
     </section>
   </main>
-
-  <footer class="mt-12 bg-white shadow dark:bg-gray-800">
-    <div
-      class="mx-auto max-w-7xl px-4 py-4 text-center text-gray-600 sm:px-6 lg:px-8 dark:text-gray-400"
-    >
-      <p>
-        &copy; {new Date().getFullYear()} Saif Abdelrazek Blog. All rights reserved.
-      </p>
-    </div>
-  </footer>
+  <BlogFooter />
 </MainLayout>

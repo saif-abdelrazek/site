@@ -1,0 +1,22 @@
+---
+// filepath: /mnt/World/site/src/pages/404.astro
+import MainLayout from "../layouts/MainLayout.astro";
+---
+
+<MainLayout title="404: Not Found | Saif Abdelrazek">
+  <main
+    class="flex min-h-screen flex-col items-center justify-center bg-gray-900 px-4 text-center text-white"
+  >
+    <h1 class="mb-4 text-7xl font-extrabold tracking-tight drop-shadow">404</h1>
+    <p class="mb-6 text-2xl">
+      Sorry, the page you’re looking for doesn’t exist.
+    </p>
+    <a
+      href="/"
+      class="inline-block rounded-lg bg-sky-600 px-6 py-3 font-semibold text-white shadow transition hover:bg-sky-700"
+      data-astro-history="replace"
+    >
+      Go Home
+    </a>
+  </main>
+</MainLayout>
