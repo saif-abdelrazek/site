@@ -1,0 +1,18 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+---
+
+<MainLayout>
+  <button id="generate-btn">Generate One-Time Link</button>
+
+  <script type="module">
+    let isButtonClicked = false;
+    document.getElementById("generate-btn")?.addEventListener("click", () => {
+      if (isButtonClicked) return;
+      const token = crypto.randomUUID();
+      sessionStorage.setItem("oneTimeToken", token);
+      window.location.href = `secret/${token}`;
+      isButtonClicked = true;
+    });
+  </script>
+</MainLayout>

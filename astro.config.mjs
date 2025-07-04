@@ -5,6 +5,8 @@ import tailwindcss from "@tailwindcss/vite";
 
 import mdx from "@astrojs/mdx";
 
+import icon from "astro-icon";
+
 // https://astro.build/config
 export default defineConfig({
   prefetch: true,
@@ -12,5 +14,10 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
 
-  integrations: [mdx()],
+  integrations: [
+    mdx(),
+    icon({
+      iconDir: "src/assets/icons",
+    }),
+  ],
 });
