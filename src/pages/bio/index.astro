@@ -1,61 +1,123 @@
 ---
-// filepath: /mnt/World/site/src/pages/biolink/index.astro
-import Layout from "../../layouts/MainLayout.astro";
-import Image from "astro/components/Image.astro";
+import MainLayout from "../../layouts/MainLayout.astro";
 ---
 
-<Layout
-  title="Biolink tree | Saif Abdelrazek"
+<MainLayout
+  title="Saif Abdelrazek | Bio"
   description="Personal biolink page of Saif Abdelrazek, showcasing social links and contact information."
 >
-  <main
-    class="mx-auto flex min-h-screen max-w-md flex-col justify-center bg-gray-900 p-6"
-  >
-    <section class="mb-8 text-center">
-      <Image
-        src="/avatar.jpg"
-        alt="Your Avatar"
-        class="mx-auto mb-3 h-50 w-50 rounded-full border-4 border-gray-700 shadow-lg"
-        width={200}
-        height={200}
-      />
-      <h1 class="text-2xl font-bold text-white drop-shadow">Saif Abdelrazek</h1>
-      <p class="text-gray-300">Full Stack Developer</p>
-    </section>
-    <ul class="space-y-4">
-      <li>
+  <div class="flex min-h-screen w-screen flex-col bg-black">
+    <header class="flex flex-col items-center pt-10">
+      <!-- Logo, Title and Description -->
+      <div class="mb-2">
+        <img
+          src="/avatar.jpg"
+          alt="Saif Abdelrazek"
+          class="mb-2 h-36 w-36 rounded-full border-4 border-black object-cover shadow-lg"
+        />
+      </div>
+      <div class="flex flex-col items-center">
+        <h1 class="font-sans text-3xl font-bold text-white">Saif Abdelrazek</h1>
+        <h2 class="font-sans text-xl font-semibold text-[#f1c40f]">
+          Full Stack Developer
+        </h2>
+      </div>
+
+      <!-- Social Media Icons -->
+      <div class="flex justify-center gap-4 pt-4">
         <a
           href="https://linkedin.com/in/saifabdelrazek"
-          class="group flex items-center rounded-lg border-2 border-blue-700 bg-blue-600 px-5 py-3 font-semibold text-white shadow-lg transition-all duration-200 hover:border-blue-400 hover:bg-blue-700"
+          target="_blank"
+          rel="noopener"
+          aria-label="LinkedIn"
+          class="transition-transform hover:scale-110"
         >
-          <i
-            class="fa fa-linkedin mr-3 text-xl text-white transition-colors group-hover:text-blue-200"
-          ></i>
-          <span class="flex-1 text-center">LinkedIn</span>
+          <svg
+            class="h-8 w-8 fill-white transition-colors hover:fill-[#f1c40f]"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.268c-.966 0-1.75-.784-1.75-1.75s.784-1.75 1.75-1.75 1.75.784 1.75 1.75-.784 1.75-1.75 1.75zm15.5 11.268h-3v-5.604c0-1.337-.025-3.063-1.868-3.063-1.868 0-2.154 1.459-2.154 2.967v5.7h-3v-10h2.881v1.367h.041c.401-.761 1.379-1.563 2.838-1.563 3.036 0 3.6 2.001 3.6 4.601v5.595z"
+            ></path>
+          </svg>
         </a>
-      </li>
-      <li>
         <a
           href="https://github.com/saifabdelrazek011"
-          class="group flex items-center rounded-lg border-2 border-gray-700 bg-gray-800 px-5 py-3 font-semibold text-white shadow-lg transition-all duration-200 hover:border-gray-400 hover:bg-gray-700"
+          target="_blank"
+          rel="noopener"
+          aria-label="GitHub"
+          class="transition-transform hover:scale-110"
         >
-          <i
-            class="fa fa-github mr-3 text-xl text-white transition-colors group-hover:text-gray-300"
-          ></i>
-          <span class="flex-1 text-center">GitHub</span>
+          <svg
+            class="h-8 w-8 fill-white transition-colors hover:fill-[#f1c40f]"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.415-4.042-1.415-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.084-.729.084-.729 1.205.084 1.84 1.236 1.84 1.236 1.07 1.834 2.809 1.304 3.495.997.108-.775.418-1.305.762-1.605-2.665-.305-5.466-1.334-5.466-5.931 0-1.31.469-2.381 1.236-3.221-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.553 3.297-1.23 3.297-1.23.653 1.653.242 2.873.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.803 5.624-5.475 5.921.43.371.823 1.102.823 2.222 0 1.606-.014 2.898-.014 3.293 0 .322.216.694.825.576 4.765-1.589 8.199-6.084 8.199-11.386 0-6.627-5.373-12-12-12z"
+            ></path>
+          </svg>
         </a>
-      </li>
-      <li>
         <a
           href="mailto:saif@saifabdelrazek.com"
-          class="group flex items-center rounded-lg border-2 border-sky-600 bg-sky-500 px-5 py-3 font-semibold text-white shadow-lg transition-all duration-200 hover:border-sky-300 hover:bg-sky-700"
+          aria-label="Email"
+          class="transition-transform hover:scale-110"
         >
-          <i
-            class="fa fa-envelope mr-3 text-xl text-white transition-colors group-hover:text-sky-200"
-          ></i>
-          <span class="flex-1 text-center">Email</span>
+          <svg
+            class="h-8 w-8 fill-white transition-colors hover:fill-[#f1c40f]"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 13.065l-11.99-7.065v14c0 1.104.896 2 2 2h19.98c1.104 0 2-.896 2-2v-14l-11.99 7.065zm11.99-9.065c0-1.104-.896-2-2-2h-19.98c-1.104 0-2 .896-2 2v.217l11.99 7.065 11.99-7.065v-.217z"
+            ></path>
+          </svg>
         </a>
-      </li>
-    </ul>
-  </main>
-</Layout>
+      </div>
+    </header>
+    <main class="flex w-full flex-1 flex-col items-center">
+      <section class="mt-12 flex w-full flex-col items-center">
+        <div
+          class="mb-4 w-full max-w-lg rounded bg-[#0e0e0e] px-8 py-8 text-center text-white shadow-lg"
+        >
+          <h3 class="mb-4 text-2xl font-bold text-[#f1c40f]">Welcome!</h3>
+          <p class="mb-4 text-lg">
+            I'm Saif Abdelrazek, a passionate Full Stack Developer. Connect with
+            me on LinkedIn, check out my projects on GitHub, or send me an
+            email!
+          </p>
+          <div class="mt-6 flex flex-col gap-4">
+            <a
+              href="https://linkedin.com/in/saifabdelrazek"
+              target="_blank"
+              rel="noopener"
+              class="w-full rounded-xl bg-[#0e76a8] px-6 py-3 text-lg font-semibold text-white shadow transition hover:bg-[#085078]"
+            >
+              LinkedIn
+            </a>
+            <a
+              href="https://github.com/saifabdelrazek011"
+              target="_blank"
+              rel="noopener"
+              class="w-full rounded-xl bg-[#222] px-6 py-3 text-lg font-semibold text-white shadow transition hover:bg-[#444]"
+            >
+              GitHub
+            </a>
+            <a
+              href="mailto:saif@saifabdelrazek.com"
+              class="w-full rounded-xl bg-[#f1c40f] px-6 py-3 text-lg font-semibold text-black shadow transition hover:bg-yellow-400"
+            >
+              Email
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer
+      class="mt-8 flex items-center justify-center bg-[#0e0e0e] py-4 text-white"
+    >
+      <span class="font-semibold text-[#f1c40f]">Saif Abdelrazek</span>
+      <span class="ml-2 text-sm text-gray-400"
+        >© {new Date().getFullYear()}</span
+      >
+    </footer>
+  </div>
+</MainLayout>

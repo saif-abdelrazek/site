@@ -1,52 +1,72 @@
 ---
 import { Icon } from "astro-icon/components";
 
+type IconPosition = "left" | "right" | "only";
+
 interface Props {
   text: string;
   href: string;
-  style: "primary" | "secondary" | "tertiary";
   icon?: {
     name: string;
-    side: "left" | "right";
+    position?: IconPosition;
+    size?: number;
   };
-  isFilled?: boolean;
-  borderVisible?: boolean;
-  classes?: string;
+  filled?: boolean;
+  border?: boolean;
+  class?: string;
 }
 
 const {
   text,
   href,
-  style,
   icon,
-  isFilled = true,
-  borderVisible = false,
-  classes,
+  filled = true,
+  border = false,
+  class: className,
   ...rest
-} = Astro.props as Props;
+} = Astro.props;
 ---
 
 <a
   href={href}
-  class:list={[
-    "link",
-    `btn-${style}`,
-    { filled: isFilled, border: borderVisible },
-    classes,
-  ]}
+  class={[
+    "inline-flex items-center justify-center gap-2 rounded-md font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-[#0f172a]",
+    // Transparent background for navbar links:
+    "bg-transparent hover:bg-sky-900/30",
+    filled ? "px-4 py-2" : "p-1",
+    border && "border border-sky-700",
+    icon?.position === "only" ? "p-2" : "",
+    className,
+  ].join(" ")}
   {...rest}
 >
   {
-    icon && icon.side === "left" && (
-      <Icon name={icon.name} height={24} width={24} />
+    icon?.position !== "right" && icon && (
+      <Icon
+        name={icon.name}
+        height={icon.size || 20}
+        width={icon.size || 20}
+        class={text ? "shrink-0" : ""}
+      />
     )
   }
-  <span>
-    {text}
-  </span>
+
   {
-    icon && icon.side === "right" && (
-      <Icon name={icon.name} height={24} width={24} />
+    icon?.position !== "only" && (
+      <span class={icon?.position === "right" ? "order-first" : ""}>
+        {text}
+      </span>
+    )
+  }
+
+  {
+    icon?.position === "right" && (
+      <Icon
+        name={icon.name}
+        height={icon.size || 20}
+        width={icon.size || 20}
+        class="shrink-0"
+      />
     )
   }
 </a>

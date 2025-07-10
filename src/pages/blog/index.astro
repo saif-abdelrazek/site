@@ -1,11 +1,6 @@
 ---
 import BlogLayout from "../../layouts/BlogLayout.astro";
-import { getCollection } from "astro:content";
 
-const posts = await getCollection("posts");
-if (!posts || posts.length === 0) {
-  throw new Error("No blog posts found.");
-}
 import PostList from "../../components/blog/PostList.astro";
 ---
 

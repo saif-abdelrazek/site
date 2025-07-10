@@ -1,8 +1,7 @@
 ---
-layout: /src/layouts/BlogPostsLayout.astro
 title: "Road to N2P: The Modern Full-Stack TypeScript Powerhouse"
 date: 2025-06-29T17:46:00.000Z
-image: { src: "/src/content/posts/images/n2p.png", alt: "N2P Stack Overview" }
+image: { src: "/images/n2p.png", alt: "N2P Stack Overview" }
 description: Tired of MERN/MEAN? Meet N2P—the modern full-stack powerhouse built
   for TypeScript lovers.
 tags:
@@ -67,14 +66,14 @@ PostgreSQL offers:
 
 ### **Database: PostgreSQL + Prisma**
 
-```prisma
+````prisma
 // schema.prisma
 model User {
   id    Int     @id @default(autoincrement())
   email String  @unique
   name  String?
 }
-```
+```trash:///
 
 - Migrations made simple.
 - Type-safe queries with `PrismaClient`.
@@ -90,9 +89,9 @@ model User {
 | **Backend**  | NestJS (OOP)       | Express (Procedural) | Express (Procedural) |
 | **ORM**      | Prisma (Type-safe) | Mongoose (Schemas)   | Mongoose (Schemas)   |
 
-**Why N2P wins?**  
-✅ TypeScript reduces runtime errors.  
-✅ PostgreSQL handles complex queries better.  
+**Why N2P wins?**
+✅ TypeScript reduces runtime errors.
+✅ PostgreSQL handles complex queries better.
 ✅ NestJS scales cleaner than Express.
 
 ---
@@ -103,7 +102,7 @@ model User {
 
 ```bash
 npx create-next-app@latest n2p-frontend --typescript
-```
+````
 
 ### **2. Initialize NestJS**
 

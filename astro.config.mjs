@@ -9,6 +9,10 @@ import icon from "astro-icon";
 
 // https://astro.build/config
 export default defineConfig({
+  experimental: {
+    contentIntellisense: true,
+    liveContentCollections: true,
+  },
   prefetch: true,
   vite: {
     plugins: [tailwindcss()],
@@ -20,4 +24,10 @@ export default defineConfig({
       iconDir: "src/assets/icons",
     }),
   ],
+
+  image: {
+    responsiveStyles: true,
+    layout: "constrained",
+  },
+  
 });

@@ -1,0 +1,49 @@
+---
+import { getLiveCollection } from "astro:content";
+import RepoCard from "../../components/repos/RepoCard.astro";
+import MainLayout from "../../layouts/MainLayout.astro";
+
+const { entries: repos, error } = await getLiveCollection("repos", {
+  since: new Date(Date.now() - 365 * 24 * 60 * 60 * 500)
+    .toISOString()
+    .split("T")[0],
+  visibility: "public",
+  sort: "updated",
+  direction: "desc",
+});
+if (error) {
+  throw new Error("Failed to load repositories: " + error.message);
+}
+---
+
+<MainLayout
+  title="Repositories || Saif Abdelrazek"
+  description="Explore my latest repositories on GitHub, showcasing my projects and contributions."
+>
+  <main
+    class="min-h-screen w-full bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0a192f] px-2 py-12"
+  >
+    <div class="mb-10 text-center">
+      <h1
+        class="mb-2 text-4xl font-extrabold tracking-tight text-sky-200 drop-shadow-lg"
+      >
+        My Repositories
+      </h1>
+      <p class="mx-auto max-w-2xl text-center text-lg text-sky-100/80">
+        Latest GitHub projects and open source work (last 1/2 year).
+      </p>
+    </div>
+    <section class="mx-auto max-w-7xl">
+      <div class="grid gap-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+        {repos && repos.map((data) => <RepoCard repo={data} />)}
+      </div>
+      {
+        (!repos || repos.length === 0) && (
+          <div class="mt-12 text-center text-gray-400">
+            No repositories found.
+          </div>
+        )
+      }
+    </section>
+  </main>
+</MainLayout>

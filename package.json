@@ -12,7 +12,7 @@
     "@astrojs/check": "^0.9.4",
     "@astrojs/mdx": "^4.3.0",
     "@tailwindcss/vite": "^4.1.10",
-    "astro": "^5.10.1",
+    "astro": "^5.11.0",
     "astro-icon": "^1.1.5",
     "decap-cms-app": "^3.6.4",
     "tailwindcss": "^4.1.10",
