@@ -1,0 +1,61 @@
+---
+import type { RepoType } from "../../types/reposTypes";
+import type { LiveDataEntry } from "astro";
+interface Props {
+  repo: LiveDataEntry<RepoType>;
+}
+
+const { repo }: Props = Astro.props;
+const { name, description, repolink, website, mainlang } = repo.data;
+---
+
+<div class="flex h-full">
+  <div
+    class="flex w-full flex-col justify-between rounded-2xl border border-sky-800 bg-gradient-to-br from-slate-900/80 via-slate-800/80 to-slate-900/60 p-6 shadow-2xl backdrop-blur-md transition-transform duration-200 hover:-translate-y-2 hover:scale-105 hover:shadow-blue-900/40"
+  >
+    <div>
+      <h2
+        class="mb-2 text-2xl font-extrabold tracking-tight text-sky-300 drop-shadow"
+      >
+        {name}
+      </h2>
+      <p class="mb-4 min-h-[48px] text-sky-100/90">
+        {description ? description : "No description provided."}
+      </p>
+    </div>
+    <div class="mb-4 flex flex-wrap gap-2">
+      {
+        website && (
+          <a
+            href={website}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="rounded-full bg-sky-700/90 px-4 py-1.5 text-sm font-semibold text-white shadow transition hover:bg-sky-500/90"
+          >
+            Website
+          </a>
+        )
+      }
+      <a
+        href={repolink}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="rounded-full bg-gray-800/90 px-4 py-1.5 text-sm font-semibold text-sky-100 shadow transition hover:bg-gray-700/90"
+      >
+        GitHub Repo
+      </a>
+    </div>
+    {
+      mainlang && (
+        <div class="mt-2 flex items-center gap-2 text-xs text-sky-200/80">
+          <span class="font-semibold tracking-wider uppercase">
+            Main Language:
+          </span>
+          <span class="rounded bg-gray-900/80 px-2 py-1 font-mono text-sky-300">
+            {mainlang}
+          </span>
+        </div>
+      )
+    }
+  </div>
+</div>

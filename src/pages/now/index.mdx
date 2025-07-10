@@ -1,0 +1,42 @@
+---
+title: "Now"
+layout: ../../layouts/NowLayout.astro
+lastUpdated: 2025-07-01
+description: "My current focus and activities"
+---
+
+<h1 class="text-center">What I'm Focused On Now</h1>
+
+<p class="mb-2 text-center text-sky-300/80">
+  <em>Last updated: July 1, 2025</em>
+</p>
+
+import PartsCard from "../../components/now/partsCard.astro"
+
+<div class="mx-auto max-w-4xl mt-6 mb-8">
+  <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+    <PartsCard title="🏫 Studying">
+      <ul>
+        <li>Next-gen portfolio with Astro</li>
+        <li>Developer productivity tools</li>
+      </ul>
+    </PartsCard>
+
+    <PartsCard title="📚 Learning">
+      <ul>
+        <li>SSR && SSG with Astro and Next.js</li>
+        <li>Bots development</li>
+      </ul>
+    </PartsCard>
+    <PartsCard title="🏡 Living">
+      <ul>
+        <li>Gharbia, Egypt</li>
+        <li>Working hard for Hackclub SoM</li>
+      </ul>
+    </PartsCard>
+  </div>
+</div>
+
+<p class="mt-8 text-center">
+  [About Now pages](https://nownownow.com/about)
+</p>

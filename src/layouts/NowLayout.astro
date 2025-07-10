@@ -1,0 +1,26 @@
+---
+import MainLayout from "./MainLayout.astro";
+import NavBar from "../components/main/NavBar.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = "Now", description = "What I'm focused on right now." } =
+  Astro.props;
+---
+
+<MainLayout {title} {description}>
+  <div
+    class="min-h-screen w-full bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0a192f]"
+  >
+    <main class="container mx-auto px-4 py-12">
+      <div
+        class="prose prose-invert prose-headings:text-sky-200 prose-h2:mt-8 prose-h2:mb-4 prose-h2:text-2xl prose-h2:font-semibold prose-h2:border-b prose-h2:border-sky-900 prose-h2:pb-2 mx-auto max-w-4xl"
+      >
+        <slot />
+      </div>
+    </main>
+  </div>
+</MainLayout>

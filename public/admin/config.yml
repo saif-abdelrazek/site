@@ -12,7 +12,7 @@ collections:
   - name: "posts"
     label: "Blog Posts"
     folder: "src/content/posts"
-    extension: "mdx"
+    extension: "md"
     format: "frontmatter"
     create: true
     fields:
@@ -32,6 +32,18 @@ collections:
               default: "A description of the image",
             }
       - {
+          label: "Author",
+          name: "author",
+          widget: "string",
+          default: "Saif Abdelrazek",
+        }
+      - {
+          label: "Category",
+          name: "category",
+          widget: "string",
+          required: false,
+        }
+      - {
           label: "Description",
           name: "description",
           widget: "string",
@@ -39,3 +51,14 @@ collections:
         }
       - { label: "Body", name: "body", widget: "markdown" }
       - { label: "Tags", name: "tags", widget: "list", required: false }
+
+  - name: "now"
+    label: "Now"
+    folder: "src/pages/now"
+    create: false
+    format: "frontmatter"
+    extension: "mdx"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Last Updated", name: "lastUpdated", widget: "datetime" }
+      - { label: "Body", name: "body", widget: "markdown" }

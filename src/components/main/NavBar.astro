@@ -1,36 +1,35 @@
 ---
-import Link from "../main/Link.astro";
-
 import navData from "../../data/navData";
+import Link from "./Link.astro";
 ---
 
-<nav aria-label="Blog Navigation">
-  <div class="navbar">
-    <h1 class="logo">
+<nav
+  aria-label="Main navigation"
+  class="sticky top-0 z-50 border-b border-sky-900 bg-[#0f172a] backdrop-blur-md"
+>
+  <div class="container mx-auto px-4">
+    <div class="flex h-16 items-center justify-between">
       <Link
         href="/"
-        text=""
-        icon={{ name: "mdi:home", side: "left" }}
-        style="primary"
-        isFilled={false}
+        text="Home"
+        icon={{ name: "mdi:home", position: "left" }}
+        class="text-2xl font-bold tracking-tight text-sky-200 transition-colors duration-200 hover:text-sky-100"
       />
-    </h1>
-    <ul>
-      {
-        navData.map((item) => (
-          <Link
-            href={item.href}
-            icon={{ name: `mdi:${item.icon}`, side: "left" }}
-            text={item.label}
-            style="primary"
-            isFilled={false}
-          />
-        ))
-      }
-    </ul>
+
+      <ul class="flex items-center gap-4 md:gap-6">
+        {
+          navData.map((item) => (
+            <li>
+              <Link
+                href={item.href}
+                text={item.label}
+                icon={{ name: `mdi:${item.icon}`, position: "left" }}
+                class="flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium text-sky-300 transition-colors duration-200 hover:bg-sky-900/30 hover:text-sky-100"
+              />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
   </div>
 </nav>
-
-<script>
-  import "/src/scripts/navBar.ts";
-</script>

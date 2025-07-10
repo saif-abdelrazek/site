@@ -1,4 +1,5 @@
 ---
+import MainLayout from "../layouts/MainLayout.astro";
 interface Props {
   error: unknown;
 }
@@ -6,4 +7,40 @@ interface Props {
 const { error } = Astro.props;
 ---
 
-<div>{error instanceof Error ? error.message : "Unknown error"}</div>
+<MainLayout
+  title="500 || Saif Abdelrazek"
+  description="Internal Server Error - Something went wrong on our end."
+>
+  <main
+    class="fixed inset-0 flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0a192f] px-4"
+  >
+    <span class="mb-2 text-7xl font-extrabold text-red-500 drop-shadow-lg">
+      500
+    </span>
+    <h1 class="mb-2 text-3xl font-bold tracking-tight text-sky-100">
+      Internal Server Error
+    </h1>
+    <p class="mb-4 text-center text-lg text-sky-200/90">
+      Oops! Something went wrong on our end.<br />
+      Please try again later.
+    </p>
+    <div
+      class="mb-4 w-full max-w-2xl rounded bg-gray-900/70 p-4 text-left text-sm text-red-200 shadow-inner"
+    >
+      <strong>Error Details:</strong>
+      <div class="mt-1 break-words">
+        {error instanceof Error ? error.message : "Unknown error"}
+      </div>
+    </div>
+    <a
+      href="/"
+      class="mt-4 inline-block rounded bg-sky-700 px-6 py-2 text-base font-semibold text-white shadow transition hover:bg-sky-600"
+    >
+      Go Home
+    </a>
+    <p class="mt-6 text-xs text-gray-400">
+      If the problem persists, please
+      <a href="/contact" class="underline hover:text-sky-300">Contact Me</a>.
+    </p>
+  </main>
+</MainLayout>

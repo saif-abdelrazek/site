@@ -3,20 +3,36 @@
 import MainLayout from "../layouts/MainLayout.astro";
 ---
 
-<MainLayout title="404: Not Found | Saif Abdelrazek">
+<MainLayout title="404: Lost in Space | Saif Abdelrazek">
   <main
-    class="flex min-h-screen flex-col items-center justify-center bg-gray-900 px-4 text-center text-white"
+    class="flex min-h-screen w-screen flex-col items-center justify-center bg-gray-900 px-4 text-center text-white"
   >
-    <h1 class="mb-4 text-7xl font-extrabold tracking-tight drop-shadow">404</h1>
-    <p class="mb-6 text-2xl">
-      Sorry, the page you’re looking for doesn’t exist.
+    <!-- Animated 404 -->
+    <div class="mb-6 flex items-center justify-center">
+      <span class="text-7xl font-extrabold tracking-tight drop-shadow">4</span>
+      <span class="mx-2 animate-spin text-4xl" style="animation-duration: 3s"
+        >🚀</span
+      >
+      <span class="text-7xl font-extrabold tracking-tight drop-shadow">4</span>
+    </div>
+
+    <!-- Fun message -->
+    <p class="mb-4 text-2xl">Houston, we have a problem!</p>
+    <p class="mb-6 max-w-md text-gray-300">
+      This page drifted into the void. Maybe it’s hiding behind a black hole?
     </p>
+
+    <!-- Button -->
     <a
       href="/"
-      class="inline-block rounded-lg bg-sky-600 px-6 py-3 font-semibold text-white shadow transition hover:bg-sky-700"
+      class="group relative inline-block rounded-lg bg-sky-600 px-6 py-3 font-semibold text-white shadow transition hover:bg-sky-700"
       data-astro-history="replace"
     >
-      Go Home
+      <span class="relative z-10">Beam Me Home</span>
+      <span
+        class="absolute -top-2 -right-2 opacity-0 transition group-hover:opacity-100"
+        >👽</span
+      >
     </a>
   </main>
 </MainLayout>
