@@ -3,6 +3,7 @@
  */
 
 import type { LiveDataCollection } from "astro";
+import type { LiveLoader } from "astro/loaders";
 import { ReposLoaderError } from "../types/reposTypes";
 
 import type {
@@ -12,7 +13,6 @@ import type {
   RepoType,
   RepoLoaderReturnType,
 } from "../types/reposTypes";
-import type { LiveLoader } from "astro/loaders";
 
 /**
  * Fetches repositories from the GitHub API with optional filtering.

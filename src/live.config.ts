@@ -1,6 +1,7 @@
 import { defineLiveCollection } from "astro:content";
 import { reposLoader } from "./loaders/github";
 import { getSecret } from "astro:env/server";
+import { hackatimeLoader } from "./loaders/hackatime";
 
 console.log("Loading GitHub repositories...");
 
@@ -11,6 +12,15 @@ const repos = defineLiveCollection({
   }),
 });
 
+const codingStats = defineLiveCollection({
+  loader: hackatimeLoader({
+    statsApiUrl: `https://hackatime.hackclub.com/api/v1/users/${getSecret("HACKATIME_USER_ID") || ""}/stats`,
+    userId: getSecret("HACKATIME_USER_ID") || "",
+    apikey: getSecret("HACKATIME_API_KEY") || "",
+  }),
+});
+
 export const collections = {
   repos,
+  codingStats,
 };

@@ -1,9 +1,10 @@
 ---
-import { getLiveCollection } from "astro:content";
-import RepoCard from "../../components/repos/RepoCard.astro";
+import { getLiveCollection, getLiveEntry } from "astro:content";
 import MainLayout from "../../layouts/MainLayout.astro";
+import RepoCard from "../../components/repos/RepoCard.astro";
+import StatsCard from "../../components/stats/CodingStatsCard.astro";
 
-const { entries: repos, error } = await getLiveCollection("repos", {
+const { entries: repos, error: reposError } = await getLiveCollection("repos", {
   since: new Date(Date.now() - 365 * 24 * 60 * 60 * 500)
     .toISOString()
     .split("T")[0],
@@ -11,9 +12,15 @@ const { entries: repos, error } = await getLiveCollection("repos", {
   sort: "updated",
   direction: "desc",
 });
-if (error) {
-  throw new Error("Failed to load repositories: " + error.message);
-}
+
+const { entry: codingStats, error: codingStatsError } = await getLiveEntry(
+  "codingStats",
+  {
+    startDate: new Date(Date.now() - 365 * 24 * 60 * 60 * 500)
+      .toISOString()
+      .split("T")[0],
+  },
+);
 ---
 
 <MainLayout
@@ -21,29 +28,94 @@ if (error) {
   description="Explore my latest repositories on GitHub, showcasing my projects and contributions."
 >
   <main
-    class="min-h-screen w-full bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0a192f] px-2 py-12"
+    class="min-h-screen w-full bg-blue-50 px-2 py-12 transition-colors duration-300 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
   >
     <div class="mb-10 text-center">
       <h1
-        class="mb-2 text-4xl font-extrabold tracking-tight text-sky-200 drop-shadow-lg"
+        class="mb-2 text-4xl font-extrabold tracking-tight text-blue-700 drop-shadow-lg dark:text-sky-200"
       >
         My Repositories
       </h1>
-      <p class="mx-auto max-w-2xl text-center text-lg text-sky-100/80">
+      <p
+        class="mx-auto max-w-2xl text-center text-lg text-blue-600/80 dark:text-sky-100/80"
+      >
         Latest GitHub projects and open source work (last 1/2 year).
       </p>
     </div>
-    <section class="mx-auto max-w-7xl">
-      <div class="grid gap-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-        {repos && repos.map((data) => <RepoCard repo={data} />)}
+
+    <div class="mx-auto mb-10 w-full max-w-7xl">
+      <!-- Coding Stats Row with Heading and Card Blocks -->
+      <div class="flex w-full flex-col gap-6 md:flex-row md:items-center">
+        <h2
+          class="mb-2 flex items-center text-2xl font-extrabold whitespace-nowrap text-blue-700 md:mr-4 md:mb-0 dark:text-sky-200"
+        >
+          <span
+            class="icon-[mdi--clock-outline] mr-2 text-3xl text-blue-400 dark:text-sky-400"
+          ></span>
+          Coding Stats
+          <span
+            class="ml-2 text-base font-normal text-blue-600 dark:text-sky-300"
+          >
+            (last 1/2 year)
+          </span>
+        </h2>
+        {
+          codingStatsError ? (
+            <div class="flex-1 rounded-xl bg-red-100 p-6 text-center text-red-700 shadow-lg dark:bg-red-900/60 dark:text-red-200">
+              <span class="font-semibold">Failed to load coding stats:</span>
+              <span class="ml-2">{codingStatsError.message}</span>
+            </div>
+          ) : codingStats && codingStats.data ? (
+            <div class="flex w-full flex-col gap-4 md:w-auto md:flex-row">
+              <StatsCard
+                label="Total Coding Time"
+                value={`${(codingStats.data.totalcodingseconds / 3600).toFixed(1)} hrs`}
+              />
+              <StatsCard
+                label="Daily Average"
+                value={`${(codingStats.data.dailyaverage / 3600).toFixed(1)} hrs`}
+              />
+              {codingStats.data.languages &&
+                codingStats.data.languages.length > 0 && (
+                  <StatsCard
+                    label="Top Languages"
+                    value={codingStats.data.languages[0].name}
+                    subvalue={codingStats.data.languages[1]?.name}
+                  />
+                )}
+              {codingStats.data.projects &&
+                codingStats.data.projects.length > 0 && (
+                  <StatsCard
+                    label="Top Project"
+                    value={codingStats.data.projects[0].name}
+                  />
+                )}
+            </div>
+          ) : null
+        }
       </div>
+    </div>
+
+    <section class="mx-auto max-w-7xl">
       {
-        (!repos || repos.length === 0) && (
-          <div class="mt-12 text-center text-gray-400">
-            No repositories found.
+        reposError ? (
+          <div class="mt-12 rounded-xl bg-red-100 p-6 text-center text-red-700 shadow dark:bg-red-900/60 dark:text-red-200">
+            <span class="font-semibold">Failed to load repositories:</span>
+            <span class="ml-2">{reposError.message}</span>
+          </div>
+        ) : (
+          <div class="grid gap-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+            {repos && repos.map((data) => <RepoCard repo={data} />)}
+          </div>
+        )
+      }
+      {
+        !reposError && (!repos || repos.length === 0) && (
+          <div class="mt-12 text-center text-blue-400 dark:text-gray-400">
+            No repositories found for the last 1/2 year.
           </div>
         )
       }
     </section>
-  </main>
-</MainLayout>
+  </main></MainLayout
+>
