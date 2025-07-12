@@ -29,21 +29,39 @@ export const POST: APIRoute = async ({ request }) => {
   const body = await request.json();
 
   if (typeof body !== "object") {
-    return new Response("Invalid request body", { status: 400 });
+    return new Response(
+      JSON.stringify({ success: false, error: "Invalid request body" }),
+      { status: 400 },
+    );
   }
   if (!body.name) {
-    return new Response("Name is required", { status: 400 });
+    return new Response(
+      JSON.stringify({ success: false, error: "Name is required" }),
+      { status: 400 },
+    );
   }
   if (!body.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email)) {
-    return new Response("Invalid email address", { status: 400 });
+    return new Response(
+      JSON.stringify({ success: false, error: "Invalid email address" }),
+      { status: 400 },
+    );
   }
   if (!body.subject || body.subject.trim() === "") {
-    return new Response("Subject is required", { status: 400 });
+    return new Response(
+      JSON.stringify({ success: false, error: "Subject is required" }),
+      { status: 400 },
+    );
   }
   if (!body.message || body.message.trim() === "" || body.message.length < 50) {
-    return new Response("Message must be at least 50 characters long", {
-      status: 400,
-    });
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: "Message must be at least 50 characters long",
+      }),
+      {
+        status: 400,
+      },
+    );
   }
 
   const transporter = nodemailer.createTransport({
@@ -61,7 +79,7 @@ export const POST: APIRoute = async ({ request }) => {
     subject: `New Contact Form Submission: ${body.subject}`,
     html: `
       <div style="font-family: Arial, sans-serif; background: #f8fafc; color: #0f172a; padding: 24px; border-radius: 12px;">
-        <h2 style="margin-top:0; color:#0369a1;">📬 New Contact Submission</h2>
+        <h2 style="margin-top:0; color:#0369a1;">📬 Hey Saif, New Contact Submission</h2>
         <hr style="border: none; border-top: 2px solid #0369a1; margin: 16px 0;">
         <p><strong>👤 Name:</strong> ${body.name}</p>
         <p><strong>✉️ Email:</strong> <a href="mailto:${body.email}" style="color:#0369a1;">${body.email}</a></p>
@@ -71,6 +89,9 @@ export const POST: APIRoute = async ({ request }) => {
         <blockquote style="background:#e0f2fe; padding:12px; border-radius:8px; color:#0f172a;">${body.message.replace(/\n/g, "<br>")}</blockquote>
         <hr style="border: none; border-top: 2px solid #0369a1; margin: 16px 0;">
         <p><strong>⏰ Received:</strong> ${new Date().toLocaleString()}</p>
+        <p><strong>🌍 IP Address:</strong> ${body.ip || "Unknown"}</p>
+        <p><strong>📍 City:</strong> ${body.city || "Unknown"}</p>
+        <p><strong>🌍 Country:</strong> ${body.country || "Unknown"}</p>
         <p style="margin-top:24px; color:#64748b;">Thank you for using the contact form on your website.<br>
         If you wish to reply, please click the sender's email above.</p>
         <footer style="margin-top:32px; font-size:0.9em; color:#64748b;">— Automated Notification from saifabdelrazek.com</footer>
@@ -86,12 +107,20 @@ export const POST: APIRoute = async ({ request }) => {
       <div style="font-family: Arial, sans-serif; background: #f8fafc; color: #0f172a; padding: 24px; border-radius: 12px;">
         <h2 style="margin-top:0; color:#0369a1;">📬 Thank You for Your Message!</h2>
         <p>Hi ${body.name},</p>
-        <p>Thank you for reaching out! We have received your message and will get back to you as soon as possible.</p>
+        <p>Thank you for reaching out! I have received your message and will get back to you as soon as possible.</p>
         <p><strong>Subject:</strong> ${body.subject}</p>
         <p><strong>Message:</strong></p>
         <blockquote style="background:#e0f2fe; padding:12px; border-radius:8px; color:#0f172a;">${body.message.replace(/\n/g, "<br>")}</blockquote>
-        <p>If you have any further questions, feel free to reply to this email.</p>
-        <footer style="margin-top:32px; font-size:0.9em; color:#64748b;">— saifabdelrazek.com Team</footer>
+
+        <p style="margin-top:24px; color:#64748b;">If you didn't contact me, please disregard this email.</p>
+        <p style="margin-top:24px; color:#64748b;">Your IP address: ${body.ip || "Unknown"}</p>
+        <p style="margin-top:24px; color:#64748b;">Your city: ${body.city || "Unknown"}</p>
+        <p style="margin-top:24px; color:#64748b;">Your country: ${body.country || "Unknown"}</p>
+
+        <p style="margin-top:24px; color:#64748b;">This is an automated response. Please do not reply to this email.</p>
+        <p style="margin-top:24px; color:#64748b;">If you have any questions, feel free to reach out again.</p>
+        <p style="margin-top:24px; color:#64748b;">Best regards,<br>
+        Saif Abdelrazek</p>
       </div>
     `,
   };

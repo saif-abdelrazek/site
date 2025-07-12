@@ -1,6 +1,11 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
 import Link from "../../components/main/Link.astro";
+
+const {
+  geo: { city, country },
+  ip,
+} = Astro.locals.netlify.context;
 ---
 
 <MainLayout
@@ -78,6 +83,13 @@ import Link from "../../components/main/Link.astro";
             class="w-full resize-none rounded-md border border-blue-100 bg-blue-50 px-4 py-2 text-base text-blue-900 focus:border-blue-400 focus:outline-none dark:border-sky-800 dark:bg-slate-900/60 dark:text-sky-100 dark:focus:border-sky-400"
           ></textarea>
         </div>
+        <input type="hidden" name="ip" value={ip} />
+        <input type="hidden" name="city" value={city || "Unknown"} />
+        <input
+          type="hidden"
+          name="country"
+          value={country?.name || "Unknown"}
+        />
         <button
           type="submit"
           class="mb-6 w-full rounded bg-blue-700 px-6 py-2 text-base font-semibold text-white shadow transition hover:bg-blue-600 dark:bg-sky-700 dark:hover:bg-sky-600"
@@ -174,22 +186,19 @@ import Link from "../../components/main/Link.astro";
       }
 
       formMessages.innerHTML = `<p class="text-green-500">Message sent successfully!</p>`;
-      formMessages.classList.remove("hidden");
-      formMessages.classList.add("block");
 
       formSubmitButton.textContent = "Sent!";
       form.reset();
     } catch (error: any) {
       console.error("Error submitting contact form:", error);
       formMessages.innerHTML = `<p class="text-red-500">${error.message || "Failed to submit contact form"}</p>`;
-      formMessages.classList.remove("hidden");
-      formMessages.classList.add("block");
-
       formSubmitButton.textContent = "Try Again";
     } finally {
       formSubmitButton.disabled = false;
       setTimeout(() => {
         formSubmitButton.textContent = "Send Message";
+        formMessages.classList.remove("block");
+        formMessages.classList.add("hidden");
       }, 2000);
     }
   };
