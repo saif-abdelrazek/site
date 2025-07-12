@@ -9,8 +9,11 @@ import icon from "astro-icon";
 
 import netlify from "@astrojs/netlify";
 
+import sitemap from "@astrojs/sitemap";
+
 // https://astro.build/config
 export default defineConfig({
+  site: "https://saifabdelrazek.com",
   experimental: {
     contentIntellisense: true,
     liveContentCollections: true,
@@ -27,6 +30,7 @@ export default defineConfig({
     icon({
       iconDir: "src/assets/icons",
     }),
+    sitemap(),
   ],
 
   image: {
@@ -34,5 +38,7 @@ export default defineConfig({
     layout: "constrained",
   },
 
-  adapter: netlify(),
+  adapter: netlify({
+    edgeMiddleware: true,
+  }),
 });
