@@ -10,11 +10,6 @@ const navData = [
     icon: "github",
   },
   {
-    label: "About",
-    href: "/about",
-    icon: "info",
-  },
-  {
     label: "Now",
     href: "/now",
     icon: "clock",

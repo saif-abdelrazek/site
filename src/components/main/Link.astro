@@ -10,6 +10,7 @@ interface Props {
     name: string;
     position?: IconPosition;
     size?: number;
+    class?: string;
   };
   filled?: boolean;
   border?: boolean;
@@ -46,7 +47,7 @@ const {
         name={icon.name}
         height={icon.size || 20}
         width={icon.size || 20}
-        class={text ? "shrink-0" : ""}
+        class={text && "shrink-0" + " " + (icon.class || "")}
       />
     )
   }
