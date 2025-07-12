@@ -13,7 +13,9 @@ export default defineConfig({
     contentIntellisense: true,
     liveContentCollections: true,
   },
+
   prefetch: true,
+
   vite: {
     plugins: [tailwindcss()],
   },
@@ -29,5 +31,4 @@ export default defineConfig({
     responsiveStyles: true,
     layout: "constrained",
   },
-  
 });
