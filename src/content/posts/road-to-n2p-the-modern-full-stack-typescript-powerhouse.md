@@ -17,7 +17,7 @@ slug: road-to-n2p
 
 ### **🚀 Introduction**
 
-The JavaScript ecosystem evolves fast—**MERN** (MongoDB, Express, React, Node) and **MEAN** stacks once ruled, but **2024 demands TypeScript, SQL, and scalable architecture**. Enter **N2P**:
+The JavaScript ecosystem evolves fast—**MERN** (MongoDB, Express, React, Node) and **MEAN** stacks once ruled, but **2025 demands TypeScript, SQL, and scalable architecture**. Enter **N2P**:
 
 **Next.js** (Frontend) + **NestJS** (Backend) + **Prisma** (ORM) + **PostgreSQL** (Database)
 
@@ -29,7 +29,7 @@ This isn’t just another stack—it’s a **type-safe, SQL-powered, full-stack 
 
 ### **1. TypeScript Everywhere**
 
-- **Next.js 14**: React with server-side rendering (SSR) and static generation (SSG).
+- **Next.js 15**: React with server-side rendering (SSR) and static generation (SSG).
 - **NestJS**: Enterprise-grade backend with dependency injection.
 - **Prisma**: Auto-generated types for your database.  
   No more `any`—just end-to-end type safety.

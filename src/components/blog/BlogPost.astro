@@ -1,0 +1,39 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import PostHeader from "./PostHeader.astro";
+import PostContent from "./PostContent.astro";
+import type { CollectionEntry } from "astro:content";
+interface Props {
+  post: CollectionEntry<"posts">;
+}
+const { post } = Astro.props as Props;
+const { data } = post;
+const {
+  title = "",
+  description = "",
+  date = new Date(),
+  image = {
+    src: "",
+    alt: "",
+    width: 0,
+    height: 0,
+    format: "avif",
+  },
+} = data;
+---
+
+<MainLayout {title} {description}>
+  <div
+    class="relative min-h-screen w-full bg-blue-50 transition-colors duration-300 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
+  >
+    <PostHeader image={image} />
+
+    <div class="relative z-10 mx-auto -mt-32 max-w-4xl px-2 pb-12">
+      <section
+        class="rounded-2xl border border-blue-100 bg-blue-50 p-6 pt-4 shadow-2xl backdrop-blur-md transition-colors duration-300 dark:border-sky-900 dark:bg-gradient-to-br dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 dark:shadow-2xl dark:backdrop-blur-md"
+      >
+        <PostContent {post} />
+      </section>
+    </div>
+  </div>
+</MainLayout>

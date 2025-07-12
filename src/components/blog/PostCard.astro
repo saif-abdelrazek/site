@@ -1,0 +1,57 @@
+---
+interface PostProps {
+  post: {
+    id: string;
+    data: {
+      title: string;
+      date?: Date;
+      description?: string;
+      image?: {
+        src: string;
+        alt: string | null;
+      };
+      tags?: string[];
+      slug: string;
+    };
+  };
+}
+const { post } = Astro.props as PostProps;
+---
+
+<li
+  class="rounded-lg border border-slate-200 bg-white p-6 shadow dark:bg-gray-800"
+>
+  <a href={`/blog/${post.id}/`} class="block hover:underline">
+    <h2 class="mb-2 text-2xl font-bold text-slate-900 dark:text-white">
+      {post.data.title}
+    </h2>
+  </a>
+  <div class="mb-2 flex items-center gap-4 text-sm text-slate-500">
+    <span>
+      {post.data.date?.toLocaleDateString?.() ?? "Unknown date"}
+    </span>
+    {
+      post.data.tags && (
+        <span class="flex flex-wrap gap-2">
+          {post.data.tags.map((tag) => (
+            <span class="rounded bg-slate-200 px-2 py-0.5 text-xs font-medium text-slate-700">
+              {tag}
+            </span>
+          ))}
+        </span>
+      )
+    }
+  </div>
+  {
+    post.data.image && (
+      <img
+        src={post.data.image.src}
+        alt={post.data.image.alt ?? "Blog post image"}
+        class="mb-2 h-48 w-full rounded object-cover"
+      />
+    )
+  }
+  <p class="text-slate-600 dark:text-slate-300">
+    {post.data.description}
+  </p>
+</li>
