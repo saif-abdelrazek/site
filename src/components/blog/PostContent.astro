@@ -1,0 +1,62 @@
+---
+// filepath: /mnt/World/site/src/components/blog/PostContent.astro
+import { render, type CollectionEntry } from "astro:content";
+import slugify from "../../utils/slugify";
+import formatDate from "../../utils/formateDate";
+interface PostProps {
+  post: CollectionEntry<"posts">;
+}
+const { post } = Astro.props as PostProps;
+const { Content } = await render(post);
+const { title, author, date, category, description, tags } = post.data;
+---
+
+<div>
+  <div class="my-6">
+    {
+      category && (
+        <small>
+          <a href={`/blog/category/${slugify(category)}`} class="badge">
+            {category}
+          </a>
+        </small>
+      )
+    }
+    <h1
+      class="mb-2 text-4xl font-extrabold tracking-tight text-blue-700 drop-shadow dark:text-sky-200"
+    >
+      {title}
+    </h1>
+    <p class="text-blue-600/80 dark:text-sky-300/80">
+      {
+        author && (
+          <>
+            Written by <a href={`/blog/author/${slugify(author)}`}>{author}</a>
+          </>
+        )
+      }
+      {date && <> on {formatDate(date)}</>}
+    </p>
+    {
+      tags && (
+        <div class="mt-2 flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <span class="rounded bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-700 dark:bg-sky-900/60 dark:text-sky-200">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )
+    }
+    {
+      description && (
+        <p class="mt-4 text-lg text-blue-700/90 dark:text-sky-100/90">
+          {description}
+        </p>
+      )
+    }
+  </div>
+  <div class="prose prose-blue lg:prose-xl dark:prose-invert max-w-none">
+    <Content />
+  </div>
+</div>

@@ -10,15 +10,20 @@ const { title, icon, class: className } = Astro.props;
 
 <div
   class={[
-    "flex flex-col justify-between rounded-2xl border border-sky-800 bg-gradient-to-br from-slate-900/80 via-slate-800/80 to-slate-900/60 p-4 shadow-xl backdrop-blur-md transition-transform duration-200 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-blue-900/30",
+    "flex flex-col justify-between rounded-2xl border border-blue-100 light:bg-blue-50 p-4 shadow-xl backdrop-blur-md transition-transform duration-200 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-blue-200/40",
+    "dark:border-sky-800 dark:bg-gradient-to-br dark:from-slate-900/80 dark:via-slate-800/80 dark:to-slate-900/60 dark:shadow-xl dark:backdrop-blur-md dark:hover:shadow-blue-900/30",
     className,
   ].join(" ")}
 >
-  <div class="mb-2 flex items-center gap-2 border-b border-sky-900/40 pb-1">
-    {icon && <span class={icon + " text-xl text-sky-400"} />}
-    <h3 class="text-lg font-semibold text-sky-200">{title}</h3>
+  <div
+    class="mb-2 flex items-center gap-2 border-b border-blue-100/40 pb-1 dark:border-sky-900/40"
+  >
+    {icon && <span class={icon + " text-xl text-blue-400 dark:text-sky-400"} />}
+    <h3 class="text-lg font-semibold text-blue-700 dark:text-sky-200">
+      {title}
+    </h3>
   </div>
-  <div class="text-base text-sky-100">
+  <div class="text-base text-blue-700 dark:text-sky-100">
     <slot />
   </div>
 </div>
