@@ -1,4 +1,30 @@
-const getUserInfo = async () => {
+export const getUserInfo = async () => {
+  try {
+    // Fetch IP and location info
+    const response = await fetch("https://wtfismyip.com/json");
+    const data = await response.json();
+    // If IPv6, try to get IPv4 as well
+    let ipv4 = data.YourFuckingIPAddress;
+    if (ipv4.includes(":")) {
+      const ipv4Response = await fetch("https://ipv4.myip.wtf/text");
+      ipv4 = (await ipv4Response.text()).trim();
+    }
+    return {
+      ip: ipv4,
+      city: data.YourFuckingCity || "Unknown",
+      country: data.YourFuckingCountry || "Unknown",
+      location: data.YourFuckingLocation || "Unknown",
+      hostname: data.YourFuckingHostname || "Unknown",
+      isp: data.YourFuckingISP || "Unknown",
+      countryCode: data.YourFuckingCountryCode || "Unknown",
+    };
+  } catch (error) {
+    console.error("Error fetching user info:", error);
+    return null;
+  }
+};
+
+const ShowUserInfo = async () => {
   try {
     // Fetch IP and location info
     const response = await fetch("https://wtfismyip.com/json");

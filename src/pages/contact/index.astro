@@ -1,11 +1,6 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
 import Link from "../../components/main/Link.astro";
-
-const {
-  geo: { city, country },
-  ip,
-} = Astro.locals.netlify.context;
 ---
 
 <MainLayout
@@ -83,13 +78,10 @@ const {
             class="w-full resize-none rounded-md border border-blue-100 bg-blue-50 px-4 py-2 text-base text-blue-900 focus:border-blue-400 focus:outline-none dark:border-sky-800 dark:bg-slate-900/60 dark:text-sky-100 dark:focus:border-sky-400"
           ></textarea>
         </div>
-        <input type="hidden" name="ip" value={ip} />
-        <input type="hidden" name="city" value={city || "Unknown"} />
-        <input
-          type="hidden"
-          name="country"
-          value={country?.name || "Unknown"}
-        />
+        <input type="hidden" name="ip" id="ip" value={"Unknown"} />
+        <input type="hidden" name="city" id="city" value={"Unknown"} />
+        <input type="hidden" name="country" id="country" value={"Unknown"} />
+        <input type="hidden" name="theme" id="theme-input" value="dark" />
         <button
           type="submit"
           class="mb-6 w-full rounded bg-blue-700 px-6 py-2 text-base font-semibold text-white shadow transition hover:bg-blue-600 dark:bg-sky-700 dark:hover:bg-sky-600"
@@ -106,7 +98,9 @@ const {
         >
           Other ways to reach me
         </h2>
-        <ul class="mb-4 flex flex-col gap-6 md:flex-row md:justify-center">
+        <ul
+          class="mb-4 flex flex-col items-center gap-6 md:flex-row md:justify-center"
+        >
           <li>
             <Link
               href="https://github.com/saifabdelrazek011"
@@ -117,17 +111,17 @@ const {
           </li>
           <li>
             <Link
-              href="mailto:saif@saifabdelrazek.com"
-              icon={{ name: "mdi:email-outline", position: "left" }}
-              text="saif@saifabdelrazek.com"
+              href="https://www.linkedin.com/in/saif-abdelrazek011/"
+              icon={{ name: "mdi:linkedin", position: "left" }}
+              text="LinkedIn"
               class="flex items-center gap-2 rounded-lg bg-blue-100 px-4 py-3 text-blue-700 shadow transition hover:bg-blue-200 hover:text-blue-900 dark:bg-slate-900/60 dark:text-sky-100 dark:hover:bg-sky-800/80 dark:hover:text-sky-400"
             />
           </li>
           <li>
             <Link
-              href="https://www.linkedin.com/in/saif-abdelrazek011/"
-              icon={{ name: "mdi:linkedin", position: "left" }}
-              text="LinkedIn"
+              href="mailto:saif@saifabdelrazek.com"
+              icon={{ name: "mdi:email-outline", position: "left" }}
+              text="Email"
               class="flex items-center gap-2 rounded-lg bg-blue-100 px-4 py-3 text-blue-700 shadow transition hover:bg-blue-200 hover:text-blue-900 dark:bg-slate-900/60 dark:text-sky-100 dark:hover:bg-sky-800/80 dark:hover:text-sky-400"
             />
           </li>
@@ -140,6 +134,8 @@ const {
   </main>
 </MainLayout>
 <script>
+  import { getUserInfo } from "../../loaders/userInfo";
+
   const form = document.getElementById("contact-form") as HTMLFormElement;
   const handleContactFormSubmit = async (e: Event) => {
     e.preventDefault();
@@ -151,6 +147,10 @@ const {
       email: formData.get("email"),
       subject: formData.get("subject"),
       message: formData.get("message"),
+      ip: formData.get("ip"),
+      city: formData.get("city"),
+      country: formData.get("country"),
+      theme: formData.get("theme") || "dark", // Default to dark if not set
     };
 
     const formSubmitButton = form.querySelector(
@@ -192,15 +192,43 @@ const {
     } catch (error: any) {
       console.error("Error submitting contact form:", error);
       formMessages.innerHTML = `<p class="text-red-500">${error.message || "Failed to submit contact form"}</p>`;
-      formSubmitButton.textContent = "Try Again";
+      formSubmitButton.textContent = "Try Again (wait 10 seconds)";
     } finally {
-      formSubmitButton.disabled = false;
+      // Reset the form messages after 10 seconds
       setTimeout(() => {
+        formSubmitButton.disabled = false;
         formSubmitButton.textContent = "Send Message";
         formMessages.classList.remove("block");
         formMessages.classList.add("hidden");
-      }, 2000);
+      }, 10000);
     }
   };
   form.addEventListener("submit", handleContactFormSubmit);
+
+  function updateThemeInput() {
+    (document.getElementById("theme-input") as HTMLInputElement).value =
+      document.documentElement.classList.contains("dark") ? "dark" : "light";
+  }
+
+  updateThemeInput();
+
+  // Set observer to handle the classes changing in the html element
+  const observer = new MutationObserver(updateThemeInput);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["class"],
+  });
+
+  const userInfo = await getUserInfo();
+  if (userInfo) {
+    (document.getElementById("ip") as HTMLInputElement).value = userInfo.ip;
+    (document.getElementById("city") as HTMLInputElement).value = userInfo.city;
+    (document.getElementById("country") as HTMLInputElement).value =
+      userInfo.country;
+  }
+  const htmlElement = document.documentElement;
+  htmlElement.addEventListener("change", () => {
+    (document.getElementById("theme-input") as HTMLInputElement).value =
+      document.documentElement.classList.contains("dark") ? "dark" : "light";
+  });
 </script>
