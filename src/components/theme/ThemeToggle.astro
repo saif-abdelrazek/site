@@ -4,7 +4,7 @@ import { Icon } from "astro-icon/components";
 
 <button
   id="theme-toggle"
-  class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-blue-700 transition-colors duration-200 hover:bg-blue-50 hover:text-blue-900 dark:text-sky-300 dark:hover:bg-sky-900/30 dark:hover:text-sky-100"
+  class="flex w-full items-center justify-center gap-2 rounded-md px-3 py-4 text-sm font-medium text-blue-700 transition-colors duration-200 hover:bg-blue-50 hover:text-blue-900 dark:text-sky-300 dark:hover:bg-sky-900/30 dark:hover:text-sky-100"
   type="button"
   aria-label="Toggle theme"
 >
@@ -18,26 +18,3 @@ import { Icon } from "astro-icon/components";
   </span>
   <span class="hidden md:inline">Theme</span>
 </button>
-
-<script is:inline>
-  function setDarkMode(document) {
-    const isDark = localStorage.darkMode === "true";
-    if (isDark) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }
-  setDarkMode(document);
-
-  const themeToggle = document.getElementById("theme-toggle");
-  themeToggle.addEventListener("click", () => {
-    const isDark = localStorage.darkMode === "true";
-    localStorage.darkMode = !isDark;
-    setDarkMode(document);
-  });
-
-  document.addEventListener("astro:before-swap", (event) => {
-    setDarkMode(event.newDocument);
-  });
-</script>

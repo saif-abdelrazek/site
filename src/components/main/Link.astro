@@ -1,5 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
+import { fade } from "astro:transitions";
 
 type IconPosition = "left" | "right" | "only";
 
@@ -39,6 +40,7 @@ const {
     icon?.position === "only" ? "p-2" : "",
     className,
   ].join(" ")}
+  data-astro-prefetch="viewport"
   {...rest}
 >
   {
