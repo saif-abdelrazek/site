@@ -1,16 +1,17 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
+import About from "../sections/portfolio/About.astro";
+import Technoliges from "../sections/portfolio/Technoliges.astro";
 ---
 
 <MainLayout
   title="Saif Abdelrazek | Personal Website"
   description="This is the personal website of Saif Abdelrazek, a full-stack developer. Explore my portfolio, projects, blog posts, and more."
 >
-  <main class="home-page">
-    <section class="hero container" aria-label="Hero Section">
-      <h1 class="h1">Welcome to My Personal Website</h1>
-      <p class="description"></p>
-      <a href="/about" class="btn btn-primary">Learn More</a>
-    </section>
+  <main
+    class="flex min-h-screen w-full flex-col items-center justify-center bg-blue-50 transition-colors duration-300 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
+  >
+    <About />
+    <Technoliges />
   </main>
 </MainLayout>

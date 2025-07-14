@@ -12,20 +12,22 @@ const { error } = Astro.props;
   description="Internal Server Error - Something went wrong on our end."
 >
   <main
-    class="fixed inset-0 flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0a192f] px-4"
+    class="fixed inset-0 flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-br from-white via-blue-50 to-sky-100 px-4 text-gray-900 transition-colors duration-300 dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f] dark:text-sky-100"
   >
     <span class="mb-2 text-7xl font-extrabold text-red-500 drop-shadow-lg">
       500
     </span>
-    <h1 class="mb-2 text-3xl font-bold tracking-tight text-sky-100">
+    <h1
+      class="mb-2 text-3xl font-bold tracking-tight text-sky-700 dark:text-sky-100"
+    >
       Internal Server Error
     </h1>
-    <p class="mb-4 text-center text-lg text-sky-200/90">
+    <p class="mb-4 text-center text-lg text-sky-700/90 dark:text-sky-200/90">
       Oops! Something went wrong on our end.<br />
       Please try again later.
     </p>
     <div
-      class="mb-4 w-full max-w-2xl rounded bg-gray-900/70 p-4 text-left text-sm text-red-200 shadow-inner"
+      class="mb-4 w-full max-w-2xl rounded bg-red-50 p-4 text-left text-sm text-red-700 shadow-inner dark:bg-gray-900/70 dark:text-red-200"
     >
       <strong>Error Details:</strong>
       <div class="mt-1 break-words">
@@ -38,9 +40,10 @@ const { error } = Astro.props;
     >
       Go Home
     </a>
-    <p class="mt-6 text-xs text-gray-400">
-      If the problem persists, please
-      <a href="/contact" class="underline hover:text-sky-300">Contact Me</a>.
+    <p class="mt-6 text-xs text-gray-500 dark:text-gray-400">
+      If the problem persists, please <a href="/contact" class="underline"
+        >Contact Me</a
+      >.
     </p>
   </main>
 </MainLayout>

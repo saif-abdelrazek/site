@@ -1,10 +1,10 @@
 ---
 import "../styles/global.css";
-import { CLOUDFLARE_ANALYTICS_TOKEN } from "../config/env";
+import { ClientRouter } from "astro:transitions";
 
-const cfToken = CLOUDFLARE_ANALYTICS_TOKEN;
+import "@fontsource/poppins";
 
-import NavBar from "../components/main/NavBar.astro";
+import NavBar from "../components/shared/NavBar.astro";
 
 interface Props {
   title?: string;
@@ -20,8 +20,18 @@ const {
 ---
 
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
+    <script>
+      (function () {
+        const isDark = localStorage.darkMode === "true";
+        if (isDark) {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+      })();
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
@@ -34,27 +44,17 @@ const {
       href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
       rel="stylesheet"
     />
+    <ClientRouter />
     <script
       defer
-      src="https://umami.saifdev.xyz/script.js"
+      src="https://umami.saifdev.org/script.js"
       data-website-id="40f66a27-85f1-41cf-84da-8b3ad7d73f80"></script>
     <link rel="sitemap" href="/sitemap-index.xml" />
-  </head>
 
-  <body>
-    <NavBar />
-    <main>
-      <slot />
-    </main>
-    <script
-      defer
-      src="https://static.cloudflareinsights.com/beacon.min.js"
-      data-cf-beacon={`{"token": ${cfToken}}`}></script>
+    <!-- Instant theme setup and toggle function -->
+    <!-- Theme toggle and navigation logic -->
     <script>
-      function setDarkMode(doc: Document) {
-        if (!localStorage.darkMode) {
-          localStorage.darkMode = "true"; // Default to dark mode
-        }
+      function setDarkMode(doc = document) {
         const isDark = localStorage.darkMode === "true";
         if (isDark) {
           doc.documentElement.classList.add("dark");
@@ -63,26 +63,44 @@ const {
         }
       }
 
-      function attachThemeToggle(doc: Document) {
+      function attachThemeToggle(doc = document) {
         const themeToggle = doc.getElementById("theme-toggle");
         if (themeToggle) {
           themeToggle.onclick = () => {
             const isDark = localStorage.darkMode === "true";
-            localStorage.darkMode = !isDark;
+            localStorage.darkMode = (!isDark).toString();
             setDarkMode(doc);
           };
         }
       }
 
-      // Initial setup
-      setDarkMode(document);
-      attachThemeToggle(document);
+      document.addEventListener("DOMContentLoaded", function () {
+        setDarkMode(document);
+        attachThemeToggle(document);
+      });
 
-      // Re-apply after Astro client navigation
-      document.addEventListener("astro:after-swap", (event) => {
+      document.addEventListener("astro:before-swap", (event) => {
+        setDarkMode(event.newDocument);
+        attachThemeToggle(event.newDocument);
+      });
+
+      document.addEventListener("astro:after-swap", () => {
         setDarkMode(document);
         attachThemeToggle(document);
       });
     </script>
+  </head>
+
+  <body>
+    <NavBar />
+    <main>
+      <slot />
+    </main>
   </body>
 </html>
+
+<style>
+  body {
+    font-family: "Poppins", sans-serif;
+  }
+</style>

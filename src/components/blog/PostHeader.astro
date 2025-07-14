@@ -1,30 +1,32 @@
 ---
 // filepath: /mnt/World/site/src/components/blog/PostHeader.astro
+import { Image } from "astro:assets";
+
 interface Props {
-  image?: {
-    src?: string;
-    alt?: string;
-  };
+  imageSrc: string | undefined;
+  imageAlt: string | undefined;
 }
-const { image } = Astro.props as Props;
+const { imageSrc, imageAlt } = Astro.props as Props;
 ---
 
 <header class="relative h-80 w-full md:h-[28rem]">
-  {image?.src && (
-    <img
-      src={image.src}
-      alt={image.alt || ""}
-      class="absolute inset-0 h-full w-full object-cover object-center"
-      style="z-index: 1;"
-      loading="lazy"
-    />
-  )}
+  {
+    imageSrc && (
+      <img
+        src={imageSrc}
+        alt={imageAlt || "Blog Post Header Image"}
+        class="h-full w-full object-cover"
+        style="position: absolute; inset: 0; z-index: 1;"
+      />
+    )
+  }
   <div
     class="absolute inset-0 bg-gradient-to-b from-black/40 to-transparent dark:from-[#0f172a]/80 dark:to-transparent"
     style="z-index: 2;"
-  ></div>
+  >
+  </div>
   <!-- Return button overlay, top-left -->
-  <div class="absolute left-4 top-4 z-10">
+  <div class="absolute top-4 left-4 z-10">
     <a
       href="/blog"
       class="rounded-lg bg-blue-600 px-4 py-2 text-base font-semibold text-white shadow transition hover:bg-blue-500 dark:bg-sky-700 dark:hover:bg-sky-500"

@@ -7,9 +7,11 @@ import mdx from "@astrojs/mdx";
 
 import icon from "astro-icon";
 
-import netlify from "@astrojs/netlify";
-
 import sitemap from "@astrojs/sitemap";
+
+import collection_search from "astro-collection-search";
+
+import netlify from "@astrojs/netlify";
 
 // https://astro.build/config
 export default defineConfig({
@@ -31,13 +33,16 @@ export default defineConfig({
       iconDir: "src/assets/icons",
     }),
     sitemap(),
-  ],
 
+    collection_search({
+      collections: ["posts"],
+      fields: ["title", "description", "content"],
+    }),
+  ],
   image: {
     responsiveStyles: true,
     layout: "constrained",
   },
-
   adapter: netlify({
     edgeMiddleware: true,
   }),

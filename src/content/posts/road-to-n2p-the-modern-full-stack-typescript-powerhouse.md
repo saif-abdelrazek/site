@@ -1,7 +1,7 @@
 ---
 title: "Road to N2P: The Modern Full-Stack TypeScript Powerhouse"
 date: 2025-06-29T17:46:00.000Z
-image: { src: "/images/n2p.png", alt: "N2P Stack Overview" }
+image: "./images/n2p.png"
 description: Tired of MERN/MEAN? Meet N2P—the modern full-stack powerhouse built
   for TypeScript lovers.
 tags:

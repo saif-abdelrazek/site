@@ -11,14 +11,10 @@ const { data } = post;
 const {
   title = "",
   description = "",
-  date = new Date(),
   image = {
     src: "",
-    alt: "",
-    width: 0,
-    height: 0,
-    format: "avif",
-  },
+    alt: "Blog Post Header Image",
+  }, // Ensure image is an object with src and alt
 } = data;
 ---
 
@@ -26,7 +22,10 @@ const {
   <div
     class="relative min-h-screen w-full bg-blue-50 transition-colors duration-300 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
   >
-    <PostHeader image={image} />
+    <PostHeader
+      imageSrc={image.src}
+      imageAlt={"alt" in image ? image.alt : "Blog Post Header Image"}
+    />
 
     <div class="relative z-10 mx-auto -mt-32 max-w-4xl px-2 pb-12">
       <section
