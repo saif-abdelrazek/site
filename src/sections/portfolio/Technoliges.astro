@@ -1,0 +1,66 @@
+---
+import { getEntry } from "astro:content";
+import TechCard from "../../components/portfolio/TechCard.astro";
+const techData = await getEntry("portfolio", "technoliges");
+
+if (!techData) {
+  throw new Error("Technologies entry not found in portfolio content.");
+}
+
+const { technologies } = techData.data;
+
+// Only show these categories
+const categories = [
+  "language",
+  "frontend",
+  "backend",
+  "os",
+  "code editor",
+  "tool",
+  "markup",
+  "dns",
+  "cms",
+  "css framework",
+  "database",
+  "deployment",
+];
+
+// Helper to get favourite tech per category
+function getFavouriteTech(cat: string) {
+  return technologies?.find((tech) => tech.category === cat && tech.favorite);
+}
+---
+
+<section class="mx-auto flex w-full max-w-6xl flex-col items-center px-4 py-16">
+  <h2
+    class="mb-6 text-center text-4xl font-extrabold text-sky-700 dark:text-sky-300"
+  >
+    Favourite Tools
+  </h2>
+  <p class="mb-10 text-center text-lg text-gray-700 dark:text-gray-300">
+    Here are my favourite technologies and tools for each category.<br />
+    <a
+      href="/tech#language"
+      class="font-semibold text-blue-600 underline dark:text-sky-400"
+      >See all languages and tools</a
+    >
+  </p>
+  <div class="grid w-full grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      categories.map((cat) => {
+        const tech = getFavouriteTech(cat);
+        return tech ? (
+          <TechCard
+            name={tech.name}
+            icon={tech.icon}
+            level={tech.level}
+            slug={tech.slug}
+            category={cat}
+            description={tech.description}
+            class="max-w-xs min-w-[220px]"
+          />
+        ) : null;
+      })
+    }
+  </div>
+</section>

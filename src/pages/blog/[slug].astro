@@ -30,21 +30,6 @@ const { data } = await post;
 if (!data) {
   return Astro.redirect("/404");
 }
-const image: ImageMetadata = data.image
-  ? {
-      src: data.image.src || "",
-      width: 800,
-      height: 450,
-      format: "avif",
-    }
-  : {
-      src: "",
-      width: 800,
-      height: 450,
-      format: "avif",
-    };
-
-const { Content } = await render(post);
 ---
 
 <BlogPost {post} />

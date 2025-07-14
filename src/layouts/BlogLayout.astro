@@ -1,8 +1,10 @@
 ---
 import "../styles/global.css";
 import MainLayout from "./MainLayout.astro";
-import NavBar from "../components/main/NavBar.astro";
 import BlogFooter from "../components/blog/BlogFooter.astro";
+
+import OverlaySearch from "../components/blog/SearchOverlay.astro";
+
 interface Props {
   title: string;
   description?: string;
@@ -33,9 +35,59 @@ const {
             </p>
           )
         }
+        <OverlaySearch />
+        <button
+          id="open-search-overlay"
+          class="ml-2 rounded-md bg-blue-600 px-3 py-2 text-white shadow hover:bg-blue-700 dark:bg-sky-700 dark:hover:bg-sky-500"
+          type="button"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="mr-1 inline h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+          Search
+        </button>
         <slot />
       </section>
     </main>
     <BlogFooter />
   </div>
+
+  <script>
+    // import search functions.
+    import {
+      OpenSearch,
+      InitSearch,
+    } from "astro-collection-search/example/overlay/overlay-search.ts";
+
+    // call init to set search options.
+    InitSearch({
+      create_link: (result) => {
+        // Generate a slug from the entry path, removing the file extension
+        if (
+          result?.frontmatter?.slug &&
+          typeof result.frontmatter.slug === "string"
+        ) {
+          return "blog/" + result.frontmatter.slug;
+        }
+        const slug = result.entry.replace(/\.mdx?$/, "");
+        return `blog/${slug.startsWith("/") ? slug.slice(1) : slug}/`; // Ensure the slug starts without a leading slash
+      },
+      max: 12,
+    });
+    ``;
+    // open the search dialog
+    document
+      .querySelector("#open-search-overlay")
+      ?.addEventListener("click", () => OpenSearch());
+  </script>
 </MainLayout>

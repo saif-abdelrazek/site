@@ -151,7 +151,7 @@ export const POST: APIRoute = async ({ request }) => {
   });
 
   const mailOptionsToMe = {
-    from: `Contact Form <${getSecret("EMAIL_ADDRESS")}>`,
+    from: `Your Site Contact Form <${getSecret("EMAIL_ADDRESS")}>`,
     to: "saif@saifabdelrazek.com",
     subject: `New Contact Form Submission: ${body.subject}`,
     html: msgToMe,
@@ -159,7 +159,7 @@ export const POST: APIRoute = async ({ request }) => {
   };
 
   const mailOptionsToUser = {
-    from: `Contact Form <${getSecret("EMAIL_ADDRESS")}>`,
+    from: `Saif Abdelrazek <${getSecret("EMAIL_ADDRESS")}>`,
     to: body.email,
     subject: `Thank you for contacting us, ${body.name}!`,
     html: body.theme === "dark" ? msgToUserDark : msgToUserLight,

@@ -4,20 +4,28 @@ import MainLayout from "../layouts/MainLayout.astro";
 
 <MainLayout title="404: Lost in Space | Saif Abdelrazek">
   <main
-    class="flex min-h-screen w-screen flex-col items-center justify-center bg-gray-900 px-4 text-center text-white"
+    class="flex min-h-screen w-screen flex-col items-center justify-center bg-white px-4 text-center text-gray-900 transition-colors duration-300 dark:bg-gray-900 dark:text-white"
   >
     <!-- Animated 404 -->
     <div class="mb-6 flex items-center justify-center">
-      <span class="text-7xl font-extrabold tracking-tight drop-shadow">4</span>
+      <span
+        class="text-7xl font-extrabold tracking-tight text-sky-700 drop-shadow dark:text-white"
+        >4</span
+      >
       <span class="mx-2 animate-spin text-4xl" style="animation-duration: 3s"
         >🚀</span
       >
-      <span class="text-7xl font-extrabold tracking-tight drop-shadow">4</span>
+      <span
+        class="text-7xl font-extrabold tracking-tight text-sky-700 drop-shadow dark:text-white"
+        >4</span
+      >
     </div>
 
     <!-- Fun message -->
-    <p class="mb-4 text-2xl">Houston, we have a problem!</p>
-    <p class="mb-6 max-w-md text-gray-300">
+    <p class="mb-4 text-2xl text-sky-700 dark:text-sky-200">
+      Houston, we have a problem!
+    </p>
+    <p class="mb-6 max-w-md text-gray-600 dark:text-gray-300">
       This page drifted into the void. Maybe it’s hiding behind a black hole?
     </p>
 

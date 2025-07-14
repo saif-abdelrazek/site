@@ -1,0 +1,82 @@
+---
+interface Props {
+  name: string;
+  icon?: string;
+  level?: string;
+  class?: string;
+  style?: string;
+  slug?: string;
+  category?: string;
+  description?: string;
+}
+
+const {
+  name,
+  icon,
+  level,
+  class: className,
+  style,
+  slug,
+  category,
+  description,
+} = Astro.props;
+import { Icon } from "astro-icon/components";
+
+// Map raw category names to display names
+const categoryDisplayNames: Record<string, string> = {
+  language: "Language",
+  frontend: "Frontend",
+  "css framework": "CSS Framework",
+  backend: "Backend",
+  database: "Database",
+  deployment: "Deployment",
+  os: "OS",
+  "code editor": "Editor",
+  tool: "Tool",
+  markup: "Markup",
+  dns: "DNS",
+  cms: "CMS",
+};
+
+const displayCategory = category
+  ? (categoryDisplayNames[category] ?? category)
+  : "";
+
+const categoryHeading = displayCategory
+  ? `Favourite ${displayCategory}`
+  : "Favourite";
+---
+
+<a href={`/tech/#${slug}`} class="block">
+  <div
+    class={[
+      "flex flex-col items-center justify-between rounded-3xl border-2 border-blue-500 light:bg-blue-50 p-8 shadow-2xl transition-transform duration-200 hover:-translate-y-1 hover:scale-[1.06] hover:shadow-blue-200/40",
+      "dark:border-sky-800 dark:bg-gradient-to-br dark:from-slate-900/80 dark:via-slate-800/80 dark:to-slate-900/60 dark:shadow-2xl dark:hover:shadow-blue-900/30",
+      className,
+    ].join(" ")}
+    style={style}
+  >
+    <h4
+      class="mb-3 text-center text-2xl font-bold text-blue-700 dark:text-sky-300"
+    >
+      {categoryHeading}
+    </h4>
+    <div class="mb-5 flex items-center justify-center gap-4">
+      {
+        icon && (
+          <Icon name={icon} class="h-12 w-12 text-blue-700 dark:text-sky-300" />
+        )
+      }
+      <span class="text-3xl font-semibold text-blue-700 dark:text-sky-200"
+        >{name}</span
+      >
+    </div>
+    {
+      level && (
+        <span class="mb-2 inline-block rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700 dark:bg-sky-900/60 dark:text-sky-200">
+          {level} · {displayCategory}
+        </span>
+      )
+    }
+  </div>
+</a>

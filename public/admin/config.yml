@@ -1,9 +1,8 @@
 backend:
-  name: git-gateway
-  branch: main
-
-media_folder: "src/content/posts/images" # Where uploaded files are stored (relative to repo root)
-public_folder: "/src/content/posts/images" # How those files are accessed in the browser
+  name: github
+  repo: "saifabdelrazek011/site"
+  branch: "main"
+  auth_type: implicit
 
 media_library:
   name: uploadcare # Or leave this out for the default
@@ -12,25 +11,19 @@ collections:
   - name: "posts"
     label: "Blog Posts"
     folder: "src/content/posts"
+    media_folder: "src/content/images"
+    public_folder: "/src/content/images"
     extension: "md"
     format: "frontmatter"
     create: true
+    access:
+      admin:
+        allow_contributors: false
+        allowed_users: ["saifabdelrazek011"]
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Publish Date", name: "date", widget: "datetime" }
-      - label: "Featured Image"
-        name: "image"
-        widget: "object"
-        required: false
-        fields:
-          - { label: "Image", name: "src", widget: "image", required: false }
-          - {
-              label: "Alt Text",
-              name: "alt",
-              widget: "string",
-              required: false,
-              default: "A description of the image",
-            }
+      - { label: "Image", name: "image", widget: "image", required: false }
       - {
           label: "Author",
           name: "author",
@@ -51,14 +44,69 @@ collections:
         }
       - { label: "Body", name: "body", widget: "markdown" }
       - { label: "Tags", name: "tags", widget: "list", required: false }
+      - {
+          label: "Slug",
+          name: "slug",
+          widget: "string",
+          unique: true,
+          required: false,
+          hint: "Optional custom URL slug for the post",
+        }
 
   - name: "now"
     label: "Now"
     folder: "src/pages/now"
     create: false
+    access:
+      admin:
+        allow_contributors: false
+        allowed_users: ["saifabdelrazek011"]
     format: "frontmatter"
     extension: "mdx"
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Last Updated", name: "lastUpdated", widget: "datetime" }
       - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "portfolio"
+    label: "Portfolio"
+    folder: "src/content/portfolio"
+    media_folder: "src/content/portfolio/images"
+    public_folder: "/src/content/portfolio/images"
+    extension: "md"
+    format: "frontmatter"
+    create: false
+    access:
+      admin:
+        allow_contributors: false
+        allowed_users: ["saifabdelrazek011"]
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - {
+          label: "Description",
+          name: "description",
+          widget: "string",
+          required: false,
+        }
+      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "Tags", name: "tags", widget: "list", required: false }
+      - {
+          label: "Link",
+          name: "link",
+          widget: "string",
+          required: false,
+          hint: "Optional link to the project or demo",
+        }
+      - 
+          label: "Technologies",
+          name: "technologies",
+          widget: "object",
+          required: false,
+          hint: "List of technologies used in the project or in the about section",
+          fields: [
+            { label: "Name", name: "name", widget: "string" },
+            { label: "Icon", name: "icon", widget: "string", required: false },
+            { label: "Level", name: "level", widget: "string", required: false },
+          ]
+        

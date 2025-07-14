@@ -15,6 +15,7 @@ interface PostProps {
     };
   };
 }
+import { Image } from "astro:assets";
 const { post } = Astro.props as PostProps;
 ---
 
@@ -46,7 +47,7 @@ const { post } = Astro.props as PostProps;
     post.data.image && (
       <img
         src={post.data.image.src}
-        alt={post.data.image.alt ?? "Blog post image"}
+        alt={"Blog Post Image"}
         class="mb-2 h-48 w-full rounded object-cover"
       />
     )
