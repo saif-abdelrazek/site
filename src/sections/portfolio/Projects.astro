@@ -1,0 +1,55 @@
+---
+import { getCollection } from "astro:content";
+import ProjectCard from "../../components/portfolio/ProjectCard.astro";
+
+const projects = await getCollection("projects");
+---
+
+<section
+  id="projects"
+  class="mx-auto w-full bg-blue-100 px-4 py-12 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
+>
+  <div class="mx-auto max-w-6xl">
+    <h2
+      class="mb-2 text-center text-4xl font-bold text-sky-700 dark:text-sky-300"
+    >
+      Projects
+    </h2>
+    <p class="mb-8 text-center text-lg text-gray-700 dark:text-gray-300">
+      A selection of my favorite and most recent work. For more, check out all
+      my repositories.
+    </p>
+    <div
+      class="grid w-full grid-cols-1 items-stretch gap-8 sm:grid-cols-2 lg:grid-cols-3"
+    >
+      {
+        projects.map((project) => (
+          <ProjectCard
+            {...project.data}
+            slug={project.data.slug ?? project.id}
+          />
+        ))
+      }
+    </div>
+    <div class="mt-12 flex justify-center">
+      <a
+        href="/repos"
+        class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 px-7 py-3 text-lg font-semibold text-white shadow-lg ring-2 ring-blue-400/20 transition hover:scale-105 hover:from-blue-700 hover:to-sky-600 hover:shadow-xl dark:from-sky-700 dark:to-blue-800 dark:hover:from-sky-800 dark:hover:to-blue-900"
+      >
+        <svg
+          class="h-6 w-6"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+        </svg>
+        See More Projects
+      </a>
+    </div>
+  </div>
+</section>

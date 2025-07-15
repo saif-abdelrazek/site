@@ -1,10 +1,14 @@
 ---
 import { getEntry } from "astro:content";
 import TechCard from "../../components/portfolio/TechCard.astro";
-const techData = await getEntry("portfolio", "technoliges");
+import { getSecret } from "astro:env/server";
+const techData = await getEntry("portfolio", "technologies");
 
-if (!techData) {
+if (!techData && getSecret("NODE_ENV") !== "production") {
   throw new Error("Technologies entry not found in portfolio content.");
+}
+if (!techData) {
+  return;
 }
 
 const { technologies } = techData.data;
@@ -31,7 +35,10 @@ function getFavouriteTech(cat: string) {
 }
 ---
 
-<section class="mx-auto flex w-full max-w-6xl flex-col items-center px-4 py-16">
+<section
+  id="technologies"
+  class="mx-auto flex w-full max-w-6xl flex-col items-center px-4 py-16"
+>
   <h2
     class="mb-6 text-center text-4xl font-extrabold text-sky-700 dark:text-sky-300"
   >
@@ -45,22 +52,27 @@ function getFavouriteTech(cat: string) {
       >See all languages and tools</a
     >
   </p>
-  <div class="grid w-full grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
-    {
-      categories.map((cat) => {
-        const tech = getFavouriteTech(cat);
-        return tech ? (
-          <TechCard
-            name={tech.name}
-            icon={tech.icon}
-            level={tech.level}
-            slug={tech.slug}
-            category={cat}
-            description={tech.description}
-            class="max-w-xs min-w-[220px]"
-          />
-        ) : null;
-      })
-    }
-  </div>
+  {
+    categories.length === 0 || technologies?.length === 0 ? (
+      <p class="text-lg text-gray-700 dark:text-gray-300">
+        No favourite technologies found.
+      </p>
+    ) : (
+      <div class="grid w-full grid-cols-1 items-stretch gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {categories.map((cat) => {
+          const tech = getFavouriteTech(cat);
+          return tech ? (
+            <TechCard
+              name={tech.name}
+              icon={tech.icon}
+              level={tech.level}
+              slug={tech.slug}
+              category={cat}
+              description={tech.description}
+            />
+          ) : null;
+        })}
+      </div>
+    )
+  }
 </section>

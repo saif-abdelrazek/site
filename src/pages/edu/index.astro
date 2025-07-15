@@ -1,0 +1,112 @@
+---
+import { getCollection } from "astro:content";
+import MainLayout from "../../layouts/MainLayout.astro";
+import DetailedEduCard from "../../components/portfolio/DetailedEduCard.astro";
+import type { CollectionEntry } from "astro:content";
+
+const education = await getCollection("education");
+
+// Group by type/category
+function groupBy(arr: any[], key: string) {
+  return arr.reduce(
+    (acc: { [x: string]: any[] }, item: { data: { type: string } }) => {
+      const group = item.data.type || "Other";
+      if (!acc[group]) acc[group] = [];
+      acc[group].push(item);
+      return acc;
+    },
+    {},
+  );
+}
+
+// Sort by startdate (descending, most recent first)
+function sortByDate(entries: Array<CollectionEntry<"education">>) {
+  return entries
+    .slice()
+    .sort(
+      (a: CollectionEntry<"education">, b: CollectionEntry<"education">) => {
+        const aDate = new Date(a.data.startDate || 0);
+        const bDate = new Date(b.data.startDate || 0);
+        return bDate.getTime() - aDate.getTime();
+      },
+    );
+}
+
+const grouped = groupBy(education, "type");
+const categories = Object.keys(grouped);
+---
+
+<MainLayout
+  title="Education"
+  description="Explore my formal education, online courses, and self-learning journey."
+>
+  <div
+    id="top"
+    class="min-h-screen w-full bg-blue-50 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
+  >
+    <section
+      class="mx-auto flex w-full max-w-6xl flex-col items-center rounded-2xl bg-blue-50 px-4 py-12 shadow-lg dark:bg-transparent"
+    >
+      <h2
+        class="mb-6 text-center text-3xl font-bold text-sky-700 dark:text-sky-300"
+      >
+        Education
+      </h2>
+      <p class="mb-10 text-center text-lg text-gray-700 dark:text-gray-300">
+        Explore my formal education, online courses, and self-learning journey.
+      </p>
+    </section>
+    <div class="mx-auto max-w-5xl px-4 py-12">
+      <main class="mx-auto max-w-5xl px-4 py-12">
+        {
+          categories.length === 0 && (
+            <p class="text-lg text-gray-700 dark:text-gray-300">
+              No education records found. Please check back later.
+            </p>
+          )
+        }
+        {
+          categories.map((category) => {
+            const entries = sortByDate(grouped[category]);
+            return (
+              <section class="mb-12" id={category}>
+                <h3 class="mb-6 border-b border-blue-100 pb-2 text-2xl font-bold text-sky-700 dark:border-sky-900 dark:text-sky-300">
+                  {category}
+                </h3>
+                <div class="flex flex-col gap-8">
+                  {entries.map((entry) => (
+                    <DetailedEduCard eduEntry={entry} />
+                  ))}
+                </div>
+              </section>
+            );
+          })
+        }
+        <div class="mt-8 flex justify-end">
+          <a
+            id="backToTop"
+            href="#top"
+            class="pointer-events-none fixed right-8 bottom-8 z-50 inline-flex items-center gap-1 rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700 opacity-0 shadow transition hover:bg-blue-200 dark:bg-sky-900/60 dark:text-sky-200 dark:hover:bg-sky-900"
+            aria-label="Return to top"
+          >
+            <span class="text-lg">↑</span>
+            Top
+          </a>
+        </div>
+        <script>
+          window.addEventListener("scroll", () => {
+            const btn = document.getElementById("backToTop");
+            if (!btn) return;
+            if (window.scrollY > 200) {
+              btn.classList.remove("opacity-0", "pointer-events-none");
+              btn.classList.add("opacity-100", "pointer-events-auto");
+            } else {
+              btn.classList.add("opacity-0", "pointer-events-none");
+              btn.classList.remove("opacity-100", "pointer-events-auto");
+            }
+          });
+        </script>
+      </main>
+    </div>
+  </div>
+</MainLayout>

@@ -62,8 +62,26 @@ const { entry: codingStats, error: codingStatsError } = await getLiveEntry(
         {
           codingStatsError ? (
             <div class="flex-1 rounded-xl bg-red-100 p-6 text-center text-red-700 shadow-lg dark:bg-red-900/60 dark:text-red-200">
-              <span class="font-semibold">Failed to load coding stats:</span>
-              <span class="ml-2">{codingStatsError.message}</span>
+              <span class="font-semibold">
+                {codingStatsError &&
+                "status" in codingStatsError &&
+                codingStatsError.status === 500
+                  ? "Hackatime API is currently unavailable (server error)."
+                  : codingStatsError &&
+                      "status" in codingStatsError &&
+                      codingStatsError.status === 404
+                    ? "No coding stats found for the selected period."
+                    : codingStatsError &&
+                        "status" in codingStatsError &&
+                        codingStatsError.status === 401
+                      ? "Unauthorized to access coding stats."
+                      : "Failed to load coding stats:"}
+              </span>
+              {codingStatsError &&
+                (!("status" in codingStatsError) ||
+                  codingStatsError.status !== 404) && (
+                  <span class="ml-2">{codingStatsError.message}</span>
+                )}
             </div>
           ) : codingStats && codingStats.data ? (
             <div class="flex w-full flex-col gap-4 md:w-auto md:flex-row">

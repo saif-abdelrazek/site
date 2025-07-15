@@ -1,0 +1,42 @@
+---
+import { getCollection } from "astro:content";
+import EducationCards from "../../components/portfolio/EducationCards.astro";
+
+const education = await getCollection("education");
+const hasEducation = education && education.length > 0;
+---
+
+<section id="education" class="w-full bg-white px-4 py-12 dark:bg-slate-900">
+  <div class="mx-auto max-w-6xl">
+    <h2
+      class="mb-2 text-center text-4xl font-bold text-sky-700 dark:text-sky-300"
+    >
+      Education
+    </h2>
+    <p class="mb-8 text-center text-lg text-gray-700 dark:text-gray-300">
+      Explore my current education journey. For a full timeline and more
+      details, check out all my education steps.
+    </p>
+    {
+      hasEducation ? (
+        <section class="w-full bg-white px-4 py-12 dark:bg-slate-900">
+          <div class="mx-auto max-w-6xl">
+            <EducationCards education={education} />
+          </div>
+        </section>
+      ) : (
+        <div class="text-center text-lg text-gray-500 dark:text-gray-400">
+          No current education records found.
+        </div>
+      )
+    }
+    <div class="mt-10 flex justify-center">
+      <a
+        href="/edu"
+        class="inline-block rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 px-7 py-3 text-lg font-semibold text-white shadow-lg ring-2 ring-blue-400/20 transition hover:scale-105 hover:from-blue-700 hover:to-sky-600 hover:shadow-xl dark:from-sky-700 dark:to-blue-800 dark:hover:from-sky-800 dark:hover:to-blue-900"
+      >
+        More Education
+      </a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,41 @@
+---
+import { Icon } from "astro-icon/components";
+const year = new Date().getFullYear();
+---
+
+<footer
+  class="w-full border-t border-blue-200 bg-white/80 py-8 text-center dark:border-sky-900 dark:bg-slate-900/80"
+>
+  <div
+    class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 md:flex-row"
+  >
+    <div class="text-base text-gray-600 dark:text-gray-300">
+      &copy; {year} Saif Abdelrazek. All rights reserved.
+    </div>
+    <div class="flex justify-center gap-4">
+      <a
+        href="https://github.com/saifabdelrazek011"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-gray-600 transition hover:text-blue-600 dark:text-gray-300 dark:hover:text-sky-300"
+        aria-label="GitHub"
+      >
+        <Icon name="simple-icons:github" class="h-6 w-6" />
+      </a>
+      <a
+        href="mailto:saifabdelrazek011@gmail.com"
+        class="text-gray-600 transition hover:text-blue-600 dark:text-gray-300 dark:hover:text-sky-300"
+        aria-label="Email"
+      >
+        <Icon name="mdi:email" class="h-6 w-6" />
+      </a>
+      <a
+        href="https://saifabdelrazek.com"
+        class="text-gray-600 transition hover:text-blue-600 dark:text-gray-300 dark:hover:text-sky-300"
+        aria-label="Website"
+      >
+        <Icon name="mdi:web" class="h-6 w-6" />
+      </a>
+    </div>
+  </div>
+</footer>

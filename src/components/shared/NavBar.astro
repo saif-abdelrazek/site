@@ -103,6 +103,20 @@ import ThemeToggle from "../theme/ThemeToggle.astro";
   const links = document.getElementById("navbar-links");
   const menuIcon = document.getElementById("navbar-menu-icon");
   const closeIcon = document.getElementById("navbar-close-icon");
+  const screenSize = window.innerWidth;
+
+  if (screenSize >= 768) {
+    links.classList.remove("max-h-0", "hidden");
+    links.classList.add("flex", "max-h-none");
+    menuIcon.classList.remove("hidden");
+    closeIcon.classList.add("hidden");
+    btn.setAttribute("aria-expanded", "false");
+  } else {
+    links.classList.add("max-h-0", "hidden");
+    menuIcon.classList.remove("hidden");
+    closeIcon.classList.add("hidden");
+    btn.setAttribute("aria-expanded", "false");
+  }
 
   function openMenu() {
     links.classList.remove("max-h-0", "hidden");
@@ -114,7 +128,7 @@ import ThemeToggle from "../theme/ThemeToggle.astro";
 
   function closeMenu() {
     links.classList.remove("max-h-[500px]", "flex");
-    links.classList.add("max-h-0");
+    links.classList.add("max-h-0", "hidden"); // <-- add "hidden" here
     menuIcon.classList.remove("hidden");
     closeIcon.classList.add("hidden");
     btn.setAttribute("aria-expanded", "false");
@@ -156,8 +170,6 @@ import ThemeToggle from "../theme/ThemeToggle.astro";
     const linksList = document.querySelectorAll("#navbar-links a");
     linksList.forEach((link) => {
       if (link.getAttribute("href") === currentPath) {
-        console.log(link.getAttribute("href"), currentPath);
-
         link.classList.add("active-link");
       } else {
         link.classList.remove("active-link");

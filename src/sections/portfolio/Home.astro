@@ -1,0 +1,67 @@
+---
+import { getEntry } from "astro:content";
+import { Image } from "astro:assets";
+const home = await getEntry("portfolio", "home");
+const {
+  title = "Saif Abdelrazek",
+  subtitle = "Full Stack Developer & Tech Enthusiast",
+  description = "Building modern web apps, APIs, and tools. Passionate about open source, automation, and sharing knowledge.",
+  image,
+} = home?.data ?? {};
+---
+
+<section
+  class="relative flex min-h-[70vh] flex-col-reverse items-center justify-center gap-12 py-20 md:flex-row md:gap-24"
+>
+  <div
+    class="flex flex-1 flex-col items-center text-center md:items-start md:text-left"
+  >
+    <h1
+      class="mb-3 text-5xl font-extrabold tracking-tight text-sky-700 drop-shadow dark:text-sky-300"
+    >
+      {title}
+    </h1>
+    <h2 class="mb-4 text-2xl font-semibold text-blue-600 dark:text-sky-400">
+      {subtitle}
+    </h2>
+    <p
+      class="mb-10 max-w-xl text-lg leading-relaxed text-gray-700 dark:text-gray-300"
+    >
+      {description}
+    </p>
+    <div class="flex flex-wrap justify-center gap-4 md:justify-start">
+      <a
+        href="/#projects"
+        class="rounded-lg bg-gradient-to-r from-blue-600 to-sky-500 px-7 py-3 text-lg font-semibold text-white shadow-lg transition hover:from-blue-700 hover:to-sky-600 dark:from-sky-700 dark:to-blue-800 dark:hover:from-sky-800 dark:hover:to-blue-900"
+      >
+        View Projects
+      </a>
+      <a
+        href="/contact"
+        class="rounded-lg border-2 border-blue-600 px-7 py-3 text-lg font-semibold text-blue-700 transition hover:bg-blue-50 dark:border-sky-700 dark:text-sky-300 dark:hover:bg-sky-900"
+      >
+        Contact Me
+      </a>
+    </div>
+  </div>
+  {
+    image && (
+      <div class="flex flex-1 justify-center md:justify-end">
+        <div class="relative">
+          <Image
+            src={image}
+            alt={title}
+            width={400}
+            height={400}
+            class="rounded-full border-4 border-blue-400 object-cover shadow-2xl transition-transform duration-300 hover:scale-105"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    )
+  }
+  <div
+    class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-blue-50 via-white to-sky-100 opacity-80 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900"
+  >
+  </div>
+</section>

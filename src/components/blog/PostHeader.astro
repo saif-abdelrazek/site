@@ -1,20 +1,19 @@
 ---
-// filepath: /mnt/World/site/src/components/blog/PostHeader.astro
 import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
 
 interface Props {
-  imageSrc: string | undefined;
-  imageAlt: string | undefined;
+  post: CollectionEntry<"posts">;
 }
-const { imageSrc, imageAlt } = Astro.props as Props;
+const { post } = Astro.props as Props;
 ---
 
 <header class="relative h-80 w-full md:h-[28rem]">
   {
-    imageSrc && (
-      <img
-        src={imageSrc}
-        alt={imageAlt || "Blog Post Header Image"}
+    post.data.image && (
+      <Image
+        src={post.data.image}
+        alt={"Blog Post Header Image: " + post.data.title}
         class="h-full w-full object-cover"
         style="position: absolute; inset: 0; z-index: 1;"
       />

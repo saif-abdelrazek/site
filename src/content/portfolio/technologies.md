@@ -143,6 +143,16 @@ technologies:
       link: "https://www.prisma.io/",
     }
   - {
+      name: "React Router",
+      icon: logos:react-router,
+      level: "Intermediate",
+      category: "frontend",
+      favorite: false,
+      description: "React Router is a powerful routing library for React applications, enabling dynamic navigation and rendering of components based on URL paths. It supports nested routes, route parameters, and declarative navigation, making it essential for building single-page applications with complex routing needs.",
+      slug: "react-router",
+      link: "https://reactrouter.com/",
+    }
+  - {
       name: "Docker",
       icon: logos:docker-icon,
       level: "Intermediate",
@@ -283,7 +293,7 @@ technologies:
       link: "https://github.com/octodns/octodns",
     }
   - {
-      name: "Tailwind (Hater)",
+      name: "Tailwind",
       icon: logos:tailwindcss-icon,
       level: "Intermediate",
       category: "css framework",
@@ -293,7 +303,7 @@ technologies:
       link: "https://tailwindcss.com/",
     }
   - {
-      name: "CSS3 (Hater)",
+      name: "CSS3",
       icon: logos:css-3,
       level: "Advanced",
       category: "language",

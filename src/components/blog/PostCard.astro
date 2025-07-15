@@ -1,21 +1,10 @@
 ---
-interface PostProps {
-  post: {
-    id: string;
-    data: {
-      title: string;
-      date?: Date;
-      description?: string;
-      image?: {
-        src: string;
-        alt: string | null;
-      };
-      tags?: string[];
-      slug: string;
-    };
-  };
-}
 import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+interface PostProps {
+  post: CollectionEntry<"posts">;
+}
+
 const { post } = Astro.props as PostProps;
 ---
 
@@ -45,10 +34,12 @@ const { post } = Astro.props as PostProps;
   </div>
   {
     post.data.image && (
-      <img
+      <Image
         src={post.data.image.src}
-        alt={"Blog Post Image"}
-        class="mb-2 h-48 w-full rounded object-cover"
+        alt={"Blog Post: " + post.data.title}
+        width={post.data.image.width ?? 400}
+        height={post.data.image.height ?? 300}
+        class="mb-2 rounded object-cover"
       />
     )
   }
