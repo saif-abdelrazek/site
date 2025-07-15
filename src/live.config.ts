@@ -3,8 +3,6 @@ import { reposLoader } from "./loaders/github";
 import { getSecret } from "astro:env/server";
 import { hackatimeLoader } from "./loaders/hackatime";
 
-console.log("Loading GitHub repositories...");
-
 const repos = defineLiveCollection({
   loader: reposLoader({
     reposApiUrl: "https://api.github.com/user/repos",

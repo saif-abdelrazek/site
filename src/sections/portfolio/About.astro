@@ -1,27 +1,29 @@
 ---
 import { Image } from "astro:assets";
 import { getEntry } from "astro:content";
+import { render } from "astro:content";
 const about = await getEntry("portfolio", "about");
 
 if (!about) {
   throw new Error("About entry not found in portfolio content.");
 }
 
-const { title, image, description } = about.data;
+const { title, image } = about.data;
+const { Content } = await render(about);
 ---
 
 <section
-  class="w-full bg-blue-50 py-12 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
+  class="w-full bg-blue-100 py-12 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
 >
   <div
-    class="mx-auto flex max-w-6xl flex-col-reverse items-center gap-10 px-4 md:flex-row md:items-start"
+    class="mx-auto flex max-w-6xl flex-col items-center gap-10 px-4 md:flex-row md:items-start"
   >
     {
       image && (
         <Image
           src={image}
           alt={title}
-          class="mb-6 h-100 w-100 rounded-full border-4 border-blue-100 object-cover shadow-lg md:mb-0 dark:border-sky-900"
+          class="mb-6 h-100 w-100 rounded-full border-4 border-blue-100 object-cover shadow-lg md:mr-10 md:mb-0 dark:border-sky-900"
           loading="lazy"
         />
       )
@@ -30,9 +32,11 @@ const { title, image, description } = about.data;
       <h1 class="mb-4 text-4xl font-bold text-sky-700 dark:text-sky-300">
         {title}
       </h1>
-      <p class="mb-6 text-lg text-gray-700 dark:text-gray-300">
-        {description}
-      </p>
+      <div
+        class="prose prose-sky dark:prose-invert mb-6 text-lg text-gray-700 dark:text-gray-300"
+      >
+        <Content />
+      </div>
     </div>
   </div>
 </section>

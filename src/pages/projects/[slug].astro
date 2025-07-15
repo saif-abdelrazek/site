@@ -1,0 +1,112 @@
+---
+import { getCollection } from "astro:content";
+import type { GetStaticPaths } from "astro";
+import MainLayout from "../../layouts/MainLayout.astro";
+import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
+import { render } from "astro:content";
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const projects = await getCollection("projects");
+  return projects.map((project) => ({
+    params: { slug: project.id },
+  }));
+};
+
+const { slug } = Astro.params;
+const project = await getCollection("projects").then((projects) =>
+  projects.find((p) => p.id === slug),
+);
+
+if (!project) {
+  throw new Error("Project not found");
+}
+
+const { title, description, image, technologies, link, repo } = project.data;
+const { Content } = await render(project);
+---
+
+<MainLayout title={title} description={description}>
+  <main
+    class="flex min-h-screen flex-col items-center justify-center bg-blue-50 py-12 dark:bg-slate-900"
+  >
+    <div class="mb-6 flex w-full max-w-3xl justify-start">
+      <a
+        href="/#projects"
+        class="ml-2 inline-flex items-center gap-2 rounded bg-blue-100 px-3 py-2 font-semibold text-blue-700 transition-colors hover:bg-blue-200 dark:bg-sky-900/60 dark:text-sky-200 dark:hover:bg-sky-800"
+        aria-label="Go back to projects"
+      >
+        <Icon name="mdi:arrow-left" class="h-5 w-5" />
+        Go Back
+      </a>
+    </div>
+    <div
+      class="w-full max-w-3xl rounded-2xl bg-white p-8 shadow-xl dark:bg-slate-800"
+    >
+      {
+        image && (
+          <Image
+            src={image}
+            alt={title}
+            class="mb-6 h-56 w-full rounded-xl object-cover"
+            loading="lazy"
+          />
+        )
+      }
+      <h1 class="mb-4 text-3xl font-bold text-sky-700 dark:text-sky-300">
+        {title}
+      </h1>
+      {
+        description && (
+          <p class="mb-6 text-lg text-gray-700 dark:text-gray-200">
+            {description}
+          </p>
+        )
+      }
+      {
+        technologies && technologies.length > 0 && (
+          <div class="mb-6 flex flex-wrap gap-3">
+            {technologies.map((tech) => (
+              <a
+                href={`/tech/#${tech.slug}`}
+                class="inline-flex items-center gap-1 rounded bg-blue-100 px-2 py-1 text-xs font-semibold text-blue-700 dark:bg-sky-900/60 dark:text-sky-200"
+              >
+                {tech.icon && <Icon name={tech.icon} class="h-5 w-5" />}
+                {tech.name}
+              </a>
+            ))}
+          </div>
+        )
+      }
+      <div class="flex gap-4">
+        {
+          link && (
+            <a
+              href={link}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-semibold text-blue-600 underline hover:text-blue-800 dark:text-sky-400 dark:hover:text-sky-200"
+            >
+              Live Site
+            </a>
+          )
+        }
+        {
+          repo && (
+            <a
+              href={repo}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-semibold text-blue-600 underline hover:text-blue-800 dark:text-sky-400 dark:hover:text-sky-200"
+            >
+              Source Code
+            </a>
+          )
+        }
+      </div>
+      <article class="prose prose-sky dark:prose-invert mt-8">
+        <Content />
+      </article>
+    </div>
+  </main>
+</MainLayout>

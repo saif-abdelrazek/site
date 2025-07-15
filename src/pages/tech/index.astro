@@ -4,7 +4,8 @@ import MainLayout from "../../layouts/MainLayout.astro";
 import DetailedTechCard from "../../components/portfolio/DetailedTechCard.astro";
 import { fade } from "astro:transitions";
 
-const techData = await getEntry("portfolio", "technoliges");
+const techData = await getEntry("portfolio", "technologies");
+
 const technologies = techData?.data.technologies ?? [];
 
 // Level order for sorting
@@ -62,61 +63,70 @@ const categories = [
         Explore the technologies and tools I use in my projects.
       </p>
     </section>
-    <main class="mx-auto max-w-5xl px-4 py-12">
-      {
-        categories.map((category) => {
-          const techs = getTechByCategory(category);
-          if (techs.length === 0) return null;
-          // Format heading
-          const heading = category
-            .replace(/(^|\s)\S/g, (l) => l.toUpperCase())
-            .replace("Os", "OS")
-            .replace("Cms", "CMS")
-            .replace("Dns", "DNS");
-          return (
-            <section class="mb-12" id={category}>
-              <h3 class="mb-6 border-b border-blue-100 pb-2 text-2xl font-bold text-sky-700 dark:border-sky-900 dark:text-sky-300">
-                {heading}
-              </h3>
-              <div class="flex flex-col gap-8">
-                {techs.map((tech) => (
-                  <section
-                    id={tech.slug}
-                    class="relative rounded-2xl border border-blue-100 bg-white p-6 shadow-lg transition-colors dark:border-sky-900 dark:bg-gradient-to-br dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 dark:shadow-2xl"
-                  >
-                    <DetailedTechCard {...tech} />
-                  </section>
-                ))}
-              </div>
-            </section>
-          );
-        })
-      }
-      <div class="mt-8 flex justify-end">
-        <a
-          id="backToTop"
-          href="#top"
-          class="pointer-events-none fixed right-8 bottom-8 z-50 inline-flex items-center gap-1 rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700 opacity-0 shadow transition hover:bg-blue-200 dark:bg-sky-900/60 dark:text-sky-200 dark:hover:bg-sky-900"
-          aria-label="Return to top"
-          transition:animate={fade({ duration: "0.4s" })}
-        >
-          <span class="text-lg">↑</span>
-          Top
-        </a>
-      </div>
-      <script>
-        window.addEventListener("scroll", () => {
-          const btn = document.getElementById("backToTop");
-          if (!btn) return;
-          if (window.scrollY > 200) {
-            btn.classList.remove("opacity-0", "pointer-events-none");
-            btn.classList.add("opacity-100", "pointer-events-auto");
-          } else {
-            btn.classList.add("opacity-0", "pointer-events-none");
-            btn.classList.remove("opacity-100", "pointer-events-auto");
-          }
-        });
-      </script>
-    </main>
+   {
+   techData ? <div class="mx-auto max-w-5xl px-4 py-12">
+      <main class="mx-auto max-w-5xl px-4 py-12">
+        {
+          categories.map((category) => {
+            const techs = getTechByCategory(category);
+            if (techs.length === 0) return null;
+            // Format heading
+            const heading = category
+              .replace(/(^|\s)\S/g, (l) => l.toUpperCase())
+              .replace("Os", "OS")
+              .replace("Cms", "CMS")
+              .replace("Dns", "DNS");
+            return (
+              <section class="mb-12" id={category}>
+                <h3 class="mb-6 border-b border-blue-100 pb-2 text-2xl font-bold text-sky-700 dark:border-sky-900 dark:text-sky-300">
+                  {heading}
+                </h3>
+                <div class="flex flex-col gap-8">
+                  {techs.map((tech) => (
+                    <section
+                      id={tech.slug}
+                      class="relative rounded-2xl border border-blue-100 bg-white p-6 shadow-lg transition-colors dark:border-sky-900 dark:bg-gradient-to-br dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 dark:shadow-2xl"
+                    >
+                      <DetailedTechCard {...tech} />
+                    </section>
+                  ))}
+                </div>
+              </section>
+            );
+          })
+        }
+        <div class="mt-8 flex justify-end">
+          <a
+            id="backToTop"
+            href="#top"
+            class="pointer-events-none fixed right-8 bottom-8 z-50 inline-flex items-center gap-1 rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700 opacity-0 shadow transition hover:bg-blue-200 dark:bg-sky-900/60 dark:text-sky-200 dark:hover:bg-sky-900"
+            aria-label="Return to top"
+            transition:animate={fade({ duration: "0.4s" })}
+          >
+            <span class="text-lg">↑</span>
+            Top
+          </a>
+        </div>
+        <script>
+          window.addEventListener("scroll", () => {
+            const btn = document.getElementById("backToTop");
+            if (!btn) return;
+            if (window.scrollY > 200) {
+              btn.classList.remove("opacity-0", "pointer-events-none");
+              btn.classList.add("opacity-100", "pointer-events-auto");
+            } else {
+              btn.classList.add("opacity-0", "pointer-events-none");
+              btn.classList.remove("opacity-100", "pointer-events-auto");
+            }
+          });
+        </script>
+      </main>
+    </div> : (
+        <div class="mx-auto max-w-5xl px-4 py-12">
+          <p class="text-lg text-gray-700 dark:text-gray-300">
+            No technologies found. Please check back later.
+          </p>
+        </div>
+      )}
   </div>
 </MainLayout>

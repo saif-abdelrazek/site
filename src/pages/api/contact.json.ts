@@ -27,7 +27,6 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
   const body = await request.json();
-  console.log(body);
 
   if (typeof body !== "object") {
     return new Response(

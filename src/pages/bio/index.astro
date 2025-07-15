@@ -1,16 +1,18 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
+import { Image } from "astro:assets";
 ---
 
 <MainLayout
   title="Saif Abdelrazek | Bio"
   description="Personal biolink page of Saif Abdelrazek, showcasing social links and contact information."
+  withNavBar={false}
 >
   <div class="flex min-h-screen w-screen flex-col bg-black">
     <header class="flex flex-col items-center pt-10">
       <!-- Logo, Title and Description -->
       <div class="mb-2">
-        <img
+        <Image
           src="/avatar.jpg"
           alt="Saif Abdelrazek"
           class="mb-2 h-36 w-36 rounded-full border-4 border-black object-cover shadow-lg"

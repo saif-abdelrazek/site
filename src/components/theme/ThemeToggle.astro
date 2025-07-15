@@ -18,3 +18,19 @@ import { Icon } from "astro-icon/components";
   </span>
   <span class="hidden md:inline">Theme</span>
 </button>
+
+<!-- Theme toggle logic -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const toggle = document.getElementById("theme-toggle");
+    if (toggle) {
+      toggle.addEventListener("click", () => {
+        const html = document.documentElement;
+        const isDark = html.classList.contains("dark");
+        html.classList.remove("light", "dark");
+        html.classList.toggle("dark", !isDark);
+        localStorage.setItem("theme", isDark ? "light" : "dark");
+      });
+    }
+  });
+</script>

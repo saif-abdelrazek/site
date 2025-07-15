@@ -11,10 +11,17 @@ import sitemap from "@astrojs/sitemap";
 
 import collection_search from "astro-collection-search";
 
-import netlify from "@astrojs/netlify";
+import vercel from "@astrojs/vercel";
 
 // https://astro.build/config
 export default defineConfig({
+  redirects: {
+    "/projects": "/#projects",
+    "/technologies": "/#technologies",
+    "/about": "/#about",
+    "/post": "/blog",
+    "/posts": "/blog",
+  },
   site: "https://saifabdelrazek.com",
   experimental: {
     contentIntellisense: true,
@@ -43,7 +50,5 @@ export default defineConfig({
     responsiveStyles: true,
     layout: "constrained",
   },
-  adapter: netlify({
-    edgeMiddleware: true,
-  }),
+  adapter: vercel(),
 });
