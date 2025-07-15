@@ -50,5 +50,7 @@ export default defineConfig({
     responsiveStyles: true,
     layout: "constrained",
   },
-  adapter: vercel(),
+  adapter: vercel({
+    imageService: true,
+  }),
 });
