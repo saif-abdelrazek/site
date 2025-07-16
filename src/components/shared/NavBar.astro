@@ -99,84 +99,103 @@ import ThemeToggle from "../theme/ThemeToggle.astro";
 </nav>
 
 <script is:inline>
-  const btn = document.getElementById("navbar-menu-btn");
-  const links = document.getElementById("navbar-links");
-  const menuIcon = document.getElementById("navbar-menu-icon");
-  const closeIcon = document.getElementById("navbar-close-icon");
-  const screenSize = window.innerWidth;
+  const handleNavFunctions = () => {
+    const btn = document.getElementById("navbar-menu-btn");
+    const links = document.getElementById("navbar-links");
+    const menuIcon = document.getElementById("navbar-menu-icon");
+    const closeIcon = document.getElementById("navbar-close-icon");
+    const screenSize = window.innerWidth;
 
-  if (screenSize >= 768) {
-    links.classList.remove("max-h-0", "hidden");
-    links.classList.add("flex", "max-h-none");
-    menuIcon.classList.remove("hidden");
-    closeIcon.classList.add("hidden");
-    btn.setAttribute("aria-expanded", "false");
-  } else {
-    links.classList.add("max-h-0", "hidden");
-    menuIcon.classList.remove("hidden");
-    closeIcon.classList.add("hidden");
-    btn.setAttribute("aria-expanded", "false");
-  }
-
-  function openMenu() {
-    links.classList.remove("max-h-0", "hidden");
-    links.classList.add("flex", "max-h-[500px]");
-    menuIcon.classList.add("hidden");
-    closeIcon.classList.remove("hidden");
-    btn.setAttribute("aria-expanded", "true");
-  }
-
-  function closeMenu() {
-    links.classList.remove("max-h-[500px]", "flex");
-    links.classList.add("max-h-0", "hidden"); // <-- add "hidden" here
-    menuIcon.classList.remove("hidden");
-    closeIcon.classList.add("hidden");
-    btn.setAttribute("aria-expanded", "false");
-  }
-
-  function toggleMenu() {
-    if (links.classList.contains("max-h-0")) {
-      openMenu();
-    } else {
-      closeMenu();
-    }
-  }
-
-  btn?.addEventListener("click", toggleMenu);
-
-  // Close menu on link click (mobile)
-  links?.addEventListener("click", (e) => {
-    if (e.target.tagName === "A" && window.innerWidth < 768) {
-      closeMenu();
-    }
-  });
-
-  // Ensure menu is visible on resize (desktop)
-  window.addEventListener("resize", () => {
-    if (window.innerWidth >= 768) {
+    if (screenSize >= 768) {
       links.classList.remove("max-h-0", "hidden");
       links.classList.add("flex", "max-h-none");
       menuIcon.classList.remove("hidden");
       closeIcon.classList.add("hidden");
       btn.setAttribute("aria-expanded", "false");
     } else {
-      closeMenu();
+      links.classList.add("max-h-0", "hidden");
+      menuIcon.classList.remove("hidden");
+      closeIcon.classList.add("hidden");
+      btn.setAttribute("aria-expanded", "false");
     }
-  });
 
-  // mark the current page
-  const handleCurrentPath = () => {
-    const currentPath = window.location.pathname;
-    const linksList = document.querySelectorAll("#navbar-links a");
-    linksList.forEach((link) => {
-      if (link.getAttribute("href") === currentPath) {
-        link.classList.add("active-link");
+    function openMenu() {
+      links.classList.remove("max-h-0", "hidden");
+      links.classList.add("flex", "max-h-[500px]");
+      menuIcon.classList.add("hidden");
+      closeIcon.classList.remove("hidden");
+      btn.setAttribute("aria-expanded", "true");
+    }
+
+    function closeMenu() {
+      links.classList.remove("max-h-[500px]", "flex");
+      links.classList.add("max-h-0", "hidden"); // <-- add "hidden" here
+      menuIcon.classList.remove("hidden");
+      closeIcon.classList.add("hidden");
+      btn.setAttribute("aria-expanded", "false");
+    }
+
+    function toggleMenu() {
+      if (links.classList.contains("max-h-0")) {
+        openMenu();
       } else {
-        link.classList.remove("active-link");
+        closeMenu();
+      }
+    }
+
+    btn?.addEventListener("click", toggleMenu);
+
+    // Close menu on link click (mobile)
+    links?.addEventListener("click", (e) => {
+      if (e.target.tagName === "A" && window.innerWidth < 768) {
+        closeMenu();
       }
     });
+
+    // Ensure menu is visible on resize (desktop)
+    window.addEventListener("resize", () => {
+      if (window.innerWidth >= 768) {
+        links.classList.remove("max-h-0", "hidden");
+        links.classList.add("flex", "max-h-none");
+        menuIcon.classList.remove("hidden");
+        closeIcon.classList.add("hidden");
+        btn.setAttribute("aria-expanded", "false");
+      } else {
+        closeMenu();
+      }
+    });
+
+    // mark the current page
+    const handleCurrentPath = () => {
+      const currentPath = window.location.pathname;
+      const linksList = document.querySelectorAll("#navbar-links a");
+      linksList.forEach((link) => {
+        if (link.getAttribute("href") === currentPath) {
+          link.classList.add("active-link");
+        } else {
+          link.classList.remove("active-link");
+        }
+        // add active class to blog when /blog/*
+        if (
+          currentPath.startsWith("/blog") &&
+          link.getAttribute("href") === "/blog"
+        ) {
+          link.classList.add("active-link");
+        } else if (
+          currentPath.startsWith("/blog") &&
+          link.getAttribute("href") !== "/blog"
+        ) {
+          link.classList.remove("active-link");
+        }
+      });
+    };
+    handleCurrentPath();
   };
-  handleCurrentPath();
-  window.addEventListener("popstate", handleCurrentPath);
-  document.addEventListener("astro:after-swap", handleCurrentPath);
+
+  document.addEventListener("astro:after-swap", (e) => {
+    handleNavFunctions();
+  });
+  document.addEventListener("DOMContentLoaded", () => {
+    handleNavFunctions();
+  });
 </script>

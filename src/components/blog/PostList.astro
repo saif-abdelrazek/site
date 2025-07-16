@@ -1,12 +1,14 @@
 ---
 import { getCollection } from "astro:content";
-const allPosts = await getCollection("posts");
-import PostCard from "./PostCard.astro";
-if (allPosts.length === 0) {
-  throw new Error("No posts found in the 'posts' collection.");
+import BlogPostCard from "./BlogPostCard.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  posts: CollectionEntry<"posts">[];
 }
+const { posts = [] } = Astro.props as Props;
 ---
 
-<ul class="space-y-8">
-  {allPosts.map((post) => <PostCard post={post} />)}
+<ul class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
+  {posts.map((post) => <BlogPostCard post={post} />)}
 </ul>

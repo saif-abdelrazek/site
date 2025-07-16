@@ -1,0 +1,50 @@
+<button
+  id="open-search-overlay"
+  class="ml-2 rounded-md bg-blue-600 px-3 py-2 text-white shadow hover:bg-blue-700 dark:bg-sky-700 dark:hover:bg-sky-500"
+  type="button"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="mr-1 inline h-5 w-5"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+  </svg>
+  Search
+</button>
+
+<script>
+  import { OpenSearch, InitSearch } from "./overlay.ts";
+  function setupSearch() {
+    let initialized = false;
+    if (!initialized) {
+      InitSearch({
+        create_link: (item) => {
+          const frontmatter = item.frontmatter;
+          if (frontmatter?.slug && typeof frontmatter.slug === "string") {
+            return frontmatter.slug;
+          }
+          const slug = item.file.replace(/\.mdx?$/, "");
+          return slug.startsWith("/") ? slug.slice(1) : slug;
+        },
+        max: 12,
+      });
+      initialized = true;
+    }
+    // Remove previous event listener to avoid duplicates
+    const btn = document.getElementById("open-search-overlay");
+    if (btn) {
+      btn.onclick = null;
+      btn.addEventListener("click", OpenSearch);
+    }
+  }
+
+  document.addEventListener("astro:after-swap", setupSearch);
+  document.addEventListener("DOMContentLoaded", setupSearch);
+</script>

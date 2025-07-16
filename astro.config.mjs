@@ -21,6 +21,7 @@ export default defineConfig({
     "/about": "/#about",
     "/post": "/blog",
     "/posts": "/blog",
+    "/blog/author": "/blog/author/saif-abdelrazek",
   },
   site: "https://saifabdelrazek.com",
   experimental: {
@@ -43,6 +44,7 @@ export default defineConfig({
 
     collection_search({
       collections: ["posts"],
+
       fields: ["title", "description", "content"],
     }),
   ],

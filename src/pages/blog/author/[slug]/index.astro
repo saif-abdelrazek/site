@@ -1,0 +1,25 @@
+---
+import { getCollection } from "astro:content";
+import slugify from "../../../../utils/slugify";
+import type { GetStaticPaths } from "astro";
+
+// Export getStaticPaths to generate a static page for each unique author
+export const getStaticPaths: GetStaticPaths = async () => {
+  const allPosts = await getCollection("posts");
+  const authors = Array.from(
+    new Set(
+      allPosts
+        .map((post) => post.data.author)
+        .filter((author) => typeof author === "string" && author.trim() !== ""),
+    ),
+  );
+  return authors.map((author) => ({
+    params: { slug: slugify(typeof author === "string" ? author : "") },
+  }));
+};
+const { slug } = Astro.params;
+
+if (slug) {
+  return Astro.rewrite(`/blog/author/${slug}/1`);
+}
+---

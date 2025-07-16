@@ -13,6 +13,7 @@ tags:
   - TypeScript
   - FullStack
 slug: road-to-n2p
+author: "Saif Abdelrazek"
 ---
 
 ### **🚀 Introduction**
