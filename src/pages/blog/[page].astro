@@ -1,0 +1,120 @@
+---
+import type { GetStaticPaths, Page } from "astro";
+import { getCollection } from "astro:content";
+import MainLayout from "../../layouts/MainLayout.astro";
+import BlogFooter from "../../components/blog/BlogFooter.astro";
+import OverlaySearch from "../../components/blog/search/SearchOverlay.astro";
+import PostList from "../../components/blog/PostList.astro";
+import type { CollectionEntry } from "astro:content";
+import SearchBtn from "../../components/blog/search/SearchBtn.astro";
+
+const title = "Saif Abdelrazek Blog";
+const description = "Latest articles and updates from Saif Abdelrazek.";
+
+export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
+  const posts = await getCollection("posts");
+
+  const sortedPosts = posts.sort((a, b) => {
+    return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+  });
+
+  return paginate(sortedPosts, {
+    pageSize: 6,
+  });
+};
+interface Props {
+  page: Page<CollectionEntry<"posts">>;
+}
+const { page } = Astro.props;
+const posts = page?.data;
+---
+
+<MainLayout
+  title={title}
+  description={description}
+  linksInHead={[
+    `<link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Saif Abdelrazek Blog RSS Feed"
+      href={${new URL("/blog/rss.xml", Astro.site)}}
+    />`,
+  ]}
+>
+  <div
+    class="light:bg-blue-50 min-h-screen w-full transition-colors duration-300 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
+  >
+    <main class="container mx-auto px-2 py-12">
+      <!-- Header Section -->
+      <header
+        class="light:bg-white/80 mx-auto mb-8 max-w-4xl rounded-2xl border border-blue-100 p-8 shadow-2xl backdrop-blur-md transition-colors duration-300 dark:border-sky-900 dark:bg-gradient-to-br dark:from-slate-900/80 dark:via-slate-800/80 dark:to-slate-900/60 dark:shadow-2xl dark:backdrop-blur-md"
+      >
+        <h1
+          class="mb-2 text-3xl font-extrabold tracking-tight text-blue-700 drop-shadow dark:text-sky-200"
+        >
+          {title.toUpperCase()}
+        </h1>
+        {
+          description && (
+            <p class="mb-6 text-blue-700/90 dark:text-sky-100/90">
+              {description}
+            </p>
+          )
+        }
+        <SearchBtn />
+      </header>
+      <OverlaySearch />
+      <section class="mx-auto max-w-7xl">
+        <!-- Posts Block -->
+        <PostList {posts} />
+      </section>
+      <nav class="mt-8 flex items-center justify-center gap-2">
+        {
+          page.url.first ? (
+            <a
+              href={page.url.first}
+              class="rounded-md bg-blue-100 px-3 py-1 text-blue-700 transition hover:bg-blue-200 dark:bg-slate-800 dark:text-sky-200 dark:hover:bg-slate-700"
+              aria-label="First page"
+            >
+              «
+            </a>
+          ) : null
+        }
+        {
+          page.url.prev ? (
+            <a
+              href={page.url.prev}
+              class="rounded-md bg-blue-100 px-3 py-1 text-blue-700 transition hover:bg-blue-200 dark:bg-slate-800 dark:text-sky-200 dark:hover:bg-slate-700"
+              aria-label="Previous page"
+            >
+              ‹
+            </a>
+          ) : null
+        }
+        {
+          page.url.next ? (
+            <a
+              href={page.url.next}
+              class="rounded-md bg-blue-100 px-3 py-1 text-blue-700 transition hover:bg-blue-200 dark:bg-slate-800 dark:text-sky-200 dark:hover:bg-slate-700"
+              aria-label="Next page"
+            >
+              ›
+            </a>
+          ) : null
+        }
+        {
+          page.url.last ? (
+            <a
+              href={page.url.last}
+              class="rounded-md bg-blue-100 px-3 py-1 text-blue-700 transition hover:bg-blue-200 dark:bg-slate-800 dark:text-sky-200 dark:hover:bg-slate-700"
+              aria-label="Last page"
+            >
+              »
+            </a>
+          ) : null
+        }
+      </nav>
+      <BlogFooter />
+    </main>
+  </div>
+</MainLayout>

@@ -5,7 +5,7 @@ backend:
   auth_type: implicit
 
 media_library:
-  name: uploadcare # Or leave this out for the default
+  name: uploadcare
 
 collections:
   - name: "posts"
@@ -22,14 +22,6 @@ collections:
         allowed_users: ["saifabdelrazek011"]
     fields:
       - { label: "Title", name: "title", widget: "string" }
-      - { label: "Publish Date", name: "date", widget: "datetime" }
-      - { label: "Image", name: "image", widget: "image", required: false }
-      - {
-          label: "Author",
-          name: "author",
-          widget: "string",
-          default: "Saif Abdelrazek",
-        }
       - {
           label: "Category",
           name: "category",
@@ -42,7 +34,14 @@ collections:
           widget: "string",
           required: false,
         }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - {
+          label: "Author",
+          name: "author",
+          widget: "string",
+          default: "Saif Abdelrazek",
+        }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Image", name: "image", widget: "image", required: false }
       - { label: "Tags", name: "tags", widget: "list", required: false }
       - {
           label: "Slug",
@@ -52,20 +51,7 @@ collections:
           required: false,
           hint: "Optional custom URL slug for the post",
         }
-
-  - name: "now"
-    label: "Now"
-    folder: "src/pages/now"
-    create: false
-    access:
-      admin:
-        allow_contributors: false
-        allowed_users: ["saifabdelrazek011"]
-    format: "frontmatter"
-    extension: "mdx"
-    fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Last Updated", name: "lastUpdated", widget: "datetime" }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
       - { label: "Body", name: "body", widget: "markdown" }
 
   - name: "portfolio"
@@ -82,15 +68,42 @@ collections:
         allowed_users: ["saifabdelrazek011"]
     fields:
       - { label: "Title", name: "title", widget: "string" }
-      - { label: "Image", name: "image", widget: "image", required: false }
+      - {
+          label: "Subtitle",
+          name: "subtitle",
+          widget: "string",
+          required: false,
+        }
       - {
           label: "Description",
           name: "description",
           widget: "string",
           required: false,
         }
-      - { label: "Body", name: "body", widget: "markdown" }
-      - { label: "Tags", name: "tags", widget: "list", required: false }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - label: "Technologies"
+        name: "technologies"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Name", name: "name", widget: "string" }
+          - { label: "Icon", name: "icon", widget: "string", required: false }
+          - { label: "Level", name: "level", widget: "string", required: false }
+          - { label: "Category", name: "category", widget: "string" }
+          - {
+              label: "Favorite",
+              name: "favorite",
+              widget: "boolean",
+              default: false,
+            }
+          - {
+              label: "Description",
+              name: "description",
+              widget: "string",
+              required: false,
+            }
+          - { label: "Slug", name: "slug", widget: "string" }
+          - { label: "Link", name: "link", widget: "string", required: false }
       - {
           label: "Link",
           name: "link",
@@ -98,15 +111,136 @@ collections:
           required: false,
           hint: "Optional link to the project or demo",
         }
-      - 
-          label: "Technologies",
-          name: "technologies",
-          widget: "object",
+      - { label: "Tags", name: "tags", widget: "list", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "projects"
+    label: "Projects"
+    folder: "src/content/projects"
+    media_folder: "src/content/projects/images"
+    public_folder: "/src/content/projects/images"
+    extension: "md"
+    format: "frontmatter"
+    create: true
+    access:
+      admin:
+        allow_contributors: false
+        allowed_users: ["saifabdelrazek011"]
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - {
+          label: "Description",
+          name: "description",
+          widget: "string",
           required: false,
-          hint: "List of technologies used in the project or in the about section",
-          fields: [
-            { label: "Name", name: "name", widget: "string" },
-            { label: "Icon", name: "icon", widget: "string", required: false },
-            { label: "Level", name: "level", widget: "string", required: false },
-          ]
-        
+        }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - label: "Technologies"
+        name: "technologies"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Name", name: "name", widget: "string" }
+          - { label: "Icon", name: "icon", widget: "string", required: false }
+          - { label: "Level", name: "level", widget: "string", required: false }
+          - { label: "Category", name: "category", widget: "string" }
+          - { label: "Slug", name: "slug", widget: "string" }
+      - { label: "Link", name: "link", widget: "string", required: false }
+      - { label: "Repo", name: "repo", widget: "string", required: false }
+      - { label: "Tags", name: "tags", widget: "list", required: false }
+      - {
+          label: "Slug",
+          name: "slug",
+          widget: "string",
+          unique: true,
+          required: false,
+        }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "education"
+    label: "Education"
+    folder: "src/content/education"
+    media_folder: "src/content/education/images"
+    public_folder: "/src/content/education/images"
+    extension: "md"
+    format: "frontmatter"
+    create: true
+    access:
+      admin:
+        allow_contributors: false
+        allowed_users: ["saifabdelrazek011"]
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - {
+          label: "Description",
+          name: "description",
+          widget: "string",
+          required: false,
+        }
+      - {
+          label: "Institution",
+          name: "institution",
+          widget: "string",
+          required: false,
+        }
+      - {
+          label: "Location",
+          name: "location",
+          widget: "string",
+          required: false,
+        }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - {
+          label: "Start Date",
+          name: "startDate",
+          widget: "datetime",
+          required: false,
+        }
+      - {
+          label: "Current",
+          name: "current",
+          widget: "boolean",
+          default: false,
+          required: false,
+        }
+      - {
+          label: "End Date",
+          name: "endDate",
+          widget: "datetime",
+          required: false,
+        }
+      - {
+          label: "Type",
+          name: "type",
+          widget: "select",
+          options: ["Formal Education", "Self Learning", "Others"],
+          required: false,
+        }
+      - { label: "Link", name: "link", widget: "string", required: false }
+      - { label: "Tags", name: "tags", widget: "list", required: false }
+      - { label: "Degree", name: "degree", widget: "string", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
+# Uncomment and adjust if you want to add experience collection later
+# - name: "experience"
+#   label: "Experience"
+#   folder: "src/content/experience"
+#   media_folder: "src/content/experience/images"
+#   public_folder: "/src/content/experience/images"
+#   extension: "md"
+#   format: "frontmatter"
+#   create: true
+#   access:
+#     admin:
+#       allow_contributors: false
+#       allowed_users: ["saifabdelrazek011"]
+#   fields:
+#     - { label: "Title", name: "title", widget: "string" }
+#     - { label: "Description", name: "description", widget: "string", required: false }
+#     - { label: "Image", name: "image", widget: "image", required: false }
+#     - { label: "Start Date", name: "startDate", widget: "datetime" }
+#     - { label: "End Date", name: "endDate", widget: "datetime", required: false }
+#     - { label: "Company", name: "company", widget: "string", required: false }
+#     - { label: "Position", name: "position", widget: "string", required: false }
+#     - { label: "Link", name: "link", widget: "string", required: false }
+#     - { label: "Tags", name: "tags", widget: "list", required: false }
+#     - { label: "Body", name: "body", widget: "markdown" }

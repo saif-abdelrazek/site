@@ -9,6 +9,7 @@ interface Props {
   description?: string;
   image?: string;
   withNavBar?: boolean;
+  linksInHead?: string[];
 }
 
 const {
@@ -16,29 +17,38 @@ const {
   description = "Personal website of Saif Abdelrazek || Not just a website",
   image,
   withNavBar = true,
+  linksInHead = [],
 } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Critical theme-switching script -->
+    <!-- Critical theme initialization -->
     <script is:inline>
-      // This runs IMMEDIATELY when parsed (before DOM is ready)
       (function () {
         const html = document.documentElement;
         html.classList.remove("light", "dark");
+
         try {
-          var theme = localStorage.getItem("theme");
-          if (!theme) {
-            theme = window.matchMedia("(prefers-color-scheme: dark)").matches
-              ? "dark"
-              : "light";
+          const themePref = localStorage.getItem("theme");
+          const effectiveTheme =
+            themePref === "light"
+              ? "light"
+              : themePref === "dark"
+                ? "dark"
+                : window.matchMedia("(prefers-color-scheme: dark)").matches
+                  ? "dark"
+                  : "light";
+
+          html.classList.add(effectiveTheme);
+
+          // Set data attribute for system preference
+          if (!themePref) {
+            html.dataset.themeOrigin = "system";
           }
-          html.className = theme;
         } catch (e) {
-          // Fallback if localStorage fails
-          html.className = "dark";
+          html.classList.add("dark");
         }
       })();
     </script>
@@ -64,11 +74,23 @@ const {
     <link rel="sitemap" href="/sitemap-index.xml" />
 
     <ClientRouter />
+    <script>
+      // Listen for navigation events
+      document.addEventListener("astro:after-swap", () => {
+        const currentTheme =
+          localStorage.getItem("theme") ||
+          (window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light");
+        document.documentElement.className = currentTheme;
+      });
+    </script>
 
     <script
       defer
       src="https://umami.saifdev.org/script.js"
       data-website-id="40f66a27-85f1-41cf-84da-8b3ad7d73f80"></script>
+    {linksInHead.map((link) => <Fragment set:html={link} />)}
   </head>
 
   <body>

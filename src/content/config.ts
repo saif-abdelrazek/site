@@ -1,5 +1,6 @@
 import { glob } from "astro/loaders";
 import { defineCollection, z } from "astro:content";
+import { rssSchema } from "@astrojs/rss";
 
 const postsCollection = defineCollection({
   loader: glob({
@@ -15,16 +16,19 @@ const postsCollection = defineCollection({
     },
   }),
   schema: ({ image }) =>
-    z.object({
-      title: z.string(),
-      category: z.string().optional(),
-      description: z.string().optional(),
-      author: z.string().default("Saif Abdelrazek"),
-      date: z.date(),
-      image: image().optional(),
-      tags: z.array(image()).optional(),
-      slug: z.string().optional(),
-    }),
+    z
+      .object({
+        title: z.string(),
+        category: z.string().optional(),
+        description: z.string().optional(),
+        author: z.string().default("Saif Abdelrazek"),
+        date: z.date(),
+        image: image(),
+        tags: z.array(z.string()).optional(),
+        slug: z.string().optional(),
+        draft: z.boolean().default(false),
+      })
+      .merge(rssSchema),
 });
 
 const portfolioCollection = defineCollection({

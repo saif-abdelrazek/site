@@ -1,0 +1,305 @@
+/* Modern Overlay Search Dialog Styles */
+
+/* Dialog container */
+dialog#overlay-search-dialog {
+  font-size: 1rem;
+  border-radius: 18px;
+  border: none;
+  margin: 0 auto;
+  top: 3em;
+  width: 38em;
+  max-width: 96vw;
+  max-height: 85vh;
+  height: 32em;
+  padding: 0;
+  overflow: hidden;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
+
+  --accent-color: #186faf;
+  --accent-text: #fff;
+  --background-color: #f8fafc;
+  --control-border: 1px solid #e0e7ef;
+  --focus-ring-color: #38b6ff;
+}
+
+dialog#overlay-search-dialog::backdrop {
+  background: #22223b;
+  opacity: 0.45;
+  backdrop-filter: blur(2px);
+}
+
+/* Dialog body */
+dialog#overlay-search-dialog .dialog-body {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: var(--background-color);
+  box-shadow: 0 8px 40px 0 rgba(56, 182, 255, 0.18);
+  border-radius: 18px;
+}
+
+/* Search controls */
+dialog#overlay-search-dialog .search-controls {
+  padding: 1.2em 1.5em 1em 1.5em;
+  border-bottom: 1px solid #e0e7ef;
+  background: #fff;
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+}
+
+dialog#overlay-search-dialog .composite-input {
+  font-size: 1.1rem;
+  padding: 0.5em 0.8em;
+  border-radius: 10px;
+  border: var(--control-border);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1em;
+  background: #f1f5fa;
+  transition:
+    box-shadow 0.2s,
+    border 0.2s;
+}
+
+dialog#overlay-search-dialog .composite-input:focus-within {
+  outline: 2px solid var(--focus-ring-color, #38b6ff);
+  box-shadow: 0 0 0 2px #38b6ff33;
+}
+
+dialog#overlay-search-dialog button.clear-query {
+  font-size: inherit;
+  font-family: inherit;
+  background: transparent;
+  border: none;
+  display: flex;
+  cursor: pointer;
+  color: #186faf;
+  transition: background 0.2s;
+  border-radius: 4px;
+  padding: 0.2em;
+}
+
+dialog#overlay-search-dialog button.clear-query:hover {
+  background: #e6f1fa;
+}
+
+dialog#overlay-search-dialog .composite-input svg {
+  opacity: 0.7;
+  font-size: 1.5rem;
+}
+
+/* Search results */
+dialog#overlay-search-dialog .search-results {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 1.5em 1em 1.5em;
+  background: #f8fafc;
+}
+
+dialog#overlay-search-dialog .search-results-list.no-results {
+  text-align: center;
+}
+
+dialog#overlay-search-dialog .result-group-header {
+  font-weight: 600;
+  font-size: 1em;
+  margin-bottom: 0.5em;
+  padding-left: 0.25em;
+  position: sticky;
+  top: 0px;
+  background: var(--background-color);
+  padding: 0.5em 0.25em;
+  z-index: 2;
+  color: #186faf;
+}
+
+/* Search result card */
+dialog#overlay-search-dialog .search-result {
+  background: #fff;
+  border-radius: 12px;
+  margin-bottom: 0.7em;
+  padding: 0.9em 1.3em;
+  line-height: 1.6;
+  position: relative;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: inherit;
+  display: block;
+  border: 1px solid #e0e7ef;
+  text-align: left;
+  outline: none;
+  box-shadow: 0 2px 8px rgba(56, 182, 255, 0.07);
+  color: #22223b;
+  transition:
+    box-shadow 0.2s,
+    background 0.2s,
+    border 0.2s,
+    color 0.2s;
+}
+
+dialog#overlay-search-dialog .search-result:hover,
+dialog#overlay-search-dialog .search-result.active {
+  background: #e6f1fa;
+  border-color: #38b6ff;
+  box-shadow: 0 4px 24px 0 rgba(56, 182, 255, 0.13);
+  color: #186faf;
+}
+
+dialog#overlay-search-dialog .search-result .title {
+  display: block;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #186faf;
+  font-size: 1.07em;
+}
+
+dialog#overlay-search-dialog .search-result .description {
+  font-size: 0.98em;
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #3b4a5a;
+  margin-top: 0.1em;
+}
+
+dialog#overlay-search-dialog .search-result.active .title {
+  color: #186faf;
+}
+
+dialog#overlay-search-dialog input {
+  padding: 0;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  outline: none;
+  width: 100%;
+  background: transparent;
+  color: #22223b;
+}
+
+/* Dialog footer */
+dialog#overlay-search-dialog .dialog-footer {
+  padding: 0.7em 1.5em;
+  font-size: 0.97em;
+  background: #fff;
+  border-top: 1px solid #e0e7ef;
+  color: #186faf;
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+}
+
+dialog#overlay-search-dialog kbd {
+  font-size: 0.93em;
+  font-family: monospace;
+  background: #e6f1fa;
+  border-radius: 4px;
+  padding: 0.1em 0.5em;
+  color: #186faf;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  dialog#overlay-search-dialog {
+    width: 98vw;
+    height: 90vh;
+    min-width: unset;
+    min-height: unset;
+    padding: 0;
+  }
+  dialog#overlay-search-dialog .dialog-body {
+    border-radius: 0;
+  }
+  dialog#overlay-search-dialog .search-controls,
+  dialog#overlay-search-dialog .search-results,
+  dialog#overlay-search-dialog .dialog-footer {
+    padding-left: 0.7em;
+    padding-right: 0.7em;
+  }
+}
+
+/* Dark mode */
+.dark dialog#overlay-search-dialog {
+  --background-color: #1e293b;
+  --accent-color: #38b6ff;
+  --accent-text: #fff;
+  --control-border: 1px solid #334155;
+  --focus-ring-color: #38b6ff;
+}
+
+.dark dialog#overlay-search-dialog::backdrop {
+  background: #0f172a;
+  opacity: 0.7;
+}
+
+.dark dialog#overlay-search-dialog .dialog-body {
+  background: var(--background-color);
+  box-shadow: 0 8px 40px 0 rgba(56, 182, 255, 0.22);
+}
+
+.dark dialog#overlay-search-dialog .search-controls {
+  background: #1e293b;
+  border-bottom: 1px solid #334155;
+}
+
+.dark dialog#overlay-search-dialog .composite-input {
+  background: #273449;
+  border: var(--control-border);
+}
+
+.dark dialog#overlay-search-dialog .search-result {
+  background: #273449;
+  border: 1px solid #334155;
+  color: #cbd5e1;
+  box-shadow: 0 1px 4px rgba(56, 182, 255, 0.13);
+}
+
+.dark dialog#overlay-search-dialog .search-result:hover,
+.dark dialog#overlay-search-dialog .search-result.active {
+  background: #1e293b;
+  border-color: #38b6ff;
+  color: #38b6ff;
+}
+
+.dark dialog#overlay-search-dialog .search-results {
+  background: #1e293b;
+}
+
+.dark dialog#overlay-search-dialog .search-result .title {
+  color: #38b6ff;
+}
+
+.dark dialog#overlay-search-dialog .search-result .description {
+  color: #cbd5e1;
+}
+
+.dark dialog#overlay-search-dialog input {
+  color: #cbd5e1;
+  background: transparent;
+}
+
+.dark dialog#overlay-search-dialog .dialog-footer {
+  background: #1e293b;
+  border-top: 1px solid #334155;
+  color: #38b6ff;
+}
+
+.dark dialog#overlay-search-dialog kbd {
+  background: #334155;
+  color: #38b6ff;
+}

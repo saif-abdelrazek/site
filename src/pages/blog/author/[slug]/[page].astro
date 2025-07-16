@@ -1,0 +1,155 @@
+---
+import { getCollection } from "astro:content";
+import MainLayout from "../../../../layouts/MainLayout.astro";
+import BlogFooter from "../../../../components/blog/BlogFooter.astro";
+import OverlaySearch from "../../../../components/blog/search/SearchOverlay.astro";
+import PostList from "../../../../components/blog/PostList.astro";
+import SearchBtn from "../../../../components/blog/search/SearchBtn.astro";
+import slugify, { unSlugifyToAuthor } from "../../../../utils/slugify";
+import type { GetStaticPaths, Page } from "astro";
+import type { CollectionEntry } from "astro:content";
+
+// Export getStaticPaths to generate a page for each unique author
+export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
+  const allPosts = await getCollection("posts");
+  const allSlugs = allPosts.map((post) =>
+    slugify(
+      typeof post.data.author === "string"
+        ? post.data.author
+        : "Unknown Author",
+    ),
+  );
+  const uniqueSlugs = Array.from(new Set(allSlugs));
+
+  return uniqueSlugs.flatMap((slug) => {
+    const filteredPosts = allPosts.filter(
+      (post) =>
+        slugify(
+          typeof post?.data?.author === "string" ? post.data.author : "",
+        ) === slug,
+    );
+    const sortedPosts = filteredPosts.sort((a, b) => {
+      return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+    });
+    return paginate(sortedPosts, {
+      params: { slug },
+      pageSize: 6,
+    });
+  });
+};
+
+const { page } = Astro.props as {
+  page: Page<CollectionEntry<"posts">>;
+};
+const params = Astro.params;
+
+const author = unSlugifyToAuthor(
+  typeof params.slug === "string" ? params.slug : "",
+);
+const authorPosts = page?.data || [];
+
+const title = `Posts by ${author}`;
+const description = `All blog posts written by ${author}.`;
+---
+
+<MainLayout title={title} description={description}>
+  <div
+    class="light:bg-blue-50 min-h-screen w-full transition-colors duration-300 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
+  >
+    <main class="container mx-auto px-2 py-12">
+      <a
+        href="/blog"
+        class="group mb-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-100 via-blue-50 to-blue-100 px-4 py-2 text-sm font-semibold text-blue-700 shadow transition-all duration-200 hover:from-blue-200 hover:to-blue-100 hover:shadow-lg dark:from-sky-900/70 dark:via-sky-800/60 dark:to-sky-900/70 dark:text-sky-200 dark:hover:from-sky-800 dark:hover:to-sky-900"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4 transition-transform duration-200 group-hover:-translate-x-1"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"></path>
+        </svg>
+        <span class="tracking-tight">Return to Blog</span>
+      </a>
+      <header
+        class="light:bg-white/80 mx-auto mb-8 max-w-4xl rounded-2xl border border-blue-100 p-8 shadow-2xl backdrop-blur-md transition-colors duration-300 dark:border-sky-900 dark:bg-gradient-to-br dark:from-slate-900/80 dark:via-slate-800/80 dark:to-slate-900/60 dark:shadow-2xl dark:backdrop-blur-md"
+      >
+        <h1
+          class="mb-2 text-3xl font-extrabold tracking-tight text-blue-700 drop-shadow dark:text-sky-200"
+        >
+          {title}
+        </h1>
+        <p class="mb-6 text-blue-700/90 dark:text-sky-100/90">
+          {description}
+        </p>
+        <div class="mb-4 flex flex-wrap items-center gap-2">
+          <OverlaySearch />
+          <SearchBtn />
+        </div>
+      </header>
+      <section class="mx-auto max-w-7xl">
+        {
+          authorPosts.length > 0 ? (
+            <PostList posts={authorPosts} />
+          ) : (
+            <div class="dark:text -gray-400 py-12 text-center text-lg text-gray-500">
+              No posts found by <strong>{author}</strong>.
+            </div>
+          )
+        }
+      </section>
+      <nav class="mt-8 flex items-center justify-center gap-2">
+        {
+          page.url.first ? (
+            <a
+              href={page.url.first}
+              class="rounded-md bg-blue-100 px-3 py-1 text-blue-700 transition hover:bg-blue-200 dark:bg-slate-800 dark:text-sky-200 dark:hover:bg-slate-700"
+              aria-label="First page"
+            >
+              «
+            </a>
+          ) : null
+        }
+        {
+          page.url.prev ? (
+            <a
+              href={page.url.prev}
+              class="rounded-md bg-blue-100 px-3 py-1 text-blue-700 transition hover:bg-blue-200 dark:bg-slate-800 dark:text-sky-200 dark:hover:bg-slate-700"
+              aria-label="Previous page"
+            >
+              ‹
+            </a>
+          ) : null
+        }
+        {
+          page.url.next ? (
+            <a
+              href={page.url.next}
+              class="rounded-md bg-blue-100 px-3 py-1 text-blue-700 transition hover:bg-blue-200 dark:bg-slate-800 dark:text-sky-200 dark:hover:bg-slate-700"
+              aria-label="Next page"
+            >
+              ›
+            </a>
+          ) : null
+        }
+        {
+          page.url.last ? (
+            <a
+              href={page.url.last}
+              class="rounded-md bg-blue-100 px-3 py-1 text-blue-700 transition hover:bg-blue-200 dark:bg-slate-800 dark:text-sky-200 dark:hover:bg-slate-700"
+              aria-label="Last page"
+            >
+              »
+            </a>
+          ) : null
+        }
+      </nav>
+    </main>
+    <BlogFooter />
+  </div>
+</MainLayout>
