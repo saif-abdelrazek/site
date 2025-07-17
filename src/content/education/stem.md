@@ -1,5 +1,6 @@
 ---
 title: "STEM High School"
+description: "Gharbiya STEM High School is a specialized boarding institution in Egypt focused on science, technology, engineering, and mathematics education. It offers a rigorous curriculum, project-based learning, and opportunities for research and competitions, preparing students for higher education and careers in STEM fields."
 institution: "Gharbiya STEM High School"
 location: "Gharbiya, Egypt"
 startDate: 2023-09-20

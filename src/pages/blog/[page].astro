@@ -3,13 +3,9 @@ import type { GetStaticPaths, Page } from "astro";
 import { getCollection } from "astro:content";
 import MainLayout from "../../layouts/MainLayout.astro";
 import BlogFooter from "../../components/blog/BlogFooter.astro";
-import OverlaySearch from "../../components/blog/search/SearchOverlay.astro";
 import PostList from "../../components/blog/PostList.astro";
 import type { CollectionEntry } from "astro:content";
 import SearchBtn from "../../components/blog/search/SearchBtn.astro";
-
-const title = "Saif Abdelrazek Blog";
-const description = "Latest articles and updates from Saif Abdelrazek.";
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const posts = await getCollection("posts");
@@ -27,11 +23,18 @@ interface Props {
 }
 const { page } = Astro.props;
 const posts = page?.data;
+
+const pageTitle = "Saif Abdelrazek | Blog";
+const pageDescription =
+  "Saif Abdelrazek's blog featuring articles on technology, programming, and personal insights.";
+
+const title = "Saif Abdelrazek's Blog";
+const description = "Latest articles and updates from Saif Abdelrazek.";
 ---
 
 <MainLayout
-  title={title}
-  description={description}
+  title={pageTitle}
+  description={pageDescription}
   linksInHead={[
     `<link
       rel="alternate"
@@ -113,7 +116,7 @@ const posts = page?.data;
           ) : null
         }
       </nav>
-      <BlogFooter />
     </main>
+    <BlogFooter />
   </div>
 </MainLayout>

@@ -1,16 +1,12 @@
 ---
 import MainLayout from "./MainLayout.astro";
 
-interface Props {
-  title?: string;
-  description?: string;
-}
+const pageTitle = "Saif Abdelrazek | Now Page";
 
-const { title = "Now", description = "What I'm focused on right now." } =
-  Astro.props;
+const pageDescription = "Saif Abdelrazek's current focus and projects.";
 ---
 
-<MainLayout {title} {description}>
+<MainLayout title={pageTitle} description={pageDescription}>
   <div
     class="min-h-screen w-full bg-blue-50 transition-colors duration-300 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
   >

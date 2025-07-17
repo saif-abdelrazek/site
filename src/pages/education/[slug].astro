@@ -42,9 +42,11 @@ const {
   link,
 } = entry.data;
 const { Content } = await render(entry);
+const pageTitle = title + " | Saif Abdelrazek's Education";
+const pageDescription = description + " | Saif Abdelrazek's Education History";
 ---
 
-<MainLayout title={title} description={description}>
+<MainLayout title={pageTitle} description={pageDescription}>
   <main
     class="flex min-h-screen flex-col items-center justify-center bg-blue-50 py-12 dark:bg-slate-900"
   >

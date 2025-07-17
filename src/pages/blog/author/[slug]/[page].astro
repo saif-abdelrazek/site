@@ -50,9 +50,12 @@ const authorPosts = page?.data || [];
 
 const title = `Posts by ${author}`;
 const description = `All blog posts written by ${author}.`;
+
+const pageTitle = `Posts by ${author} | Saif Abdelrazek's Blog`;
+const pageDescription = `All blog posts written by ${author}. | Saif Abdelrazek's Blog`;
 ---
 
-<MainLayout title={title} description={description}>
+<MainLayout title={pageTitle} description={pageDescription}>
   <div
     class="light:bg-blue-50 min-h-screen w-full transition-colors duration-300 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
   >

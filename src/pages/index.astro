@@ -6,12 +6,13 @@ import Technologies from "../sections/portfolio/Technologies.astro";
 import Projects from "../sections/portfolio/Projects.astro";
 import Education from "../sections/portfolio/Education.astro";
 import Footer from "../sections/portfolio/Footer.astro";
+
+const pageTitle = "Saif Abdelrazek | Website";
+const pageDescription =
+  "Saif Abelrazek – Full Stack Developer. High School Student. Explore my portfolio, blog, projects, and more.";
 ---
 
-<MainLayout
-  title="Saif Abdelrazek | Website"
-  description="This is the personal website of Saif Abdelrazek, a full-stack developer. Explore my portfolio, projects, blog posts, and more."
->
+<MainLayout title={pageTitle} description={pageDescription}>
   <main
     class="flex min-h-screen w-full flex-col items-center justify-center bg-blue-50 transition-colors duration-300 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
   >

@@ -24,6 +24,7 @@ export default defineConfig({
     "/post": "/blog",
     "/posts": "/blog",
     "/blog/author": "/blog/author/saif-abdelrazek",
+    "/edu": "/education",
   },
   site: "https://saifabdelrazek.com",
   experimental: {

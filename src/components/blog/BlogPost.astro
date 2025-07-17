@@ -16,9 +16,12 @@ const {
     alt: "Blog Post Header Image",
   }, // Ensure image is an object with src and alt
 } = data;
+
+const pageTitle =
+  (title ? title : "Untitled Post") + " || Blog || Saif Abdelrazek";
 ---
 
-<MainLayout {title} {description}>
+<MainLayout {pageTitle} {description}>
   <div
     class="relative min-h-screen w-full bg-blue-50 transition-colors duration-300 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
   >

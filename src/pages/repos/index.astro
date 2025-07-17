@@ -21,12 +21,13 @@ const { entry: codingStats, error: codingStatsError } = await getLiveEntry(
       .split("T")[0],
   },
 );
+
+const pageTitle = "Saif Abdelrazek | Repositories";
+const pageDescription =
+  "Saif Abdelrazek's repositories on GitHub and coding stats, showcasing latest projects and contributions.";
 ---
 
-<MainLayout
-  title="Repositories || Saif Abdelrazek"
-  description="Explore my latest repositories on GitHub, showcasing my projects and contributions."
->
+<MainLayout title={pageTitle} description={pageDescription}>
   <main
     class="min-h-screen w-full bg-blue-50 px-2 py-12 transition-colors duration-300 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
   >
