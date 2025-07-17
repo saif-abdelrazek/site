@@ -1,13 +1,13 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
 import { Image } from "astro:assets";
+
+const pageTitle = "Saif Abdelrazek | BioLink Tree";
+const pageDescription =
+  "Saif Abdelrazek's personal biolink page, showcasing social links and contact information.";
 ---
 
-<MainLayout
-  title="Saif Abdelrazek | Bio"
-  description="Personal biolink page of Saif Abdelrazek, showcasing social links and contact information."
-  withNavBar={false}
->
+<MainLayout title={pageTitle} description={pageDescription} withNavBar={false}>
   <div class="flex min-h-screen w-screen flex-col bg-black">
     <header class="flex flex-col items-center pt-10">
       <!-- Logo, Title and Description -->

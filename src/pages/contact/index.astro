@@ -1,138 +1,140 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
 import Link from "../../components/shared/Link.astro";
+
+const pageTitle = "Saif Abdelrazek | Contact";
+const pageDescription =
+  "Saif Abdelrazek's contact page for inquiries and feedback. Get in touch via email or social media.";
 ---
 
-<MainLayout
-  title="Contact || Saif Abdelrazek"
-  description="Get in touch with me."
->
-  <main
-    class="flex min-h-screen w-full items-center justify-center bg-blue-50 px-4 py-12 transition-colors duration-300 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
-  >
-    <div class="w-full max-w-5xl">
-      <form
-        method="POST"
-        class="light:border-blue-100 light:bg-white/80 mx-auto w-full max-w-3xl rounded-2xl border border-blue-100 bg-white/80 p-8 shadow-2xl backdrop-blur-md transition-colors duration-300 dark:border-sky-900 dark:bg-black/40 dark:shadow-2xl dark:backdrop-blur-md"
-        id="contact-form"
-      >
-        <h1
-          class="mb-6 text-center text-3xl font-bold text-blue-700 dark:text-sky-200"
-        >
-          Contact Me
-        </h1>
-        <div id="form-messages" class="mb-4"></div>
-        <div class="mb-4">
-          <label
-            for="name"
-            class="mb-2 block font-medium text-blue-700 dark:text-sky-100"
-            >Name</label
-          >
-          <input
-            type="text"
-            id="name"
-            name="name"
-            required
-            class="w-full rounded-md border border-blue-100 bg-blue-50 px-4 py-2 text-base text-blue-900 focus:border-blue-400 focus:outline-none dark:border-sky-800 dark:bg-slate-900/60 dark:text-sky-100 dark:focus:border-sky-400"
-          />
-        </div>
-        <div class="mb-4">
-          <label
-            for="email"
-            class="mb-2 block font-medium text-blue-700 dark:text-sky-100"
-            >Email</label
-          >
-          <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            class="w-full rounded-md border border-blue-100 bg-blue-50 px-4 py-2 text-base text-blue-900 focus:border-blue-400 focus:outline-none dark:border-sky-800 dark:bg-slate-900/60 dark:text-sky-100 dark:focus:border-sky-400"
-          />
-        </div>
-        <div class="mb-4">
-          <label
-            for="subject"
-            class="mb-2 block font-medium text-blue-700 dark:text-sky-100"
-            >Subject</label
-          >
-          <input
-            type="text"
-            id="subject"
-            name="subject"
-            required
-            class="w-full rounded-md border border-blue-100 bg-blue-50 px-4 py-2 text-base text-blue-900 focus:border-blue-400 focus:outline-none dark:border-sky-800 dark:bg-slate-900/60 dark:text-sky-100 dark:focus:border-sky-400"
-          />
-        </div>
-        <div class="mb-6">
-          <label
-            for="message"
-            class="mb-2 block font-medium text-blue-700 dark:text-sky-100"
-            >Message</label
-          >
-          <textarea
-            id="message"
-            name="message"
-            required
-            rows="5"
-            class="w-full resize-none rounded-md border border-blue-100 bg-blue-50 px-4 py-2 text-base text-blue-900 focus:border-blue-400 focus:outline-none dark:border-sky-800 dark:bg-slate-900/60 dark:text-sky-100 dark:focus:border-sky-400"
-          ></textarea>
-        </div>
-        <input type="hidden" name="ip" id="ip" value={"Unknown"} />
-        <input type="hidden" name="city" id="city" value={"Unknown"} />
-        <input type="hidden" name="country" id="country" value={"Unknown"} />
-        <input type="hidden" name="theme" id="theme-input" value="dark" />
-        <button
-          type="submit"
-          class="mb-6 w-full rounded bg-blue-700 px-6 py-2 text-base font-semibold text-white shadow transition hover:bg-blue-600 dark:bg-sky-700 dark:hover:bg-sky-600"
-        >
-          Send Message
-        </button>
-      </form>
+<MainLayout title={pageTitle} description={pageDescription} />
 
-      <div
-        class="light:bg-white/80 mx-auto mt-8 w-full max-w-3xl rounded-2xl border border-blue-100 p-8 shadow-2xl backdrop-blur-md transition-colors duration-300 dark:border-sky-900 dark:bg-gradient-to-br dark:from-slate-900/80 dark:via-slate-800/80 dark:to-slate-900/60 dark:shadow-2xl dark:backdrop-blur-md"
+<main
+  class="flex min-h-screen w-full items-center justify-center bg-blue-50 px-4 py-12 transition-colors duration-300 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
+>
+  <div class="w-full max-w-5xl">
+    <form
+      method="POST"
+      class="light:border-blue-100 light:bg-white/80 mx-auto w-full max-w-3xl rounded-2xl border border-blue-100 bg-white/80 p-8 shadow-2xl backdrop-blur-md transition-colors duration-300 dark:border-sky-900 dark:bg-black/40 dark:shadow-2xl dark:backdrop-blur-md"
+      id="contact-form"
+    >
+      <h1
+        class="mb-6 text-center text-3xl font-bold text-blue-700 dark:text-sky-200"
       >
-        <h2
-          class="mb-6 text-center text-2xl font-extrabold text-blue-700 drop-shadow-lg dark:text-sky-200"
+        Contact Me
+      </h1>
+      <div id="form-messages" class="mb-4"></div>
+      <div class="mb-4">
+        <label
+          for="name"
+          class="mb-2 block font-medium text-blue-700 dark:text-sky-100"
+          >Name</label
         >
-          Other ways to reach me
-        </h2>
-        <ul
-          class="mb-4 flex flex-col items-center gap-6 md:flex-row md:justify-center"
-        >
-          <li>
-            <Link
-              href="https://github.com/saifabdelrazek011"
-              icon={{ name: "mdi:github", position: "left" }}
-              text="GitHub"
-              class="flex items-center gap-2 rounded-lg bg-blue-100 px-4 py-3 text-blue-700 shadow transition hover:bg-blue-200 hover:text-blue-900 dark:bg-slate-900/60 dark:text-sky-100 dark:hover:bg-sky-800/80 dark:hover:text-sky-400"
-            />
-          </li>
-          <li>
-            <Link
-              href="https://www.linkedin.com/in/saif-abdelrazek011/"
-              icon={{ name: "mdi:linkedin", position: "left" }}
-              text="LinkedIn"
-              class="flex items-center gap-2 rounded-lg bg-blue-100 px-4 py-3 text-blue-700 shadow transition hover:bg-blue-200 hover:text-blue-900 dark:bg-slate-900/60 dark:text-sky-100 dark:hover:bg-sky-800/80 dark:hover:text-sky-400"
-            />
-          </li>
-          <li>
-            <Link
-              href="mailto:saif@saifabdelrazek.com"
-              icon={{ name: "mdi:email-outline", position: "left" }}
-              text="Email"
-              class="flex items-center gap-2 rounded-lg bg-blue-100 px-4 py-3 text-blue-700 shadow transition hover:bg-blue-200 hover:text-blue-900 dark:bg-slate-900/60 dark:text-sky-100 dark:hover:bg-sky-800/80 dark:hover:text-sky-400"
-            />
-          </li>
-        </ul>
-        <p class="mt-2 text-center text-base text-blue-700 dark:text-sky-200">
-          Feel free to reach out if you have any questions or inquiries!
-        </p>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          required
+          class="w-full rounded-md border border-blue-100 bg-blue-50 px-4 py-2 text-base text-blue-900 focus:border-blue-400 focus:outline-none dark:border-sky-800 dark:bg-slate-900/60 dark:text-sky-100 dark:focus:border-sky-400"
+        />
       </div>
+      <div class="mb-4">
+        <label
+          for="email"
+          class="mb-2 block font-medium text-blue-700 dark:text-sky-100"
+          >Email</label
+        >
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          class="w-full rounded-md border border-blue-100 bg-blue-50 px-4 py-2 text-base text-blue-900 focus:border-blue-400 focus:outline-none dark:border-sky-800 dark:bg-slate-900/60 dark:text-sky-100 dark:focus:border-sky-400"
+        />
+      </div>
+      <div class="mb-4">
+        <label
+          for="subject"
+          class="mb-2 block font-medium text-blue-700 dark:text-sky-100"
+          >Subject</label
+        >
+        <input
+          type="text"
+          id="subject"
+          name="subject"
+          required
+          class="w-full rounded-md border border-blue-100 bg-blue-50 px-4 py-2 text-base text-blue-900 focus:border-blue-400 focus:outline-none dark:border-sky-800 dark:bg-slate-900/60 dark:text-sky-100 dark:focus:border-sky-400"
+        />
+      </div>
+      <div class="mb-6">
+        <label
+          for="message"
+          class="mb-2 block font-medium text-blue-700 dark:text-sky-100"
+          >Message</label
+        >
+        <textarea
+          id="message"
+          name="message"
+          required
+          rows="5"
+          class="w-full resize-none rounded-md border border-blue-100 bg-blue-50 px-4 py-2 text-base text-blue-900 focus:border-blue-400 focus:outline-none dark:border-sky-800 dark:bg-slate-900/60 dark:text-sky-100 dark:focus:border-sky-400"
+        ></textarea>
+      </div>
+      <input type="hidden" name="ip" id="ip" value={"Unknown"} />
+      <input type="hidden" name="city" id="city" value={"Unknown"} />
+      <input type="hidden" name="country" id="country" value={"Unknown"} />
+      <input type="hidden" name="theme" id="theme-input" value="dark" />
+      <button
+        type="submit"
+        class="mb-6 w-full rounded bg-blue-700 px-6 py-2 text-base font-semibold text-white shadow transition hover:bg-blue-600 dark:bg-sky-700 dark:hover:bg-sky-600"
+      >
+        Send Message
+      </button>
+    </form>
+
+    <div
+      class="light:bg-white/80 mx-auto mt-8 w-full max-w-3xl rounded-2xl border border-blue-100 p-8 shadow-2xl backdrop-blur-md transition-colors duration-300 dark:border-sky-900 dark:bg-gradient-to-br dark:from-slate-900/80 dark:via-slate-800/80 dark:to-slate-900/60 dark:shadow-2xl dark:backdrop-blur-md"
+    >
+      <h2
+        class="mb-6 text-center text-2xl font-extrabold text-blue-700 drop-shadow-lg dark:text-sky-200"
+      >
+        Other ways to reach me
+      </h2>
+      <ul
+        class="mb-4 flex flex-col items-center gap-6 md:flex-row md:justify-center"
+      >
+        <li>
+          <Link
+            href="https://github.com/saifabdelrazek011"
+            icon={{ name: "mdi:github", position: "left" }}
+            text="GitHub"
+            class="flex items-center gap-2 rounded-lg bg-blue-100 px-4 py-3 text-blue-700 shadow transition hover:bg-blue-200 hover:text-blue-900 dark:bg-slate-900/60 dark:text-sky-100 dark:hover:bg-sky-800/80 dark:hover:text-sky-400"
+          />
+        </li>
+        <li>
+          <Link
+            href="https://www.linkedin.com/in/saif-abdelrazek011/"
+            icon={{ name: "mdi:linkedin", position: "left" }}
+            text="LinkedIn"
+            class="flex items-center gap-2 rounded-lg bg-blue-100 px-4 py-3 text-blue-700 shadow transition hover:bg-blue-200 hover:text-blue-900 dark:bg-slate-900/60 dark:text-sky-100 dark:hover:bg-sky-800/80 dark:hover:text-sky-400"
+          />
+        </li>
+        <li>
+          <Link
+            href="mailto:saif@saifabdelrazek.com"
+            icon={{ name: "mdi:email-outline", position: "left" }}
+            text="Email"
+            class="flex items-center gap-2 rounded-lg bg-blue-100 px-4 py-3 text-blue-700 shadow transition hover:bg-blue-200 hover:text-blue-900 dark:bg-slate-900/60 dark:text-sky-100 dark:hover:bg-sky-800/80 dark:hover:text-sky-400"
+          />
+        </li>
+      </ul>
+      <p class="mt-2 text-center text-base text-blue-700 dark:text-sky-200">
+        Feel free to reach out if you have any questions or inquiries!
+      </p>
     </div>
-  </main>
-</MainLayout>
+  </div>
+</main>
+
 <script>
   import { getUserInfo } from "../../loaders/userInfo";
 

@@ -34,12 +34,13 @@ function sortByDate(entries: Array<CollectionEntry<"education">>) {
 
 const grouped = groupBy(education, "type");
 const categories = Object.keys(grouped);
+
+const pageTitle = "Saif Abdelrazek | Education";
+const pageDescription =
+  "Saif Abdelrazek's education history, including formal education, online courses, and self-learning.";
 ---
 
-<MainLayout
-  title="Education"
-  description="Explore my formal education, online courses, and self-learning journey."
->
+<MainLayout title={pageTitle} description={pageDescription}>
   <div
     id="top"
     class="min-h-screen w-full bg-blue-50 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
