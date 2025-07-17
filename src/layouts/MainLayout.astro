@@ -4,6 +4,7 @@ import { ClientRouter } from "astro:transitions";
 import "@fontsource/poppins";
 import NavBar from "../components/shared/NavBar.astro";
 import SearchOverlay from "../components/blog/search/SearchOverlay.astro";
+import { pwaInfo } from "virtual:pwa-info";
 
 interface Props {
   title?: string;
@@ -79,6 +80,8 @@ const {
     <link rel="sitemap" href="/sitemap-index.xml" />
 
     <ClientRouter />
+    {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
+
     <script>
       // Listen for navigation events
       document.addEventListener("astro:after-swap", () => {
