@@ -13,6 +13,8 @@ import collection_search from "astro-collection-search";
 
 import vercel from "@astrojs/vercel";
 
+import AstroPWA from "@vite-pwa/astro";
+
 // https://astro.build/config
 export default defineConfig({
   redirects: {
@@ -47,6 +49,7 @@ export default defineConfig({
 
       fields: ["title", "description", "content"],
     }),
+    AstroPWA(),
   ],
   image: {
     responsiveStyles: true,
