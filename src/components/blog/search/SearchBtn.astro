@@ -19,32 +19,3 @@
   Search
 </button>
 
-<script>
-  import { OpenSearch, InitSearch } from "./overlay.ts";
-  function setupSearch() {
-    let initialized = false;
-    if (!initialized) {
-      InitSearch({
-        create_link: (item) => {
-          const frontmatter = item.frontmatter;
-          if (frontmatter?.slug && typeof frontmatter.slug === "string") {
-            return frontmatter.slug;
-          }
-          const slug = item.file.replace(/\.mdx?$/, "");
-          return slug.startsWith("/") ? slug.slice(1) : slug;
-        },
-        max: 12,
-      });
-      initialized = true;
-    }
-    // Remove previous event listener to avoid duplicates
-    const btn = document.getElementById("open-search-overlay");
-    if (btn) {
-      btn.onclick = null;
-      btn.addEventListener("click", OpenSearch);
-    }
-  }
-
-  document.addEventListener("astro:after-swap", setupSearch);
-  document.addEventListener("DOMContentLoaded", setupSearch);
-</script>
