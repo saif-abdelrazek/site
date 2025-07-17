@@ -113,14 +113,9 @@ class SearchDialog {
     // would be preferable. (the answer is no; if the dialog is under
     // <html/> it still scrolls the body)
 
-    if (document.body) {
-      document.body.append(dialog);
+    if (document.body.parentElement) {
+      document.body.parentElement.append(dialog);
     }
-    document.addEventListener("astro:after-swap", () => {
-      if (document.body) {
-        document.body.append(dialog);
-      }
-    });
 
     // --- collect nodes -------------------------------------------------------
 
@@ -152,6 +147,9 @@ class SearchDialog {
       if (event.target === dialog) {
         dialog.close();
       }
+    });
+    document.addEventListener("astro:after-swap", () => {
+      dialog.close();
     });
 
     // highlight on focus

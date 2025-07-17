@@ -3,6 +3,7 @@ import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import "@fontsource/poppins";
 import NavBar from "../components/shared/NavBar.astro";
+import SearchOverlay from "../components/blog/search/SearchOverlay.astro";
 
 interface Props {
   title?: string;
@@ -95,8 +96,44 @@ const {
 
   <body>
     {withNavBar && <NavBar />}
+
+    <SearchOverlay />
     <main>
       <slot />
     </main>
-  </body>
+  </body><script>
+    import {
+      OpenSearch,
+      InitSearch,
+    } from "../components/blog/search/overlay.ts";
+    let initialized = false;
+    function setupSearch() {
+      if (!initialized) {
+        InitSearch({
+          create_link: (item) => {
+            const frontmatter = item.frontmatter;
+            if (frontmatter?.slug && typeof frontmatter.slug === "string") {
+              return `/blog/${frontmatter.slug}`;
+            }
+            const slug = `/blog/${item.file.replace(/\.mdx?$/, "")}`;
+            return slug.startsWith("/") ? slug.slice(1) : slug;
+          },
+          max: 12,
+        });
+        initialized = true;
+      }
+      // Remove previous event listener to avoid duplicates
+      const btn = document.getElementById("open-search-overlay");
+      if (btn) {
+        btn.addEventListener("click", OpenSearch);
+      }
+    }
+
+    document.addEventListener("astro:after-swap", () => {
+      initialized = false;
+      setupSearch();
+    });
+
+    document.addEventListener("DOMContentLoaded", () => setupSearch());
+  </script>
 </html>
