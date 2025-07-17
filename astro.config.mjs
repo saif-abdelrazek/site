@@ -51,7 +51,11 @@ export default defineConfig({
 
       fields: ["title", "description", "content"],
     }),
-    AstroPWA(),
+    AstroPWA({
+      devOptions: {
+        enabled: true,
+      },
+    }),
   ],
   image: {
     responsiveStyles: true,
