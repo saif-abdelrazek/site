@@ -5,6 +5,7 @@ import "@fontsource/poppins";
 import NavBar from "../components/shared/NavBar.astro";
 import SearchOverlay from "../components/blog/search/SearchOverlay.astro";
 import { pwaInfo } from "virtual:pwa-info";
+import SpeedInsights from "@vercel/speed-insights/astro";
 
 interface Props {
   title?: string;
@@ -102,6 +103,8 @@ const {
       src="https://umami.saifdev.org/script.js"
       data-website-id="40f66a27-85f1-41cf-84da-8b3ad7d73f80"></script>
     {linksInHead.map((link) => <Fragment set:html={link} />)}
+
+    <SpeedInsights />
   </head>
 
   <body>

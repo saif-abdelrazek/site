@@ -23,6 +23,7 @@
     "@tailwindcss/vite": "^4.1.10",
     "@types/markdown-it": "^14.1.2",
     "@types/sanitize-html": "^2.16.0",
+    "@vercel/speed-insights": "^1.2.0",
     "astro": "^5.11.0",
     "astro-collection-search": "^0.1.0",
     "astro-icon": "^1.1.5",
