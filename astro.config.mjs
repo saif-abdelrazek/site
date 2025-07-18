@@ -14,7 +14,6 @@ import collection_search from "astro-collection-search";
 import vercel from "@astrojs/vercel";
 
 import AstroPWA from "@vite-pwa/astro";
-import { manifest } from "astro:ssr-manifest";
 
 // https://astro.build/config
 export default defineConfig({
