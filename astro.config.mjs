@@ -54,7 +54,14 @@ export default defineConfig({
     AstroPWA({
       base: "/",
       scope: "/",
-      includeAssets: ["favicon.svg"],
+      includeAssets: [
+        "favicon-96x96.png",
+        "favicon.svg",
+        "favicon.ico",
+        "apple-touch-icon.png",
+      ],
+      srcDir: "src",
+      filename: "sw.js",
       registerType: "autoUpdate",
       manifest: {
         name: "Saif Abdelrazek Personal Website",
@@ -95,6 +102,7 @@ export default defineConfig({
       workbox: {
         navigateFallback: "/404",
         globPatterns: ["**/*.{css,js,html,svg,png,ico,txt}"],
+        maximumFileSizeToCacheInBytes: 10000000,
       },
       devOptions: {
         enabled: true,
