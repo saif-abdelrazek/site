@@ -81,7 +81,6 @@ const {
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Saif Abdelrazek" />
-    <link rel="manifest" href="/site.webmanifest" />
 
     <ClientRouter />
     {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
@@ -103,11 +102,10 @@ const {
       src="https://umami.saifdev.org/script.js"
       data-website-id="40f66a27-85f1-41cf-84da-8b3ad7d73f80"></script>
     {linksInHead.map((link) => <Fragment set:html={link} />)}
-
-    <SpeedInsights />
+    <script src="/src/pwa.ts"></script>
   </head>
-
   <body>
+    <SpeedInsights />
     {withNavBar && <NavBar />}
 
     <SearchOverlay />

@@ -161,9 +161,7 @@ export const POST: APIRoute = async ({ request }) => {
     from: `Saif Abdelrazek <${getSecret("EMAIL_ADDRESS")}>`,
     to: body.email,
     subject: `Thank you for contacting us, ${body.name}!`,
-    // just reversed for now to solve the reversing issue because I am lazy
-    // Maybe I should fix this later ( ͡° ͜ʖ ͡°)
-    html: body.theme === "dark" ? msgToUserLight : msgToUserDark,
+    html: body.theme === "dark" ? msgToUserDark : msgToUserLight,
     replyTo: "saif@saifabdelrazek.com",
   };
   try {
