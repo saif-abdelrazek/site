@@ -112,7 +112,6 @@ collections:
           hint: "Optional link to the project or demo",
         }
       - { label: "Tags", name: "tags", widget: "list", required: false }
-      - { label: "Body", name: "body", widget: "markdown" }
 
   - name: "projects"
     label: "Projects"

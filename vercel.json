@@ -1,7 +1,28 @@
 {
+  "redirects": [
+    {
+      "source": "/callback",
+      "destination": "/admin/index.html",
+      "permanent": false
+    },
+    {
+      "source": "/admin",
+      "destination": "/admin/index.html",
+      "permanent": false
+    }
+  ],
   "headers": [
     {
       "source": "/api/contact.json",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/admin",
       "headers": [
         {
           "key": "Cache-Control",
