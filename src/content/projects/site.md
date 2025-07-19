@@ -1,31 +1,27 @@
 ---
-title: "Personal Website"
-description: "A simple, modern portfolio and blog to showcase my work, skills, and experience."
+title: This Site
+description: A simple, modern portfolio and blog to showcase my work, skills,
+  and experience.
 technologies:
-  [
-    {
-      name: "Astro",
-      icon: "logos:astro-icon",
-      category: "frontend",
-      slug: "astro",
-    },
-    {
-      name: "TypeScript",
-      icon: "logos:typescript-icon",
-      category: "language",
-      slug: "typescript",
-    },
-    { name: "MDX", icon: "logos:mdx", category: "content", slug: "mdx" },
-    {
-      name: "TailwindCSS",
-      icon: "logos:tailwindcss-icon",
-      category: "frontend",
-      slug: "tailwindcss",
-    },
-  ]
-link: "/"
-repo: "https://github.com/saifabdelrazek011/site"
-slug: "site"
+  - name: Astro
+    icon: logos:astro-icon
+    category: frontend
+    slug: astro
+  - name: TypeScript
+    icon: logos:typescript-icon
+    category: language
+    slug: typescript
+  - name: MDX
+    icon: logos:mdx
+    category: content
+    slug: mdx
+  - name: TailwindCSS
+    icon: logos:tailwindcss-icon
+    category: frontend
+    slug: tailwindcss
+link: /
+repo: https://github.com/saifabdelrazek011/site
+slug: site
 ---
 
 # About This Website
