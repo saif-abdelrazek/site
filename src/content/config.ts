@@ -91,9 +91,11 @@ const projectsCollection = defineCollection({
         )
         .optional(),
       link: z.string().optional(),
+      date: z.date().optional(),
       repo: z.string().optional(),
       tags: z.array(z.string()).optional(),
       slug: z.string().optional(),
+      shownInHome: z.boolean().default(false),
     }),
 });
 

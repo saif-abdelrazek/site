@@ -25,6 +25,7 @@ technologies:
   ]
 repo: "https://github.com/saifabdelrazek011/saifapi"
 slug: "saifapi"
+shownInHome: true
 ---
 
 # About SaifAPI

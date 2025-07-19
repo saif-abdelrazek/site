@@ -22,6 +22,7 @@ technologies:
 link: /
 repo: https://github.com/saifabdelrazek011/site
 slug: site
+shownInHome: false
 ---
 
 # About This Website
