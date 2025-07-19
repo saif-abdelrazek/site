@@ -21,6 +21,7 @@ technologies:
 link: "https://urls.saifdev.org"
 repo: "https://github.com/saifabdelrazek011/saifurl"
 slug: "saifurls"
+shownInHome: true
 ---
 
 # About SaifURL

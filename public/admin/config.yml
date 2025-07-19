@@ -154,6 +154,14 @@ collections:
           unique: true,
           required: false,
         }
+      - { label: "Date", name: "date", widget: "datetime", required: false }
+      - {
+          label: "Shown in Home",
+          name: "shownInHome",
+          widget: "boolean",
+          default: false,
+          required: false,
+        }
       - { label: "Body", name: "body", widget: "markdown" }
 
   - name: "education"

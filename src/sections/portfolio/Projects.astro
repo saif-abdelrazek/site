@@ -2,7 +2,9 @@
 import { getCollection } from "astro:content";
 import ProjectCard from "../../components/portfolio/ProjectCard.astro";
 
-const projects = await getCollection("projects");
+const projects = await getCollection("projects", ({ data }) => {
+  return data.shownInHome === true;
+});
 ---
 
 <section
