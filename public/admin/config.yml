@@ -3,7 +3,8 @@ backend:
   repo: "saifabdelrazek011/site"
   branch: "main"
   auth_type: implicit
-
+  site_domain: www.saifabdelrazek.com 
+  
 media_library:
   name: uploadcare
 
