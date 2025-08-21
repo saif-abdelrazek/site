@@ -5,7 +5,7 @@ import { hackatimeLoader } from "./loaders/hackatime";
 
 const repos = defineLiveCollection({
   loader: reposLoader({
-    reposApiUrl: "https://api.github.com/user/repos",
+    reposApiUrl: "https://api.github.com/users/saifabdelrazek011/repos?per_page=100",
     apikey: getSecret("GITHUB_TOKEN") || "",
   }),
 });

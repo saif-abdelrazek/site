@@ -34,3 +34,5 @@ node_modules/
 # Local Vercel folder
 .vercel/    
 .vercel
+
+.vscode/

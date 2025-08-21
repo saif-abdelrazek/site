@@ -11,6 +11,15 @@ const technologies = techData?.data.technologies ?? [];
 // Level order for sorting
 const levelOrder = ["Expert", "Advanced", "Intermediate", "Beginner", "Novice"];
 
+// Dynamically extract unique categories from technologies
+const categories = [
+  ...new Set(
+    technologies
+      ?.map((tech) => tech.category)
+      .filter(Boolean)
+  ),
+];
+
 // Group technologies by category and sort: favourite first, then by level, then by name
 function getTechByCategory(cat: string) {
   const techs = technologies.filter((t) => t.category === cat);
@@ -26,21 +35,6 @@ function getTechByCategory(cat: string) {
   });
   return [...favs, ...nonFavs];
 }
-
-const categories = [
-  "language",
-  "frontend",
-  "css framework",
-  "backend",
-  "database",
-  "deployment",
-  "os",
-  "code editor",
-  "tool",
-  "markup",
-  "dns",
-  "cms",
-];
 
 const pageTitle = "Saif Abdelrazek | Technologies & Tools";
 const pageDescription =

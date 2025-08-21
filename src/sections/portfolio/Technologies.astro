@@ -13,26 +13,25 @@ if (!techData) {
 
 const { technologies } = techData.data;
 
-// Only show these categories
+// Extract unique categories from technologies
 const categories = [
-  "language",
-  "frontend",
-  "backend",
-  "os",
-  "code editor",
-  "tool",
-  "markup",
-  "dns",
-  "cms",
-  "css framework",
-  "database",
-  "deployment",
+  ...new Set(
+    technologies
+      ?.map((tech) => tech.category)
+      .filter(Boolean)
+  ),
 ];
 
 // Helper to get favourite tech per category
 function getFavouriteTech(cat: string) {
   return technologies?.find((tech) => tech.category === cat && tech.favorite);
 }
+
+// Get up to 9 favourite techs (one per category, max 9)
+const favouriteTechs = categories
+  .map((cat) => getFavouriteTech(cat))
+  .filter(Boolean)
+  .slice(0, 9);
 ---
 
 <section
@@ -46,11 +45,6 @@ function getFavouriteTech(cat: string) {
   </h2>
   <p class="mb-10 text-center text-lg text-gray-700 dark:text-gray-300">
     Here are my favourite technologies and tools for each category.<br />
-    <a
-      href="/tech#language"
-      class="font-semibold text-blue-600 underline dark:text-sky-400"
-      >See all languages and tools</a
-    >
   </p>
   {
     categories.length === 0 || technologies?.length === 0 ? (
@@ -75,4 +69,12 @@ function getFavouriteTech(cat: string) {
       </div>
     )
   }
+  <div class="mt-10 flex justify-center">
+    <a
+      href="/tech"
+      class="inline-block rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 px-7 py-3 text-lg font-semibold text-white shadow-lg ring-2 ring-blue-400/20 transition hover:scale-105 hover:from-blue-700 hover:to-sky-600 hover:shadow-xl dark:from-sky-700 dark:to-blue-800 dark:hover:from-sky-800 dark:hover:to-blue-900"
+    >
+      More Technologies
+    </a>
+  </div>
 </section>
