@@ -47,21 +47,20 @@ const favouriteTechs = categories
     Here are my favourite technologies and tools for each category.<br />
   </p>
   {
-    categories.length === 0 || technologies?.length === 0 ? (
+    favouriteTechs.length === 0 || technologies?.length === 0 ? (
       <p class="text-lg text-gray-700 dark:text-gray-300">
         No favourite technologies found.
       </p>
     ) : (
       <div class="grid w-full grid-cols-1 items-stretch gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {categories.map((cat) => {
-          const tech = getFavouriteTech(cat);
+        {favouriteTechs.map((tech) => {
           return tech ? (
             <TechCard
               name={tech.name}
               icon={tech.icon}
               level={tech.level}
               slug={tech.slug}
-              category={cat}
+              category={tech.category}
               description={tech.description}
             />
           ) : null;

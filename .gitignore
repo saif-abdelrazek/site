@@ -36,3 +36,5 @@ node_modules/
 .vercel
 
 .vscode/
+
+$collection-search
