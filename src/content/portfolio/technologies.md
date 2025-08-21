@@ -348,4 +348,13 @@ technologies:
       crafting adaptive, engaging interfaces.
     slug: css3
     link: https://developer.mozilla.org/en-US/docs/Web/CSS
+  - favorite: true
+    name: Librewolf
+    icon: simple-icons:librewolf
+    category: browser
+    slug: librewolf
+    link: https://librewolf.net
+    description: A custom and independent version of Firefox, with the primary goals
+      of privacy, security and user freedom.
+    level: Intermediate
 ---
