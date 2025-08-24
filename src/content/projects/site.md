@@ -20,7 +20,7 @@ technologies:
     category: frontend
     slug: tailwindcss
 link: /
-repo: https://github.com/saifabdelrazek011/site
+repo: https://github.com/saif-abdelrazek/site
 slug: site
 shownInHome: false
 ---

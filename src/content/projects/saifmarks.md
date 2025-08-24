@@ -36,7 +36,7 @@ technologies:
     },
   ]
 link: "https://marks.saifdev.org"
-repo: "https://github.com/saifabdelrazek011/saifmarks"
+repo: "https://github.com/saif-abdelrazek/saifmarks"
 slug: "saifmarks"
 shownInHome: true
 ---
