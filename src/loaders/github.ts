@@ -132,7 +132,7 @@ export const fetchRepos = async ({
   }
   const reposWithoutSite = repos.filter(
     (repo: FetchedRepoResponse) =>
-      repo.name !== "site" && repo.name !== "saifabdelrazek011",
+      repo.name !== "site" && repo.name !== "saif-abdelrazek",
   );
   if (!Array.isArray(reposWithoutSite)) {
     throw new Error("Failed to fetch repositories");
@@ -196,7 +196,7 @@ export const reposLoader = (config: {
         const repos = await fetchRepos({
           url:
             config.reposApiUrl ||
-            "https://api.github.com/users/saifabdelrazek011/repos?per_page=100",
+            "https://api.github.com/users/saif-abdelrazek/repos?per_page=100",
           filter,
           apikey: config.apikey,
         });

@@ -19,7 +19,7 @@ technologies:
     },
   ]
 link: "https://urls.saifdev.org"
-repo: "https://github.com/saifabdelrazek011/saifurl"
+repo: "https://github.com/saif-abdelrazek/saifurl"
 slug: "saifurls"
 shownInHome: true
 ---
@@ -61,4 +61,4 @@ SaifURL is designed for users who need a reliable, secure, and easy-to-use platf
 
 ---
 
-Find the source code and more details on [GitHub](https://github.com/saifabdelrazek011/saifurl)
+Find the source code and more details on [GitHub](https://github.com/saif-abdelrazek/saifurl)
