@@ -18,10 +18,10 @@ const {
 } = data;
 
 const pageTitle =
-  (title ? title : "Untitled Post") + " || Blog || Saif Abdelrazek";
+  (title ? title : "Untitled Post") + " | Saif Abdelrazek's Blog";
 ---
 
-<MainLayout {pageTitle} {description}>
+<MainLayout title={pageTitle} {description}>
   <div
     class="relative min-h-screen w-full bg-blue-50 transition-colors duration-300 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
   >
