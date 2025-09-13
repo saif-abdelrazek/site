@@ -66,10 +66,10 @@ export default defineConfig({
       filename: "sw.js",
       registerType: "autoUpdate",
       manifest: {
-        name: "Saif Abdelrazek Personal Website",
-        short_name: "SaifSite",
+        name: "Saif Abdelrazek | Website",
+        short_name: "Saif Abdelrazek | Website",
         description:
-          "Personal website of Saif Abdelrazek || Not just a website",
+          "Personal website of Saif Abdelrazek",
         start_url: "/",
         scope: "/",
         display: "standalone",
