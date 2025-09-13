@@ -26,6 +26,8 @@ export default defineConfig({
     "/posts": "/blog",
     "/blog/author": "/blog/author/saif-abdelrazek",
     "/edu": "/education",
+    '/github': 'https://github.com/saif-abdelrazek',
+    '/linkedin': 'https://linkedin.com/in/saifabdelrazek',
   },
   site: "https://saifabdelrazek.com",
   experimental: {
