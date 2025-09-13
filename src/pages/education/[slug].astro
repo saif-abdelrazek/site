@@ -167,6 +167,7 @@ const pageDescription = description + " | Saif Abdelrazek's Education History";
     </div>
   </main>
   <script is:inline>
+    const handleBackLink = () => {
     // Get the query parameter from the URL
     const url = new URL(window.location.href);
     const currentSlug = url.pathname.split("/").pop();
@@ -180,12 +181,18 @@ const pageDescription = description + " | Saif Abdelrazek's Education History";
     const backLink = document.getElementById("back-link");
     const backLinkText = document.getElementById("back-link-text");
 
-    if (backLink) {
-      backLink.href = backHref;
-      backLinkText.textContent = backLabel;
-      backLink.setAttribute("aria-label", backLabel);
-    } else {
-      console.warn("Back link not found in the document.");
-    }
+      if (backLink && backLinkText) {
+        backLink.href = backHref;
+        backLinkText.textContent = backLabel;
+        backLink.setAttribute("aria-label", backLabel);
+      } else {
+        console.warn("Back link not found in the document.");
+      }
+  }
+    handleBackLink();
+
+    document.addEventListener("astro:after-swap", () => {
+      handleBackLink();
+    });
   </script>
 </MainLayout>
