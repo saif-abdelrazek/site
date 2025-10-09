@@ -2,6 +2,7 @@ export const prerender = false;
 import type { APIRoute } from "astro";
 import nodemailer from "nodemailer";
 import { getSecret } from "astro:env/server";
+import { SITE_CONFIG, EMAIL_TEMPLATES, ERROR_MESSAGES, SUCCESS_MESSAGES } from "../../lib/constants";
 
 export const GET: APIRoute = async ({ request }) => {
   return new Response(
@@ -20,8 +21,7 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(
       JSON.stringify({
         success: false,
-        error:
-          "Email configuration is not set. Please check your environment variables.",
+        error: ERROR_MESSAGES.emailConfigNotSet,
       }),
       { status: 500 },
     );
@@ -30,25 +30,25 @@ export const POST: APIRoute = async ({ request }) => {
 
   if (typeof body !== "object") {
     return new Response(
-      JSON.stringify({ success: false, error: "Invalid request body" }),
+      JSON.stringify({ success: false, error: ERROR_MESSAGES.invalidRequestBody }),
       { status: 400 },
     );
   }
   if (!body.name) {
     return new Response(
-      JSON.stringify({ success: false, error: "Name is required" }),
+      JSON.stringify({ success: false, error: ERROR_MESSAGES.nameRequired }),
       { status: 400 },
     );
   }
   if (!body.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email)) {
     return new Response(
-      JSON.stringify({ success: false, error: "Invalid email address" }),
+      JSON.stringify({ success: false, error: ERROR_MESSAGES.invalidEmail }),
       { status: 400 },
     );
   }
   if (!body.subject || body.subject.trim() === "") {
     return new Response(
-      JSON.stringify({ success: false, error: "Subject is required" }),
+      JSON.stringify({ success: false, error: ERROR_MESSAGES.subjectRequired }),
       { status: 400 },
     );
   }
@@ -56,7 +56,7 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(
       JSON.stringify({
         success: false,
-        error: "Message must be at least 50 characters long",
+        error: ERROR_MESSAGES.messageMinLength,
       }),
       {
         status: 400,
@@ -151,18 +151,18 @@ export const POST: APIRoute = async ({ request }) => {
 
   const mailOptionsToMe = {
     from: `Your Site Contact Form <${getSecret("EMAIL_ADDRESS")}>`,
-    to: "saif@saifabdelrazek.com",
-    subject: `New Contact Form Submission: ${body.subject}`,
+    to: SITE_CONFIG.email,
+    subject: EMAIL_TEMPLATES.subjects.contact(body.subject),
     html: msgToMe,
     replyTo: body.email,
   };
 
   const mailOptionsToUser = {
-    from: `Saif Abdelrazek <${getSecret("EMAIL_ADDRESS")}>`,
+    from: `${SITE_CONFIG.name} <${getSecret("EMAIL_ADDRESS")}>`,
     to: body.email,
-    subject: `Thank you for contacting us, ${body.name}!`,
+    subject: EMAIL_TEMPLATES.subjects.confirmation(body.name),
     html: body.theme === "dark" ? msgToUserDark : msgToUserLight,
-    replyTo: "saif@saifabdelrazek.com",
+    replyTo: SITE_CONFIG.email,
   };
   try {
     const nodeEnv = getSecret("NODE_ENV");
@@ -196,7 +196,7 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     return new Response(
-      JSON.stringify({ success: true, message: "Email sent successfully" }),
+      JSON.stringify({ success: true, message: SUCCESS_MESSAGES.emailSent }),
       { status: 200 },
     );
   } catch (error: any) {

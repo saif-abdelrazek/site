@@ -6,74 +6,83 @@ import Technologies from "../sections/portfolio/Technologies.astro";
 import Projects from "../sections/portfolio/Projects.astro";
 import Education from "../sections/portfolio/Education.astro";
 import Footer from "../sections/portfolio/Footer.astro";
+import { getLangFromUrl } from "../i18n/utils";
+import { useTranslations } from "../i18n/translations";
 
-const pageTitle = "Saif Abdelrazek | Website";
-const pageDescription =
-  "Saif Abelrazek – Full Stack Developer. High School Student. Explore my portfolio, blog, projects, and more.";
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const pageTitle = t('page.home.title');
+const pageDescription = t('page.home.description');
 ---
 
-<MainLayout title={pageTitle} description={pageDescription}>
+<MainLayout title={pageTitle} description={pageDescription} direction={lang === 'ar' ? 'rtl' : 'ltr'}>
   <main
     class="flex min-h-screen w-full flex-col items-center justify-center bg-blue-50 transition-colors duration-300 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
   >
-    {Home && <Home />}
+    {Home && <Home lang={lang} />}
     {
       !Home && (
         <div class="mx-auto max-w-5xl px-4 py-12">
-          <p class="text-lg text-gray-700 dark:text-gray-300">
-            Home section is currently unavailable. Please check back later.
+          <p class="text-lg text-gray-700 dark:text-gray-300">{ lang === 'ar' ?
+            'قسم الصفحة الرئيسية غير متوفر حاليًا. يرجى التحقق مرة أخرى لاحقًا.' :
+            `Home section is currently unavailable. Please check back later.`}
           </p>
         </div>
       )
     }
-    {About && <About />}
+    {About && <About lang={lang} />}
     {
       !About && (
         <div class="mx-auto max-w-5xl px-4 py-12">
-          <p class="text-lg text-gray-700 dark:text-gray-300">
-            About section is currently unavailable. Please check back later.
-          </p>
+          <p class="text-lg text-gray-700 dark:text-gray-300">{ lang === 'ar' ?
+            'قسم حول غير متوفر حاليًا. يرجى التحقق مرة أخرى لاحقًا.' :
+            'About section is currently unavailable. Please check back later.'
+          }</p>
         </div>
       )
     }
-    {Technologies && <Technologies />}
+    {Technologies && <Technologies lang={lang} />}
     {
       !Technologies && (
         <div class="mx-auto max-w-5xl px-4 py-12">
-          <p class="text-lg text-gray-700 dark:text-gray-300">
-            Technologies section is currently unavailable. Please check back
-            later.
-          </p>
+          <p class="text-lg text-gray-700 dark:text-gray-300">{ lang === 'ar' ?
+            'قسم التقنيات غير متوفر حاليًا. يرجى التحقق مرة أخرى لاحقًا.' :
+            'Technologies section is currently unavailable. Please check back later.'
+          }</p>
         </div>
       )
     }
-    {Projects && <Projects />}
+    {Projects && <Projects lang={lang} />}
     {
       !Projects && (
         <div class="mx-auto max-w-5xl px-4 py-12">
-          <p class="text-lg text-gray-700 dark:text-gray-300">
-            Projects section is currently unavailable. Please check back later.
-          </p>
+          <p class="text-lg text-gray-700 dark:text-gray-300">{ lang === 'ar' ?
+            'قسم المشاريع غير متوفر حاليًا. يرجى التحقق مرة أخرى لاحقًا.' :
+            'Projects section is currently unavailable. Please check back later.'
+          }</p>
         </div>
       )
     }
-    {Education && <Education />}
+    {Education && <Education lang={lang} />}
     {
       !Education && (
         <div class="mx-auto max-w-5xl px-4 py-12">
-          <p class="text-lg text-gray-700 dark:text-gray-300">
-            Education section is currently unavailable. Please check back later.
-          </p>
+          <p class="text-lg text-gray-700 dark:text-gray-300">{ lang === 'ar' ?
+            'قسم التعليم غير متوفر حاليًا. يرجى التحقق مرة أخرى لاحقًا.' :
+            'Education section is currently unavailable. Please check back later.'
+          }</p>
         </div>
       )
     }
-    {Footer && <Footer />}
+    {Footer && <Footer lang={lang} />}
     {
       !Footer && (
         <div class="mx-auto max-w-5xl px-4 py-12">
-          <p class="text-lg text-gray-700 dark:text-gray-300">
-            Footer section is currently unavailable. Please check back later.
-          </p>
+          <p class="text-lg text-gray-700 dark:text-gray-300">{ lang === 'ar' ?
+            'قسم التذييل غير متوفر حاليًا. يرجى التحقق مرة أخرى لاحقًا.' :
+            'Footer section is currently unavailable. Please check back later.'
+          }</p>
         </div>
       )
     }

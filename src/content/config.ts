@@ -4,12 +4,16 @@ import { rssSchema } from "@astrojs/rss";
 
 const postsCollection = defineCollection({
   loader: glob({
-    pattern: "*.{md,mdx}",
+    pattern: "**/*.{md,mdx}",
     base: "./src/content/posts",
     generateId: ({ entry, data }) => {
+      // Extract language prefix from entry path
+      const pathParts = entry.split("/");
+      const langPrefix = pathParts.length > 1 ? pathParts[0] + "/" : "";
+      
       // Generate a slug from the entry path, removing the file extension
       if (data?.slug && typeof data.slug === "string") {
-        return data.slug;
+        return langPrefix + data.slug;
       }
       const slug = entry.replace(/\.mdx?$/, "");
       return slug.startsWith("/") ? slug.slice(1) : slug; // Ensure the slug starts without a leading slash
@@ -27,48 +31,23 @@ const postsCollection = defineCollection({
         tags: z.array(z.string()).optional(),
         slug: z.string().optional(),
         draft: z.boolean().default(false),
+        lang: z.enum(["en", "ar"]).optional(),
       })
       .merge(rssSchema),
 });
 
-const portfolioCollection = defineCollection({
-  loader: glob({
-    pattern: "*.{md,mdx}",
-    base: "./src/content/portfolio",
-  }),
-  schema: ({ image }) =>
-    z.object({
-      title: z.string(),
-      subtitle: z.string().optional(),
-      description: z.string().optional(),
-      image: image().optional(),
-      technologies: z
-        .array(
-          z.object({
-            name: z.string(),
-            icon: z.string().optional(),
-            level: z.string().optional(),
-            category: z.string(),
-            favorite: z.boolean().default(false),
-            description: z.string().optional(),
-            slug: z.string(),
-            link: z.string().optional(),
-          }),
-        )
-        .optional(),
-      link: z.string().optional(),
-      tags: z.array(z.string()).optional(),
-    }),
-});
-
 const projectsCollection = defineCollection({
   loader: glob({
-    pattern: "*.{md,mdx}",
+    pattern: "**/*.{md,mdx}",
     base: "./src/content/projects",
     generateId: ({ entry, data }) => {
+      // Extract language prefix from entry path
+      const pathParts = entry.split("/");
+      const langPrefix = pathParts.length > 1 ? pathParts[0] + "/" : "";
+      
       // Generate a slug from the entry path, removing the file extension
       if (data?.slug && typeof data.slug === "string") {
-        return data.slug;
+        return langPrefix + data.slug;
       }
       const slug = entry.replace(/\.mdx?$/, "");
       return slug.startsWith("/") ? slug.slice(1) : slug; // Ensure the slug starts without a leading slash
@@ -96,17 +75,22 @@ const projectsCollection = defineCollection({
       tags: z.array(z.string()).optional(),
       slug: z.string().optional(),
       shownInHome: z.boolean().default(false),
+      lang: z.enum(["en", "ar"]).optional(),
     }),
 });
 
 const educationCollection = defineCollection({
   loader: glob({
-    pattern: "*.{md,mdx}",
+    pattern: "**/*.{md,mdx}",
     base: "./src/content/education",
     generateId: ({ entry, data }) => {
+      // Extract language prefix from entry path
+      const pathParts = entry.split("/");
+      const langPrefix = pathParts.length > 1 ? pathParts[0] + "/" : "";
+      
       // Generate a slug from the entry path, removing the file extension
       if (data?.slug && typeof data.slug === "string") {
-        return data.slug;
+        return langPrefix + data.slug;
       }
       const slug = entry.replace(/\.mdx?$/, "");
       return slug.startsWith("/") ? slug.slice(1) : slug; // Ensure the slug starts without a leading slash
@@ -122,10 +106,11 @@ const educationCollection = defineCollection({
       startDate: z.date().optional(),
       current: z.boolean().optional().default(false),
       endDate: z.date().optional(),
-      type: z.enum(["Formal Education", "Self Learning", "Others"]),
+      type: z.enum(["Formal Education", "Self Learning", "Others", "التعليم النظامي", "التعلم الذاتي", "أخرى"]),
       link: z.string().optional(),
       tags: z.array(z.string()).optional(),
       degree: z.string().optional(),
+      lang: z.enum(["en", "ar"]).optional(),
     }),
 });
 
@@ -158,7 +143,6 @@ const educationCollection = defineCollection({
 
 export const collections = {
   posts: postsCollection,
-  portfolio: portfolioCollection,
   projects: projectsCollection,
   education: educationCollection,
   // experience: experienceCollection,

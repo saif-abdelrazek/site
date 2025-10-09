@@ -6,16 +6,20 @@ import BlogFooter from "../../components/blog/BlogFooter.astro";
 import PostList from "../../components/blog/PostList.astro";
 import type { CollectionEntry } from "astro:content";
 import SearchBtn from "../../components/blog/search/SearchBtn.astro";
+import { PAGE_TITLES, PAGE_DESCRIPTIONS, BLOG_CONFIG } from "../../lib/constants";
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const posts = await getCollection("posts");
 
-  const sortedPosts = posts.sort((a, b) => {
+  // Filter for English posts only
+  const englishPosts = posts.filter(post => post.id.startsWith("en/"));
+
+  const sortedPosts = englishPosts.sort((a, b) => {
     return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
   });
 
   return paginate(sortedPosts, {
-    pageSize: 6,
+    pageSize: BLOG_CONFIG.postsPerPage,
   });
 };
 interface Props {
@@ -24,11 +28,10 @@ interface Props {
 const { page } = Astro.props;
 const posts = page?.data;
 
-const pageTitle = "Saif Abdelrazek | Blog";
-const pageDescription =
-  "Saif Abdelrazek's blog featuring articles on technology, programming, and personal insights.";
+const pageTitle = PAGE_TITLES.blog;
+const pageDescription = PAGE_DESCRIPTIONS.blog;
 
-const title = "Saif Abdelrazek's Blog";
+const title = BLOG_CONFIG.title;
 const description = "Latest articles and updates from Saif Abdelrazek.";
 ---
 

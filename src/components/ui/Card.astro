@@ -1,0 +1,52 @@
+---
+interface Props {
+  variant?: 'default' | 'interactive' | 'project' | 'blog' | 'skill' | 'bordered' | 'elevated';
+  padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
+  class?: string;
+  href?: string;
+  hover?: boolean;
+  border?: boolean;
+}
+
+const { 
+  variant = 'default', 
+  padding = 'md', 
+  class: className = '', 
+  href,
+  hover = false,
+  border = false
+} = Astro.props as Props;
+
+const variantClasses = {
+  default: 'card',
+  interactive: 'card-interactive',
+  project: 'card-project',
+  blog: 'card-blog',
+  skill: 'card-skill',
+  bordered: 'card border-2',
+  elevated: 'card shadow-lg hover:shadow-xl transition-shadow duration-300'
+};
+
+const paddingClasses = {
+  none: '',
+  sm: 'card-content-sm',
+  md: 'card-content',
+  lg: 'card-content-lg',
+  xl: 'p-12'
+};
+
+const classes = [
+  variantClasses[variant],
+  paddingClasses[padding],
+  hover && 'hover:shadow-md transition-shadow duration-200',
+  border && 'border-2 border-gray-200',
+  className
+].filter(Boolean).join(' ');
+
+const Element = href ? 'a' : 'div';
+const linkProps = href ? { href } : {};
+---
+
+<Element class={classes} {...linkProps}>
+  <slot />
+</Element>

@@ -1,13 +1,18 @@
 ---
-import { getEntry } from "astro:content";
-import { Image } from "astro:assets";
-const home = await getEntry("portfolio", "home");
 const {
-  title = "Saif Abdelrazek",
-  subtitle = "Full Stack Developer & Tech Enthusiast",
-  description = "Building modern web apps, APIs, and tools. Passionate about open source, automation, and sharing knowledge.",
-  image,
-} = home?.data ?? {};
+  lang,
+} = Astro.props;
+import { Image } from "astro:assets";
+import { PORTFOLIO_CONTENT as PORTFOLIO_CONTENT_EN } from "../../lib/constants";
+import { PORTFOLIO_CONTENT as  PORTFOLIO_CONTENT_AR } from "../../lib/constants-ar";
+
+const PORTFOLIO_CONTENT = lang === 'ar' ? PORTFOLIO_CONTENT_AR : PORTFOLIO_CONTENT_EN;
+import profileImage from "../../assets/profile.jpg";
+const {
+  title,
+  subtitle,
+  description,
+} = PORTFOLIO_CONTENT.hero;
 ---
 
 <section
@@ -34,22 +39,22 @@ const {
         href="/#projects"
         class="rounded-lg bg-gradient-to-r from-blue-600 to-sky-500 px-7 py-3 text-lg font-semibold text-white shadow-lg transition hover:from-blue-700 hover:to-sky-600 dark:from-sky-700 dark:to-blue-800 dark:hover:from-sky-800 dark:hover:to-blue-900"
       >
-        View Projects
+        { lang === 'ar' ? 'مشاريعي' : 'My Projects' }
       </a>
       <a
         href="/contact"
         class="rounded-lg border-2 border-blue-600 px-7 py-3 text-lg font-semibold text-blue-700 transition hover:bg-blue-50 dark:border-sky-700 dark:text-sky-300 dark:hover:bg-sky-900"
       >
-        Contact Me
+      { lang === 'ar' ? 'تواصل معي' : 'Contact Me' }
       </a>
     </div>
   </div>
   {
-    image && (
+    profileImage && (
       <div class="flex flex-1 justify-center md:justify-end">
         <div class="relative">
           <Image
-            src={image}
+            src={profileImage}
             alt={title}
             width={400}
             height={400}

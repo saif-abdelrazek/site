@@ -1,0 +1,33 @@
+---
+interface Props {
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  class?: string;
+  as?: 'div' | 'section' | 'main' | 'article' | 'aside' | 'header' | 'footer';
+  centered?: boolean;
+}
+
+const { 
+  size = 'lg', 
+  class: className = '', 
+  as: Element = 'div',
+  centered = false
+} = Astro.props as Props;
+
+const sizeClasses = {
+  sm: 'container-sm',
+  md: 'container-md',
+  lg: 'container-lg',
+  xl: 'container-xl',
+  full: 'container-full'
+};
+
+const classes = [
+  sizeClasses[size as keyof typeof sizeClasses], 
+  centered && 'flex items-center justify-center min-h-screen',
+  className
+].filter(Boolean).join(' ');
+---
+
+<Element class={classes}>
+  <slot />
+</Element>

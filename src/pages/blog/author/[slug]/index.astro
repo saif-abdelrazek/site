@@ -6,16 +6,30 @@ import type { GetStaticPaths } from "astro";
 // Export getStaticPaths to generate a static page for each unique author
 export const getStaticPaths: GetStaticPaths = async () => {
   const allPosts = await getCollection("posts");
+  
+  // Filter for English posts only
+  const englishPosts = allPosts.filter(post => post.id.startsWith("en/"));
+  
   const authors = Array.from(
     new Set(
-      allPosts
+      englishPosts
         .map((post) => post.data.author)
         .filter((author) => typeof author === "string" && author.trim() !== ""),
     ),
   );
-  return authors.map((author) => ({
-    params: { slug: slugify(typeof author === "string" ? author : "") },
-  }));
+  
+  const validPaths = [];
+  for (const author of authors) {
+    const slug = slugify(typeof author === "string" ? author : "");
+    // Only include valid slugs
+    if (slug && slug.trim() !== "") {
+      validPaths.push({
+        params: { slug }
+      });
+    }
+  }
+  
+  return validPaths;
 };
 const { slug } = Astro.params;
 

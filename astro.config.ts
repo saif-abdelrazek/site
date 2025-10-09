@@ -15,9 +15,20 @@ import vercel from "@astrojs/vercel";
 
 import AstroPWA from "@vite-pwa/astro";
 
+import { SITE_CONFIG, SITE_URLS, SOCIAL_LINKS, PWA_CONFIG } from "./src/lib/constants";
+
 // https://astro.build/config
 export default defineConfig({
   output: "static",
+  
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en", "ar"],
+    routing: {
+      prefixDefaultLocale: false
+    }
+  },
+  
   redirects: {
     "/projects": "/#projects",
     "/technologies": "/#technologies",
@@ -26,10 +37,10 @@ export default defineConfig({
     "/posts": "/blog",
     "/blog/author": "/blog/author/saif-abdelrazek",
     "/edu": "/education",
-    '/github': 'https://github.com/saif-abdelrazek',
-    '/linkedin': 'https://linkedin.com/in/saifabdelrazek',
+    '/github': SOCIAL_LINKS.github,
+    '/linkedin': SOCIAL_LINKS.linkedin,
   },
-  site: "https://saifabdelrazek.com",
+  site: SITE_CONFIG.siteUrl,
   experimental: {
     contentIntellisense: true,
     liveContentCollections: true,
@@ -57,49 +68,26 @@ export default defineConfig({
       base: "/",
       scope: "/",
       includeAssets: [
-        "favicon-96x96.png",
-        "favicon.svg",
-        "favicon.ico",
-        "apple-touch-icon.png",
+        PWA_CONFIG.icons.favicon96.replace('/', ''),
+        PWA_CONFIG.icons.faviconSvg.replace('/', ''),
+        PWA_CONFIG.icons.faviconIco.replace('/', ''),
+        PWA_CONFIG.icons.appleTouchIcon.replace('/', ''),
       ],
       srcDir: "src",
       filename: "sw.js",
       registerType: "autoUpdate",
       manifest: {
-        name: "Saif Abdelrazek | Website",
-        short_name: "Saif Abdelrazek | Website",
-        description:
-          "Personal website of Saif Abdelrazek",
+        name: SITE_CONFIG.title,
+        short_name: SITE_CONFIG.shortName,
+        description: SITE_CONFIG.description,
         start_url: "/",
         scope: "/",
         display: "standalone",
         orientation: "portrait",
-        background_color: "#f8fafc",
-        theme_color: "#186faf",
-        lang: "en",
-        icons: [
-          {
-            src: "/favicon-96x96.png",
-            sizes: "96x96",
-            type: "image/png",
-          },
-          {
-            src: "/favicon.svg",
-            sizes: "any",
-            type: "image/svg+xml",
-          },
-          {
-            src: "/favicon.ico",
-            sizes: "48x48 32x32 16x16",
-            type: "image/x-icon",
-          },
-          {
-            src: "/apple-touch-icon.png",
-            sizes: "180x180",
-            type: "image/png",
-            purpose: "any",
-          },
-        ],
+        background_color: PWA_CONFIG.backgroundColor,
+        theme_color: PWA_CONFIG.themeColor,
+        lang: SITE_CONFIG.defaultLanguage,
+        icons: PWA_CONFIG.manifestIcons as any,
       },
       workbox: {
         navigateFallback: "/404",

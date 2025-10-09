@@ -2,9 +2,10 @@
 title: "Welcome to Our Site"
 date: 2025-06-26
 description: "Welcome to our site! This is the first post."
-image: ./images/welcome.jpg
+image: ../images/welcome.jpg
 slug: "welcome"
 author: "Saif Abdelrazek"
+lang: "en"
 ---
 
 # Welcome!

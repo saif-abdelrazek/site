@@ -1,35 +1,31 @@
 ---
-import { getEntry } from "astro:content";
+const {
+  lang,
+} = Astro.props;
 import TechCard from "../../components/portfolio/TechCard.astro";
-import { getSecret } from "astro:env/server";
-const techData = await getEntry("portfolio", "technologies");
+import { PORTFOLIO_CONTENT as PORTFOLIO_CONTENT_EN } from "../../lib/constants";
+import { PORTFOLIO_CONTENT as PORTFOLIO_CONTENT_AR } from "../../lib/constants-ar";
 
-if (!techData && getSecret("NODE_ENV") !== "production") {
-  throw new Error("Technologies entry not found in portfolio content.");
-}
-if (!techData) {
-  return;
-}
-
-const { technologies } = techData.data;
+const PORTFOLIO_CONTENT = lang === 'ar' ? PORTFOLIO_CONTENT_AR : PORTFOLIO_CONTENT_EN;
+const { items: technologies, title, description } = PORTFOLIO_CONTENT.technologies;
 
 // Extract unique categories from technologies
 const categories = [
   ...new Set(
     technologies
-      ?.map((tech) => tech.category)
+      ?.map((tech: any) => tech.category)
       .filter(Boolean)
   ),
 ];
 
 // Helper to get favourite tech per category
 function getFavouriteTech(cat: string) {
-  return technologies?.find((tech) => tech.category === cat && tech.favorite);
+  return technologies?.find((tech: any) => tech.category === cat && tech.favorite);
 }
 
 // Get up to 9 favourite techs (one per category, max 9)
 const favouriteTechs = categories
-  .map((cat) => getFavouriteTech(cat))
+  .map((cat: any) => getFavouriteTech(cat))
   .filter(Boolean)
   .slice(0, 9);
 ---
@@ -41,15 +37,15 @@ const favouriteTechs = categories
   <h2
     class="mb-6 text-center text-4xl font-extrabold text-sky-700 dark:text-sky-300"
   >
-    Favourite Tools
+    {title}
   </h2>
   <p class="mb-10 text-center text-lg text-gray-700 dark:text-gray-300">
-    Here are my favourite technologies and tools for each category.<br />
+    {description}<br />
   </p>
   {
-    favouriteTechs.length === 0 || technologies?.length === 0 ? (
+    favouriteTechs.length === 0 ? (
       <p class="text-lg text-gray-700 dark:text-gray-300">
-        No favourite technologies found.
+        {lang === 'ar' ? 'لم يتم العثور على تقنيات مفضلة.' : 'No favourite technologies found.'}
       </p>
     ) : (
       <div class="grid w-full grid-cols-1 items-stretch gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -73,7 +69,7 @@ const favouriteTechs = categories
       href="/tech"
       class="inline-block rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 px-7 py-3 text-lg font-semibold text-white shadow-lg ring-2 ring-blue-400/20 transition hover:scale-105 hover:from-blue-700 hover:to-sky-600 hover:shadow-xl dark:from-sky-700 dark:to-blue-800 dark:hover:from-sky-800 dark:hover:to-blue-900"
     >
-      More Technologies
+      {lang === 'ar' ? 'المزيد من التقنيات' : 'More Technologies'}
     </a>
   </div>
 </section>

@@ -1,8 +1,13 @@
 ---
+const {
+  lang,
+} = Astro.props;
 import { getCollection } from "astro:content";
 import EducationCards from "../../components/portfolio/EducationCards.astro";
 
-const education = await getCollection("education");
+const allEducation = await getCollection("education");
+// Filter for language-specific content
+const education = allEducation.filter((edu) => edu.id.startsWith(`${lang}/`));
 const hasEducation = education && education.length > 0;
 ---
 
@@ -11,11 +16,13 @@ const hasEducation = education && education.length > 0;
     <h2
       class="mb-2 text-center text-4xl font-bold text-sky-700 dark:text-sky-300"
     >
-      Education
+      {lang === 'ar' ? 'التعليم' : 'Education'}
     </h2>
     <p class="mb-8 text-center text-lg text-gray-700 dark:text-gray-300">
-      Explore my current education journey. For a full timeline and more
-      details, check out all my education steps.
+      {lang === 'ar' ? 
+        'استكشف رحلتي التعليمية الحالية. للحصول على جدول زمني كامل والمزيد من التفاصيل، تحقق من جميع خطوات تعليمي.' :
+        'Explore my current education journey. For a full timeline and more details, check out all my education steps.'
+      }
     </p>
     {
       hasEducation ? (
@@ -26,7 +33,7 @@ const hasEducation = education && education.length > 0;
         </section>
       ) : (
         <div class="text-center text-lg text-gray-500 dark:text-gray-400">
-          No current education records found.
+          {lang === 'ar' ? 'لا توجد سجلات تعليمية حالية.' : 'No current education records found.'}
         </div>
       )
     }
@@ -35,7 +42,7 @@ const hasEducation = education && education.length > 0;
         href="/edu"
         class="inline-block rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 px-7 py-3 text-lg font-semibold text-white shadow-lg ring-2 ring-blue-400/20 transition hover:scale-105 hover:from-blue-700 hover:to-sky-600 hover:shadow-xl dark:from-sky-700 dark:to-blue-800 dark:hover:from-sky-800 dark:hover:to-blue-900"
       >
-        More Education
+        {lang === 'ar' ? 'المزيد من التعليم' : 'More Education'}
       </a>
     </div>
   </div>

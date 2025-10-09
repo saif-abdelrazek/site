@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import type { GetStaticPaths } from "astro";
+import type { CollectionEntry } from "astro:content";
 import MainLayout from "../../layouts/MainLayout.astro";
 import { Icon } from "astro-icon/components";
 import { Image } from "astro:assets";
@@ -8,15 +9,22 @@ import { render } from "astro:content";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const projects = await getCollection("projects");
-  return projects.map((project) => ({
-    params: { slug: project.id },
-  }));
+  return projects.map((project) => {
+    // Remove language prefix from slug for URL generation
+    const slug = project.id.replace(/^(en|ar)\//, '');
+    return {
+      params: { slug },
+      props: { project },
+    };
+  });
 };
 
+interface Props {
+  project: CollectionEntry<"projects">;
+}
+
 const { slug } = Astro.params;
-const project = await getCollection("projects").then((projects) =>
-  projects.find((p) => p.id === slug),
-);
+const { project } = Astro.props as Props;
 
 if (!project) {
   throw new Error("Project not found");

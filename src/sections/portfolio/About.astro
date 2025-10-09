@@ -1,15 +1,14 @@
 ---
+const {
+  lang,
+} = Astro.props;
 import { Image } from "astro:assets";
-import { getEntry } from "astro:content";
-import { render } from "astro:content";
-const about = await getEntry("portfolio", "about");
+import { PORTFOLIO_CONTENT as PORTFOLIO_CONTENT_EN } from "../../lib/constants";
+import { PORTFOLIO_CONTENT as PORTFOLIO_CONTENT_AR } from "../../lib/constants-ar";
 
-if (!about) {
-  throw new Error("About entry not found in portfolio content.");
-}
-
-const { title, image } = about.data;
-const { Content } = await render(about);
+const PORTFOLIO_CONTENT = lang === 'ar' ? PORTFOLIO_CONTENT_AR : PORTFOLIO_CONTENT_EN;
+import aboutImage from "../../assets/about.jpg";
+const { title, content, fullName } = PORTFOLIO_CONTENT.about;
 ---
 
 <section
@@ -19,9 +18,9 @@ const { Content } = await render(about);
     class="mx-auto flex max-w-6xl flex-col items-center gap-10 px-4 md:flex-row md:items-start"
   >
     {
-      image && (
+      aboutImage && (
         <Image
-          src={image}
+          src={aboutImage}
           alt={title}
           class="mb-6 h-100 w-100 rounded-full border-4 border-blue-100 object-cover shadow-lg md:mr-10 md:mb-0 dark:border-sky-900"
           loading="lazy"
@@ -35,7 +34,8 @@ const { Content } = await render(about);
       <div
         class="prose prose-sky dark:prose-invert mb-6 text-lg text-gray-700 dark:text-gray-300"
       >
-        <Content />
+        <h2>{lang === 'ar' ? 'الاسم الكامل: ' : 'Full Name: '}{fullName}</h2>
+        <p>{content}</p>
       </div>
     </div>
   </div>

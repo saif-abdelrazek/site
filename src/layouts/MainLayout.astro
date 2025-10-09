@@ -6,6 +6,7 @@ import NavBar from "../components/shared/NavBar.astro";
 import SearchOverlay from "../components/blog/search/SearchOverlay.astro";
 import { pwaInfo } from "virtual:pwa-info";
 import SpeedInsights from "@vercel/speed-insights/astro";
+import { SITE_CONFIG, SITE_URLS } from "../lib/constants";
 
 interface Props {
   title?: string;
@@ -13,19 +14,21 @@ interface Props {
   image?: string;
   withNavBar?: boolean;
   linksInHead?: string[];
+  direction?: "ltr" | "rtl";
 }
 
 const {
-  title = "Saif Abdelrazek | Website",
-  description = "Personal website of Saif Abdelrazek || Not just a website",
+  title = SITE_CONFIG.title,
+  description = SITE_CONFIG.description,
   image,
   withNavBar = true,
   linksInHead = [],
+  direction = "ltr",
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={direction === "rtl" ? "ar" : "en"} dir={direction}>
   <head>
     <!-- Critical theme initialization -->
     <script is:inline>
@@ -59,7 +62,7 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="keywords"
-      content="Saif Abdelrazek, Saif, Abdelrazek, Saif Dev, Saif Developer, Abdelrazek Portfolio, Saif Portfolio, Saif Dev Portfolio, Saif Abdelrazek Portfolio, Saif Abdelrazek Website, Saif Dev Website, Saif Abdelrazek Blog, Saif Dev Blog, Saif Blog, Saif Amr, Saif Amr Samy,"
+      content={SITE_CONFIG.keywords}
     />
 
     <title>{title}</title>
@@ -80,7 +83,7 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="Saif Abdelrazek" />
+    <meta name="apple-mobile-web-app-title" content={SITE_CONFIG.name} />
 
     <ClientRouter fallback="swap" />
     {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}

@@ -1,0 +1,69 @@
+---
+interface Props {
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
+  size?: 'sm' | 'md' | 'lg';
+  href?: string;
+  disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+  class?: string;
+  target?: '_blank' | '_self' | '_parent' | '_top';
+  rel?: string;
+  loading?: boolean;
+  fullWidth?: boolean;
+}
+
+const { 
+  variant = 'primary', 
+  size = 'md', 
+  href, 
+  disabled = false,
+  type = 'button',
+  class: className = '',
+  target,
+  rel,
+  loading = false,
+  fullWidth = false,
+  ...props 
+} = Astro.props as Props; 
+
+const variantClasses = {
+  primary: 'btn-primary',
+  secondary: 'btn-secondary',
+  outline: 'btn-outline',
+  ghost: 'btn-ghost',
+  danger: 'bg-red-500 text-white hover:bg-red-600 shadow-sm hover:shadow-md'
+};
+
+const sizeClasses = {
+  sm: 'btn-sm',
+  md: 'btn-md',
+  lg: 'btn-lg'
+};
+
+const classes = [
+  variantClasses[variant],
+  sizeClasses[size],
+  fullWidth && 'w-full',
+  loading && 'opacity-50 cursor-not-allowed',
+  className
+].filter(Boolean).join(' ');
+
+const Element = href ? 'a' : 'button';
+const linkProps = href ? { href, target, rel } : {};
+const buttonProps = !href ? { type, disabled: disabled || loading } : {};
+---
+
+<Element 
+  class={classes}
+  {...linkProps}
+  {...buttonProps}
+  {...props}
+>
+  {loading && (
+    <svg class="animate-spin -ml-1 mr-3 h-4 w-4 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+  )}
+  <slot />
+</Element>

@@ -4,7 +4,9 @@ import MainLayout from "../../layouts/MainLayout.astro";
 import DetailedEduCard from "../../components/portfolio/DetailedEduCard.astro";
 import type { CollectionEntry } from "astro:content";
 
-const education = await getCollection("education");
+const allEducation = await getCollection("education");
+// Filter for English content (default language)
+const education = allEducation.filter((edu) => edu.id.startsWith("en/"));
 
 // Group by type/category
 function groupBy(arr: any[], key: string) {

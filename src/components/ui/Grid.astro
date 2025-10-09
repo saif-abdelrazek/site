@@ -1,0 +1,49 @@
+---
+interface Props {
+  variant?: 'auto-fit' | 'projects' | 'skills' | 'blog' | 'features' | 'custom';
+  gap?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  cols?: number;
+  responsive?: boolean;
+  class?: string;
+}
+
+const { 
+  variant = 'auto-fit', 
+  gap = 'md', 
+  cols,
+  responsive = true,
+  class: className = '' 
+} = Astro.props as Props;
+
+const variantClasses = {
+  'auto-fit': 'grid-auto-fit',
+  'projects': 'grid-projects',
+  'skills': 'grid-skills',
+  'blog': 'grid-blog',
+  'features': 'grid-features',
+  'custom': 'grid'
+};
+
+const gapClasses = {
+  sm: 'gap-4',
+  md: 'gap-6',
+  lg: 'gap-8',
+  xl: 'gap-12',
+  '2xl': 'gap-16'
+};
+
+const colsClass = cols ? `grid-cols-${cols}` : '';
+const responsiveClass = responsive && cols ? `grid-cols-1 sm:grid-cols-2 lg:grid-cols-${cols}` : '';
+
+const classes = [
+  variantClasses[variant],
+  gapClasses[gap],
+  cols && !responsive ? colsClass : '',
+  responsive && cols ? responsiveClass : '',
+  className
+].filter(Boolean).join(' ');
+---
+
+<div class={classes}>
+  <slot />
+</div>

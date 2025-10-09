@@ -1,8 +1,9 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
+import { PAGE_TITLES } from "../lib/constants";
 ---
 
-<MainLayout title="404: Lost in Space | Saif Abdelrazek">
+<MainLayout title={PAGE_TITLES.notFound}>
   <main
     class="flex min-h-screen w-screen flex-col items-center justify-center bg-white px-4 text-center text-gray-900 transition-colors duration-300 dark:bg-gray-900 dark:text-white"
   >

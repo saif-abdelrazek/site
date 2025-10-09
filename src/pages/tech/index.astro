@@ -1,12 +1,10 @@
 ---
-import { getEntry } from "astro:content";
 import MainLayout from "../../layouts/MainLayout.astro";
 import DetailedTechCard from "../../components/portfolio/DetailedTechCard.astro";
 import { fade } from "astro:transitions";
+import { PORTFOLIO_CONTENT, PAGE_TITLES, PAGE_DESCRIPTIONS } from "../../lib/constants";
 
-const techData = await getEntry("portfolio", "technologies");
-
-const technologies = techData?.data.technologies ?? [];
+const technologies = PORTFOLIO_CONTENT.technologies.items ?? [];
 
 // Level order for sorting
 const levelOrder = ["Expert", "Advanced", "Intermediate", "Beginner", "Novice"];
@@ -36,9 +34,8 @@ function getTechByCategory(cat: string) {
   return [...favs, ...nonFavs];
 }
 
-const pageTitle = "Saif Abdelrazek | Technologies & Tools";
-const pageDescription =
-  "Saif Abdelrazek's technology stack, showcasing programming languages, frameworks, tools, and more.";
+const pageTitle = PAGE_TITLES.tech;
+const pageDescription = PAGE_DESCRIPTIONS.tech;
 ---
 
 <MainLayout
@@ -62,7 +59,7 @@ const pageDescription =
       </p>
     </section>
    {
-   techData ? <div class="mx-auto max-w-5xl px-4 py-12">
+   technologies.length > 0 ? <div class="mx-auto max-w-5xl px-4 py-12">
       <main class="mx-auto max-w-5xl px-4 py-12">
         {
           categories.map((category) => {

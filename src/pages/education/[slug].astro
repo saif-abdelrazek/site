@@ -11,10 +11,14 @@ export async function getStaticPaths() {
     console.warn("No education entries found.");
     return [];
   }
-  return education.map((entry) => ({
-    params: { slug: entry.id },
-    props: { entry },
-  }));
+  return education.map((entry) => {
+    // Remove language prefix from slug for URL generation
+    const slug = entry.id.replace(/^(en|ar)\//, '');
+    return {
+      params: { slug },
+      props: { entry },
+    };
+  });
 }
 
 interface EduProps {

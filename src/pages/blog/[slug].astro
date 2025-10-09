@@ -10,10 +10,17 @@ export async function getStaticPaths() {
     return [];
   }
 
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: { post },
-  }));
+  // Filter for English posts only
+  const englishPosts = posts.filter(post => post.id.startsWith("en/"));
+
+  return englishPosts.map((post) => {
+    // Extract just the filename part from the id (remove 'en/' prefix)
+    const slug = post.id.replace("en/", "");
+    return {
+      params: { slug },
+      props: { post },
+    };
+  });
 }
 interface PostProps {
   post: CollectionEntry<"posts">;

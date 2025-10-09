@@ -1,4 +1,7 @@
 ---
+const {
+  lang,
+} = Astro.props;
 import { Icon } from "astro-icon/components";
 const year = new Date().getFullYear();
 ---
@@ -10,7 +13,7 @@ const year = new Date().getFullYear();
     class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 md:flex-row"
   >
     <div class="text-base text-gray-600 dark:text-gray-300">
-      &copy; {year} Saif Abdelrazek. All rights reserved.
+      &copy; {year} {lang === 'ar' ? 'سيف عبدالرازق. جميع الحقوق محفوظة.' : 'Saif Abdelrazek. All rights reserved.'}
     </div>
     <div class="flex justify-center gap-4">
       <a

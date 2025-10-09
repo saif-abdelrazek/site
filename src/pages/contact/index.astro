@@ -1,236 +1,144 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
 import Link from "../../components/shared/Link.astro";
+import { getLangFromUrl } from "../../i18n/utils";
+import { useTranslations } from "../../i18n/translations";
 
-const pageTitle = "Saif Abdelrazek | Contact";
-const pageDescription =
-  "Saif Abdelrazek's contact page for inquiries and feedback. Get in touch via email or social media.";
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const pageTitle = t('page.contact.title');
+const pageDescription = t('page.contact.description');
 ---
 
-<MainLayout title={pageTitle} description={pageDescription} />
+<MainLayout title={pageTitle} description={pageDescription} direction={lang === 'ar' ? 'rtl' : 'ltr'}>
+  <main
+    class="flex min-h-screen w-full items-center justify-center bg-blue-50 px-4 py-12 transition-colors duration-300 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
+  >
+    <div class="w-full max-w-5xl">
+      <form
+        method="POST"
+        class="light:border-blue-100 light:bg-white/80 mx-auto w-full max-w-3xl rounded-2xl border border-blue-100 bg-white/80 p-8 shadow-2xl backdrop-blur-md transition-colors duration-300 dark:border-sky-900 dark:bg-black/40 dark:shadow-2xl dark:backdrop-blur-md"
+        id="contact-form"
+      >
+        <h1
+          class="mb-6 text-center text-3xl font-bold text-blue-700 dark:text-sky-200"
+        >
+          {t('contact.title')}
+        </h1>
+        <div id="form-messages" class="mb-4"></div>
+        <div class="mb-4">
+          <label
+            for="name"
+            class="mb-2 block font-medium text-blue-700 dark:text-sky-100"
+          >
+            {t('contact.name')}
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            class="w-full rounded-md border border-blue-100 bg-blue-50 px-4 py-2 text-base text-blue-900 focus:border-blue-400 focus:outline-none dark:border-sky-800 dark:bg-slate-900/60 dark:text-sky-100 dark:focus:border-sky-400"
+          />
+        </div>
+        <div class="mb-4">
+          <label
+            for="email"
+            class="mb-2 block font-medium text-blue-700 dark:text-sky-100"
+          >
+            {t('contact.email')}
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            class="w-full rounded-md border border-blue-100 bg-blue-50 px-4 py-2 text-base text-blue-900 focus:border-blue-400 focus:outline-none dark:border-sky-800 dark:bg-slate-900/60 dark:text-sky-100 dark:focus:border-sky-400"
+          />
+        </div>
+        <div class="mb-4">
+          <label
+            for="subject"
+            class="mb-2 block font-medium text-blue-700 dark:text-sky-100"
+          >
+            {t('contact.subject')}
+          </label>
+          <input
+            type="text"
+            id="subject"
+            name="subject"
+            required
+            class="w-full rounded-md border border-blue-100 bg-blue-50 px-4 py-2 text-base text-blue-900 focus:border-blue-400 focus:outline-none dark:border-sky-800 dark:bg-slate-900/60 dark:text-sky-100 dark:focus:border-sky-400"
+          />
+        </div>
+        <div class="mb-6">
+          <label
+            for="message"
+            class="mb-2 block font-medium text-blue-700 dark:text-sky-100"
+          >
+            {t('contact.message')}
+          </label>
+          <textarea
+            id="message"
+            name="message"
+            required
+            rows="5"
+            class="w-full resize-none rounded-md border border-blue-100 bg-blue-50 px-4 py-2 text-base text-blue-900 focus:border-blue-400 focus:outline-none dark:border-sky-800 dark:bg-slate-900/60 dark:text-sky-100 dark:focus:border-sky-400"
+          ></textarea>
+        </div>
+        <input type="hidden" name="ip" id="ip" value={"Unknown"} />
+        <input type="hidden" name="city" id="city" value={"Unknown"} />
+        <input type="hidden" name="country" id="country" value={"Unknown"} />
+        <input type="hidden" name="theme" id="theme-input" value="dark" />
+        <button
+          type="submit"
+          class="mb-6 w-full rounded bg-blue-700 px-6 py-2 text-base font-semibold text-white shadow transition hover:bg-blue-600 dark:bg-sky-700 dark:hover:bg-sky-600"
+        >
+          {t('contact.send')}
+        </button>
+      </form>
 
-<main
-  class="flex min-h-screen w-full items-center justify-center bg-blue-50 px-4 py-12 transition-colors duration-300 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
->
-  <div class="w-full max-w-5xl">
-    <form
-      method="POST"
-      class="light:border-blue-100 light:bg-white/80 mx-auto w-full max-w-3xl rounded-2xl border border-blue-100 bg-white/80 p-8 shadow-2xl backdrop-blur-md transition-colors duration-300 dark:border-sky-900 dark:bg-black/40 dark:shadow-2xl dark:backdrop-blur-md"
-      id="contact-form"
-    >
-      <h1
-        class="mb-6 text-center text-3xl font-bold text-blue-700 dark:text-sky-200"
+      <div
+        class="light:bg-white/80 mx-auto mt-8 w-full max-w-3xl rounded-2xl border border-blue-100 p-8 shadow-2xl backdrop-blur-md transition-colors duration-300 dark:border-sky-900 dark:bg-gradient-to-br dark:from-slate-900/80 dark:via-slate-800/80 dark:to-slate-900/60 dark:shadow-2xl dark:backdrop-blur-md"
       >
-        Contact Me
-      </h1>
-      <div id="form-messages" class="mb-4"></div>
-      <div class="mb-4">
-        <label
-          for="name"
-          class="mb-2 block font-medium text-blue-700 dark:text-sky-100"
-          >Name</label
+        <h2
+          class="mb-6 text-center text-2xl font-extrabold text-blue-700 drop-shadow-lg dark:text-sky-200"
         >
-        <input
-          type="text"
-          id="name"
-          name="name"
-          required
-          class="w-full rounded-md border border-blue-100 bg-blue-50 px-4 py-2 text-base text-blue-900 focus:border-blue-400 focus:outline-none dark:border-sky-800 dark:bg-slate-900/60 dark:text-sky-100 dark:focus:border-sky-400"
-        />
-      </div>
-      <div class="mb-4">
-        <label
-          for="email"
-          class="mb-2 block font-medium text-blue-700 dark:text-sky-100"
-          >Email</label
+          {t('contact.otherWays')}
+        </h2>
+        <ul
+          class="mb-4 flex flex-col items-center gap-6 md:flex-row md:justify-center"
         >
-        <input
-          type="email"
-          id="email"
-          name="email"
-          required
-          class="w-full rounded-md border border-blue-100 bg-blue-50 px-4 py-2 text-base text-blue-900 focus:border-blue-400 focus:outline-none dark:border-sky-800 dark:bg-slate-900/60 dark:text-sky-100 dark:focus:border-sky-400"
-        />
+          <li>
+            <Link
+              href="/github"
+              icon={{ name: "mdi:github", position: "left" }}
+              text="GitHub"
+              class="flex items-center gap-2 rounded-lg bg-blue-100 px-4 py-3 text-blue-700 shadow transition hover:bg-blue-200 hover:text-blue-900 dark:bg-slate-900/60 dark:text-sky-100 dark:hover:bg-sky-800/80 dark:hover:text-sky-400"
+            />
+          </li>
+          <li>
+            <Link
+              href="https://www.linkedin.com/in/saifabdelrazek"
+              icon={{ name: "mdi:linkedin", position: "left" }}
+              text="LinkedIn"
+              class="flex items-center gap-2 rounded-lg bg-blue-100 px-4 py-3 text-blue-700 shadow transition hover:bg-blue-200 hover:text-blue-900 dark:bg-slate-900/60 dark:text-sky-100 dark:hover:bg-sky-800/80 dark:hover:text-sky-400"
+            />
+          </li>
+          <li>
+            <Link
+              href="mailto:saif@saifabdelrazek.com"
+              icon={{ name: "mdi:email-outline", position: "left" }}
+              text="Email"
+              class="flex items-center gap-2 rounded-lg bg-blue-100 px-4 py-3 text-blue-700 shadow transition hover:bg-blue-200 hover:text-blue-900 dark:bg-slate-900/60 dark:text-sky-100 dark:hover:bg-sky-800/80 dark:hover:text-sky-400"
+            />
+          </li>
+        </ul>
+        <p class="mt-2 text-center text-base text-blue-700 dark:text-sky-200">
+          {t('contact.dontHesitate')}
+        </p>
       </div>
-      <div class="mb-4">
-        <label
-          for="subject"
-          class="mb-2 block font-medium text-blue-700 dark:text-sky-100"
-          >Subject</label
-        >
-        <input
-          type="text"
-          id="subject"
-          name="subject"
-          required
-          class="w-full rounded-md border border-blue-100 bg-blue-50 px-4 py-2 text-base text-blue-900 focus:border-blue-400 focus:outline-none dark:border-sky-800 dark:bg-slate-900/60 dark:text-sky-100 dark:focus:border-sky-400"
-        />
-      </div>
-      <div class="mb-6">
-        <label
-          for="message"
-          class="mb-2 block font-medium text-blue-700 dark:text-sky-100"
-          >Message</label
-        >
-        <textarea
-          id="message"
-          name="message"
-          required
-          rows="5"
-          class="w-full resize-none rounded-md border border-blue-100 bg-blue-50 px-4 py-2 text-base text-blue-900 focus:border-blue-400 focus:outline-none dark:border-sky-800 dark:bg-slate-900/60 dark:text-sky-100 dark:focus:border-sky-400"
-        ></textarea>
-      </div>
-      <input type="hidden" name="ip" id="ip" value={"Unknown"} />
-      <input type="hidden" name="city" id="city" value={"Unknown"} />
-      <input type="hidden" name="country" id="country" value={"Unknown"} />
-      <input type="hidden" name="theme" id="theme-input" value="dark" />
-      <button
-        type="submit"
-        class="mb-6 w-full rounded bg-blue-700 px-6 py-2 text-base font-semibold text-white shadow transition hover:bg-blue-600 dark:bg-sky-700 dark:hover:bg-sky-600"
-      >
-        Send Message
-      </button>
-    </form>
-
-    <div
-      class="light:bg-white/80 mx-auto mt-8 w-full max-w-3xl rounded-2xl border border-blue-100 p-8 shadow-2xl backdrop-blur-md transition-colors duration-300 dark:border-sky-900 dark:bg-gradient-to-br dark:from-slate-900/80 dark:via-slate-800/80 dark:to-slate-900/60 dark:shadow-2xl dark:backdrop-blur-md"
-    >
-      <h2
-        class="mb-6 text-center text-2xl font-extrabold text-blue-700 drop-shadow-lg dark:text-sky-200"
-      >
-        Other ways to reach me
-      </h2>
-      <ul
-        class="mb-4 flex flex-col items-center gap-6 md:flex-row md:justify-center"
-      >
-        <li>
-          <Link
-            href="/github"
-            icon={{ name: "mdi:github", position: "left" }}
-            text="GitHub"
-            class="flex items-center gap-2 rounded-lg bg-blue-100 px-4 py-3 text-blue-700 shadow transition hover:bg-blue-200 hover:text-blue-900 dark:bg-slate-900/60 dark:text-sky-100 dark:hover:bg-sky-800/80 dark:hover:text-sky-400"
-          />
-        </li>
-        <li>
-          <Link
-            href="https://www.linkedin.com/in/saifabdelrazek"
-            icon={{ name: "mdi:linkedin", position: "left" }}
-            text="LinkedIn"
-            class="flex items-center gap-2 rounded-lg bg-blue-100 px-4 py-3 text-blue-700 shadow transition hover:bg-blue-200 hover:text-blue-900 dark:bg-slate-900/60 dark:text-sky-100 dark:hover:bg-sky-800/80 dark:hover:text-sky-400"
-          />
-        </li>
-        <li>
-          <Link
-            href="mailto:saif@saifabdelrazek.com"
-            icon={{ name: "mdi:email-outline", position: "left" }}
-            text="Email"
-            class="flex items-center gap-2 rounded-lg bg-blue-100 px-4 py-3 text-blue-700 shadow transition hover:bg-blue-200 hover:text-blue-900 dark:bg-slate-900/60 dark:text-sky-100 dark:hover:bg-sky-800/80 dark:hover:text-sky-400"
-          />
-        </li>
-      </ul>
-      <p class="mt-2 text-center text-base text-blue-700 dark:text-sky-200">
-        Feel free to reach out if you have any questions or inquiries!
-      </p>
     </div>
-  </div>
-</main>
-
-<script>
-  import { getUserInfo } from "../../loaders/userInfo";
-
-  const form = document.getElementById("contact-form") as HTMLFormElement;
-  const handleContactFormSubmit = async (e: Event) => {
-    e.preventDefault();
-    if (!form) throw new Error("Contact form not found");
-    const formData = new FormData(form);
-
-    const formDataObject = {
-      name: formData.get("name"),
-      email: formData.get("email"),
-      subject: formData.get("subject"),
-      message: formData.get("message"),
-      ip: formData.get("ip"),
-      city: formData.get("city"),
-      country: formData.get("country"),
-      theme: formData.get("theme") || "dark", // Default to dark if not set
-    };
-
-    const formSubmitButton = form.querySelector(
-      "button[type='submit']",
-    ) as HTMLButtonElement;
-    if (!formSubmitButton) {
-      throw new Error("Submit button not found");
-    }
-    const formMessages = document.getElementById("form-messages");
-    if (!formMessages) {
-      throw new Error("Form messages container not found");
-    }
-    try {
-      formSubmitButton.disabled = true;
-      formSubmitButton.textContent = "Sending...";
-      const response = await fetch("/api/contact.json", {
-        method: "POST",
-        body: JSON.stringify(formDataObject),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      let result;
-      try {
-        result = await response.json();
-      } catch {
-        throw new Error("Invalid server response");
-      }
-
-      if (!response.ok) {
-        throw new Error(result?.error || "Failed to submit contact form");
-      }
-
-      formMessages.innerHTML = `<p class="text-green-500">Message sent successfully!</p>`;
-
-      formSubmitButton.textContent = "Sent!";
-      form.reset();
-    } catch (error: any) {
-      console.error("Error submitting contact form:", error);
-      formMessages.innerHTML = `<p class="text-red-500">${error.message || "Failed to submit contact form"}</p>`;
-      formSubmitButton.textContent = "Try Again (wait 10 seconds)";
-    } finally {
-      // Reset the form messages after 10 seconds
-      setTimeout(() => {
-        formSubmitButton.disabled = false;
-        formSubmitButton.textContent = "Send Message";
-        formMessages.classList.remove("block");
-        formMessages.classList.add("hidden");
-      }, 10000);
-    }
-  };
-  form.addEventListener("submit", handleContactFormSubmit);
-
-  function updateThemeInput() {
-    (document.getElementById("theme-input") as HTMLInputElement).value =
-      document.documentElement.classList.contains("dark") ? "dark" : "light";
-  }
-
-  updateThemeInput();
-
-  // Set observer to handle the classes changing in the html element
-  const observer = new MutationObserver(updateThemeInput);
-  observer.observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ["class"],
-  });
-
-  const userInfo = await getUserInfo();
-  if (userInfo) {
-    (document.getElementById("ip") as HTMLInputElement).value = userInfo.ip;
-    (document.getElementById("city") as HTMLInputElement).value = userInfo.city;
-    (document.getElementById("country") as HTMLInputElement).value =
-      userInfo.country;
-  }
-  const htmlElement = document.documentElement;
-  htmlElement.addEventListener("change", () => {
-    (document.getElementById("theme-input") as HTMLInputElement).value =
-      document.documentElement.classList.contains("dark") ? "dark" : "light";
-  });
-</script>
+  </main>
+</MainLayout>
