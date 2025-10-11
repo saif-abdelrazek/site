@@ -148,7 +148,7 @@ const pageDescription = t('page.contact.description');
     error: t('contact.error'),
     tryAgain: t('contact.tryAgain')
   } }}>
-    document.addEventListener('DOMContentLoaded', function() {
+  const handleContactFormFunctionality = function() {
       const form = document.getElementById('contact-form');
       const formMessages = document.getElementById('form-messages');
       const submitButton = form.querySelector('button[type="submit"]');
@@ -208,7 +208,6 @@ const pageDescription = t('page.contact.description');
       // Initialize
       getUserData();
       restoreFormData();
-      document.addEventListener('astro:after-swap', restoreFormData);
 
       // Save form data on input changes
       const saveFieldsData = () => {
@@ -221,7 +220,6 @@ const pageDescription = t('page.contact.description');
       });
     };
       saveFieldsData();
-      document.addEventListener('astro:after-swap', saveFieldsData);
 
       form.addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -296,6 +294,8 @@ const pageDescription = t('page.contact.description');
           submitButton.textContent = originalButtonText;
         }
       });
-    });
+    }
+    handleContactFormFunctionality();
+  document.addEventListener('astro:after-swap', handleContactFormFunctionality);
   </script>
 </MainLayout>
