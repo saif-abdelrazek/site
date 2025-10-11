@@ -190,7 +190,7 @@ const pageDescription = description + " | " + t('page.education.description');
     const from = url.searchParams.get("from");
 
     // Decide where to go back
-    const backHref = from === "all" ? "/education#" + currentSlug : "/#education";
+    const backHref = from === "all" ? (lang === 'en' ? `/education#${currentSlug}` : `/${lang}/education#${currentSlug}`) : (lang === 'en' ? '/#education' : `/${lang}/#education`);
     const backLabel =
       from === "all" ? backToAll : backToSection;
 

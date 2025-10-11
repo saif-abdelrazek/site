@@ -52,11 +52,11 @@ const pageTitle = `${title} - ${t('projects.title')}`;
   >
     <div class="mb-6 flex w-full max-w-3xl justify-start">
       <a
-        href="/#projects"
+        href={lang === 'en' ? '/#projects' : `/${lang}/#projects`}
         class="ml-2 inline-flex items-center gap-2 rounded bg-blue-100 px-3 py-2 font-semibold text-blue-700 transition-colors hover:bg-blue-200 dark:bg-sky-900/60 dark:text-sky-200 dark:hover:bg-sky-800"
         aria-label={t('ui.backToTop')}
       >
-        <Icon name="mdi:arrow-left" class="h-5 w-5" />
+        <Icon name={constants.LANGUAGE_DIRECTION === "rtl" ? "mdi:arrow-right" : "mdi:arrow-left"} class="h-5 w-5" />
         {t('projects.backToSection')}
       </a>
     </div>
