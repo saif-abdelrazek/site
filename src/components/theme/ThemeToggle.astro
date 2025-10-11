@@ -1,13 +1,16 @@
 ---
-// filepath: /mnt/World/site/src/components/theme/ThemeToggle.astro
 import { Icon } from "astro-icon/components";
+import { useTranslations } from "../../i18n/translations";
+import { getLangFromUrl } from "../../i18n/utils";
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <button
   id="theme-toggle"
-  class="flex w-full items-center justify-center gap-2 rounded-md px-3 py-4 text-sm font-medium text-blue-700 transition-colors duration-200 hover:bg-blue-50 hover:text-blue-900 dark:text-sky-300 dark:hover:bg-sky-900/30 dark:hover:text-sky-100"
+  class="inline-flex items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-blue-700 transition-colors duration-200 hover:bg-blue-100 hover:text-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:text-sky-300 dark:hover:bg-sky-900/30 dark:hover:text-sky-100 dark:focus:ring-sky-400"
   type="button"
-  aria-label="Toggle theme"
+  aria-label={t('ui.switchTheme')}
 >
   <span
     id="theme-toggle-icon"
@@ -35,7 +38,7 @@ import { Icon } from "astro-icon/components";
       width={20}
     />
   </span>
-  <span class="hidden md:inline">Theme</span>
+  <span class="hidden sm:inline">{t('ui.switchTheme')}</span>
 </button>
 
 <script is:inline>

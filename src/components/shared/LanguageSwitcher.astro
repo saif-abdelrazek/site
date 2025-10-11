@@ -1,0 +1,147 @@
+---
+import { languages, getLangFromUrl, getLocalizedUrl } from "../../i18n/utils";
+import { useTranslations } from "../../i18n/translations";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const currentPath = Astro.url.pathname;
+---
+
+<div class="relative inline-block text-left">
+  <button
+    id="language-switcher-button"
+    type="button"
+    class="inline-flex w-full items-center justify-center gap-2 rounded-md bg-transparent px-3 py-2 text-sm font-medium text-blue-700 transition-colors duration-200 hover:bg-blue-100 hover:text-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:text-sky-300 dark:hover:bg-sky-900/30 dark:hover:text-sky-100 dark:focus:ring-sky-400"
+    aria-expanded="false"
+    aria-haspopup="true"
+    aria-label={t('language.switch')}
+  >
+    <span class="flag-icon text-base">
+      {lang === 'ar' ? '🇸🇦' : '🇺🇸'}
+    </span>
+    <span class="hidden sm:inline">{languages[lang]}</span>
+    <svg class="h-4 w-4 text-current transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" id="language-switcher-chevron">
+      <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+    </svg>
+  </button>
+
+  <div
+    id="language-switcher-dropdown"
+    class="absolute right-0 z-[9999] mt-2 w-48 origin-top-right rounded-lg border border-blue-100 bg-blue-50 shadow-xl backdrop-blur-md transition-all duration-200 scale-95 opacity-0 pointer-events-none dark:border-sky-900 dark:bg-[#0f172a] md:right-0 right-0"
+    role="menu"
+    aria-orientation="vertical"
+    aria-labelledby="language-switcher-button"
+    style="position: fixed; top: auto; transform: translateY(0);"
+  >
+    <div class="py-1" role="none">
+      {Object.entries(languages).map(([langCode, langName]) => (
+        <a
+          href={getLocalizedUrl(currentPath, langCode as keyof typeof languages)}
+          class={`flex items-center gap-3 px-4 py-3 text-sm transition-colors duration-200 hover:bg-blue-100 dark:hover:bg-sky-900/30 ${
+            lang === langCode 
+              ? 'bg-blue-100 text-blue-900 dark:bg-sky-900/50 dark:text-sky-100 font-medium' 
+              : 'text-blue-700 dark:text-sky-300'
+          }`}
+          role="menuitem"
+        >
+          <span class="flag-icon text-base">
+            {langCode === 'ar' ? '🇸🇦' : '🇺🇸'}
+          </span>
+          <span class="flex-1">{langName}</span>
+          {lang === langCode && (
+            <svg class="h-4 w-4 text-blue-600 dark:text-sky-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+          )}
+        </a>
+      ))}
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const handleToggleLanguage = () => {
+      const button = document.getElementById('language-switcher-button');
+      const dropdown = document.getElementById('language-switcher-dropdown');
+      const chevron = document.getElementById('language-switcher-chevron');
+      
+      if (button && dropdown && chevron) {
+        
+        // Position dropdown correctly on mobile
+        const positionDropdown = () => {
+          const buttonRect = button.getBoundingClientRect();
+          const isMobile = window.innerWidth < 768;
+          
+          if (isMobile) {
+            dropdown.style.position = 'fixed';
+            dropdown.style.top = `${buttonRect.bottom + 8}px`;
+            dropdown.style.right = `${window.innerWidth - buttonRect.right}px`;
+            dropdown.style.left = 'auto';
+            dropdown.style.transform = 'none';
+          } else {
+            dropdown.style.position = 'absolute';
+            dropdown.style.top = 'auto';
+            dropdown.style.right = '0';
+            dropdown.style.left = 'auto';
+            dropdown.style.transform = '';
+          }
+        };
+        
+        button.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          const isOpen = !dropdown.classList.contains('pointer-events-none');
+          
+          if (isOpen) {
+            // Close dropdown
+            dropdown.classList.add('pointer-events-none', 'opacity-0', 'scale-95');
+            dropdown.classList.remove('opacity-100', 'scale-100');
+            chevron.style.transform = 'rotate(0deg)';
+            button.setAttribute('aria-expanded', 'false');
+          } else {
+            // Position dropdown before opening
+            positionDropdown();
+            
+            // Open dropdown
+            dropdown.classList.remove('pointer-events-none', 'opacity-0', 'scale-95');
+            dropdown.classList.add('opacity-100', 'scale-100');
+            chevron.style.transform = 'rotate(180deg)';
+            button.setAttribute('aria-expanded', 'true');
+          }
+        });
+  
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+          if (!button.contains(event.target as Node) && !dropdown.contains(event.target as Node)) {
+            dropdown.classList.add('pointer-events-none', 'opacity-0', 'scale-95');
+            dropdown.classList.remove('opacity-100', 'scale-100');
+            chevron.style.transform = 'rotate(0deg)';
+            button.setAttribute('aria-expanded', 'false');
+          }
+        });
+        
+        // Close dropdown on escape key
+        document.addEventListener('keydown', function(event) {
+          if (event.key === 'Escape') {
+            dropdown.classList.add('pointer-events-none', 'opacity-0', 'scale-95');
+            dropdown.classList.remove('opacity-100', 'scale-100');
+            chevron.style.transform = 'rotate(0deg)';
+            button.setAttribute('aria-expanded', 'false');
+          }
+        });
+        
+        // Reposition on window resize
+        window.addEventListener('resize', () => {
+          if (!dropdown.classList.contains('pointer-events-none')) {
+            positionDropdown();
+          }
+        });
+      }
+    }
+    
+    handleToggleLanguage();
+    document.addEventListener('astro:after-swap', handleToggleLanguage);
+  });
+</script>

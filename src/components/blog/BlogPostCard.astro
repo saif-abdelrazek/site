@@ -1,12 +1,24 @@
 ---
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
+import { getLangFromUrl } from "../../i18n/utils";
+import { useTranslations } from "../../i18n/translations";
+import {createLocalizedConstants} from "../../lib/constants";
+
 interface PostProps {
   post: CollectionEntry<"posts">;
 }
 
 const { post } = Astro.props as PostProps;
 const tags = post.data.tags ? post.data.tags.slice(0, 3) : [];
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const constants = createLocalizedConstants(lang);
+
+const {LANGUAGE_DIRECTION} = constants;
+
+
 ---
 
 <div
@@ -32,7 +44,7 @@ const tags = post.data.tags ? post.data.tags.slice(0, 3) : [];
     <div
       class="mb-2 flex flex-wrap gap-2 text-xs text-gray-500 dark:text-gray-400"
     >
-      <span>{post.data.date?.toLocaleDateString?.() ?? "Unknown date"}</span>
+      <span>{post.data.date?.toLocaleDateString?.() ?? t('blog.unknownDate')}</span>
       {
         tags.length > 0 &&
           tags.map((tag) => (
@@ -44,7 +56,7 @@ const tags = post.data.tags ? post.data.tags.slice(0, 3) : [];
       {
         post.data.tags && post.data.tags.length > 3 && (
           <span class="rounded bg-blue-50 px-2 py-0.5 font-medium text-blue-500 dark:bg-sky-900/30 dark:text-sky-400">
-            +{post.data.tags.length - 3} more
+            +{post.data.tags.length - 3} {t('blog.more')}
           </span>
         )
       }
@@ -52,12 +64,12 @@ const tags = post.data.tags ? post.data.tags.slice(0, 3) : [];
     <p class="mb-4 line-clamp-3 text-sm text-gray-700 dark:text-gray-300">
       {post.data.description}
     </p>
-    <div class="mt-auto flex justify-end">
+    <div class={`mt-auto flex justify-end ${LANGUAGE_DIRECTION === 'rtl' ? 'flex-row-reverse' : ''}`}>
       <a
-        href={`/blog/${post.id}/`}
+        href={`${lang === 'en' ? '' : '/' + lang}/blog/${post.id.split('/')[1]}/`}
         class="inline-block rounded bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow transition hover:bg-blue-700 dark:bg-sky-700 dark:hover:bg-sky-800"
       >
-        Read More
+        {t('blog.readMore')}
       </a>
     </div>
   </div>

@@ -1,7 +1,20 @@
 ---
-import navData from "../../data/navData";
 import Link from "./Link.astro";
 import ThemeToggle from "../theme/ThemeToggle.astro";
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+import { getLangFromUrl } from "../../i18n/utils";
+import { useTranslations } from "../../i18n/translations";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// Navigation items based on language
+const navItems = [
+  { href: lang === 'ar' ? '/ar/blog' : '/blog', label: t('nav.blog'), icon: 'mdi:post' },
+  { href: lang === 'ar' ? '/ar/repos' : '/repos', label: t('nav.repos'), icon: 'mdi:github' },
+  { href: lang === 'ar' ? '/ar/now' : '/now', label: t('nav.now'), icon: 'mdi:clock' },
+  { href: lang === 'ar' ? '/ar/contact' : '/contact', label: t('nav.contact'), icon: 'mdi:email' },
+];
 ---
 
 <nav
@@ -11,8 +24,8 @@ import ThemeToggle from "../theme/ThemeToggle.astro";
   <div class="container mx-auto px-4">
     <div class="flex h-16 items-center justify-between">
       <Link
-        href="/"
-        text="Home"
+        href={lang === 'ar' ? '/ar' : '/'}
+        text={t('nav.home')}
         icon={{ name: "mdi:home", position: "left" }}
         class="text-2xl font-bold tracking-tight text-blue-700 transition-colors duration-200 hover:text-blue-900 dark:text-sky-200 dark:hover:text-sky-100"
       />
@@ -59,17 +72,17 @@ import ThemeToggle from "../theme/ThemeToggle.astro";
       <!-- Nav links -->
       <ul
         id="navbar-links"
-        class="fixed top-16 left-0 z-40 max-h-0 w-full flex-col items-center overflow-hidden border-b border-blue-100 bg-blue-50 text-center shadow-lg transition-all duration-300 md:static md:z-auto md:flex md:max-h-none md:w-auto md:flex-row md:items-center md:gap-6 md:overflow-visible md:border-none md:bg-transparent md:shadow-none dark:bg-[#0f172a] dark:md:bg-transparent"
+        class="fixed top-16 left-0 z-40 max-h-0 w-full flex-col items-center overflow-visible border-b border-blue-100 bg-blue-50 text-center shadow-lg transition-all duration-300 md:static md:z-auto md:flex md:max-h-none md:w-auto md:flex-row md:items-center md:gap-6 md:overflow-visible md:border-none md:bg-transparent md:shadow-none dark:bg-[#0f172a] dark:md:bg-transparent"
       >
         {
-          navData.map((item, idx) => (
+          navItems.map((item, idx) => (
             <li
               class={`w-full md:w-auto ${
                 idx === 0
                   ? "border-t border-blue-100 md:border-none dark:border-sky-900" // Blog link: separator at top on mobile
                   : ""
               } ${
-                idx < navData.length - 1
+                idx < navItems.length - 1
                   ? "border-b border-blue-100 md:border-none dark:border-sky-900"
                   : ""
               }`}
@@ -78,7 +91,7 @@ import ThemeToggle from "../theme/ThemeToggle.astro";
                 href={item.href}
                 text={item.label}
                 icon={{
-                  name: `mdi:${item.icon}`,
+                  name: item.icon,
                   position: "left",
                   class: "hidden md:inline-block",
                 }}
@@ -87,11 +100,12 @@ import ThemeToggle from "../theme/ThemeToggle.astro";
             </li>
           ))
         }
-        <!-- Theme toggle with separator above and full width on mobile -->
+        <!-- Theme toggle and Language switcher with separator above and full width on mobile -->
         <li
-          class="flex w-full justify-center border-t border-blue-100 px-1 md:mt-0 md:ml-4 md:w-auto md:border-none dark:border-sky-900"
+          class="flex w-full justify-center gap-2 border-t border-blue-100 px-3 py-3 md:mt-0 md:ml-4 md:w-auto md:border-none md:px-0 md:py-0 dark:border-sky-900"
         >
-          <ThemeToggle class="w-full" />
+          <LanguageSwitcher />
+          <ThemeToggle />
         </li>
       </ul>
     </div>

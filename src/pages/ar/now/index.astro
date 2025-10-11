@@ -1,0 +1,64 @@
+---
+import MainLayout from "../../../layouts/MainLayout.astro";
+import PartsCard from "../../../components/now/partsCard.astro";
+import { getLangFromUrl } from "../../../i18n/utils";
+import { useTranslations } from "../../../i18n/translations";
+import { createLocalizedConstants } from "../../../lib/constants";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const constants = createLocalizedConstants(lang);
+
+const pageTitle = t('page.now.title');
+const pageDescription = t('page.now.description');
+---
+
+<MainLayout title={pageTitle} description={pageDescription} direction={constants.LANGUAGE_DIRECTION}>
+  <div
+    class="min-h-screen w-full bg-blue-50 transition-colors duration-300 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
+  >
+    <main class="container mx-auto px-4 py-12">
+      <div
+        class="prose prose-headings:text-blue-700 prose-h2:mt-8 prose-h2:mb-4 prose-h2:text-2xl prose-h2:font-semibold prose-h2:border-b prose-h2:border-blue-100 prose-h2:pb-2 dark:prose-invert dark:prose-headings:text-sky-200 dark:prose-h2:border-sky-900 mx-auto max-w-4xl"
+      >
+        <h1 class="text-center">{t('now.title')}</h1>
+
+        <p class="mb-2 text-center text-blue-600/80 dark:text-sky-300/80">
+          <em>{t('now.lastUpdated')}: July 1, 2025</em>
+        </p>
+
+        <div class="mx-auto max-w-4xl mt-6 mb-8">
+          <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+            <PartsCard title={t('now.studying.title')}>
+              <ul>
+                <li>{t('now.studying.highschool')}</li>
+              </ul>
+            </PartsCard>
+          </div>
+        </div>
+
+        <div>
+          <p>
+            {t('now.asciiNote')}
+          </p>
+            <div dir="ltr" class="text-center font-mono text-blue-600 dark:text-sky-300">
+            <pre>
+  (   (      )       (     ( .  (   (   (     )   
+  )\: )\  (  ()      )\    )\ . )\  )\  )\   (()  
+ ((_)(_() )\(())    ((_)  ((() ((_)((_)((_) ()(_) 
+/ __|(_)()_)/ _|    \ \    / // _ \| _ \ |  |   \ 
+\__ \ _` | |  _|     \ \/\/ /| (_) |   / |__| |) |
+|___/__/_|_|_|        \_/\_/  \___/|_|_\____|___/ 
+            </pre>
+          </div>
+        </div>
+
+        <p class="mt-8 text-center">
+          <a href="https://nownownow.com/about" target="_blank" rel="noopener noreferrer">
+            [{t('now.aboutNowPages')}]
+          </a>
+        </p>
+      </div>
+    </main>
+  </div>
+</MainLayout>

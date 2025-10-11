@@ -1,14 +1,15 @@
 ---
-const {
-  lang,
-} = Astro.props;
-import { Image } from "astro:assets";
-import { PORTFOLIO_CONTENT as PORTFOLIO_CONTENT_EN } from "../../lib/constants";
-import { PORTFOLIO_CONTENT as PORTFOLIO_CONTENT_AR } from "../../lib/constants-ar";
+import { getLangFromUrl } from "../../i18n/utils";
+import { useTranslations } from "../../i18n/translations";
+import { createLocalizedConstants } from "../../lib/constants";
 
-const PORTFOLIO_CONTENT = lang === 'ar' ? PORTFOLIO_CONTENT_AR : PORTFOLIO_CONTENT_EN;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const constants = createLocalizedConstants(lang);
+
+import { Image } from "astro:assets";
 import aboutImage from "../../assets/about.jpg";
-const { title, content, fullName } = PORTFOLIO_CONTENT.about;
+const { title, content, fullName } = constants.PORTFOLIO_CONTENT.about;
 ---
 
 <section
@@ -34,7 +35,7 @@ const { title, content, fullName } = PORTFOLIO_CONTENT.about;
       <div
         class="prose prose-sky dark:prose-invert mb-6 text-lg text-gray-700 dark:text-gray-300"
       >
-        <h2>{lang === 'ar' ? 'الاسم الكامل: ' : 'Full Name: '}{fullName}</h2>
+        <h2>{t('about.fullName')}: {fullName}</h2>
         <p>{content}</p>
       </div>
     </div>

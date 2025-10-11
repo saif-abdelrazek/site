@@ -1,9 +1,13 @@
 ---
 import MainLayout from "./MainLayout.astro";
+import { getLangFromUrl } from "../i18n/utils";
+import { useTranslations } from "../i18n/translations";
 
-const pageTitle = "Saif Abdelrazek | Now Page";
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 
-const pageDescription = "Saif Abdelrazek's current focus and projects.";
+const pageTitle = t('page.now.title');
+const pageDescription = t('page.now.description');
 ---
 
 <MainLayout title={pageTitle} description={pageDescription}>

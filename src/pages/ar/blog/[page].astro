@@ -1,14 +1,14 @@
 ---
 import type { GetStaticPaths, Page } from "astro";
 import { getCollection } from "astro:content";
-import MainLayout from "../../layouts/MainLayout.astro";
-import BlogFooter from "../../components/blog/BlogFooter.astro";
-import PostList from "../../components/blog/PostList.astro";
+import MainLayout from "../../../layouts/MainLayout.astro";
+import BlogFooter from "../../../components/blog/BlogFooter.astro";
+import PostList from "../../../components/blog/PostList.astro";
 import type { CollectionEntry } from "astro:content";
-import SearchBtn from "../../components/blog/search/SearchBtn.astro";
-import { createLocalizedConstants } from "../../lib/constants";
-import { getLangFromUrl } from "../../i18n/utils";
-import { useTranslations } from "../../i18n/translations";
+import SearchBtn from "../../../components/blog/search/SearchBtn.astro";
+import { createLocalizedConstants } from "../../../lib/constants";
+import { getLangFromUrl } from "../../../i18n/utils";
+import { useTranslations } from "../../../i18n/translations";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -18,10 +18,10 @@ const { PAGE_TITLES, PAGE_DESCRIPTIONS, BLOG_CONFIG } = constants;
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const posts = await getCollection("posts");
 
-  // Filter with lang - hardcode 'en' for English blog pages
-  const englishPosts = posts.filter(post => post.id.startsWith(`en/`));
+  // Filter with lang - hardcode 'ar' for Arabic blog pages
+  const arabicPosts = posts.filter(post => post.id.startsWith(`ar/`));
 
-  const sortedPosts = englishPosts.sort((a, b) => {
+  const sortedPosts = arabicPosts.sort((a, b) => {
     return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
   });
 
@@ -50,7 +50,7 @@ const description = t('page.blogPage.description');
       rel="alternate"
       type="application/rss+xml"
       title="${t('blog.feedTitle')}"
-      href={${new URL("/blog/rss.xml", Astro.site)}}
+      href={${new URL("/ar/blog/rss.xml", Astro.site)}}
     />`,
   ]}
 >
@@ -86,7 +86,7 @@ const description = t('page.blogPage.description');
             <a
               href={page.url.first}
               class="rounded-md bg-blue-100 px-3 py-1 text-blue-700 transition hover:bg-blue-200 dark:bg-slate-800 dark:text-sky-200 dark:hover:bg-slate-700"
-              aria-label={t('pagination.first')}
+              aria-label={t('r')}
             >
               «
             </a>

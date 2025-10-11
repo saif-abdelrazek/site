@@ -2,13 +2,13 @@
 import { getCollection } from "astro:content";
 import type { GetStaticPaths } from "astro";
 import type { CollectionEntry } from "astro:content";
-import MainLayout from "../../layouts/MainLayout.astro";
+import MainLayout from "../../../layouts/MainLayout.astro";
 import { Icon } from "astro-icon/components";
 import { Image } from "astro:assets";
 import { render } from "astro:content";
-import { getLangFromUrl } from "../../i18n/utils";
-import { useTranslations } from "../../i18n/translations";
-import { createLocalizedConstants } from "../../lib/constants";
+import { getLangFromUrl } from "../../../i18n/utils";
+import { useTranslations } from "../../../i18n/translations";
+import { createLocalizedConstants } from "../../../lib/constants";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -16,10 +16,10 @@ const constants = createLocalizedConstants(lang);
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const projects = await getCollection("projects");
-  // Filter English projects only for the English route
-  const englishProjects = projects.filter(project => project.id.startsWith('en/'));
+  // Filter Arabic projects only for the Arabic route
+  const arabicProjects = projects.filter(project => project.id.startsWith('ar/'));
   
-  return englishProjects.map((project) => {
+  return arabicProjects.map((project) => {
     // Remove language prefix from slug for URL generation
     const slug = project.id.replace(/^(en|ar)\//, '');
     return {
@@ -52,11 +52,11 @@ const pageTitle = `${title} - ${t('projects.title')}`;
   >
     <div class="mb-6 flex w-full max-w-3xl justify-start">
       <a
-        href="/#projects"
-        class="ml-2 inline-flex items-center gap-2 rounded bg-blue-100 px-3 py-2 font-semibold text-blue-700 transition-colors hover:bg-blue-200 dark:bg-sky-900/60 dark:text-sky-200 dark:hover:bg-sky-800"
+        href="/ar/#projects"
+        class="mr-2 inline-flex items-center gap-2 rounded bg-blue-100 px-3 py-2 font-semibold text-blue-700 transition-colors hover:bg-blue-200 dark:bg-sky-900/60 dark:text-sky-200 dark:hover:bg-sky-800"
         aria-label={t('ui.backToTop')}
       >
-        <Icon name="mdi:arrow-left" class="h-5 w-5" />
+        <Icon name="mdi:arrow-right" class="h-5 w-5" />
         {t('projects.backToSection')}
       </a>
     </div>
@@ -88,7 +88,7 @@ const pageTitle = `${title} - ${t('projects.title')}`;
           <div class="mb-6 flex flex-wrap gap-3">
             {technologies.map((tech) => (
               <a
-                href={`/tech/#${tech.slug}`}
+                href={`/ar/tech/#${tech.slug}`}
                 class="inline-flex items-center gap-1 rounded bg-blue-100 px-2 py-1 text-xs font-semibold text-blue-700 dark:bg-sky-900/60 dark:text-sky-200"
               >
                 {tech.icon && <Icon name={tech.icon} class="h-5 w-5" />}

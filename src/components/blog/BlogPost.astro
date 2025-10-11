@@ -3,22 +3,29 @@ import MainLayout from "../../layouts/MainLayout.astro";
 import PostHeader from "./PostHeader.astro";
 import PostContent from "./PostContent.astro";
 import type { CollectionEntry } from "astro:content";
+import { getLangFromUrl } from "../../i18n/utils";
+import { useTranslations } from "../../i18n/translations";
+
 interface Props {
   post: CollectionEntry<"posts">;
 }
 const { post } = Astro.props as Props;
 const { data } = post;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
 const {
   title = "",
   description = "",
   image = {
     src: "",
-    alt: "Blog Post Header Image",
+    alt: t('blog.postHeaderImage'),
   }, // Ensure image is an object with src and alt
 } = data;
 
 const pageTitle =
-  (title ? title : "Untitled Post") + " | Saif Abdelrazek's Blog";
+  (title ? title : t('blog.untitledPost')) + " | " + t('page.blogPage.title');
 ---
 
 <MainLayout title={pageTitle} {description}>

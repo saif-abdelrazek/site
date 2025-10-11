@@ -1,16 +1,18 @@
 ---
 import { getCollection, render } from "astro:content";
 import type { CollectionEntry } from "astro:content";
-import MainLayout from "../../layouts/MainLayout.astro";
+import MainLayout from "../../../layouts/MainLayout.astro";
 import { Icon } from "astro-icon/components";
 import { Image } from "astro:assets";
-import { useTranslations } from "../../i18n/translations";
-import { getLangFromUrl } from "../../i18n/utils";
-import { createLocalizedConstants } from "../../lib/constants";
-
+import { useTranslations } from "../../../i18n/translations";
+import { getLangFromUrl } from "../../../i18n/utils";
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+import { createLocalizedConstants } from "../../../lib/constants";
+
 const constants = createLocalizedConstants(lang);
+
 const { LANGUAGE_DIRECTION } = constants;
 
 export async function getStaticPaths() {
@@ -20,12 +22,12 @@ export async function getStaticPaths() {
     return [];
   }
   
-  // Filter for English education entries only
-  const englishEducation = education.filter(entry => entry.id.startsWith('en/'));
+  // Filter for Arabic education entries only
+  const arabicEducation = education.filter(entry => entry.id.startsWith('ar/'));
   
-  return englishEducation.map((entry) => {
+  return arabicEducation.map((entry) => {
     // Remove language prefix from slug for URL generation
-    const slug = entry.id.replace(/^en\//, '');
+    const slug = entry.id.replace(/^ar\//, '');
     return {
       params: { slug },
       props: { entry },
@@ -91,7 +93,7 @@ const pageDescription = description + " | " + t('page.education.description');
             />
           )
         }
-        <div class="flex-1 text-left">
+        <div class="flex-1">
           <h1 class="mb-2 text-3xl font-bold text-sky-700 dark:text-sky-300">
             {title}
           </h1>
@@ -190,7 +192,7 @@ const pageDescription = description + " | " + t('page.education.description');
     const from = url.searchParams.get("from");
 
     // Decide where to go back
-    const backHref = from === "all" ? "/education#" + currentSlug : "/#education";
+    const backHref = from === "all" ? lang === 'en'  ? '/education' : `/${lang}/education#${currentSlug}` : lang=== 'en' ? '/#education' : `/${lang}/#education`;
     const backLabel =
       from === "all" ? backToAll : backToSection;
 

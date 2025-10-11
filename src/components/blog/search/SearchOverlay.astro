@@ -1,6 +1,11 @@
 ---
 import { Icon } from "astro-icon/components";
+import { getLangFromUrl } from "../../../i18n/utils";
+import { useTranslations } from "../../../i18n/translations";
 import "./styles.css";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <dialog id="overlay-search-dialog">
@@ -26,8 +31,7 @@ import "./styles.css";
     </div>
 
     <div class="dialog-footer">
-      <!-- FIXME: parameterize for i18n -->
-      Press <kbd>Esc</kbd> to close
+      {t('search.close')}
     </div>
   </div>
 

@@ -4,14 +4,29 @@
                 xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
   <xsl:output method="html" version="1.0" encoding="UTF-8" indent="yes"/>
   <xsl:template match="/">
-    <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+    <xsl:variable name="isArabic" select="contains(/rss/channel/link, '/ar/')"/>
+    <xsl:variable name="lang" select="if ($isArabic) then 'ar' else 'en'"/>
+    <xsl:variable name="dir" select="if ($isArabic) then 'rtl' else 'ltr'"/>
+    
+    <html xmlns="http://www.w3.org/1999/xhtml">
+      <xsl:attribute name="lang"><xsl:value-of select="$lang"/></xsl:attribute>
+      <xsl:attribute name="dir"><xsl:value-of select="$dir"/></xsl:attribute>
       <head>
-        <title><xsl:value-of select="/rss/channel/title"/> Web Feed</title>
+        <title>
+          <xsl:value-of select="/rss/channel/title"/> 
+          <xsl:choose>
+            <xsl:when test="$isArabic"> خلاصة الويب</xsl:when>
+            <xsl:otherwise> Web Feed</xsl:otherwise>
+          </xsl:choose>
+        </title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
         <style type="text/css">
           html, body {
-            font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+            font-family: <xsl:choose>
+              <xsl:when test="$isArabic">'Cairo', 'Amiri', 'Noto Sans Arabic', Arial, sans-serif</xsl:when>
+              <xsl:otherwise>'Segoe UI', 'Roboto', Arial, sans-serif</xsl:otherwise>
+            </xsl:choose>;
             background: #f6f8fa;
             color: #22223b;
             margin: 0;
@@ -35,7 +50,10 @@
             color: #2a6f97;
             margin-bottom: 0.2em;
             font-weight: 800;
-            letter-spacing: -1px;
+            letter-spacing: <xsl:choose>
+              <xsl:when test="$isArabic">0px</xsl:when>
+              <xsl:otherwise>-1px</xsl:otherwise>
+            </xsl:choose>;
           }
           header h2 {
             font-size: 1.3em;
@@ -77,6 +95,10 @@
             margin-bottom: 24px;
             padding: 22px 20px 18px 20px;
             transition: box-shadow 0.2s;
+            text-align: <xsl:choose>
+              <xsl:when test="$isArabic">right</xsl:when>
+              <xsl:otherwise>left</xsl:otherwise>
+            </xsl:choose>;
           }
           .feed-item:hover {
             box-shadow: 0 4px 24px rgba(56,182,255,0.13);
@@ -136,7 +158,10 @@
                 <path d="M160 213h-34a82 82 0 0 0 -82 -82v-34a116 116 0 0 1 116 116z" fill="#FFF"/>
                 <path d="M184 213A140 140 0 0 0 44 73 V 38a175 175 0 0 1 175 175z" fill="#FFF"/>
               </svg>
-              Web Feed Preview
+              <xsl:choose>
+                <xsl:when test="$isArabic">معاينة خلاصة الويب</xsl:when>
+                <xsl:otherwise>Web Feed Preview</xsl:otherwise>
+              </xsl:choose>
             </h1>
             <h2><xsl:value-of select="/rss/channel/title"/></h2>
             <p><xsl:value-of select="/rss/channel/description"/></p>
@@ -144,10 +169,18 @@
               <xsl:attribute name="href">
                 <xsl:value-of select="/rss/channel/link"/>
               </xsl:attribute>
-              Visit Website &#x2192;
+              <xsl:choose>
+                <xsl:when test="$isArabic">زيارة الموقع ←</xsl:when>
+                <xsl:otherwise>Visit Website &#x2192;</xsl:otherwise>
+              </xsl:choose>
             </a>
           </header>
-          <h2>Recent Items</h2>
+          <h2>
+            <xsl:choose>
+              <xsl:when test="$isArabic">العناصر الحديثة</xsl:when>
+              <xsl:otherwise>Recent Items</xsl:otherwise>
+            </xsl:choose>
+          </h2>
           <xsl:for-each select="/rss/channel/item">
             <div class="feed-item">
               <h3>
@@ -159,7 +192,11 @@
                 </a>
               </h3>
               <small>
-                Published: <xsl:value-of select="pubDate" />
+                <xsl:choose>
+                  <xsl:when test="$isArabic">نُشر في: </xsl:when>
+                  <xsl:otherwise>Published: </xsl:otherwise>
+                </xsl:choose>
+                <xsl:value-of select="pubDate" />
               </small>
             </div>
           </xsl:for-each>

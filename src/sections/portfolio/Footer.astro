@@ -1,7 +1,10 @@
 ---
-const {
-  lang,
-} = Astro.props;
+import { getLangFromUrl } from "../../i18n/utils";
+import { useTranslations } from "../../i18n/translations";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
 import { Icon } from "astro-icon/components";
 const year = new Date().getFullYear();
 ---
@@ -13,7 +16,7 @@ const year = new Date().getFullYear();
     class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 md:flex-row"
   >
     <div class="text-base text-gray-600 dark:text-gray-300">
-      &copy; {year} {lang === 'ar' ? 'سيف عبدالرازق. جميع الحقوق محفوظة.' : 'Saif Abdelrazek. All rights reserved.'}
+      &copy; {year} {t('site.author')}. {t('copyright.allRightsReserved')}
     </div>
     <div class="flex justify-center gap-4">
       <a

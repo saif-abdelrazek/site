@@ -6,7 +6,13 @@ import NavBar from "../components/shared/NavBar.astro";
 import SearchOverlay from "../components/blog/search/SearchOverlay.astro";
 import { pwaInfo } from "virtual:pwa-info";
 import SpeedInsights from "@vercel/speed-insights/astro";
-import { SITE_CONFIG, SITE_URLS } from "../lib/constants";
+import { getLangFromUrl } from "../i18n/utils";
+import { useTranslations } from "../i18n/translations";
+import { createLocalizedConstants } from "../lib/constants";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const constants = createLocalizedConstants(lang);
 
 interface Props {
   title?: string;
@@ -18,12 +24,12 @@ interface Props {
 }
 
 const {
-  title = SITE_CONFIG.title,
-  description = SITE_CONFIG.description,
+  title = constants.SITE_CONFIG.title,
+  description = constants.SITE_CONFIG.description,
   image,
   withNavBar = true,
   linksInHead = [],
-  direction = "ltr",
+  direction = constants.LANGUAGE_DIRECTION,
 } = Astro.props;
 ---
 
@@ -62,7 +68,7 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="keywords"
-      content={SITE_CONFIG.keywords}
+      content={constants.SITE_CONFIG.keywords}
     />
 
     <title>{title}</title>
@@ -83,7 +89,7 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content={SITE_CONFIG.name} />
+    <meta name="apple-mobile-web-app-title" content={constants.SITE_CONFIG.name} />
 
     <ClientRouter fallback="swap" />
     {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}

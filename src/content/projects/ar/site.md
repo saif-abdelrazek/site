@@ -25,7 +25,7 @@ technologies:
 repo: "https://github.com/saif-abdelrazek/site"
 link: "https://saifabdelrazek.com"
 slug: "site"
-shownInHome: true
+shownInHome: false
 ---
 
 # عن هذا الموقع

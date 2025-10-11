@@ -1,4 +1,7 @@
 ---
+import { getLangFromUrl } from "../../i18n/utils";
+import { useTranslations } from "../../i18n/translations";
+
 interface Props {
   name: string;
   icon?: string;
@@ -22,32 +25,41 @@ const {
 } = Astro.props;
 import { Icon } from "astro-icon/components";
 
-// Map raw category names to display names
-const categoryDisplayNames: Record<string, string> = {
-  language: "Language",
-  frontend: "Frontend",
-  "css framework": "CSS Framework",
-  backend: "Backend",
-  database: "Database",
-  deployment: "Deployment",
-  os: "OS",
-  "code editor": "Editor",
-  tool: "Tool",
-  markup: "Markup",
-  dns: "DNS",
-  cms: "CMS",
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// Function to translate category (using short names)
+const getTranslatedCategory = (category: string) => {
+  const categoryKey = category.replace(/\s/g, '').toLowerCase().replace('editor', 'Editor').replace('framework', 'Framework');
+  const shortTranslationKey = `tech.categories.short.${categoryKey}`;
+  return t(shortTranslationKey as any) || category
+    .replace(/(^|\s)\S/g, (l: string) => l.toUpperCase())
+    .replace("Os", "OS")
+    .replace("Cms", "CMS")
+    .replace("Dns", "DNS");
 };
 
-const displayCategory = category
-  ? (categoryDisplayNames[category] ?? category)
-  : "";
+// Function to translate level
+const getTranslatedLevel = (level: string) => {
+  switch (level.toLowerCase()) {
+    case 'expert': return t('tech.level.expert');
+    case 'advanced': return t('tech.level.advanced');
+    case 'intermediate': return t('tech.level.intermediate');
+    case 'beginner': return t('tech.level.beginner');
+    case 'novice': return t('tech.level.novice');
+    default: return level;
+  }
+};
+
+const displayCategory = category ? getTranslatedCategory(category) : "";
+const translatedLevel = level ? getTranslatedLevel(level) : "";
 
 const categoryHeading = displayCategory
-  ? `Favourite ${displayCategory}`
-  : "Favourite";
+  ? `${t('tech.favorite')} ${displayCategory}`
+  : t('tech.favorite');
 ---
 
-<a href={`/tech/#${slug}`} class="block h-full w-full">
+<a href={lang === 'en' ? `/tech/#${slug}` : `/${lang}/tech/#${slug}`} class="block h-full w-full">
   <div
     class={[
       "flex flex-col items-center justify-between h-full w-full rounded-3xl border-2 border-blue-500 light:bg-blue-50 p-8 shadow-2xl transition-transform duration-200 hover:-translate-y-1 hover:scale-[1.06] hover:shadow-blue-200/40",
@@ -74,7 +86,7 @@ const categoryHeading = displayCategory
     {
       level && (
         <span class="mb-2 inline-block rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700 dark:bg-sky-900/60 dark:text-sky-200">
-          {level} · {displayCategory}
+          {translatedLevel} · {displayCategory}
         </span>
       )
     }

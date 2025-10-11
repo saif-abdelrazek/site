@@ -1,7 +1,10 @@
 ---
-const {
-  lang,
-} = Astro.props;
+import { getLangFromUrl } from "../../i18n/utils";
+import { useTranslations } from "../../i18n/translations";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
 import { getCollection } from "astro:content";
 import EducationCards from "../../components/portfolio/EducationCards.astro";
 
@@ -16,13 +19,10 @@ const hasEducation = education && education.length > 0;
     <h2
       class="mb-2 text-center text-4xl font-bold text-sky-700 dark:text-sky-300"
     >
-      {lang === 'ar' ? 'التعليم' : 'Education'}
+      {t('nav.education')}
     </h2>
     <p class="mb-8 text-center text-lg text-gray-700 dark:text-gray-300">
-      {lang === 'ar' ? 
-        'استكشف رحلتي التعليمية الحالية. للحصول على جدول زمني كامل والمزيد من التفاصيل، تحقق من جميع خطوات تعليمي.' :
-        'Explore my current education journey. For a full timeline and more details, check out all my education steps.'
-      }
+      {t('education.description')}
     </p>
     {
       hasEducation ? (
@@ -33,16 +33,16 @@ const hasEducation = education && education.length > 0;
         </section>
       ) : (
         <div class="text-center text-lg text-gray-500 dark:text-gray-400">
-          {lang === 'ar' ? 'لا توجد سجلات تعليمية حالية.' : 'No current education records found.'}
+          {t('education.noRecords')}
         </div>
       )
     }
     <div class="mt-10 flex justify-center">
       <a
-        href="/edu"
+        href={lang === "en" ? "/education" : `/${lang}/education`}
         class="inline-block rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 px-7 py-3 text-lg font-semibold text-white shadow-lg ring-2 ring-blue-400/20 transition hover:scale-105 hover:from-blue-700 hover:to-sky-600 hover:shadow-xl dark:from-sky-700 dark:to-blue-800 dark:hover:from-sky-800 dark:hover:to-blue-900"
       >
-        {lang === 'ar' ? 'المزيد من التعليم' : 'More Education'}
+        {t('education.moreEducation')}
       </a>
     </div>
   </div>

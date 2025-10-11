@@ -1,6 +1,14 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import { PAGE_TITLES } from "../lib/constants";
+import { createLocalizedConstants } from "../lib/constants";
+import { getLangFromUrl } from "../i18n/utils";
+import { useTranslations } from "../i18n/translations";
+
+const lang = getLangFromUrl(Astro.url);
+const constants = createLocalizedConstants(lang);
+const t = useTranslations(lang);
+
+const PAGE_TITLES = constants.PAGE_TITLES;
 ---
 
 <MainLayout title={PAGE_TITLES.notFound}>
@@ -24,19 +32,19 @@ import { PAGE_TITLES } from "../lib/constants";
 
     <!-- Fun message -->
     <p class="mb-4 text-2xl text-sky-700 dark:text-sky-200">
-      Houston, we have a problem!
+      {t('error.404.title')}
     </p>
     <p class="mb-6 max-w-md text-gray-600 dark:text-gray-300">
-      This page drifted into the void. Maybe it’s hiding behind a black hole?
+      {t('error.404.message')}
     </p>
 
     <!-- Button -->
     <a
-      href="/"
+      href={lang === "en" ? "/" : `/${lang}/`}
       class="group relative inline-block rounded-lg bg-sky-600 px-6 py-3 font-semibold text-white shadow transition hover:bg-sky-700"
       data-astro-history="replace"
     >
-      <span class="relative z-10">Beam Me Home</span>
+      <span class="relative z-10">{t('error.404.button')}</span>
       <span
         class="absolute -top-2 -right-2 opacity-0 transition group-hover:opacity-100"
         >👽</span

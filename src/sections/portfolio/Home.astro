@@ -1,18 +1,21 @@
 ---
-const {
-  lang,
-} = Astro.props;
 import { Image } from "astro:assets";
-import { PORTFOLIO_CONTENT as PORTFOLIO_CONTENT_EN } from "../../lib/constants";
-import { PORTFOLIO_CONTENT as  PORTFOLIO_CONTENT_AR } from "../../lib/constants-ar";
+import { useTranslations } from "../../i18n/translations";
+import { getLangFromUrl } from "../../i18n/utils";
+import { createLocalizedConstants } from "../../lib/constants";
 
-const PORTFOLIO_CONTENT = lang === 'ar' ? PORTFOLIO_CONTENT_AR : PORTFOLIO_CONTENT_EN;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const constants = createLocalizedConstants(lang);
+
 import profileImage from "../../assets/profile.jpg";
 const {
   title,
   subtitle,
   description,
-} = PORTFOLIO_CONTENT.hero;
+} = constants.PORTFOLIO_CONTENT.hero;
+const {LANGUAGE_DIRECTION} = constants;
+
 ---
 
 <section
@@ -30,22 +33,22 @@ const {
       {subtitle}
     </h2>
     <p
-      class="mb-10 max-w-xl text-lg leading-relaxed text-gray-700 dark:text-gray-300"
+      class={`mb-10 max-w-xl text-lg leading-relaxed text-gray-700 dark:text-gray-300 ${LANGUAGE_DIRECTION === 'rtl' ? 'text-right' : ''}`}
     >
       {description}
     </p>
     <div class="flex flex-wrap justify-center gap-4 md:justify-start">
       <a
-        href="/#projects"
+        href="#projects"
         class="rounded-lg bg-gradient-to-r from-blue-600 to-sky-500 px-7 py-3 text-lg font-semibold text-white shadow-lg transition hover:from-blue-700 hover:to-sky-600 dark:from-sky-700 dark:to-blue-800 dark:hover:from-sky-800 dark:hover:to-blue-900"
       >
-        { lang === 'ar' ? 'مشاريعي' : 'My Projects' }
+        {t('page.home.viewProjects')}
       </a>
       <a
-        href="/contact"
+        href={lang === 'en' ? "/contact" : `/${lang}/contact`}
         class="rounded-lg border-2 border-blue-600 px-7 py-3 text-lg font-semibold text-blue-700 transition hover:bg-blue-50 dark:border-sky-700 dark:text-sky-300 dark:hover:bg-sky-900"
       >
-      { lang === 'ar' ? 'تواصل معي' : 'Contact Me' }
+        {t('page.home.contactMe')}
       </a>
     </div>
   </div>

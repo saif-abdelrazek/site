@@ -1,11 +1,20 @@
 ---
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
+import { getLangFromUrl } from "../../i18n/utils";
+import { useTranslations } from "../../i18n/translations";
+import { createLocalizedConstants } from "../../lib/constants";
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const constants = createLocalizedConstants(lang);
+
+const { LANGUAGE_DIRECTION } = constants;
 
 interface Props {
   post: CollectionEntry<"posts">;
 }
 const { post } = Astro.props as Props;
+
 ---
 
 <header class="relative h-80 w-full md:h-[28rem]">
@@ -24,13 +33,14 @@ const { post } = Astro.props as Props;
     style="z-index: 2;"
   >
   </div>
-  <!-- Return button overlay, top-left -->
-  <div class="absolute top-4 left-4 z-10">
+  <!-- Return button overlay, edge based on LANGUAGE_DIRECTION -->
+  <div class={`absolute top-4 ${LANGUAGE_DIRECTION === 'rtl' ? 'right-4' : 'left-4'} z-10`}>
     <a
-      href="/blog"
+      dir={LANGUAGE_DIRECTION}
+      href={`${lang === 'en' ? '' : '/' + lang}/blog`}
       class="rounded-lg bg-blue-600 px-4 py-2 text-base font-semibold text-white shadow transition hover:bg-blue-500 dark:bg-sky-700 dark:hover:bg-sky-500"
     >
-      ← Return to Blog
+      {t('blog.returnToBlog')}
     </a>
   </div>
 </header>

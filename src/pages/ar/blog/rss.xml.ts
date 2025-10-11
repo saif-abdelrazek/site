@@ -2,16 +2,16 @@ import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
 import sanitizeHtml from "sanitize-html";
 import MarkdownIt from "markdown-it";
-import { ui } from "../../i18n/ui";
+import { ui } from "../../../i18n/ui";
 const parser = new MarkdownIt();
 
 export async function GET(context: { site: any }) {
-  // Use English for this RSS feed
-  const t = ui.en;
+  // Use Arabic for this RSS feed
+  const t = ui.ar;
   
   const allPosts = await getCollection("posts");
-  // Filter English posts only
-  const englishPosts = allPosts.filter(post => post.id.startsWith('en/')).sort(
+  // Filter Arabic posts only
+  const arabicPosts = allPosts.filter(post => post.id.startsWith('ar/')).sort(
     (a, b) => (b.data.date?.getTime?.() ?? 0) - (a.data.date?.getTime?.() ?? 0),
   );
   
@@ -21,11 +21,11 @@ export async function GET(context: { site: any }) {
     description: t['page.rss.description'],
     trailingSlash: false,
     site: context.site,
-    items: englishPosts.map((post) => ({
+    items: arabicPosts.map((post) => ({
       title: post.data.title,
       pubDate: post.data.date,
       description: post.data.description,
-      link: `/blog/${post.id.replace('en/', '')}/`,
+      link: `/ar/blog/${post.id.replace('ar/', '')}/`,
       content: sanitizeHtml(
         parser.render(typeof post?.body === "string" ? post.body : ""),
         {
@@ -34,6 +34,6 @@ export async function GET(context: { site: any }) {
       ),
     })),
     // (optional) inject custom xml
-    customData: `<language>en-us</language>`,
+    customData: `<language>ar</language>`,
   });
 }

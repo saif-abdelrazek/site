@@ -1,0 +1,42 @@
+---
+import { render, getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import BlogPost from "../../../components/blog/BlogPost.astro";
+export async function getStaticPaths() {
+  const posts = await getCollection("posts");
+
+  if (!posts || posts.length === 0) {
+    console.warn("No blog posts found.");
+    return [];
+  }
+
+  // Filter for Arabic posts only
+  const arabicPosts = posts.filter(post => post.id.startsWith("ar/"));
+
+  return arabicPosts.map((post) => {
+    // Extract just the filename part from the id (remove 'ar/' prefix)
+    const slug = post.id.replace("ar/", "");
+    return {
+      params: { slug },
+      props: { post },
+    };
+  });
+}
+interface PostProps {
+  post: CollectionEntry<"posts">;
+}
+
+const { post } = Astro.props as PostProps;
+
+if (!post || !post.data) {
+  return Astro.redirect("/404");
+}
+
+const { data } = await post;
+
+if (!data) {
+  return Astro.redirect("/404");
+}
+---
+
+<BlogPost {post} />

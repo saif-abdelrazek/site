@@ -5,6 +5,20 @@ import {
   WarmStart,
 } from "astro-collection-search";
 
+// Browser-compatible i18n translations
+const getSearchTranslations = () => {
+  // Detect language from URL path
+  const isArabic = window.location.pathname.startsWith('/ar/');
+  
+  return {
+    noResults: isArabic ? 'لا توجد نتائج' : 'No results found',
+    searchPlaceholder: isArabic ? 'ابحث في المقالات...' : 'Search posts...',
+    resultsFrom: isArabic ? 'نتائج من' : 'Results from',
+    searchButton: isArabic ? 'بحث' : 'Search',
+    closeText: isArabic ? 'اضغط Esc للإغلاق' : 'Press Esc to close'
+  };
+};
+
 export interface SearchOptions {
   /** create a link from a search result */
   create_link: (result: CollectionSearchResult) => string;
@@ -40,24 +54,28 @@ export interface SearchOptions {
 /**
  * default options. override when calling Init(). we will merge.
  */
-const default_options: SearchOptions = {
-  create_link: (result: CollectionSearchResult) => {
-    let base = import.meta.env.BASE_URL || "/";
-    if (!base.endsWith("/")) {
-      base += "/";
-    }
-    return (
-      base +
-      result.collection +
-      "/" +
-      result.file.replace(/\.mdx{0,1}$/, "")
-    ).toLowerCase();
-  },
-  group_header: (collection: string) => {
-    return `Results from ${collection}:`;
-  },
-  no_results_text: "Your search returned no results",
-  input_placeholder: "Search",
+const getDefaultOptions = (): SearchOptions => {
+  const translations = getSearchTranslations();
+  
+  return {
+    create_link: (result: CollectionSearchResult) => {
+      let base = import.meta.env.BASE_URL || "/";
+      if (!base.endsWith("/")) {
+        base += "/";
+      }
+      return (
+        base +
+        result.collection +
+        "/" +
+        result.file.replace(/\.mdx{0,1}$/, "")
+      ).toLowerCase();
+    },
+    group_header: (collection: string) => {
+      return `${translations.resultsFrom} ${collection}:`;
+    },
+    no_results_text: translations.noResults,
+    input_placeholder: translations.searchPlaceholder,
+  };
 };
 
 /**
@@ -79,8 +97,9 @@ export const InitSearch = (options: Partial<SearchOptions> = {}) => {
   if (!dialog) {
     const element = document.querySelector("#overlay-search-dialog");
     if (element instanceof HTMLDialogElement) {
+      const defaultOptions = getDefaultOptions();
       dialog = new SearchDialog(element, {
-        ...default_options,
+        ...defaultOptions,
         ...options,
       });
     } else {

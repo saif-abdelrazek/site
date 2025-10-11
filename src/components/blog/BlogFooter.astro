@@ -1,13 +1,21 @@
+---
+import { getLangFromUrl } from "../../i18n/utils";
+import { useTranslations } from "../../i18n/translations";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
 <footer
   class="mt-12 border-t border-blue-100 bg-blue-50/80 py-6 text-center text-blue-700 dark:border-sky-900 dark:bg-slate-900/60 dark:text-sky-200"
 >
   <div>
     <p>
-      &copy; {new Date().getFullYear()} Saif Abdelrazek Blog. All rights reserved.
+      &copy; {new Date().getFullYear()} {t('blog.footer.siteName')} {t('blog.footer.rights')}.
     </p>
     <p class="mt-2">
       <a
-        href="/blog/rss.xml"
+        href={lang === 'en' ? "/blog/rss.xml" : `/${lang}/blog/rss.xml`}
         class="inline-flex items-center gap-1 rounded bg-blue-100 px-3 py-1 text-sm font-semibold text-blue-700 transition hover:bg-blue-200 dark:bg-sky-900/60 dark:text-sky-200 dark:hover:bg-sky-800"
         target="_blank"
         rel="noopener"
@@ -22,7 +30,7 @@
             d="M6.18 17.82a2.18 2.18 0 1 1 0-4.36 2.18 2.18 0 0 1 0 4.36zm-3.18-7.82v3a13 13 0 0 1 13 13h3c0-8.84-7.16-16-16-16zm0-5v3c9.39 0 17 7.61 17 17h3c0-11.05-8.95-20-20-20z"
           ></path>
         </svg>
-        RSS Feed
+        {t('blog.footer.rssFeed')}
       </a>
     </p>
   </div>

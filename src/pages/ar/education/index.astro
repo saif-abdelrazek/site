@@ -1,17 +1,17 @@
 ---
 import { getCollection } from "astro:content";
-import MainLayout from "../../layouts/MainLayout.astro";
-import DetailedEduCard from "../../components/portfolio/DetailedEduCard.astro";
+import MainLayout from "../../../layouts/MainLayout.astro";
+import DetailedEduCard from "../../../components/portfolio/DetailedEduCard.astro";
 import type { CollectionEntry } from "astro:content";
-import { getLangFromUrl } from "../../i18n/utils";
-import { useTranslations } from "../../i18n/translations";
+import { getLangFromUrl } from "../../../i18n/utils";
+import { useTranslations } from "../../../i18n/translations";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const allEducation = await getCollection("education");
-// Filter for English content (default language)
-const education = allEducation.filter((edu) => edu.id.startsWith("en/"));
+// Filter for Arabic content
+const education = allEducation.filter((edu) => edu.id.startsWith("ar/"));
 
 // Group by type/category
 function groupBy(arr: any[], key: string) {

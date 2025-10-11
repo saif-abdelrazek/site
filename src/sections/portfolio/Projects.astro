@@ -1,7 +1,10 @@
 ---
-const {
-  lang,
-} = Astro.props;
+import { getLangFromUrl } from "../../i18n/utils";
+import { useTranslations } from "../../i18n/translations";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
 import { getCollection } from "astro:content";
 import ProjectCard from "../../components/portfolio/ProjectCard.astro";
 
@@ -22,13 +25,10 @@ const hasProjects = projects && projects.length > 0;
     <h2
       class="mb-2 text-center text-4xl font-bold text-sky-700 dark:text-sky-300"
     >
-      {lang === 'ar' ? 'المشاريع' : 'Projects'}
+      {t('nav.projects')}
     </h2>
     <p class="mb-8 text-center text-lg text-gray-700 dark:text-gray-300">
-      {lang === 'ar' ? 
-        'مجموعة من مشاريعي المفضلة والأحدث. للمزيد، تحقق من جميع مستودعاتي.' :
-        'A selection of my favorite and most recent work. For more, check out all my repositories.'
-      }
+      {t('projects.description')}
     </p>
     <div
       class="grid w-full grid-cols-1 items-stretch gap-8 sm:grid-cols-2 lg:grid-cols-3"
@@ -42,16 +42,16 @@ const hasProjects = projects && projects.length > 0;
       ))
       ) : (
       <div class="col-span-full text-center text-gray-600 dark:text-gray-400">
-        <p class="text-xl">{lang === 'ar' ? 'لا توجد مشاريع.' : 'No projects found.'}</p>
+        <p class="text-xl">{t('projects.noProjects')}</p>
       </div>
       )}
     </div>
     <div class="mt-12 flex justify-center">
       <a
-        href="/repos"
+        href={lang === 'en' ? "/repos" : `/${lang}/repos`}
         class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 px-7 py-3 text-lg font-semibold text-white shadow-lg ring-2 ring-blue-400/20 transition hover:scale-105 hover:from-blue-700 hover:to-sky-600 hover:shadow-xl dark:from-sky-700 dark:to-blue-800 dark:hover:from-sky-800 dark:hover:to-blue-900"
       >
-        {lang === 'ar' ? 'المزيد من المشاريع' : 'More Projects'}
+        {t('projects.moreProjects')}
       </a>
     </div>
   </div>
