@@ -56,6 +56,7 @@ const pageDescription = t('page.contact.description');
             id="email"
             name="email"
             required
+            dir="ltr"
             class="w-full rounded-md border border-blue-100 bg-blue-50 px-4 py-2 text-base text-blue-900 focus:border-blue-400 focus:outline-none dark:border-sky-800 dark:bg-slate-900/60 dark:text-sky-100 dark:focus:border-sky-400"
           />
         </div>
@@ -89,9 +90,6 @@ const pageDescription = t('page.contact.description');
             class="w-full resize-none rounded-md border border-blue-100 bg-blue-50 px-4 py-2 text-base text-blue-900 focus:border-blue-400 focus:outline-none dark:border-sky-800 dark:bg-slate-900/60 dark:text-sky-100 dark:focus:border-sky-400"
           ></textarea>
         </div>
-        <input type="hidden" name="ip" id="ip" value={"Unknown"} />
-        <input type="hidden" name="city" id="city" value={"Unknown"} />
-        <input type="hidden" name="country" id="country" value={"Unknown"} />
         <input type="hidden" name="theme" id="theme-input" value="dark" />
         <button
           type="submit"
@@ -143,4 +141,157 @@ const pageDescription = t('page.contact.description');
       </div>
     </div>
   </main>
+
+  <script is:inline define:vars={{ t: {
+    sending: t('contact.sending'),
+    success: t('contact.success'),
+    error: t('contact.error'),
+    tryAgain: t('contact.tryAgain')
+  } }}>
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('contact-form');
+      const formMessages = document.getElementById('form-messages');
+      const submitButton = form.querySelector('button[type="submit"]');
+      const originalButtonText = submitButton.textContent;
+
+      // Form fields for localStorage
+      const fields = ['name', 'email', 'subject', 'message'];
+      const storageKey = 'contact-form-data';
+
+      // Save form data to localStorage
+      function saveFormData() {
+        const formData = {};
+        fields.forEach(field => {
+          const element = document.getElementById(field);
+          if (element && element.value.trim()) {
+            formData[field] = element.value;
+          }
+        });
+        
+        if (Object.keys(formData).length > 0) {
+          localStorage.setItem(storageKey, JSON.stringify(formData));
+        }
+      }
+
+      // Restore form data from localStorage
+      function restoreFormData() {
+        try {
+          const savedData = localStorage.getItem(storageKey);
+          if (savedData) {
+            const formData = JSON.parse(savedData);
+            fields.forEach(field => {
+              const element = document.getElementById(field);
+              if (element && formData[field]) {
+                element.value = formData[field];
+              }
+            });
+          }
+        } catch (error) {
+          console.warn('Error restoring form data:', error);
+          localStorage.removeItem(storageKey);
+        }
+      }
+
+      // Clear saved form data
+      function clearFormData() {
+        localStorage.removeItem(storageKey);
+      }
+
+      // Get user's theme
+      function getUserData() {
+        // Get current theme
+        const theme = document.documentElement.getAttribute('data-theme') || 
+                     (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.getElementById('theme-input').value = theme;
+      }
+
+      // Initialize
+      getUserData();
+      restoreFormData();
+      document.addEventListener('astro:after-swap', restoreFormData);
+
+      // Save form data on input changes
+      fields.forEach(field => {
+        const element = document.getElementById(field);
+        if (element) {
+          element.addEventListener('input', saveFormData);
+          element.addEventListener('blur', saveFormData);
+        }
+      });
+
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Clear previous messages
+        formMessages.innerHTML = '';
+        
+        // Disable submit button and show loading state
+        submitButton.disabled = true;
+        submitButton.textContent = t.sending;
+        
+        // Get form data
+        const formData = new FormData(form);
+        const data = {
+          name: formData.get('name'),
+          email: formData.get('email'),
+          subject: formData.get('subject'),
+          message: formData.get('message'),
+          theme: formData.get('theme')
+        };
+
+        try {
+          const response = await fetch('/api/contact.json', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+          });
+
+          const result = await response.json();
+
+          if (response.ok && result.success) {
+            formMessages.innerHTML = `
+              <div class="rounded-md bg-green-50 p-4 border border-green-200 dark:bg-green-900/20 dark:border-green-800">
+                <div class="flex">
+                  <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                  <div class="ml-3">
+                    <p class="text-sm font-medium text-green-800 dark:text-green-200">${t.success}</p>
+                  </div>
+                </div>
+              </div>
+            `;
+            form.reset();
+            clearFormData(); // Clear saved data after successful submission
+            getUserData(); // Refresh theme field
+          } else {
+            throw new Error(result.error || t.error);
+          }
+        } catch (error) {
+          formMessages.innerHTML = `
+            <div class="rounded-md bg-red-50 p-4 border border-red-200 dark:bg-red-900/20 dark:border-red-800">
+              <div class="flex">
+                <div class="flex-shrink-0">
+                  <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+                <div class="ml-3">
+                  <p class="text-sm font-medium text-red-800 dark:text-red-200">${error.message} ${t.tryAgain}</p>
+                </div>
+              </div>
+            </div>
+          `;
+        } finally {
+          // Re-enable submit button
+          submitButton.disabled = false;
+          submitButton.textContent = originalButtonText;
+        }
+      });
+    });
+  </script>
 </MainLayout>

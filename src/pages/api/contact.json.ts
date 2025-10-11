@@ -27,7 +27,9 @@ export const POST: APIRoute = async ({ request }) => {
   if (!request.body) {
     return new Response("No data provided", { status: 400 });
   }
-  if (!getSecret("EMAIL_ADDRESS") || !getSecret("EMAIL_PASSWORD")) {
+  
+  // Check environment variables only in production
+  if (process.env.NODE_ENV !== "development" && (!getSecret("EMAIL_ADDRESS") || !getSecret("EMAIL_PASSWORD"))) {
     return new Response(
       JSON.stringify({
         success: false,
@@ -92,9 +94,6 @@ export const POST: APIRoute = async ({ request }) => {
     <div style="background:#f1f5f9; border-radius:10px; padding:16px; margin-bottom:24px;">
       <strong>${t('email.senderInfo')}</strong>
       <ul style="list-style:none; padding:0; margin:12px 0 0 0;">
-        <li>🌍 <strong>${t('email.ipAddress')}:</strong> ${body.ip || "Unknown"}</li>
-        <li>📍 <strong>${t('email.city')}:</strong> ${body.city || "Unknown"}</li>
-        <li>🌎 <strong>${t('email.country')}:</strong> ${body.country || "Unknown"}</li>
         <li>⏰ <strong>${t('email.receivedAt')}:</strong> ${new Date().toLocaleString()}</li>
       </ul>
     </div>
@@ -115,9 +114,6 @@ export const POST: APIRoute = async ({ request }) => {
     </div>
     <div style="font-size: 0.95em; color: #64748b;">
       <p><strong>${t('email.receivedAt')}:</strong> ${new Date().toLocaleString()}</p>
-      <p><strong>${t('email.yourIpAddress')}:</strong> ${body.ip || "Unknown"}</p>
-      <p><strong>${t('email.yourCity')}:</strong> ${body.city || "Unknown"}</p>
-      <p><strong>${t('email.yourCountry')}:</strong> ${body.country || "Unknown"}</p>
     </div>
     <p style="margin-top: 24px; color: #64748b;">${t('email.ifNotYou')}</p>
     <p style="margin-top: 24px; color: #64748b;">${t('email.automatedResponse')}</p>
@@ -137,9 +133,6 @@ export const POST: APIRoute = async ({ request }) => {
     </div>
     <div style="font-size: 0.95em; color: #94a3b8;">
       <p><strong>${t('email.receivedAt')}:</strong> ${new Date().toLocaleString()}</p>
-      <p><strong>${t('email.yourIpAddress')}:</strong> ${body.ip || "Unknown"}</p>
-      <p><strong>${t('email.yourCity')}:</strong> ${body.city || "Unknown"}</p>
-      <p><strong>${t('email.yourCountry')}:</strong> ${body.country || "Unknown"}</p>
     </div>
     <p style="margin-top: 24px; color: #94a3b8;">${t('email.ifNotYou')}</p>
     <p style="margin-top: 24px; color: #94a3b8;">${t('email.automatedResponse')}</p>
@@ -147,14 +140,16 @@ export const POST: APIRoute = async ({ request }) => {
   </div>
 `;
 
-  const transporter = nodemailer.createTransport({
+  const nodeEnv = getSecret("NODE_ENV");
+  
+  const transporter = nodeEnv !== "development" ? nodemailer.createTransport({
     host: "smtp.zoho.com",
     port: 587,
     auth: {
       user: getSecret("EMAIL_ADDRESS"),
       pass: getSecret("EMAIL_PASSWORD"),
     },
-  });
+  }) : null;
 
   const mailOptionsToMe = {
     from: `Your Site Contact Form <${getSecret("EMAIL_ADDRESS")}>`,
@@ -172,9 +167,8 @@ export const POST: APIRoute = async ({ request }) => {
     replyTo: SITE_CONFIG.email,
   };
   try {
-    const nodeEnv = getSecret("NODE_ENV");
     try {
-      if (nodeEnv !== "development") {
+      if (nodeEnv !== "development" && transporter) {
         const myInfo = await transporter.sendMail(mailOptionsToMe);
         if (myInfo.rejected.length > 0) {
           throw new Error("Email was rejected by the server");
@@ -189,7 +183,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     // Send a confirmation email to the user
     try {
-      if (nodeEnv !== "development") {
+      if (nodeEnv !== "development" && transporter) {
         const userInfo = await transporter.sendMail(mailOptionsToUser);
         if (userInfo.rejected.length > 0) {
           throw new Error("Confirmation email was rejected by the server");
