@@ -211,6 +211,7 @@ const pageDescription = t('page.contact.description');
       document.addEventListener('astro:after-swap', restoreFormData);
 
       // Save form data on input changes
+      const saveFieldsData = () => {
       fields.forEach(field => {
         const element = document.getElementById(field);
         if (element) {
@@ -218,6 +219,9 @@ const pageDescription = t('page.contact.description');
           element.addEventListener('blur', saveFormData);
         }
       });
+    };
+      saveFieldsData();
+      document.addEventListener('astro:after-swap', saveFieldsData);
 
       form.addEventListener('submit', async function(e) {
         e.preventDefault();
