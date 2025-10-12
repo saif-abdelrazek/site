@@ -85,6 +85,11 @@ const {
     />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
+    <!-- Add hreflang links for SEO -->
+    <link rel="alternate" hreflang="en" href={`https://saifabdelrazek.com${Astro.url.pathname}`} />
+    <link rel="alternate" hreflang="ar" href={`https://saifabdelrazek.com/ar${Astro.url.pathname}`} />
+    <link rel="alternate" hreflang="x-default" href={`https://saifabdelrazek.com${Astro.url.pathname}`} />
+
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
