@@ -1,14 +1,14 @@
 ---
-import "../styles/global.css";
+import "@/styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import "@fontsource/poppins";
-import NavBar from "../components/shared/NavBar.astro";
-import SearchOverlay from "../components/blog/search/SearchOverlay.astro";
+import NavBar from "@components/shared/NavBar.astro";
+import SearchOverlay from "@components/blog/search/SearchOverlay.astro";
 import { pwaInfo } from "virtual:pwa-info";
 import SpeedInsights from "@vercel/speed-insights/astro";
-import { getLangFromUrl } from "../i18n/utils";
-import { useTranslations } from "../i18n/translations";
-import { createLocalizedConstants } from "../lib/constants";
+import { getLangFromUrl } from "@i18n/utils";
+import { useTranslations } from "@i18n/translations";
+import { createLocalizedConstants } from "@lib/constants";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -131,7 +131,7 @@ const {
     import {
       OpenSearch,
       InitSearch,
-    } from "../components/blog/search/overlay.ts";
+    } from "@components/blog/search/overlay.ts";
     let initialized = false;
     function setupSearch() {
       if (!initialized) {

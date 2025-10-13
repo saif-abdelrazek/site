@@ -2,7 +2,7 @@ import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
 import sanitizeHtml from "sanitize-html";
 import MarkdownIt from "markdown-it";
-import { ui } from "../../i18n/ui";
+import { ui } from "@i18n/ui";
 const parser = new MarkdownIt();
 
 export async function GET(context: { site: any }) {

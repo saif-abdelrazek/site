@@ -1,11 +1,11 @@
 ---
 import { getLiveCollection, getLiveEntry } from "astro:content";
-import MainLayout from "../../layouts/MainLayout.astro";
-import RepoCard from "../../components/repos/RepoCard.astro";
-import StatsCard from "../../components/stats/CodingStatsCard.astro";
-import { getLangFromUrl } from "../../i18n/utils";
-import { useTranslations } from "../../i18n/translations";
-import { createLocalizedConstants } from "../../lib/constants";
+import MainLayout from "@layouts/MainLayout.astro";
+import RepoCard from "@components/repos/RepoCard.astro";
+import StatsCard from "@components/stats/CodingStatsCard.astro";
+import { getLangFromUrl } from "@i18n/utils";
+import { useTranslations } from "@i18n/translations";
+import { createLocalizedConstants } from "@lib/constants";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);

@@ -117,7 +117,7 @@ const educationCollection = defineCollection({
 // const experienceCollection = defineCollection({
 //   loader: glob({
 //     pattern: "*.{md,mdx}",
-//     base: "./src/content/experience",
+//     base: "@content//experience",
 //     generateId: ({ entry, data }) => {
 //       // Generate a slug from the entry path, removing the file extension
 //       if (data?.slug && typeof data.slug === "string") {

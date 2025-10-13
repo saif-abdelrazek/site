@@ -1,9 +1,9 @@
 ---
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
-import { getLangFromUrl } from "../../i18n/utils";
-import { useTranslations } from "../../i18n/translations";
-import { createLocalizedConstants } from "../../lib/constants";
+import { getLangFromUrl } from "@i18n/utils";
+import { useTranslations } from "@i18n/translations";
+import { createLocalizedConstants } from "@lib/constants";
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const constants = createLocalizedConstants(lang);

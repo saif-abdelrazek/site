@@ -1,14 +1,14 @@
 ---
 import type { GetStaticPaths, Page } from "astro";
 import { getCollection } from "astro:content";
-import MainLayout from "../../layouts/MainLayout.astro";
-import BlogFooter from "../../components/blog/BlogFooter.astro";
-import PostList from "../../components/blog/PostList.astro";
+import MainLayout from "@layouts/MainLayout.astro";
+import BlogFooter from "@components/blog/BlogFooter.astro";
+import PostList from "@components/blog/PostList.astro";
 import type { CollectionEntry } from "astro:content";
-import SearchBtn from "../../components/blog/search/SearchBtn.astro";
-import { createLocalizedConstants } from "../../lib/constants";
-import { getLangFromUrl } from "../../i18n/utils";
-import { useTranslations } from "../../i18n/translations";
+import SearchBtn from "@components/blog/search/SearchBtn.astro";
+import { createLocalizedConstants } from "@lib/constants";
+import { getLangFromUrl } from "@i18n/utils";
+import { useTranslations } from "@i18n/translations";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);

@@ -3,9 +3,9 @@ import type { APIRoute } from "astro";
 import nodemailer from "nodemailer";
 import { getSecret } from "astro:env/server";
 
-import { getLangFromUrl } from "../../i18n/utils";
-import { useTranslations } from "../../i18n/translations";
-import { createLocalizedConstants } from "../../lib/constants";
+import { getLangFromUrl } from "@i18n/utils";
+import { useTranslations } from "@i18n/translations";
+import { createLocalizedConstants } from "@lib/constants";
 
 export const GET: APIRoute = async ({ request }) => {
   return new Response(

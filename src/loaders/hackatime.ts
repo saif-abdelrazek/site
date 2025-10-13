@@ -4,8 +4,8 @@ import type {
   HackaTimeStatsType,
   FetchHackaTimeStatsParams,
   FetchedHackaTimeStatsResponse,
-} from "../types/hacatimeTypes";
-import { HackaTimeLoaderError } from "../types/hacatimeTypes";
+} from "@types/hacatimeTypes";
+import { HackaTimeLoaderError } from "@types/hacatimeTypes";
 import type { LiveLoader } from "astro/loaders";
 
 /**

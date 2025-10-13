@@ -24,8 +24,8 @@ const { slug, title, image, description, tags, link, technologies, repo } =
   Astro.props as Props;
 import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
-import { getLangFromUrl } from "../../i18n/utils";
-import { useTranslations } from "../../i18n/translations";
+import { getLangFromUrl } from "@i18n/utils";
+import { useTranslations } from "@i18n/translations";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);

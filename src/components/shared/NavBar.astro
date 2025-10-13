@@ -2,8 +2,8 @@
 import Link from "./Link.astro";
 import ThemeToggle from "../theme/ThemeToggle.astro";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
-import { getLangFromUrl } from "../../i18n/utils";
-import { useTranslations } from "../../i18n/translations";
+import { getLangFromUrl } from "@i18n/utils";
+import { useTranslations } from "@i18n/translations";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);

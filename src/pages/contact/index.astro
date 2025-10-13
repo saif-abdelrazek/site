@@ -1,9 +1,9 @@
 ---
-import MainLayout from "../../layouts/MainLayout.astro";
-import Link from "../../components/shared/Link.astro";
-import { getLangFromUrl } from "../../i18n/utils";
-import { useTranslations } from "../../i18n/translations";
-import { createLocalizedConstants } from "../../lib/constants";
+import MainLayout from "@layouts/MainLayout.astro";
+import Link from "@components/shared/Link.astro";
+import { getLangFromUrl } from "@i18n/utils";
+import { useTranslations } from "@i18n/translations";
+import { createLocalizedConstants } from "@lib/constants";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);

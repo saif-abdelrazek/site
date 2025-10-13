@@ -1,8 +1,8 @@
 ---
-import type { RepoType } from "../../types/reposTypes";
+import type { RepoType } from "@types/reposTypes";
 import type { LiveDataEntry } from "astro";
-import { getLangFromUrl } from "../../i18n/utils";
-import { useTranslations } from "../../i18n/translations";
+import { getLangFromUrl } from "@i18n/utils";
+import { useTranslations } from "@i18n/translations";
 
 interface Props {
   repo: LiveDataEntry<RepoType>;

@@ -1,6 +1,6 @@
 ---
-import { getLangFromUrl } from "../../../i18n/utils";
-import { useTranslations } from "../../../i18n/translations";
+import { getLangFromUrl } from "@i18n/utils";
+import { useTranslations } from "@i18n/translations";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);

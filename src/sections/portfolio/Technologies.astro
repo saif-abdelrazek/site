@@ -1,8 +1,8 @@
 ---
-import TechCard from "../../components/portfolio/TechCard.astro";
-import { useTranslations } from "../../i18n/translations";
-import { getLangFromUrl } from "../../i18n/utils";
-import { createLocalizedConstants } from "../../lib/constants";
+import TechCard from "@components/portfolio/TechCard.astro";
+import { useTranslations } from "@i18n/translations";
+import { getLangFromUrl } from "@i18n/utils";
+import { createLocalizedConstants } from "@lib/constants";
 
 const {
   lang = getLangFromUrl(Astro.url),

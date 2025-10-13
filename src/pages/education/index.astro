@@ -1,10 +1,10 @@
 ---
 import { getCollection } from "astro:content";
-import MainLayout from "../../layouts/MainLayout.astro";
-import DetailedEduCard from "../../components/portfolio/DetailedEduCard.astro";
+import MainLayout from "@layouts/MainLayout.astro";
+import DetailedEduCard from "@components/portfolio/DetailedEduCard.astro";
 import type { CollectionEntry } from "astro:content";
-import { getLangFromUrl } from "../../i18n/utils";
-import { useTranslations } from "../../i18n/translations";
+import { getLangFromUrl } from "@i18n/utils";
+import { useTranslations } from "@i18n/translations";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);

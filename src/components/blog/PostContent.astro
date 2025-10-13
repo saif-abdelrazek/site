@@ -1,9 +1,9 @@
 ---
 import { render, type CollectionEntry } from "astro:content";
-import slugify from "../../utils/slugify";
-import formatDate from "../../utils/formateDate";
-import { getLangFromUrl } from "../../i18n/utils";
-import { useTranslations } from "../../i18n/translations";
+import slugify from "@utils/slugify";
+import formatDate from "@utils/formateDate";
+import { getLangFromUrl } from "@i18n/utils";
+import { useTranslations } from "@i18n/translations";
 
 interface PostProps {
   post: CollectionEntry<"posts">;

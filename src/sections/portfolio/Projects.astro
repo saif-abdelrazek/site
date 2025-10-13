@@ -1,12 +1,12 @@
 ---
-import { getLangFromUrl } from "../../i18n/utils";
-import { useTranslations } from "../../i18n/translations";
+import { getLangFromUrl } from "@i18n/utils";
+import { useTranslations } from "@i18n/translations";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 import { getCollection } from "astro:content";
-import ProjectCard from "../../components/portfolio/ProjectCard.astro";
+import ProjectCard from "@components/portfolio/ProjectCard.astro";
 
 const allProjects = await getCollection("projects", ({ data }) => {
   return data.shownInHome === true;

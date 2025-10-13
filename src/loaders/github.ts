@@ -4,7 +4,7 @@
 
 import type { LiveDataCollection } from "astro";
 import type { LiveLoader } from "astro/loaders";
-import { ReposLoaderError } from "../types/reposTypes";
+import { ReposLoaderError } from "@types/reposTypes";
 
 import type {
   FetchReposParams,
@@ -12,7 +12,7 @@ import type {
   ReposFilterType,
   RepoType,
   RepoLoaderReturnType,
-} from "../types/reposTypes";
+} from "@types/reposTypes";
 
 /**
  * Fetches repositories from the GitHub API with optional filtering.

@@ -1,12 +1,12 @@
 ---
 import { getCollection, render } from "astro:content";
 import type { CollectionEntry } from "astro:content";
-import MainLayout from "../../layouts/MainLayout.astro";
+import MainLayout from "@layouts/MainLayout.astro";
 import { Icon } from "astro-icon/components";
 import { Image } from "astro:assets";
-import { useTranslations } from "../../i18n/translations";
-import { getLangFromUrl } from "../../i18n/utils";
-import { createLocalizedConstants } from "../../lib/constants";
+import { useTranslations } from "@i18n/translations";
+import { getLangFromUrl } from "@i18n/utils";
+import { createLocalizedConstants } from "@lib/constants";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);

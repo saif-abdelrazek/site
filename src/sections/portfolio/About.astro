@@ -1,14 +1,14 @@
 ---
-import { getLangFromUrl } from "../../i18n/utils";
-import { useTranslations } from "../../i18n/translations";
-import { createLocalizedConstants } from "../../lib/constants";
+import { getLangFromUrl } from "@i18n/utils";
+import { useTranslations } from "@i18n/translations";
+import { createLocalizedConstants } from "@lib/constants";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const constants = createLocalizedConstants(lang);
 
 import { Image } from "astro:assets";
-import aboutImage from "../../assets/about.jpg";
+import aboutImage from "@assets/about.jpg";
 const { title, content, fullName } = constants.PORTFOLIO_CONTENT.about;
 ---
 

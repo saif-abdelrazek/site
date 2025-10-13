@@ -5,7 +5,7 @@ import type { Language } from '../i18n/utils';
 // Localized Constants Factory
 // ========================
 
-export function createLocalizedConstants(lang: Language) {
+export function createLocalizedConstants(lang: Language): any {
   const t = useTranslations(lang);
 
   return {
@@ -272,12 +272,12 @@ export function createLocalizedConstants(lang: Language) {
         title: t('portfolio.hero.title'),
         subtitle: t('portfolio.hero.subtitle'),
         description: t('portfolio.hero.description'),
-        image: '/src/assets/profile.jpg',
+        image: '/@assets/profile.jpg',
       },
       about: {
         title: t('portfolio.about.title'),
         fullName: t('portfolio.about.fullName'),
-        image: '/src/assets/about.jpg',
+        image: '/@assets/about.jpg',
         content: t('portfolio.about.content'),
       },
       technologies: {

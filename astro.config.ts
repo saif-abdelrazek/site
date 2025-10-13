@@ -30,15 +30,15 @@ export default defineConfig({
   },
   
   redirects: {
-    "/projects": "/#projects",
-    "/technologies": "/#technologies",
-    "/about": "/#about",
-    "/post": "/blog",
-    "/posts": "/blog",
-    "/blog/author": "/blog/author/saif-abdelrazek",
-    "/edu": "/education",
-    '/github': SOCIAL_LINKS.github,
-    '/linkedin': SOCIAL_LINKS.linkedin,
+    "[...lang]/projects": "[...lang]/#projects",
+    "[...lang]/technologies": "[...lang]/#technologies",
+    "[...lang]/about": "[...lang]/#about",
+    "[...lang]/post": "[...lang]/blog",
+    "[...lang]/posts": "[...lang]/blog",
+    "[...lang]/blog/author": "[...lang]/blog/author/saif-abdelrazek",
+    "[...lang]/edu": "[...lang]/education",
+    "[...lang]/github": SOCIAL_LINKS.github,
+    "[...lang]/linkedin": SOCIAL_LINKS.linkedin,
   },
   site: SITE_CONFIG.siteUrl,
   experimental: {
@@ -50,12 +50,26 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    resolve: {
+      alias: {
+        '@components': new URL('./src/components', import.meta.url).pathname,
+        '@assets': new URL('./src/assets', import.meta.url).pathname,
+        '@lib': new URL('./src/lib', import.meta.url).pathname,
+        '@types': new URL('./src/types', import.meta.url).pathname,
+        '@content': new URL('./src/content', import.meta.url).pathname,
+        '@sections': new URL('./src/sections', import.meta.url).pathname,
+        '@utils': new URL('./src/utils', import.meta.url).pathname,
+        '@i18n': new URL('./src/i18n', import.meta.url).pathname,
+        '@layouts': new URL('./src/layouts', import.meta.url).pathname,
+        '@': new URL('./src', import.meta.url).pathname,
+      }
+    },
   },
 
   integrations: [
     mdx(),
     icon({
-      iconDir: "src/assets/icons",
+      iconDir: "@assets/icons",
     }),
     sitemap(),
 
