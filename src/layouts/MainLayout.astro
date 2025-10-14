@@ -96,7 +96,8 @@ const {
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content={constants.SITE_CONFIG.name} />
 
-    <ClientRouter fallback="swap" />
+    <!-- VIEW TRANSITIONS DISABLED - CAUSES FIREFOX LAG -->
+    <!-- <ClientRouter fallback="swap" /> -->
     {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
 
     <script>

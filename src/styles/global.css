@@ -6,6 +6,11 @@
 /* This just for conflicted styles  */
 @custom-variant light (&:where(.light, .light *));
 
+/* Optimized theme transitions */
+html {
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
 .active-link {
   @apply border-blue-200 bg-blue-100 font-bold text-blue-900 shadow-sm;
 }
@@ -13,28 +18,64 @@
   @apply border-sky-900 bg-sky-900 font-bold text-sky-100 shadow-md;
 }
 
-/* Custom Scrollbar Styles */
+/* Custom Scrollbar Styles - Improved for website theme */
 ::-webkit-scrollbar {
-  width: 12px;
+  width: 14px;
   background: transparent;
 }
 
+/* Light Mode Scrollbar */
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #1e293b 40%, #0f172a 100%);
-  border-radius: 8px;
-  border: 2px solid #0a192f;
+  background: linear-gradient(135deg, #3b82f6 0%, #1e40af 50%, #1e3a8a 100%);
+  border-radius: 10px;
+  border: 2px solid #e0f2fe;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #38bdf8 40%, #0f172a 100%);
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #1e3a8a 100%);
+  border-color: #bae6fd;
+  box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-radius: 10px;
+  border: 1px solid #e0e7ff;
 }
 
-/* For Firefox */
+/* Dark Mode Scrollbar */
+.dark ::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 50%, #0369a1 100%);
+  border: 2px solid #0f172a;
+  box-shadow: 0 2px 4px rgba(14, 165, 233, 0.3);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 50%, #0284c7 100%);
+  border-color: #1e293b;
+  box-shadow: 0 4px 8px rgba(56, 189, 248, 0.4);
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+  border: 1px solid #334155;
+}
+
+/* Firefox Scrollbar - Light and Dark Mode */
 html {
   scrollbar-width: thin;
-  scrollbar-color: #1e293b #0a192f;
+  scrollbar-color: #3b82f6 #f0f9ff;
+}
+
+html.dark {
+  scrollbar-color: #0ea5e9 #0f172a;
+}
+
+/* PERFORMANCE TEST: Allow transitions and transforms, but keep heavy effects disabled */
+* {
+  /* transition: none !important; */
+  /* transform: none !important; */
+  animation: none !important;
+  backdrop-filter: none !important;
 }
