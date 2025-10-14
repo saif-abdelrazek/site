@@ -3,6 +3,7 @@ title: "JavaScript Mastery (JSM)"
 institution: "JavaScript Mastery (YouTube)"
 location: "Online"
 type: "Self Learning"
+description: "Learning modern web development through JavaScript Mastery's comprehensive tutorials covering React, Next.js, Express.js, and real-world project building techniques."
 tags: ["JavaScript", "React", "Express.js", "Next.js"]
 startDate: 2025-03-31
 current: true

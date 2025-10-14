@@ -3,6 +3,7 @@ title: "Elzero Web School"
 institution: "Elzero Web School"
 location: "Online"
 type: "Self Learning"
+description: "Comprehensive web development education through Elzero Web School's Arabic tutorials, covering HTML, CSS, TypeScript with interactive coding challenges and practical projects."
 tags: ["HTML", "CSS", "TypeScript"]
 startDate: 2023-06-01
 endDate: 2025-03-31

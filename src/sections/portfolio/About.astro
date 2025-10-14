@@ -28,11 +28,11 @@ const { title, content, fullName } = constants.PORTFOLIO_CONTENT.about;
       )
     }
     <div class="flex-1">
-      <h1 class="mb-4 text-4xl font-bold text-sky-700 dark:text-sky-300">
+      <h2 class="mb-4 text-4xl font-bold text-sky-700 dark:text-sky-300">
         {title}
-      </h1>
+      </h2>
       <div
-        class="prose prose-sky dark:prose-invert mb-6 text-lg text-gray-700 dark:text-gray-300"
+        class="prose prose-sky dark:prose-invert mb-6 text-lg text-gray-700 dark:text-gray-300 text-justify"
       >
         <h2>{t('about.fullName')}: {fullName}</h2>
         <p>{content}</p>

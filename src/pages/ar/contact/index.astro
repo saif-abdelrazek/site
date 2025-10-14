@@ -18,15 +18,31 @@ const pageDescription = t('page.contact.description');
     class="flex min-h-screen w-full items-center justify-center bg-blue-50 py-12 transition-all duration-300 ease-in-out dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
   >
     <div class="section-container w-full">
+      <!-- Introduction Section -->
+      <div class="light:bg-white/80 mx-auto mb-8 w-full max-w-3xl rounded-2xl border border-blue-100 p-8 shadow-2xl backdrop-blur-md transition-colors duration-300 dark:border-sky-900 dark:bg-gradient-to-br dark:from-slate-900/80 dark:via-slate-800/80 dark:to-slate-900/60 dark:shadow-2xl dark:backdrop-blur-md">
+        <h1 class="mb-6 text-center text-3xl font-bold text-blue-700 dark:text-sky-200">
+          {t('contact.title')}
+        </h1>
+        <div class="prose prose-blue dark:prose-invert mx-auto max-w-none text-center">
+          <p class="text-lg leading-relaxed text-blue-700 dark:text-sky-100">
+            أسعد دائماً بالتواصل مع زملاء المطورين والمتعاونين المحتملين وأي شخص مهتم بالتقنية. سواء كان لديك مشروع في الاعتبار أو تريد مناقشة تطوير الويب أو مجرد قول مرحبا، أحب أن أسمع منك.
+          </p>
+          <p class="mt-4 text-base text-blue-600 dark:text-sky-200">
+            {t('contact.availability')} | {t('contact.responseTime')}
+          </p>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
       <form
         method="POST"
         class="light:border-blue-100 light:bg-white/80 mx-auto w-full max-w-3xl rounded-2xl border border-blue-100 bg-white/80 p-8 shadow-2xl backdrop-blur-md transition-all duration-300 ease-in-out dark:border-sky-900 dark:bg-black/40 dark:shadow-2xl dark:backdrop-blur-md"
         id="contact-form"
       >
         <h1
-          class="mb-6 text-center text-3xl font-bold text-blue-700 dark:text-sky-200"
+          class="mb-6 text-center text-2xl font-bold text-blue-700 dark:text-sky-200"
         >
-          {t('contact.title')}
+          أرسل لي رسالة
         </h1>
         <div id="form-messages" class="mb-4"></div>
         <div class="mb-4">
@@ -138,6 +154,47 @@ const pageDescription = t('page.contact.description');
         <p class="mt-2 text-center text-base text-blue-700 dark:text-sky-200">
           {t('contact.dontHesitate')}
         </p>
+      </div>
+
+      <!-- Additional Information Section -->
+      <div class="light:bg-white/80 mx-auto mt-8 w-full max-w-3xl rounded-2xl border border-blue-100 p-8 shadow-2xl backdrop-blur-md transition-colors duration-300 dark:border-sky-900 dark:bg-gradient-to-br dark:from-slate-900/80 dark:via-slate-800/80 dark:to-slate-900/60 dark:shadow-2xl dark:backdrop-blur-md">
+        <h2 class="mb-6 text-center text-2xl font-extrabold text-blue-700 drop-shadow-lg dark:text-sky-200">
+          ما يمكنني مساعدتك فيه
+        </h2>
+        <div class="grid gap-6 md:grid-cols-2">
+          <div class="rounded-lg bg-blue-50 p-6 dark:bg-slate-900/40">
+            <h3 class="mb-3 text-lg font-semibold text-blue-700 dark:text-sky-300">تطوير الويب</h3>
+            <p class="text-blue-600 dark:text-sky-100">
+              تطبيقات ويب متكاملة ومواقع متجاوبة وواجهات برمجية وأطر JavaScript الحديثة مثل React و Next.js و Astro.
+            </p>
+          </div>
+          <div class="rounded-lg bg-blue-50 p-6 dark:bg-slate-900/40">
+            <h3 class="mb-3 text-lg font-semibold text-blue-700 dark:text-sky-300">المشاريع الحرّة</h3>
+            <p class="text-blue-600 dark:text-sky-100">
+              مواقع مخصصة وحلول تجارة إلكترونية ومواقع شخصية وتطبيقات أعمال مُصممة خصيصاً لاحتياجاتك.
+            </p>
+          </div>
+          <div class="rounded-lg bg-blue-50 p-6 dark:bg-slate-900/40">
+            <h3 class="mb-3 text-lg font-semibold text-blue-700 dark:text-sky-300">التعاون</h3>
+            <p class="text-blue-600 dark:text-sky-100">
+              مساهمات مفتوحة المصدر ومشاريع جماعية ومراجعة أكواد وفرص إرشاد في تطوير الويب.
+            </p>
+          </div>
+          <div class="rounded-lg bg-blue-50 p-6 dark:bg-slate-900/40">
+            <h3 class="mb-3 text-lg font-semibold text-blue-700 dark:text-sky-300">النقاشات التقنية</h3>
+            <p class="text-blue-600 dark:text-sky-100">
+              تبادل المعرفة حول البرمجة ومناقشة التقنيات الجديدة والنصح المهني وفرص التعلم.
+            </p>
+          </div>
+        </div>
+        <div class="mt-8 text-center">
+          <p class="text-blue-700 dark:text-sky-100">
+            مقره في <strong>الغربية، مصر</strong> • متاح للعمل عن بُعد في جميع أنحاء العالم
+          </p>
+          <p class="mt-2 text-sm text-blue-600 dark:text-sky-200">
+            طليق في العربية والإنجليزية • منفتح لمشاريع من جميع الأحجام
+          </p>
+        </div>
       </div>
     </div>
   </main>

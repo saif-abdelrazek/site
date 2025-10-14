@@ -3,6 +3,7 @@ title: "Safir El Tafawok"
 institution: "Safir El Tafawok"
 location: "Online"
 type: "Self Learning"
+description: "STEM exam preparation and intelligence test training at Safir El Tafawok with Dr. Islam Ibrahim, focusing on problem-solving skills and analytical thinking development."
 tags: ["STEM Exam Prep", "Problem Solving"]
 startDate: 2023-07-15
 endDate: 2023-09-01
