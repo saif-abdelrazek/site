@@ -35,7 +35,8 @@ technologies:
       slug: "postgresql",
     },
   ]
-repo: "https://github.com/saif-abdelrazek/saifmarks"
+link: "https://marks.saifdev.org?utm_source=portfolio&utm_medium=website&utm_campaign=projects"
+repo: "https://github.com/saif-abdelrazek/saifmarks?utm_source=portfolio&utm_medium=website&utm_campaign=project_github"
 slug: "saifmarks"
 shownInHome: true
 ---

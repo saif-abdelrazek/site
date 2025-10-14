@@ -22,8 +22,8 @@ technologies:
     icon: simple-icons:vercel
     category: deployment
     slug: vercel
-repo: "https://github.com/saif-abdelrazek/site"
-link: "https://saifabdelrazek.com"
+repo: "https://github.com/saif-abdelrazek/site?utm_source=portfolio&utm_medium=website&utm_campaign=project_github"
+link: "https://saifabdelrazek.com/?utm_source=portfolio&utm_medium=website&utm_campaign=projects"
 slug: "site"
 shownInHome: false
 ---

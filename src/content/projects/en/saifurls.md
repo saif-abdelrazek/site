@@ -18,8 +18,8 @@ technologies:
       slug: "saifapi",
     },
   ]
-link: "https://urls.saifdev.org"
-repo: "https://github.com/saif-abdelrazek/saifurl"
+link: "https://urls.saifdev.org?utm_source=portfolio&utm_medium=website&utm_campaign=projects"
+repo: "https://github.com/saif-abdelrazek/saifurl?utm_source=portfolio&utm_medium=website&utm_campaign=project_github"
 slug: "saifurls"
 shownInHome: true
 ---
@@ -61,4 +61,4 @@ SaifURL is designed for users who need a reliable, secure, and easy-to-use platf
 
 ---
 
-Find the source code and more details on [GitHub](https://github.com/saif-abdelrazek/saifurl)
+Find the source code and more details on [GitHub](https://github.com/saif-abdelrazek/saifurl?utm_source=portfolio&utm_medium=website&utm_campaign=project_github)

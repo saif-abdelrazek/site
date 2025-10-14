@@ -23,7 +23,7 @@ technologies:
     },
     { name: "EJS", icon: "simple-icons:ejs", category: "markup", slug: "ejs" },
   ]
-repo: "https://github.com/saif-abdelrazek/saifapi"
+repo: "https://github.com/saif-abdelrazek/saifapi?utm_source=portfolio&utm_medium=website&utm_campaign=project_github"
 slug: "saifapi"
 shownInHome: true
 ---

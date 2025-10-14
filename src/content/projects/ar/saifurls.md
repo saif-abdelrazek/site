@@ -18,8 +18,8 @@ technologies:
       slug: "saifapi",
     },
   ]
-link: "https://urls.saifdev.org"
-repo: "https://github.com/saif-abdelrazek/saifurl-frontend"
+link: "https://urls.saifdev.org?utm_source=portfolio&utm_medium=website&utm_campaign=projects"
+repo: "https://github.com/saif-abdelrazek/saifurl-frontend?utm_source=portfolio&utm_medium=website&utm_campaign=project_github"
 slug: "saifurls"
 shownInHome: true
 ---
