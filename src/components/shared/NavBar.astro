@@ -72,7 +72,7 @@ const navItems = [
       <!-- Nav links -->
       <ul
         id="navbar-links"
-        class="fixed top-16 left-0 z-40 max-h-0 w-full flex-col items-center overflow-visible border-b border-blue-100 bg-blue-50 text-center shadow-lg transition-all duration-300 md:static md:z-auto md:flex md:max-h-none md:w-auto md:flex-row md:items-center md:gap-6 md:overflow-visible md:border-none md:bg-transparent md:shadow-none dark:bg-[#0f172a] dark:md:bg-transparent"
+        class="fixed top-16 left-0 z-40 hidden max-h-0 w-full flex-col items-center overflow-visible border-b border-blue-100 bg-blue-50 text-center shadow-lg transition-all duration-300 md:static md:z-auto md:flex md:max-h-none md:w-auto md:flex-row md:items-center md:gap-6 md:overflow-visible md:border-none md:bg-transparent md:shadow-none dark:bg-[#0f172a] dark:md:bg-transparent"
       >
         {
           navItems.map((item, idx) => (
@@ -127,7 +127,9 @@ const navItems = [
       closeIcon.classList.add("hidden");
       btn.setAttribute("aria-expanded", "false");
     } else {
+      // Ensure menu is hidden on mobile during initialization
       links.classList.add("max-h-0", "hidden");
+      links.classList.remove("flex", "max-h-none", "max-h-[500px]");
       menuIcon.classList.remove("hidden");
       closeIcon.classList.add("hidden");
       btn.setAttribute("aria-expanded", "false");
@@ -211,5 +213,23 @@ const navItems = [
   });
   document.addEventListener("DOMContentLoaded", () => {
     handleNavFunctions();
+    // Mark navbar as initialized to show it
+    const links = document.getElementById("navbar-links");
+    if (links) {
+      links.classList.add("initialized");
+    }
   });
 </script>
+
+<style>
+  /* Prevent navbar flash on page load for mobile */
+  @media (max-width: 767px) {
+    #navbar-links {
+      visibility: hidden;
+    }
+    
+    #navbar-links.initialized {
+      visibility: visible;
+    }
+  }
+</style>
