@@ -38,6 +38,8 @@ const {
     filled ? "px-4 py-2" : "p-1",
     border && "border border-sky-700",
     icon?.position === "only" ? "p-2" : "",
+    // Ensure consistent height alignment
+    "min-h-[2.5rem]",
     className,
   ].join(" ")}
   data-astro-prefetch="viewport"

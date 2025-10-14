@@ -11,6 +11,23 @@ html {
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
+/* Consistent section spacing utilities */
+.section-container {
+  @apply mx-auto max-w-6xl px-4 sm:px-6 lg:px-8;
+}
+
+.section-container-narrow {
+  @apply mx-auto max-w-5xl px-4 sm:px-6 lg:px-8;
+}
+
+.section-container-wide {
+  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+
+.section-spacing {
+  @apply py-12 lg:py-16;
+}
+
 .active-link {
   @apply border-blue-200 bg-blue-100 font-bold text-blue-900 shadow-sm;
 }

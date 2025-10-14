@@ -15,9 +15,8 @@ const { title, content, fullName } = constants.PORTFOLIO_CONTENT.about;
 <section
   class="w-full bg-blue-100 py-12 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
 >
-  <div
-    class="mx-auto flex max-w-6xl flex-col items-center gap-10 px-4 md:flex-row md:items-start"
-  >
+  <div class="section-container">
+    <div class="flex flex-col items-center gap-10 md:flex-row md:items-start">
     {
       aboutImage && (
         <Image
