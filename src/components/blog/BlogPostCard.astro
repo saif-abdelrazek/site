@@ -22,7 +22,7 @@ const {LANGUAGE_DIRECTION} = constants;
 ---
 
 <div
-  class="flex h-full flex-col rounded-2xl border border-blue-200 bg-white shadow-lg transition-transform duration-200 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-xl dark:border-sky-900 dark:bg-slate-900"
+  class="flex h-full flex-col rounded-2xl border border-blue-200 bg-white shadow-md transition-all duration-250 ease-out hover:shadow-lg hover:border-blue-400 light:hover:bg-blue-50/30 dark:border-sky-900 dark:bg-slate-900 dark:hover:border-sky-700"
 >
   {
     post.data.image && (
@@ -31,7 +31,7 @@ const {LANGUAGE_DIRECTION} = constants;
         alt={"Blog post " + post.data.title}
         width={400}
         height={220}
-        class="h-44 w-full rounded-t-2xl object-cover"
+        class="h-44 w-full rounded-t-2xl object-cover transition-all duration-300 ease-out"
       />
     )
   }
@@ -67,7 +67,7 @@ const {LANGUAGE_DIRECTION} = constants;
     <div class={`mt-auto flex justify-end ${LANGUAGE_DIRECTION === 'rtl' ? 'flex-row-reverse' : ''}`}>
       <a
         href={`${lang === 'en' ? '' : '/' + lang}/blog/${post.id.split('/')[1]}/`}
-        class="inline-block rounded bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow transition hover:bg-blue-700 dark:bg-sky-700 dark:hover:bg-sky-800"
+        class="inline-block rounded bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow transition-all duration-200 ease-out hover:bg-blue-700 hover:shadow-md dark:bg-sky-700 dark:hover:bg-sky-800"
       >
         {t('blog.readMore')}
       </a>

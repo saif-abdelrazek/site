@@ -32,7 +32,7 @@ const t = useTranslations(lang);
 ---
 
 <div
-  class="flex h-full w-full flex-col rounded-2xl border border-blue-200 bg-white p-6 shadow-lg transition hover:shadow-xl dark:bg-slate-900"
+  class="flex h-full w-full flex-col rounded-2xl border border-blue-200 bg-white p-6 shadow-md transition-all duration-250 ease-out hover:shadow-lg hover:border-blue-400 light:hover:bg-blue-50/30 dark:bg-slate-900 dark:border-sky-900 dark:hover:border-sky-700"
 >
   <a
     href={`${lang === 'en' ? `` : `/${lang}`}/projects/${slug}`}
@@ -44,24 +44,24 @@ const t = useTranslations(lang);
         <Image
           src={image}
           alt={title}
-          class="mb-4 h-40 w-full rounded-xl object-cover"
+          class="mb-4 h-40 w-full rounded-xl object-cover transition-all duration-200 ease-out hover:rounded-lg"
           loading="lazy"
         />
       )
     }
-    <h3 class="mb-2 text-xl font-bold text-blue-700 dark:text-sky-300">
+    <h3 class="mb-2 text-xl font-bold text-blue-700 transition-colors duration-200 ease-out dark:text-sky-300">
       {title}
     </h3>
     {
       description && (
-        <p class="mb-4 text-gray-700 dark:text-gray-300">{description}</p>
+        <p class="mb-4 text-gray-700 transition-colors duration-200 ease-out dark:text-gray-300">{description}</p>
       )
     }
     {
       technologies && technologies.length > 0 && (
         <div class="mb-4 flex flex-wrap gap-2">
           {technologies.map((tech) => (
-            <span class="inline-flex items-center gap-1 rounded bg-blue-100 px-2 py-1 text-xs font-semibold text-blue-700 dark:bg-sky-900/60 dark:text-sky-200">
+            <span class="inline-flex items-center gap-1 rounded bg-blue-100 px-2 py-1 text-xs font-semibold text-blue-700 transition-all duration-200 ease-out hover:bg-blue-200 dark:bg-sky-900/60 dark:text-sky-200 dark:hover:bg-sky-800/80">
               {tech.icon && <Icon name={tech.icon} class="h-4 w-4" />}
               {tech.name}
             </span>
@@ -76,7 +76,7 @@ const t = useTranslations(lang);
             href={link}
             target="_blank"
             rel="noopener noreferrer"
-            class="font-semibold text-blue-600 underline hover:text-blue-800 dark:text-sky-400 dark:hover:text-sky-200"
+            class="font-semibold text-blue-600 underline transition-colors duration-200 ease-out hover:text-blue-800 dark:text-sky-400 dark:hover:text-sky-200"
             aria-label={`View live project ${title}`}
           >
             {t('projects.live')}
@@ -89,7 +89,7 @@ const t = useTranslations(lang);
             href={repo}
             target="_blank"
             rel="noopener noreferrer"
-            class="font-semibold text-blue-600 underline hover:text-blue-800 dark:text-sky-400 dark:hover:text-sky-200"
+            class="font-semibold text-blue-600 underline transition-colors duration-200 ease-out hover:text-blue-800 dark:text-sky-400 dark:hover:text-sky-200"
           >
             {t('projects.repo')}
           </a>

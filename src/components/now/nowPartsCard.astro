@@ -10,8 +10,8 @@ const { title, icon, class: className } = Astro.props;
 
 <div
   class={[
-    "flex flex-col justify-between rounded-2xl border border-blue-100 light:bg-blue-50 p-4 shadow-xl backdrop-blur-md transition-transform duration-200 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-blue-200/40",
-    "dark:border-sky-800 dark:bg-gradient-to-br dark:from-slate-900/80 dark:via-slate-800/80 dark:to-slate-900/60 dark:shadow-xl dark:backdrop-blur-md dark:hover:shadow-blue-900/30",
+    "flex flex-col justify-between rounded-2xl border border-blue-100 light:bg-blue-50 p-4 shadow-md backdrop-blur-md transition-all duration-250 ease-out hover:shadow-lg hover:border-blue-300 light:hover:bg-blue-50/80",
+    "dark:border-sky-800 dark:bg-gradient-to-br dark:from-slate-900/80 dark:via-slate-800/80 dark:to-slate-900/60 dark:shadow-md dark:backdrop-blur-md dark:hover:border-sky-700",
     className,
   ].join(" ")}
 >

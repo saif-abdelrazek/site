@@ -48,7 +48,7 @@ const {LANGUAGE_DIRECTION} = constants;
       </a>
       <a
         href={lang === 'en' ? "/contact" : `/${lang}/contact`}
-        class="rounded-lg border-2 border-blue-600 px-7 py-3 text-lg font-semibold text-blue-700 transition hover:bg-blue-50 dark:border-sky-700 dark:text-sky-300 dark:hover:bg-sky-900"
+        class="rounded-lg border-2 border-blue-600 px-7 py-3 text-lg font-semibold text-blue-700 transition light:hover:bg-blue-50 dark:border-sky-700 dark:text-sky-300"
       >
         {t('page.home.contactMe')}
       </a>
@@ -63,7 +63,7 @@ const {LANGUAGE_DIRECTION} = constants;
                 alt={title}
                 width={400}
                 height={400}
-                class="rounded-full border-4 border-blue-400 object-cover shadow-2xl transition-transform duration-300 hover:scale-105"
+                class="rounded-full border-4 border-blue-400 object-cover shadow-lg transition-all duration-300 ease-out hover:shadow-xl hover:border-blue-500"
                 loading="lazy"
               />
             </div>

@@ -15,14 +15,14 @@ html {
 * {
   transition-property: margin, padding, width, height, max-width, transform;
   transition-duration: 0.2s;
-  transition-timing-function: ease-in-out;
+  transition-timing-function: ease-out;
 }
 
 /* Exclude transitions for elements that should be instant */
 button, a, input, textarea, select {
   transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
-  transition-duration: 0.15s;
-  transition-timing-function: ease-in-out;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-out;
 }
 
 /* Consistent section spacing utilities */
