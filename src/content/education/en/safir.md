@@ -9,9 +9,7 @@ startDate: 2023-07-15
 endDate: 2023-09-01
 ---
 
-# Safir El Tafawok: STEM Exam Preparation
-
-## About Safir El Tafawok
+## STEM Exam Preparation Journey
 
 An educational institution aimed at developing the skills of students of various age groups and training them to pass intelligence tests.  
 _Made by Dr. Islam Ibrahim._
