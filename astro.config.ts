@@ -88,7 +88,6 @@ export default defineConfig({
       base: "/",
       scope: "/",
       includeAssets: [
-        PWA_CONFIG.icons.favicon96.replace('/', ''),
         PWA_CONFIG.icons.faviconSvg.replace('/', ''),
         PWA_CONFIG.icons.faviconIco.replace('/', ''),
         PWA_CONFIG.icons.appleTouchIcon.replace('/', ''),

@@ -19,7 +19,6 @@ Welcome! This is my personal website, featuring my portfolio, blog, projects, re
 - [Astro](https://astro.build/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [TypeScript](https://www.typescriptlang.org/)
-- [DecapCMS (Netlify CMS)](https://decapcms.org/)
 - [Markdown Content](https://www.markdownguide.org/)
 
 ---

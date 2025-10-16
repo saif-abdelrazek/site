@@ -10,6 +10,7 @@ import SpeedInsights from "@vercel/speed-insights/astro";
 import { getLangFromUrl } from "@i18n/utils";
 import { useTranslations } from "@i18n/translations";
 import { createLocalizedConstants } from "@lib/constants";
+const NODE_ENV = import.meta.env.NODE_ENV;
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -20,6 +21,7 @@ interface Props {
   description?: string;
   image?: string;
   withNavBar?: boolean;
+  withFooter?: boolean;
   linksInHead?: string[];
   direction?: "ltr" | "rtl";
 }
@@ -95,7 +97,6 @@ const {
     <link rel="alternate" hreflang="ar" href={`https://saifabdelrazek.com/ar${Astro.url.pathname.replace(/^\/ar/, '')}`} />
     <link rel="alternate" hreflang="x-default" href={`https://saifabdelrazek.com${Astro.url.pathname.replace(/^\/ar/, '')}`} />
 
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -117,18 +118,18 @@ const {
       });
     </script>
 
-    <script
+    {NODE_ENV === "production" && <script
       is:inline
       defer
       src="https://insights.a8k.dev/script.js"
-      data-website-id="40f66a27-85f1-41cf-84da-8b3ad7d73f80"></script>
-    {linksInHead.map((link) => <Fragment set:html={link} />)}
+      data-website-id="40f66a27-85f1-41cf-84da-8b3ad7d73f80"></script>}
+    {linksInHead.map((link) => <Fragment set:html={link} />)
+  }
     <script src="/src/pwa.ts"></script>
   </head>
   <body>
-    <SpeedInsights />
+    {NODE_ENV === "production" && <SpeedInsights />}
     {withNavBar && <NavBar />}
-
     <SearchOverlay />
     <main>
       <slot />

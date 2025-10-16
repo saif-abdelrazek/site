@@ -591,13 +591,11 @@ export const PWA_CONFIG = {
   themeColor: '#186faf',
   language: 'en',
   icons: {
-    favicon96: '/favicon-96x96.png',
     faviconSvg: '/favicon.svg',
     faviconIco: '/favicon.ico',
     appleTouchIcon: '/apple-touch-icon.png',
   },
   manifestIcons: [
-    { src: '/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
     { src: '/favicon.svg', sizes: 'any', type: 'image/svg+xml' },
     { src: '/favicon.ico', sizes: '48x48 32x32 16x16', type: 'image/x-icon' },
     { src: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png', purpose: 'any' },

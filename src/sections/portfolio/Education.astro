@@ -14,7 +14,7 @@ const education = allEducation.filter((edu) => edu.id.startsWith(`${lang}/`));
 const hasEducation = education && education.length > 0;
 ---
 
-<section id="education" class="w-full bg-white px-4 py-12 dark:bg-slate-900">
+<section id="education" class="w-full bg-blue-50 px-4 py-12 dark:bg-slate-900">
   <div class="mx-auto max-w-6xl">
     <h2
       class="mb-2 text-center text-4xl font-bold text-sky-700 dark:text-sky-300"
@@ -26,11 +26,9 @@ const hasEducation = education && education.length > 0;
     </p>
     {
       hasEducation ? (
-        <section class="w-full bg-white px-4 py-12 dark:bg-slate-900">
           <div class="mx-auto max-w-6xl">
             <EducationCards education={education} />
           </div>
-        </section>
       ) : (
         <div class="text-center text-lg text-gray-500 dark:text-gray-400">
           {t('education.noRecords')}
