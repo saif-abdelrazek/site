@@ -1,0 +1,67 @@
+---
+import { getLangFromUrl } from "@i18n/utils";
+import { useTranslations } from "@i18n/translations";
+import { SOCIAL_LINKS, COPYRIGHT_CONFIG } from "@lib/constants";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+import { Icon } from "astro-icon/components";
+const year = new Date().getFullYear();
+---
+
+<footer
+  class="w-full border-t border-blue-200 bg-blue-50 py-8 text-center dark:border-sky-900 dark:bg-slate-900/80"
+>
+  <div class="section-container">
+    <div class="flex flex-col items-center justify-between gap-4 md:flex-row">
+    <div class="text-base text-blue-700 dark:text-sky-200">
+      &copy; {year} <a 
+        href={COPYRIGHT_CONFIG.website} 
+        class="hover:text-blue-800 dark:hover:text-sky-100 transition-colors"
+        target="_blank" 
+        rel="noopener noreferrer"
+      >
+        {lang === 'ar' ? 'سيف عبدالرازق' : COPYRIGHT_CONFIG.owner}
+      </a>. {COPYRIGHT_CONFIG.statement[lang]}
+    </div>
+    <div class="flex justify-center gap-4">
+      <a
+        href={SOCIAL_LINKS.github}
+        target="_blank"
+    <div class="flex justify-center gap-4">
+      <a
+        href={SOCIAL_LINKS.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-blue-600 transition hover:text-blue-800 dark:text-sky-300 dark:hover:text-sky-100"
+        aria-label="GitHub"
+      >
+        <Icon name="simple-icons:github" class="h-6 w-6" />
+      </a>
+      <a
+        href={SOCIAL_LINKS.linkedin}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-blue-600 transition hover:text-blue-800 dark:text-sky-300 dark:hover:text-sky-100"
+        aria-label="LinkedIn"
+      >
+        <Icon name="simple-icons:linkedin" class="h-6 w-6" />
+      </a>
+      <a
+        href={SOCIAL_LINKS.email}
+        class="text-blue-600 transition hover:text-blue-800 dark:text-sky-300 dark:hover:text-sky-100"
+        aria-label="Email"
+      >
+        <Icon name="mdi:email" class="h-6 w-6" />
+      </a>
+      <a
+        href={lang === 'en' ? "/blog/rss.xml" : `/${lang}/blog/rss.xml`}
+        target="_blank"
+        rel="noopener"
+        class="text-blue-600 transition hover:text-blue-800 dark:text-sky-300 dark:hover:text-sky-100"
+        aria-label="RSS Feed"
+      >
+        <Icon name="mdi:rss" class="h-6 w-6" />
+      </a>
+    </div>

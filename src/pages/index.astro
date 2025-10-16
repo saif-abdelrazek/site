@@ -5,7 +5,6 @@ import About from "@sections/portfolio/About.astro";
 import Technologies from "@sections/portfolio/Technologies.astro";
 import Projects from "@sections/portfolio/Projects.astro";
 import Education from "@sections/portfolio/Education.astro";
-import Footer from "@sections/portfolio/Footer.astro";
 import { getLangFromUrl } from "@i18n/utils";
 import { useTranslations } from "@i18n/translations";
 import { createLocalizedConstants } from "@lib/constants";
@@ -72,13 +71,5 @@ const pageDescription = t('page.home.description');
         </div>
       )
     }
-    {Footer && <Footer />}
-    {
-      !Footer && (
-        <div class="mx-auto max-w-5xl px-4 py-12">
-          <p class="text-lg text-gray-700 dark:text-gray-300">{t('section.unavailable.footer')}</p>
-        </div>
-      )
-    }
-  </main>
+  </div>
 </MainLayout>

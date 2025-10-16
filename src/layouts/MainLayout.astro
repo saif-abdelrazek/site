@@ -4,6 +4,7 @@ import { ClientRouter } from "astro:transitions";
 import "@fontsource/poppins";
 import NavBar from "@components/shared/NavBar.astro";
 import SearchOverlay from "@components/blog/search/SearchOverlay.astro";
+import Footer from "@components/shared/Footer.astro";
 import { pwaInfo } from "virtual:pwa-info";
 import SpeedInsights from "@vercel/speed-insights/astro";
 import { getLangFromUrl } from "@i18n/utils";
@@ -28,6 +29,7 @@ const {
   description = constants.SITE_CONFIG.description,
   image,
   withNavBar = true,
+  withFooter = true,
   linksInHead = [],
   direction = constants.LANGUAGE_DIRECTION,
 } = Astro.props;
@@ -131,7 +133,9 @@ const {
     <main>
       <slot />
     </main>
-  </body><script>
+    {withFooter && <Footer />}
+  </body>
+  <script is:inline>
     import {
       OpenSearch,
       InitSearch,

@@ -2,7 +2,6 @@
 import type { GetStaticPaths, Page } from "astro";
 import { getCollection } from "astro:content";
 import MainLayout from "@layouts/MainLayout.astro";
-import BlogFooter from "@components/blog/BlogFooter.astro";
 import PostList from "@components/blog/PostList.astro";
 import type { CollectionEntry } from "astro:content";
 import SearchBtn from "@components/blog/search/SearchBtn.astro";
@@ -127,6 +126,5 @@ const description = t('page.blogPage.description');
         }
       </nav>
     </main>
-    <BlogFooter />
   </div>
 </MainLayout>

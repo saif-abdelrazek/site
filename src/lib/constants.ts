@@ -559,7 +559,17 @@ export const SOCIAL_LINKS = {
   github: 'https://github.com/saif-abdelrazek',
   linkedin: 'https://linkedin.com/in/saifabdelrazek',
   email: 'mailto:saif@saifabdelrazek.com',
-  twitter: 'https://twitter.com/saifabdelrazek',
+  website: 'https://saifabdelrazek.com',
+} as const;
+
+export const COPYRIGHT_CONFIG = {
+  owner: 'Saif Abdelrazek',
+  startYear: 2025,
+  website: 'https://saifabdelrazek.com',
+  statement: {
+    en: 'All rights reserved',
+    ar: 'جميع الحقوق محفوظة'
+  }
 } as const;
 
 export const REPOSITORY_LINKS = {

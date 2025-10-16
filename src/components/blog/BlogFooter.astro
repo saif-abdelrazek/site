@@ -1,6 +1,7 @@
 ---
 import { getLangFromUrl } from "@i18n/utils";
 import { useTranslations } from "@i18n/translations";
+import { COPYRIGHT_CONFIG } from "@lib/constants";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -11,7 +12,14 @@ const t = useTranslations(lang);
 >
   <div>
     <p>
-      &copy; {new Date().getFullYear()} {t('blog.footer.siteName')} {t('blog.footer.rights')}.
+      &copy; {new Date().getFullYear()} <a 
+        href={COPYRIGHT_CONFIG.website} 
+        class="hover:text-blue-800 dark:hover:text-sky-100 transition-colors"
+        target="_blank" 
+        rel="noopener noreferrer"
+      >
+        {COPYRIGHT_CONFIG.owner}
+      </a> Blog. {COPYRIGHT_CONFIG.statement[lang]}.
     </p>
     <p class="mt-2">
       <a
