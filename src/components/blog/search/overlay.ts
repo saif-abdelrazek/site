@@ -5,10 +5,16 @@ import {
   WarmStart,
 } from "astro-collection-search";
 
+import { getLangFromUrl } from "@i18n/utils";
+
+const lang = getLangFromUrl(new URL(window.location.href));
+
+
+
 // Browser-compatible i18n translations
 const getSearchTranslations = () => {
   // Detect language from URL path
-  const isArabic = window.location.pathname.startsWith('/ar/');
+  const isArabic = lang === "ar";
   
   return {
     noResults: isArabic ? 'لا توجد نتائج' : 'No results found',
@@ -59,17 +65,32 @@ const getDefaultOptions = (): SearchOptions => {
   
   return {
     create_link: (result: CollectionSearchResult) => {
-      let base = import.meta.env.BASE_URL || "/";
-      if (!base.endsWith("/")) {
-        base += "/";
+      console.log('Search result:', result);
+      console.log('File path:', result.file);
+      console.log('Collection:', result.collection);
+      
+      // Extract the language and slug from the file path (e.g., "en/welcome.md" or "ar/welcome.md")
+      const fileParts = result.file.split('/');
+      const contentLang = fileParts[0]; // "en" or "ar"
+      const fileName = fileParts[fileParts.length - 1]; // Get the actual filename
+      const slug = fileName.replace(/\.mdx?$/, ""); // Remove .md or .mdx extension
+      
+      console.log('Content language:', contentLang);
+      console.log('Slug:', slug);
+      
+      // Build the correct URL based on content language
+      let url;
+      if (contentLang === 'ar') {
+        url = `/ar/${result.collection}/${slug}`;
+      } else {
+        url = `/${result.collection}/${slug}`;
       }
-      return (
-        base +
-        result.collection +
-        "/" +
-        result.file.replace(/\.mdx{0,1}$/, "")
-      ).toLowerCase();
+      
+      console.log('Generated URL:', url);
+      return url.toLowerCase();
     },
+    // Remove language filtering to show all content regardless of current page language
+    // Each link will be properly generated based on the content's actual language
     group_header: (collection: string) => {
       return `${translations.resultsFrom} ${collection}:`;
     },

@@ -52,8 +52,6 @@ export default defineConfig({
     liveContentCollections: true,
   },
 
-  prefetch: true,
-
   vite: {
     plugins: [tailwindcss()],
     resolve: {
@@ -81,7 +79,6 @@ export default defineConfig({
 
     collection_search({
       collections: ["posts"],
-
       fields: ["title", "description", "content"],
     }),
     AstroPWA({
