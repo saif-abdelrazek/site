@@ -210,7 +210,13 @@ const navItems = [
 
   document.addEventListener("astro:after-swap", (e) => {
     handleNavFunctions();
+    // Mark navbar as initialized to show it
+    const links = document.getElementById("navbar-links");
+    if (links) {
+      links.classList.add("initialized");
+    }
   });
+  
   document.addEventListener("DOMContentLoaded", () => {
     handleNavFunctions();
     // Mark navbar as initialized to show it
