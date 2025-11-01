@@ -22,6 +22,7 @@ const { post } = Astro.props as Props;
     post.data.image && (
       <Image
         src={post.data.image}
+        transition:name={"post-img-" + post.id}
         alt={"Blog Post Header Image: " + post.data.title}
         class="h-full w-full object-cover"
         style="position: absolute; inset: 0; z-index: 1;"

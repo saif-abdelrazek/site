@@ -1,3 +1,4 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{astro,html,js,ts,tsx}"],
   darkMode: "class", // Manual toggling via `saif theme dark`
@@ -20,10 +21,15 @@ module.exports = {
           purple: "#A855F7",
         },
       },
+
       fontFamily: {
-        sans: ["Inter", "sans-serif"],
-        mono: ["JetBrains Mono", "monospace"], // Terminal font
+        // Use locally bundled Poppins via @fontsource
+        sans: ["Poppins", "system-ui", "sans-serif"],
+
+        // Keep JetBrains Mono for code blocks/terminal UI
+        mono: ["JetBrains Mono", "monospace"],
       },
+
       // Animation for terminal cursor
       animation: {
         "cursor-blink": "blink 1s step-end infinite",

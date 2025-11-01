@@ -28,6 +28,7 @@ const {LANGUAGE_DIRECTION} = constants;
     post.data.image && (
       <Image
         src={post.data.image}
+        transition:name={"post-img-" + post.id}
         alt={"Blog post " + post.data.title}
         width={400}
         height={220}

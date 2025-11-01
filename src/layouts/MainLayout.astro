@@ -1,7 +1,9 @@
 ---
 import "@/styles/global.css";
 import { ClientRouter } from "astro:transitions";
-import "@fontsource/poppins";
+import "@fontsource/poppins/400.css";
+import "@fontsource/poppins/500.css";
+import "@fontsource/poppins/700.css";
 import NavBar from "@components/shared/NavBar.astro";
 import SearchOverlay from "@components/blog/search/SearchOverlay.astro";
 import Footer from "@components/shared/Footer.astro";
@@ -82,14 +84,6 @@ const {
     <!-- IndexNow API Key -->
     <meta name="indexnow" content="343b4cd9b94d455c965aa48b55159df8" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-    <link
-      href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-      rel="stylesheet"
-    />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
     <!-- Add hreflang links for SEO -->
@@ -103,7 +97,7 @@ const {
     <meta name="apple-mobile-web-app-title" content={constants.SITE_CONFIG.name} />
 
     <!-- VIEW TRANSITIONS DISABLED - CAUSES FIREFOX LAG -->
-    <!-- <ClientRouter fallback="swap" /> -->
+   <ClientRouter fallback="none" />
     {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
 
     <script>
@@ -125,7 +119,6 @@ const {
       data-website-id="40f66a27-85f1-41cf-84da-8b3ad7d73f80"></script>}
     {linksInHead.map((link) => <Fragment set:html={link} />)
   }
-    <script src="/src/pwa.ts"></script>
   </head>
   <body>
     {NODE_ENV === "production" && <SpeedInsights />}
@@ -135,6 +128,7 @@ const {
       <slot />
     </main>
     {withFooter && <Footer />}
+    <script src="/src/pwa.ts"></script>
   </body>
 
 </html>
