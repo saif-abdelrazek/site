@@ -39,6 +39,15 @@ const pageDescription = PAGE_DESCRIPTIONS.blog;
 
 const title = BLOG_CONFIG?.title;
 const description = t('page.blogPage.description');
+
+// Schema.org data for blog listing
+const blogUrl = new URL('/blog', Astro.site).toString();
+const itemListElements = posts.map((post, index) => ({
+  "@type": "ListItem",
+  "position": index + 1,
+  "url": new URL(`/blog/${post.id.replace('en/', '')}`, Astro.site).toString(),
+  "name": post.data.title
+}));
 ---
 
 <MainLayout
@@ -53,6 +62,26 @@ const description = t('page.blogPage.description');
     />`,
   ]}
 >
+  <!-- Blog Schema for Blog List Page -->
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": title,
+    "description": description,
+    "url": blogUrl,
+    "inLanguage": "en",
+    "author": {
+      "@type": "Person",
+      "name": "Saif Abdelrazek",
+      "url": "https://saifabdelrazek.com",
+      "alternateName": "A8K"
+    },
+    "blogPost": itemListElements.map(item => ({
+      "@type": "BlogPosting",
+      "url": item.url,
+      "headline": item.name
+    }))
+  })} />
   <div
     class="light:bg-blue-50 min-h-screen w-full transition-all duration-300 ease-in-out dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
   >

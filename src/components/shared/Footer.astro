@@ -23,7 +23,11 @@ const year = new Date().getFullYear();
         rel="noopener noreferrer"
       >
         {lang === 'ar' ? 'سيف عبدالرازق' : COPYRIGHT_CONFIG.owner}
-      </a>. {COPYRIGHT_CONFIG.statement[lang]}
+      </a> (<a 
+        href={lang === 'ar' ? '/ar/a8k' : '/a8k'}
+        class="font-semibold hover:text-blue-800 dark:hover:text-sky-100 transition-colors hover:underline"
+        title={lang === 'ar' ? 'تعرّف على A8K' : 'Learn about A8K'}
+      >A8K</a>). {COPYRIGHT_CONFIG.statement[lang]}
     </div>
     <div class="flex justify-center gap-4">
       <a

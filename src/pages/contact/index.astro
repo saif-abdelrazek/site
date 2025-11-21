@@ -14,6 +14,34 @@ const pageDescription = t('page.contact.description');
 ---
 
 <MainLayout title={pageTitle} description={pageDescription} direction={constants.LANGUAGE_DIRECTION}>
+  <!-- ContactPage Schema -->
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "Contact Saif Abdelrazek",
+    "description": pageDescription,
+    "url": new URL(Astro.url.pathname, Astro.site).toString(),
+    "inLanguage": lang === "ar" ? "ar" : "en",
+    "mainEntity": {
+      "@type": "Person",
+      "name": "Saif Abdelrazek",
+      "alternateName": "A8K",
+      "jobTitle": "Full-stack Developer",
+      "url": "https://saifabdelrazek.com",
+      "email": "saif@saifabdelrazek.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Gharbiya",
+        "addressCountry": "EG"
+      },
+      "sameAs": [
+        SOCIAL_LINKS.github,
+        SOCIAL_LINKS.linkedin
+      ],
+      "knowsLanguage": ["en", "ar"]
+    }
+  })} />
+
   <main class="bg-blue-50 py-8 transition-all duration-300 ease-in-out dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]">
     <div class="container mx-auto px-4 max-w-6xl">
       <!-- Header Section -->

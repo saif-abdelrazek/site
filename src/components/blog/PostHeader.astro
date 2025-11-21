@@ -23,19 +23,20 @@ const { post } = Astro.props as Props;
       <Image
         src={post.data.image}
         transition:name={"post-img-" + post.id}
+        transition:animate="fade"
         alt={"Blog Post Header Image: " + post.data.title}
         class="h-full w-full object-cover"
-        style="position: absolute; inset: 0; z-index: 1;"
+        style="position: absolute; inset: 0; z-index: 0;"
       />
     )
   }
   <div
     class="absolute inset-0 bg-gradient-to-b from-black/40 to-transparent dark:from-[#0f172a]/80 dark:to-transparent"
-    style="z-index: 2;"
+    style="z-index: 2; pointer-events: none;"
   >
   </div>
   <!-- Return button overlay, edge based on LANGUAGE_DIRECTION -->
-  <div class={`absolute top-4 ${LANGUAGE_DIRECTION === 'rtl' ? 'right-4' : 'left-4'} z-10`}>
+  <div class={`absolute top-4 ${LANGUAGE_DIRECTION === 'rtl' ? 'right-4' : 'left-4'}`} style="z-index: 20;">
     <a
       dir={LANGUAGE_DIRECTION}
       href={`${lang === 'en' ? '' : '/' + lang}/blog`}

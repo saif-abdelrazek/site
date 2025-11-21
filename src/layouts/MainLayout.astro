@@ -119,6 +119,36 @@ const {
       data-website-id="40f66a27-85f1-41cf-84da-8b3ad7d73f80"></script>}
     {linksInHead.map((link) => <Fragment set:html={link} />)
   }
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Saif Abdelrazek",
+        "alternateName": "A8K",
+        "url": "https://saifabdelrazek.com",
+        "jobTitle": "Full-stack Developer",
+        "description": "Full Stack Developer & High School Student passionate about web development and open source.",
+        "brand": {
+          "@type": "Brand",
+          "name": "A8K",
+          "description": "A numeronym-style developer signature derived from the surname Abdelrazek (A + 8 removed letters + K).",
+          "url": "https://a8k.dev",
+          "sameAs": "https://saifabdelrazek.com/a8k"
+        },
+        "sameAs": [
+          "https://github.com/saif-abdelrazek",
+          "https://linkedin.com/in/saifabdelrazek",
+          "https://a8k.dev"
+        ],
+        "knowsAbout": ["Web Development", "JavaScript", "TypeScript", "React", "Node.js", "Astro"],
+        "alumniOf": {
+          "@type": "EducationalOrganization",
+          "name": "Gharbiya STEM High School"
+        }
+      }
+    </script>
   </head>
   <body>
     {NODE_ENV === "production" && <SpeedInsights />}

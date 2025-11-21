@@ -26,9 +26,46 @@ const {
 
 const pageTitle =
   (title ? title : t('blog.untitledPost')) + " | " + t('page.blogPage.title');
+
+// Format date for schema
+const publishedDate = data.date ? new Date(data.date).toISOString() : new Date().toISOString();
+const modifiedDate = data.updatedDate ? new Date(data.updatedDate).toISOString() : publishedDate;
+
+// Get absolute URL for the post
+const postUrl = new URL(Astro.url.pathname, Astro.site).toString();
+const imageUrl = image.src ? new URL(image.src, Astro.site).toString() : undefined;
 ---
 
 <MainLayout title={pageTitle} {description}>
+  <!-- Article Schema for Blog Post -->
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": title,
+    "description": description,
+    "image": imageUrl,
+    "datePublished": publishedDate,
+    "dateModified": modifiedDate,
+    "author": {
+      "@type": "Person",
+      "name": "Saif Abdelrazek",
+      "url": "https://saifabdelrazek.com",
+      "alternateName": "A8K"
+    },
+    "publisher": {
+      "@type": "Person",
+      "name": "Saif Abdelrazek",
+      "url": "https://saifabdelrazek.com"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": postUrl
+    },
+    "keywords": data.tags?.join(", ") || "",
+    "articleSection": "Technology",
+    "inLanguage": lang === "ar" ? "ar" : "en"
+  })} />
+
   <div
     class="relative min-h-screen w-full bg-blue-50 transition-colors duration-300 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
   >

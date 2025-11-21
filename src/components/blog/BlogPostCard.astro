@@ -29,6 +29,7 @@ const {LANGUAGE_DIRECTION} = constants;
       <Image
         src={post.data.image}
         transition:name={"post-img-" + post.id}
+        transition:animate="fade"
         alt={"Blog post " + post.data.title}
         width={400}
         height={220}

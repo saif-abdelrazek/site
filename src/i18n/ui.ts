@@ -40,6 +40,7 @@ export const ui = {
     'page.error.title': 'خطأ في الخادم | سيف عبدالرازق',
     'page.biolink.title': 'روابط | سيف عبدالرازق | اجتماعية وتواصل',
     'page.rss.title': 'خلاصة RSS | مدوّنة سيف عبدالرازق',
+    'page.a8k.title': 'A8K - بصمة المطور | سيف عبدالرازق',
     
     // Page descriptions
     'page.home.description': 'سيف عبدالرازق – مطوّر متكامل شغوف وطالب ثانوي من مصر. استكشف معرض أعمالي المتضمن تطبيقات ويب حديثة ومشاريع برمجية ومدوّنة تقنية ومساهمات مفتوحة المصدر.',
@@ -54,6 +55,7 @@ export const ui = {
     'page.biolink.description': 'المركز الرئيسي لسيف عبدالرازق لجميع الروابط الاجتماعية ومعلومات التواصل والحضور الرقمي. تواصل عبر المنصات واكتشف جميع طرق التواصل ومتابعة أعمالي.',
     'page.now.description': 'ابق محدّثاً بتركيز سيف عبدالرازق الحالي والمشاريع الجارية وأهداف التعلم وما يعمل عليه الآن في رحلته التطويرية والتعليمية.',
     'page.rss.description': 'اشترك في خلاصة RSS لسيف عبدالرازق لأحدث منشورات المدوّنة ودروس البرمجة والأفكار التقنية والتحديثات من موقعه الشخصي ورحلته التطويرية.',
+    'page.a8k.description': 'A8K هي البصمة التطويرية لسيف عبدالرازق — تسمية رقمية تمثّل هويته المهنية. تعرّف على كيفية إنشائها ولماذا تُعرّف عمله في تطوير البرمجيات.',
     
     // Now page content
     'now.title': 'ما أركز عليه الآن',
@@ -344,6 +346,30 @@ export const ui = {
     'search.button': 'بحث',
     'search.close': 'اضغط Esc للإغلاق',
     
+    // A8K Brand Page
+    'a8k.subtitle': 'بصمة المطور',
+    'a8k.heroDescription': 'A8K هي البصمة التطويرية لسيف عبدالرازق - تمثيل مضغوط على غرار numeronym للقب "عبدالرازق" يتبع نفس نمط i18n وl10n.',
+    'a8k.whatIs.title': 'ما هي A8K؟',
+    'a8k.whatIs.intro': 'A8K هي بصمة مطوّر على طراز numeronym مشتقة من لقب "عبدالرازق". تتبع نفس نمط الاختصارات الشائعة في عالم التقنية مثل i18n (internationalization) وl10n (localization):',
+    'a8k.whatIs.letters': 'أحرف محذوفة',
+    'a8k.whatIs.explanation': 'يأخذ الاختصار الحرف الأول A، يحذف 8 أحرف من المنتصف، ثم ينتهي بالحرف الأخير K. النتيجة: A8K - بصمة قصيرة لا تُنسى تمثّل الهوية المهنية.',
+    'a8k.howUsed.title': 'كيف يتم استخدام A8K؟',
+    'a8k.howUsed.signature.title': 'بصمة المطور',
+    'a8k.howUsed.signature.description': 'تُستخدم A8K بجانب الاسم الكامل كبصمة مطور مهنية:',
+    'a8k.howUsed.domain.title': 'نطاق المشاريع',
+    'a8k.howUsed.domain.description': 'النطاق a8k.dev يُستخدم للمشاريع والأدوات والبنية التحتية:',
+    'a8k.howUsed.username.title': 'أسماء المستخدمين',
+    'a8k.howUsed.username.description': 'A8K ليست اسم مستخدم. أسماء المستخدمين الفعلية تبقى:',
+    'a8k.why.title': 'لماذا A8K؟',
+    'a8k.why.memorable.title': 'لا تُنسى',
+    'a8k.why.memorable.description': 'قصيرة، سهلة التذكر، ومميزة - مثالية للتعريف بالعلامة التجارية في صناعة التقنية.',
+    'a8k.why.professional.title': 'احترافية',
+    'a8k.why.professional.description': 'تتبع الاتفاقيات المستخدمة على نطاق واسع في صناعة التقنية (i18n, k8s, a11y)، مما يظهر المعرفة بثقافة المطوّرين.',
+    'a8k.why.consistent.title': 'هوية متسقة',
+    'a8k.why.consistent.description': 'توفّر طريقة موحّدة للإشارة إلى المشاريع والأدوات والبنية التحتية عبر منصات مختلفة.',
+    'a8k.why.inspired.title': 'مستوحاة من المعايير',
+    'a8k.why.inspired.description': 'تُلهمها معايير numeronym المعروفة مثل i18n (internationalization) وl10n (localization) وk8s (Kubernetes).',
+    
     // Blog components
     'blog.footer.siteName': 'مدوّنة سيف عبدالرازق',
     'blog.footer.rights': 'جميع الحقوق محفوظة',
@@ -414,6 +440,7 @@ export const ui = {
     'page.error.title': 'Server Error | Saif Abdelrazek',
     'page.biolink.title': 'Links | Saif Abdelrazek | Social & Contact',
     'page.rss.title': 'RSS Feed | Saif Abdelrazek Blog',
+    'page.a8k.title': 'A8K - Developer Signature | Saif Abdelrazek',
     
     // Page descriptions
     'page.home.description': 'Saif Abdelrazek – Passionate Full Stack Developer and High School Student from Egypt. Explore my portfolio featuring modern web applications, coding projects, tech blog, and open source contributions.',
@@ -428,6 +455,7 @@ export const ui = {
     'page.biolink.description': 'Saif Abdelrazek\'s central hub for all social links, contact information, and digital presence. Connect across platforms and discover all ways to reach out and follow my work.',
     'page.now.description': 'Stay updated with Saif Abdelrazek\'s current focus, ongoing projects, learning goals, and what he\'s working on right now in his development and educational journey.',
     'page.rss.description': 'Subscribe to Saif Abdelrazek\'s RSS feed for the latest blog posts, programming tutorials, tech insights, and updates from his personal website and development journey.',
+    'page.a8k.description': 'A8K is the developer signature of Saif Abdelrazek — a numeronym representing his professional identity. Learn how it was created and why it defines his work in software development.',
     
     // Now page content
     'now.title': 'What I\'m Focused On Now',
@@ -717,6 +745,30 @@ export const ui = {
     // Search
     'search.button': 'Search',
     'search.close': 'Press Esc to close',
+    
+    // A8K Brand Page
+    'a8k.subtitle': 'Developer Signature',
+    'a8k.heroDescription': 'A8K is Saif Abdelrazek\'s developer signature - a numeronym-style compressed representation of the surname "Abdelrazek" following the same pattern as i18n and l10n.',
+    'a8k.whatIs.title': 'What is A8K?',
+    'a8k.whatIs.intro': 'A8K is a developer signature in the style of numeronyms, derived from the surname "Abdelrazek." It follows the same pattern as common tech abbreviations like i18n (internationalization) and l10n (localization):',
+    'a8k.whatIs.letters': 'letters removed',
+    'a8k.whatIs.explanation': 'The abbreviation takes the first letter A, removes 8 middle letters, and ends with the last letter K. Result: A8K - a short, memorable signature that represents professional identity.',
+    'a8k.howUsed.title': 'How is A8K Used?',
+    'a8k.howUsed.signature.title': 'Developer Signature',
+    'a8k.howUsed.signature.description': 'A8K is used alongside the full name as a professional developer signature:',
+    'a8k.howUsed.domain.title': 'Projects Domain',
+    'a8k.howUsed.domain.description': 'The a8k.dev domain is used for projects, tools, and infrastructure:',
+    'a8k.howUsed.username.title': 'Usernames',
+    'a8k.howUsed.username.description': 'A8K is NOT a username. Actual usernames remain:',
+    'a8k.why.title': 'Why A8K?',
+    'a8k.why.memorable.title': 'Memorable',
+    'a8k.why.memorable.description': 'Short, easy to remember, and distinctive - perfect for branding in the tech industry.',
+    'a8k.why.professional.title': 'Professional',
+    'a8k.why.professional.description': 'Follows widely-used conventions in the tech industry (i18n, k8s, a11y), showing familiarity with developer culture.',
+    'a8k.why.consistent.title': 'Consistent Identity',
+    'a8k.why.consistent.description': 'Provides a unified way to reference projects, tools, and infrastructure across different platforms.',
+    'a8k.why.inspired.title': 'Standards-Inspired',
+    'a8k.why.inspired.description': 'Inspired by well-known numeronym standards like i18n (internationalization), l10n (localization), and k8s (Kubernetes).',
     
     // Blog components
     'blog.footer.siteName': 'Saif Abdelrazek Blog',
