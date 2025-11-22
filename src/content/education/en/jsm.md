@@ -10,15 +10,15 @@ current: true
 link: "https://www.youtube.com/@javascriptmastery"
 ---
 
-# JavaScript Mastery (JSM): My Doorway to Modern Web Development
+## JavaScript Mastery (JSM): My Doorway to Modern Web Development
 
-## About JavaScript Mastery
+### About JavaScript Mastery
 
 JavaScript Mastery (JSM) is a popular YouTube channel that provides high-quality tutorials and project-based courses on modern web development. The channel covers a wide range of topics, including JavaScript, React, Express.js, and Next.js, with a focus on building real-world applications.
 
 ---
 
-## My Learning Journey
+### My Learning Journey
 
 Since March 31, 2025, JSM has been my main resource for advancing my JavaScript skills. The channel was my introduction to both **React** and **Express.js**, opening the door to full-stack development. I’ve followed along with several of JSM’s courses and projects, learning how to build modern, scalable web apps.
 
@@ -26,7 +26,7 @@ I am still actively learning from JSM, especially enjoying the **Next.js Crash C
 
 ---
 
-## What I Gained
+### What I Gained
 
 - Gained practical experience with React and Express.js through hands-on projects.
 - Learned modern JavaScript concepts and best practices.

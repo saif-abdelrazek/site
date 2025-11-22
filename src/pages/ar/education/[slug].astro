@@ -60,8 +60,11 @@ const {
   link,
 } = entry.data;
 const { Content } = await render(entry);
-const pageTitle = title + " | " + t('page.education.title');
-const pageDescription = description + " | " + t('page.education.description');
+// Smart title: avoid repetition if title includes institution, keep under 70 chars
+const pageTitle = title.toLowerCase().includes(institution.toLowerCase().split('(')[0].trim().toLowerCase()) || title === institution
+  ? `${title} | ${t('site.author')}`
+  : `${title} | ${t('site.author')}`;
+const pageDescription = description || t('page.education.description');
 ---
 
 <MainLayout title={pageTitle} description={pageDescription}>

@@ -41,49 +41,49 @@ slug: "saifmarks"
 shownInHome: true
 ---
 
-# About SaifMARKs
+## About SaifMARKs
 
 SaifMARKs is a comprehensive platform for managing bookmarks built with modern technologies. It aims to provide a seamless and secure experience for saving, organizing, and accessing important links.
 
-## Core Features
+### Core Features
 
-### Bookmark Management
+#### Bookmark Management
 - **Quick Add**: Save links easily with automatic title and description extraction
 - **Categories & Tags**: Organize bookmarks in a logical and searchable way
 - **Advanced Search**: Find links quickly using multiple filters
 - **Folders**: Group bookmarks by topics or projects
 
-### User Interface
+#### User Interface
 - **Modern Design**: Clean and user-friendly interface built with React
 - **Interactive Experience**: Smooth transitions and instant feedback
 - **Responsive Design**: Works efficiently on all devices
 
-## Technical Architecture
+### Technical Architecture
 
-### Backend
+#### Backend
 - **NestJS**: Powerful framework providing organized and scalable structure
 - **TypeScript**: Ensures type safety and reduces errors
 - **Prisma ORM**: Safe and optimized database interaction
 - **PostgreSQL**: Reliable database ensuring data integrity
 
-### Frontend
+#### Frontend
 - **React**: Modern library for building interactive interfaces
 - **React Router**: Navigation and routing management
 - **TypeScript**: Safe and organized frontend development
 
-## Technical Challenges
+### Technical Challenges
 
-### Security & Protection
+#### Security & Protection
 - Implementation of robust authentication using JWT
 - Protection against common attacks (XSS, CSRF)
 - Encryption of sensitive data
 
-### Performance & Optimization
+#### Performance & Optimization
 - Database query optimization
 - Implementation of caching techniques
 - Rate limiting to ensure stability
 
-## Lessons Learned
+### Lessons Learned
 
 This project taught me:
 - **Working with TypeScript**: How to leverage type safety in a full project
@@ -91,6 +91,6 @@ This project taught me:
 - **ORM Integration**: Using Prisma effectively with PostgreSQL
 - **Full-Stack Development**: Seamlessly connecting frontend and backend
 
-## Impact on My Skills
+### Impact on My Skills
 
 SaifMARKs was a major leap in my learning journey, transitioning from JavaScript to TypeScript and from Express.js to NestJS. This project laid the foundation for a deeper understanding of organized programming and modern architectural patterns.

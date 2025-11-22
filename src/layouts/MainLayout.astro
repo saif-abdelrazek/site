@@ -86,6 +86,9 @@ const {
 
     <link rel="sitemap" href="/sitemap-index.xml" />
 
+    <!-- Canonical URL -->
+    <link rel="canonical" href={`https://saifabdelrazek.com${Astro.url.pathname}`} />
+
     <!-- Add hreflang links for SEO -->
     <link rel="alternate" hreflang="en" href={`https://saifabdelrazek.com${Astro.url.pathname.replace(/^\/ar/, '')}`} />
     <link rel="alternate" hreflang="ar" href={`https://saifabdelrazek.com/ar${Astro.url.pathname.replace(/^\/ar/, '')}`} />

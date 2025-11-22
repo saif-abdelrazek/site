@@ -1,14 +1,14 @@
 ---
 title: "Welcome to Our Site"
 date: 2025-06-26
-description: "Welcome to our site! This is the first post."
+description: "Welcome to Saif Abdelrazek's personal website! Discover my portfolio showcasing web development projects, read insightful blog posts about programming, explore my educational journey, and learn more about my work as a full-stack developer and student."
 image: ../images/welcome.jpg
 slug: "welcome"
 author: "Saif Abdelrazek"
 lang: "en"
 ---
 
-# Welcome!
+## Welcome!
 
 Thank you for visiting my personal website.  
 Here you’ll find my portfolio, blog posts, projects, and more about my journey as a developer and student.

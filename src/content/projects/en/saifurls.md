@@ -24,11 +24,11 @@ slug: "saifurls"
 shownInHome: true
 ---
 
-# About SaifURL
+## About SaifURL
 
 SaifURL is a modern frontend application for shortening URLs, built with React and designed for a smooth user experience. It connects to the SaifAPI backend, providing a fullstack solution for URL shortening and user management.
 
-## Features
+### Features
 
 - Shorten URLs with custom aliases and multiple domains
 - User authentication (sign up, sign in, password reset)
@@ -40,22 +40,22 @@ SaifURL is a modern frontend application for shortening URLs, built with React a
 - HashRouter for static hosting compatibility
 - Status badge for service health
 
-## User Experience
+### User Experience
 
 Users can sign up, verify their email, and sign in to access a personalized dashboard. The dashboard allows users to create, edit, and delete short URLs, copy them with one click, and track clicks. Profile management features include updating user info and changing passwords, with password reset available via a dedicated page. The app supports switching between light and dark themes for a comfortable experience.
 
-## Technologies Used
+### Technologies Used
 
 - **React** for building the user interface
 - **Vite** for fast development and build tooling
 - **HashRouter** for static hosting compatibility
 - **SaifAPI** as the backend service
 
-## Integration
+### Integration
 
 SaifURL is tightly integrated with SaifAPI, which handles authentication, URL management, and other backend services. The frontend communicates with the API using environment-configurable endpoints, making deployment flexible.
 
-## Why SaifURL?
+### Why SaifURL?
 
 SaifURL is designed for users who need a reliable, secure, and easy-to-use platform for managing short URLs. Its modern design, robust feature set, and seamless integration with backend services make it suitable for both personal and professional use.
 

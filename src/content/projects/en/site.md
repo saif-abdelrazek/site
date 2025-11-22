@@ -1,7 +1,6 @@
 ---
 title: This Site
-description: A simple, modern portfolio and blog to showcase my work, skills,
-  and experience.
+description: A modern, responsive portfolio and blog website built with Astro, TypeScript, and TailwindCSS. Features include bilingual support (English & Arabic), blog with MDX, project showcase, education timeline, tech stack display, and SEO optimization.
 technologies:
   - name: Astro
     icon: logos:astro-icon
@@ -25,35 +24,35 @@ slug: site
 shownInHome: false
 ---
 
-# About This Website
+## About This Website
 
 Welcome to my personal website! This site is designed to be a central hub for everything related to my journey as a developer, student, and creator. Here’s what you’ll find across the different sections:
 
-## Portfolio
+### Portfolio
 
 A showcase of my main skills, technologies, and tools. You’ll see my favorite programming languages, frameworks, and platforms, each with a short description and links for more details. This section highlights what I use most and what I enjoy working with.
 
-## Projects
+### Projects
 
 A collection of my personal and collaborative projects. Each project page includes a summary, technologies used, and links to source code or live demos. This is the best place to explore what I’ve built and how I solve real-world problems.
 
-## Blog
+### Blog
 
 Articles and posts about web development, programming, and my learning experiences. I share tips, tutorials, and thoughts on new technologies, aiming to help others and document my growth.
 
-## Education
+### Education
 
 Details about my academic background, courses, certifications, and learning milestones. This section shows my commitment to continuous learning and improvement.
 
-## Experience
+### Experience
 
 Information about my work history, volunteering, and team leadership. Here you’ll find the roles I’ve taken, the challenges I’ve faced, and the impact I’ve made.
 
-## Technologies
+### Technologies
 
 A categorized list of the tools and platforms I use, with favorites highlighted. You can browse by category (language, frontend, backend, etc.) and see detailed info for each technology.
 
-## Contact
+### Contact
 
 Ways to get in touch with me for collaboration, questions, or feedback.
 

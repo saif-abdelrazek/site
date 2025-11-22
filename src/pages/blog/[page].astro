@@ -34,8 +34,10 @@ interface Props {
 const { page } = Astro.props;
 const posts = page?.data;
 
-const pageTitle = PAGE_TITLES.blog;
-const pageDescription = PAGE_DESCRIPTIONS.blog;
+const pageTitle = page.currentPage === 1 ? PAGE_TITLES.blog : `${PAGE_TITLES.blog} - ${t('pagination.page')} ${page.currentPage}`;
+const pageDescription = page.currentPage === 1 
+  ? PAGE_DESCRIPTIONS.blog 
+  : `${t('page.blogPage.description')} - ${t('pagination.page')} ${page.currentPage} ${t('pagination.of')} ${page.lastPage}.`;
 
 const title = BLOG_CONFIG?.title;
 const description = t('page.blogPage.description');

@@ -28,35 +28,35 @@ slug: "saifapi"
 shownInHome: true
 ---
 
-# About SaifAPI
+## About SaifAPI
 
 SaifAPI is a secure and scalable backend API built with Express.js, designed to handle authentication, content management, subscriptions, and bot integrations. It focuses on modern security practices and automation for robust service delivery.
 
-## Authentication & User Management
+### Authentication & User Management
 
 SaifAPI provides JWT-based authentication and authorization, allowing users to register, login, and manage their profiles securely. API key management is also supported for service integrations.
 
-## Posts & Content
+### Posts & Content
 
 The API includes endpoints for creating, reading, updating, and deleting posts. This makes it suitable for blogs, dashboards, or any system that needs content management.
 
-## URL Shortening
+### URL Shortening
 
 SaifAPI features a URL shortening service, enabling users to generate and manage short links with redirection and analytics.
 
-## Newsletter & Subscriptions
+### Newsletter & Subscriptions
 
 Users can subscribe to newsletters and manage their subscriptions. Automated workflows and email notifications are integrated for seamless communication.
 
-## Bot Integration
+### Bot Integration
 
 SaifAPI is built to work with Telegram bots and other social media crawlers. It supports secure bot requests and provides endpoints for automation and notifications.
 
-## Security & Rate Limiting
+### Security & Rate Limiting
 
 Security is a core focus, with Arcjet integration for advanced bot detection, rate limiting, and shield protection. The API uses CORS policies, HTTP security headers, and input validation to ensure safe and reliable operation.
 
-## Technologies Used
+### Technologies Used
 
 - **Express.js** for building the API server
 - **MongoDB** for data storage
@@ -66,7 +66,7 @@ Security is a core focus, with Arcjet integration for advanced bot detection, ra
 - **Joi** for input validation
 - **Telegram Bot API** for bot integration
 
-## Why SaifAPI?
+### Why SaifAPI?
 
 SaifAPI is designed for modern web applications that require secure authentication, flexible content management, and integration with bots and automation tools. Its modular structure and strong security features make it suitable for both personal and production use.
 

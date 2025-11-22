@@ -3,13 +3,14 @@ title: "The Complete JavaScript Course"
 institution: "Jonas Schmedtmann (Udemy)"
 location: "Online"
 type: "Self Learning"
+description: "Completed Jonas Schmedtmann's comprehensive 71-hour JavaScript course covering modern JavaScript fundamentals, async programming, and real-world projects like Forkify while balancing school and hackathons."
 tags: ["JavaScript", "TypeScript", "React", "Git", "Hackathons"]
 startDate: 2024-06-01
 endDate: 2025-03-31
 link: "https://www.udemy.com/course/the-complete-javascript-course/"
 ---
 
-# 🌟 Just Crossed the Finish Line: My JavaScript Journey! 🌟
+## 🌟 Just Crossed the Finish Line: My JavaScript Journey! 🌟
 
 I decided to dive headfirst into coding by tackling Jonas Schmedtmann’s Complete JavaScript Course — a 71-hour immersion into modern JavaScript, blending theory, real-world projects, and industry best practices. After months of late nights, debugging marathons, and way too much coffee, I finally completed it! 🎉
 
