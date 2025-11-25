@@ -19,8 +19,8 @@ const pageDescription = t('page.a8k.description');
     {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      "name": "A8K - Developer Signature",
-      "description": "Learn about A8K, the numeronym-style developer signature of Saif Abdelrazek. Discover its origin, usage, and meaning in the software development world.",
+      "name": "A8K: My Developer Signature",
+      "description": "A8K is a numeronym-style developer signature derived from the surname Abdelrazek. A comprehensive reference for understanding the format, usage, and implementation of this professional identifier.",
       "url": "https://saifabdelrazek.com/a8k",
       "about": {
         "@type": "Brand",
@@ -72,7 +72,7 @@ const pageDescription = t('page.a8k.description');
     >
       <div class="mb-8 text-center">
         <h1 class="mb-4 text-6xl font-extrabold tracking-tight text-blue-700 drop-shadow-lg dark:text-sky-200">
-          A8K
+          {t('a8k.hero.title')}
         </h1>
         <p class="text-2xl font-semibold text-blue-600 dark:text-sky-300">
           {t('a8k.subtitle')}
@@ -96,11 +96,11 @@ const pageDescription = t('page.a8k.description');
               
               <div class="my-6 rounded-lg bg-blue-100 p-6 dark:bg-slate-900/60">
                 <p class="text-center text-2xl font-bold text-blue-700 dark:text-sky-200">
-                  <span class="text-4xl text-blue-600 dark:text-sky-300">A</span>bdelraze<span class="text-4xl text-blue-600 dark:text-sky-300">k</span>
+                  <span class="breakdown-letter text-4xl text-blue-600 dark:text-sky-300">A</span>bdelraze<span class="breakdown-letter text-4xl text-blue-600 dark:text-sky-300">k</span>
                   <span class="mx-4">→</span>
-                  <span class="text-4xl text-blue-600 dark:text-sky-300">A</span> + <span class="text-blue-600 dark:text-sky-300">8</span> {t('a8k.whatIs.letters')} + <span class="text-4xl text-blue-600 dark:text-sky-300">K</span>
+                  <span class="breakdown-letter text-4xl text-blue-600 dark:text-sky-300">A</span> + <span class="text-blue-600 dark:text-sky-300">8</span> {t('a8k.whatIs.letters')} + <span class="breakdown-letter text-4xl text-blue-600 dark:text-sky-300">K</span>
                   <span class="mx-4">→</span>
-                  <span class="text-5xl font-extrabold text-blue-600 dark:text-sky-300">A8K</span>
+                  <span class="breakdown-final text-5xl font-extrabold text-blue-600 dark:text-sky-300">A8K</span>
                 </p>
               </div>
 
@@ -222,6 +222,36 @@ const pageDescription = t('page.a8k.description');
         </Card>
       </section>
 
+      <!-- Call to Action Section -->
+      <section class="mb-12">
+        <Card variant="elevated">
+          <div class="p-8 text-center">
+            <h2 class="mb-4 text-3xl font-bold text-blue-700 dark:text-sky-300">
+              {t('a8k.cta.title')}
+            </h2>
+            <p class="mb-6 text-lg text-gray-700 dark:text-gray-300">
+              {t('a8k.cta.description')}
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <a
+                href="/projects"
+                class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-lg font-semibold text-white transition hover:bg-blue-700 dark:bg-sky-600 dark:hover:bg-sky-700"
+              >
+                {t('a8k.cta.button')}
+                <span class="text-xl">→</span>
+              </a>
+              <a
+                href="/blog/story-behind-a8k"
+                class="inline-flex items-center gap-2 rounded-lg border-2 border-blue-600 px-6 py-3 text-lg font-semibold text-blue-600 transition hover:bg-blue-50 dark:border-sky-600 dark:text-sky-600 dark:hover:bg-sky-900/20"
+              >
+                {t('a8k.cta.blogLink')}
+                <span class="text-xl">→</span>
+              </a>
+            </div>
+          </div>
+        </Card>
+      </section>
+
       <!-- Back to Top Button -->
       <div class="mt-8 flex justify-end">
         <a
@@ -251,3 +281,41 @@ const pageDescription = t('page.a8k.description');
     }
   });
 </script>
+
+
+<style>
+  .breakdown-letter {
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+  
+  .breakdown-letter:hover {
+    transform: scale(1.1);
+    color: #2563eb;
+  }
+  
+  .breakdown-final {
+    transition: all 0.4s ease;
+    display: inline-block;
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+  
+  @keyframes pulse-glow {
+    0%, 100% {
+      transform: scale(1);
+      text-shadow: 0 0 10px rgba(37, 99, 235, 0.3);
+    }
+    50% {
+      transform: scale(1.05);
+      text-shadow: 0 0 20px rgba(37, 99, 235, 0.5);
+    }
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .breakdown-letter,
+    .breakdown-final {
+      animation: none;
+      transition: none;
+    }
+  }
+</style>

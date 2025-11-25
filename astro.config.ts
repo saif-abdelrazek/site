@@ -45,6 +45,11 @@ export default defineConfig({
     "/ar/edu": "/ar/education",
     "/github": SOCIAL_LINKS.github,
     "/linkedin": SOCIAL_LINKS.linkedin,
+    // A8K blog post URL shortening redirects
+    "/blog/a8k-in-practice-developer-signature-usage": "/blog/a8k-in-practice",
+    "/blog/story-behind-a8k-developer-signature": "/blog/story-behind-a8k",
+    "/ar/blog/a8k-in-practice-developer-signature-usage": "/ar/blog/a8k-in-practice",
+    "/ar/blog/story-behind-a8k-developer-signature": "/ar/blog/story-behind-a8k",
   },
   site: SITE_CONFIG.siteUrl,
   experimental: {

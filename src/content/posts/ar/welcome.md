@@ -2,7 +2,7 @@
 title: "مرحبًا بك في موقعي"
 date: 2025-06-26
 description: "مرحبًا بك في موقعي! هذه هي المقالة الأولى."
-image: ../images/welcome.jpg
+image: ../images/welcome.png
 slug: "welcome"
 author: "سيف عبد الرازق"
 lang: "ar"

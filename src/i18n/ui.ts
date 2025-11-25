@@ -55,7 +55,7 @@ export const ui = {
     'page.biolink.description': 'المركز الرئيسي لسيف عبدالرازق لجميع الروابط الاجتماعية ومعلومات التواصل والحضور الرقمي. تواصل عبر المنصات واكتشف جميع طرق التواصل ومتابعة أعمالي.',
     'page.now.description': 'ابق محدّثاً بتركيز سيف عبدالرازق الحالي والمشاريع الجارية وأهداف التعلم وما يعمل عليه الآن في رحلته التطويرية والتعليمية.',
     'page.rss.description': 'اشترك في خلاصة RSS لسيف عبدالرازق لأحدث منشورات المدوّنة ودروس البرمجة والأفكار التقنية والتحديثات من موقعه الشخصي ورحلته التطويرية.',
-    'page.a8k.description': 'A8K هي البصمة التطويرية لسيف عبدالرازق — تسمية رقمية تمثّل هويته المهنية. تعرّف على كيفية إنشائها ولماذا تُعرّف عمله في تطوير البرمجيات.',
+    'page.a8k.description': 'ما هي A8K؟ اكتشف قصة بصمة A8K، بصمة المطور سيف عبدالرازق. من عبدالرازق إلى A8K - تعرف على لماذا تمثل هذه البصمة الرقمية الكفاءة في تطوير البرمجيات.',
     
     // Now page content
     'now.title': 'ما أركز عليه الآن',
@@ -347,12 +347,13 @@ export const ui = {
     'search.close': 'اضغط Esc للإغلاق',
     
     // A8K Brand Page
-    'a8k.subtitle': 'بصمة المطور',
-    'a8k.heroDescription': 'A8K هي البصمة التطويرية لسيف عبدالرازق - تمثيل مضغوط على غرار numeronym للقب "عبدالرازق" يتبع نفس نمط i18n وl10n.',
+    'a8k.hero.title': 'A8K: بصمتي التطويرية',
+    'a8k.subtitle': 'بصمة المطور والهوية المهنية',
+    'a8k.heroDescription': 'A8K هي بصمة مطور على طراز numeronym مشتقة من "عبدالرازق" (A + 8 أحرف + K). تعمل كمعرف مهني عبر المنصات والمشاريع والمساحات الرقمية.',
     'a8k.whatIs.title': 'ما هي A8K؟',
-    'a8k.whatIs.intro': 'A8K هي بصمة مطوّر على طراز numeronym مشتقة من لقب "عبدالرازق". تتبع نفس نمط الاختصارات الشائعة في عالم التقنية مثل i18n (internationalization) وl10n (localization):',
+    'a8k.whatIs.intro': 'A8K هي بصمة مطوّر على طراز numeronym مشتقة من لقب "Abdelrazek". تتبع نفس نمط الاختصارات الشائعة في عالم التقنية مثل i18n (internationalization) وl10n (localization):',
     'a8k.whatIs.letters': 'أحرف محذوفة',
-    'a8k.whatIs.explanation': 'يأخذ الاختصار الحرف الأول A، يحذف 8 أحرف من المنتصف، ثم ينتهي بالحرف الأخير K. النتيجة: A8K - بصمة قصيرة لا تُنسى تمثّل الهوية المهنية.',
+    'a8k.whatIs.explanation': 'يأخذ التنسيق الحرف الأول A، يمثل 8 أحرف مزالة من الوسط، وينتهي بالحرف الأخير K. ينشئ هذا A8K - معرف مهني موجز يُستخدم عبر المنصات الرقمية.',
     'a8k.howUsed.title': 'كيف يتم استخدام A8K؟',
     'a8k.howUsed.signature.title': 'بصمة المطور',
     'a8k.howUsed.signature.description': 'تُستخدم A8K بجانب الاسم الكامل كبصمة مطور مهنية:',
@@ -369,6 +370,10 @@ export const ui = {
     'a8k.why.consistent.description': 'توفّر طريقة موحّدة للإشارة إلى المشاريع والأدوات والبنية التحتية عبر منصات مختلفة.',
     'a8k.why.inspired.title': 'مستوحاة من المعايير',
     'a8k.why.inspired.description': 'تُلهمها معايير numeronym المعروفة مثل i18n (internationalization) وl10n (localization) وk8s (Kubernetes).',
+    'a8k.cta.title': 'استكشف المشاريع المبنية بهوية A8K',
+    'a8k.cta.description': 'شاهد كيف تظهر A8K عبر المشاريع الفعلية والأدوات والعمل المهني.',
+    'a8k.cta.button': 'عرض مشاريعي',
+    'a8k.cta.blogLink': 'اقرأ قصة A8K',
     
     // Blog components
     'blog.footer.siteName': 'مدوّنة سيف عبدالرازق',
@@ -440,7 +445,7 @@ export const ui = {
     'page.error.title': 'Server Error | Saif Abdelrazek',
     'page.biolink.title': 'Links | Saif Abdelrazek | Social & Contact',
     'page.rss.title': 'RSS Feed | Saif Abdelrazek Blog',
-    'page.a8k.title': 'A8K - Developer Signature | Saif Abdelrazek',
+    'page.a8k.title': 'A8K: My Developer Signature | Saif Abdelrazek',
     
     // Page descriptions
     'page.home.description': 'Saif Abdelrazek – Passionate Full Stack Developer and High School Student from Egypt. Explore my portfolio featuring modern web applications, coding projects, tech blog, and open source contributions.',
@@ -455,7 +460,7 @@ export const ui = {
     'page.biolink.description': 'Saif Abdelrazek\'s central hub for all social links, contact information, and digital presence. Connect across platforms and discover all ways to reach out and follow my work.',
     'page.now.description': 'Stay updated with Saif Abdelrazek\'s current focus, ongoing projects, learning goals, and what he\'s working on right now in his development and educational journey.',
     'page.rss.description': 'Subscribe to Saif Abdelrazek\'s RSS feed for the latest blog posts, programming tutorials, tech insights, and updates from his personal website and development journey.',
-    'page.a8k.description': 'A8K is the developer signature of Saif Abdelrazek — a numeronym representing his professional identity. Learn how it was created and why it defines his work in software development.',
+    'page.a8k.description': 'What is A8K? Discover the story behind A8K signature, the developer signature of Saif Abdelrazek. From Abdelrazek to A8K - learn why this numeronym-style signature represents efficiency in software development.',
     
     // Now page content
     'now.title': 'What I\'m Focused On Now',
@@ -747,12 +752,13 @@ export const ui = {
     'search.close': 'Press Esc to close',
     
     // A8K Brand Page
-    'a8k.subtitle': 'Developer Signature',
-    'a8k.heroDescription': 'A8K is Saif Abdelrazek\'s developer signature - a numeronym-style compressed representation of the surname "Abdelrazek" following the same pattern as i18n and l10n.',
+    'a8k.hero.title': 'A8K: My Developer Signature',
+    'a8k.subtitle': 'Developer Signature & Professional Identity',
+    'a8k.heroDescription': 'A8K is a numeronym-style developer signature derived from "Abdelrazek" (A + 8 letters + K). It serves as a professional identifier across platforms, projects, and digital spaces.',
     'a8k.whatIs.title': 'What is A8K?',
     'a8k.whatIs.intro': 'A8K is a developer signature in the style of numeronyms, derived from the surname "Abdelrazek." It follows the same pattern as common tech abbreviations like i18n (internationalization) and l10n (localization):',
     'a8k.whatIs.letters': 'letters removed',
-    'a8k.whatIs.explanation': 'The abbreviation takes the first letter A, removes 8 middle letters, and ends with the last letter K. Result: A8K - a short, memorable signature that represents professional identity.',
+    'a8k.whatIs.explanation': 'The format takes the first letter A, represents 8 removed middle letters, and ends with the final letter K. This creates A8K - a concise professional identifier used across digital platforms.',
     'a8k.howUsed.title': 'How is A8K Used?',
     'a8k.howUsed.signature.title': 'Developer Signature',
     'a8k.howUsed.signature.description': 'A8K is used alongside the full name as a professional developer signature:',
@@ -769,6 +775,10 @@ export const ui = {
     'a8k.why.consistent.description': 'Provides a unified way to reference projects, tools, and infrastructure across different platforms.',
     'a8k.why.inspired.title': 'Standards-Inspired',
     'a8k.why.inspired.description': 'Inspired by well-known numeronym standards like i18n (internationalization), l10n (localization), and k8s (Kubernetes).',
+    'a8k.cta.title': 'Explore Projects Built with A8K Identity',
+    'a8k.cta.description': 'See how A8K appears across real projects, tools, and professional work.',
+    'a8k.cta.button': 'View My Projects',
+    'a8k.cta.blogLink': 'Read the A8K Story',
     
     // Blog components
     'blog.footer.siteName': 'Saif Abdelrazek Blog',

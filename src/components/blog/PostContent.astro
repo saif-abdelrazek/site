@@ -18,20 +18,19 @@ const t = useTranslations(lang);
 
 <div>
   <div class="my-6">
-    {
-      category && (
-        <small>
-          <a href={`/blog/category/${slugify(category)}`} class="badge">
-            {category}
-          </a>
-        </small>
-      )
-    }
     <h1
       class="mb-2 text-4xl font-extrabold tracking-tight text-blue-700 drop-shadow dark:text-sky-200"
     >
       {title}
     </h1>
+    {
+      category && (
+        <span class="mb-1 text-blue-600/80 dark:text-sky-300/80 inline-flex items-center gap-2 rounded-full bg-blue-100 px-3 py-0.5 text-sm font-semibold text-blue-700 ring-1 ring-blue-200 dark:bg-sky-900/60 dark:text-sky-200 dark:ring-sky-700">
+          <span class="inline-block h-2 w-2 rounded-full bg-blue-600 dark:bg-sky-400"></span>
+          {category}
+        </span>
+      )
+    }
     <p class="text-blue-600/80 dark:text-sky-300/80">
       {
         author && (
@@ -61,7 +60,37 @@ const t = useTranslations(lang);
       )
     }
   </div>
-  <div class="prose prose-blue lg:prose-xl dark:prose-invert max-w-none">
-    <Content />
+  <div class="prose prose-blue lg:prose-xl dark:prose-invert max-w-none prose-headings:scroll-mt-20">
+    <!-- Content rendered with H1 converted to H2 for SEO -->
+    <div class="post-content">
+      <Content />
+    </div>
   </div>
 </div>
+
+<style>
+  /* Convert H1 in markdown content to H2 styling for SEO compliance */
+  .post-content :global(h1) {
+    font-size: 1.875rem; /* text-3xl equivalent */
+    line-height: 2.25rem;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+</style>
+
+<script>
+  // Convert all H1 tags in post content to H2 for SEO (only one H1 per page)
+  document.addEventListener('DOMContentLoaded', () => {
+    const postContent = document.querySelector('.post-content');
+    if (postContent) {
+      const h1Elements = postContent.querySelectorAll('h1');
+      h1Elements.forEach((h1) => {
+        const h2 = document.createElement('h2');
+        h2.innerHTML = h1.innerHTML;
+        h2.className = h1.className;
+        h1.replaceWith(h2);
+      });
+    }
+  });
+</script>
