@@ -1,16 +1,5 @@
 {
-  "redirects": [
-    {
-      "source": "/callback",
-      "destination": "/admin/index.html",
-      "permanent": false
-    },
-    {
-      "source": "/admin",
-      "destination": "/admin/index.html",
-      "permanent": false
-    }
-  ],
+  "trailingSlash": false,
   "headers": [
     {
       "source": "/api/contact.json",
