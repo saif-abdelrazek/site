@@ -49,30 +49,31 @@ const pageTitle = `${title} - ${t('projects.title')}`;
 <MainLayout title={pageTitle} description={description} direction={constants.LANGUAGE_DIRECTION}>
   <main
     class="flex min-h-screen flex-col items-center justify-center bg-blue-50 py-12 dark:bg-slate-900"
-  >
+    >
     <div class="mb-6 flex w-full max-w-3xl justify-start">
       <a
-        href={lang === 'en' ? '/#projects' : `/${lang}/#projects`}
-        class="ml-2 inline-flex items-center gap-2 rounded bg-blue-100 px-3 py-2 font-semibold text-blue-700 transition-colors hover:bg-blue-200 dark:bg-sky-900/60 dark:text-sky-200 dark:hover:bg-sky-800"
-        aria-label={t('ui.backToTop')}
+      href={lang === 'en' ? '/#projects' : `/${lang}/#projects`}
+      class="ml-2 inline-flex items-center gap-2 rounded bg-blue-100 px-3 py-2 font-semibold text-blue-700 transition-colors hover:bg-blue-200 dark:bg-sky-900/60 dark:text-sky-200 dark:hover:bg-sky-800"
+      aria-label={t('ui.backToTop')}
       >
-        <Icon name={constants.LANGUAGE_DIRECTION === "rtl" ? "mdi:arrow-right" : "mdi:arrow-left"} class="h-5 w-5" />
-        {t('projects.backToSection')}
-      </a>
-    </div>
-    <div
-      class="w-full max-w-3xl rounded-2xl bg-white p-8 shadow-xl dark:bg-slate-800"
-    >
-      {
+      <Icon name={constants.LANGUAGE_DIRECTION === "rtl" ? "mdi:arrow-right" : "mdi:arrow-left"} class="h-5 w-5" />
+      {t('projects.backToSection')}
+    </a>
+  </div>
+  <div
+  class="w-full max-w-3xl rounded-2xl bg-white p-8 shadow-xl dark:bg-slate-800"
+  transition:name={"project-card-" + slug}
+  >
+  {
         image && (
           <Image
             src={image}
             alt={title}
             class="mb-6 h-56 w-full rounded-xl object-cover"
             loading="lazy"
-          />
-        )
-      }
+            />
+          )
+        }
       <h1 class="mb-4 text-3xl font-bold text-sky-700 dark:text-sky-300">
         {title}
       </h1>
@@ -88,8 +89,8 @@ const pageTitle = `${title} - ${t('projects.title')}`;
           <div class="mb-6 flex flex-wrap gap-3">
             {technologies.map((tech) => (
               <a
-                href={`/tech/#${tech.slug}`}
-                class="inline-flex items-center gap-1 rounded bg-blue-100 px-2 py-1 text-xs font-semibold text-blue-700 dark:bg-sky-900/60 dark:text-sky-200"
+              href={`/tech/#${tech.slug}`}
+              class="inline-flex items-center gap-1 rounded bg-blue-100 px-2 py-1 text-xs font-semibold text-blue-700 dark:bg-sky-900/60 dark:text-sky-200"
               >
                 {tech.icon && <Icon name={tech.icon} class="h-5 w-5" />}
                 {tech.name}
@@ -102,11 +103,11 @@ const pageTitle = `${title} - ${t('projects.title')}`;
         {
           link && (
             <a
-              href={link}
+            href={link}
               target="_blank"
               rel="noopener noreferrer"
               class="font-semibold text-blue-600 underline hover:text-blue-800 dark:text-sky-400 dark:hover:text-sky-200"
-            >
+              >
               {t('projects.live')}
             </a>
           )

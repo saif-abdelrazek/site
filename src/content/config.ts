@@ -27,11 +27,15 @@ const postsCollection = defineCollection({
         description: z.string().optional(),
         author: z.string().default("Saif Abdelrazek"),
         date: z.date(),
+        lastUpdated: z.date().optional(),
         image: image(),
         tags: z.array(z.string()).optional(),
         slug: z.string().optional(),
         draft: z.boolean().default(false),
         lang: z.enum(["en", "ar"]).optional(),
+        pinned: z.boolean().default(false),
+        pinnedOrder: z.number().optional(),
+        series: z.string().optional(),
       })
       .merge(rssSchema),
 });

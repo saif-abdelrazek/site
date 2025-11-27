@@ -59,7 +59,9 @@ const categoryHeading = displayCategory
   : t('tech.favorite');
 ---
 
-<a href={lang === 'en' ? `/tech/#${slug}` : `/${lang}/tech/#${slug}`} class="block h-full w-full">
+<a href={lang === 'en' ? `/tech/#${slug}` : `/${lang}/tech/#${slug}`} class="block h-full w-full"
+transition:name={"tech-card-" + slug}
+>
   <div
     class={[
       "flex flex-col items-center justify-between h-full w-full rounded-3xl border-2 border-blue-500 light:bg-blue-50 p-8 shadow-md transition-all duration-250 ease-out hover:shadow-xl hover:border-blue-600 light:hover:bg-blue-50/90",
@@ -73,10 +75,10 @@ const categoryHeading = displayCategory
     >
       {categoryHeading}
     </h4>
-    <div class="mb-5 flex items-center justify-center gap-4">
+    <div class="mb-5 flex items-center justify-center gap-4"  transition:name={"tech-" + slug}>
       {
         icon && (
-          <Icon name={icon} class="h-12 w-12 text-blue-700 dark:text-sky-300" />
+          <Icon name={icon}   class="h-12 w-12 text-blue-700 dark:text-sky-300" />
         )
       }
       <span class="text-3xl font-semibold text-blue-700 dark:text-sky-200"

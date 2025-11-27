@@ -8,6 +8,26 @@ import { useTranslations } from "@i18n/translations";
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
+// Get current path for active state
+const currentPath = Astro.url.pathname;
+
+// Helper function to check if a nav item is active
+const isActive = (itemHref: string) => {
+  // Exact match
+  if (currentPath === itemHref) return true;
+  
+  // Check if current path starts with the item href (for sub-pages)
+  // Remove trailing slash for comparison
+  const normalizedPath = currentPath.endsWith('/') && currentPath !== '/' 
+    ? currentPath.slice(0, -1) 
+    : currentPath;
+  const normalizedHref = itemHref.endsWith('/') && itemHref !== '/'
+    ? itemHref.slice(0, -1)
+    : itemHref;
+  
+  return normalizedPath.startsWith(normalizedHref + '/');
+};
+
 // Navigation items based on language
 const navItems = [
   { href: lang === 'ar' ? '/ar/blog' : '/blog', label: t('nav.blog'), icon: 'mdi:post' },
@@ -95,7 +115,11 @@ const navItems = [
                   position: "left",
                   class: "hidden lg:inline-block",
                 }}
-                class="flex w-full items-center justify-center gap-1 rounded-md px-3 py-5 text-sm font-medium text-blue-700 transition-colors duration-200 hover:bg-blue-100 hover:text-blue-900 dark:text-sky-300 dark:hover:bg-sky-900/30 dark:hover:text-sky-100"
+                class={`flex w-full items-center justify-center gap-1 rounded-md px-3 py-5 text-sm font-medium transition-colors duration-200 ${
+                  isActive(item.href)
+                    ? 'bg-blue-200 text-blue-900 dark:bg-sky-800 dark:text-sky-100'
+                    : 'text-blue-700 hover:bg-blue-100 hover:text-blue-900 dark:text-sky-300 dark:hover:bg-sky-900/30 dark:hover:text-sky-100'
+                }`}
               />
             </li>
           ))
@@ -180,32 +204,6 @@ const navItems = [
         closeMenu();
       }
     });
-
-    // mark the current page
-    const handleCurrentPath = () => {
-      const currentPath = window.location.pathname;
-      const linksList = document.querySelectorAll("#navbar-links a");
-      linksList.forEach((link) => {
-        if (link.getAttribute("href") === currentPath) {
-          link.classList.add("active-link");
-        } else {
-          link.classList.remove("active-link");
-        }
-        // add active class to blog when /blog/*
-        if (
-          currentPath.startsWith("/blog") &&
-          link.getAttribute("href") === "/blog"
-        ) {
-          link.classList.add("active-link");
-        } else if (
-          currentPath.startsWith("/blog") &&
-          link.getAttribute("href") !== "/blog"
-        ) {
-          link.classList.remove("active-link");
-        }
-      });
-    };
-    handleCurrentPath();
   };
 
   document.addEventListener("astro:after-swap", (e) => {

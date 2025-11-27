@@ -1,0 +1,108 @@
+---
+import { useTranslations } from "@i18n/translations";
+
+interface Category {
+  name: string;
+  slug: string;
+  count: number;
+}
+
+interface Props {
+  categories: Category[];
+  lang: string;
+  currentCategory?: string;
+}
+
+const { categories, lang, currentCategory } = Astro.props;
+const t = useTranslations(lang);
+const maxVisible = 8;
+
+// Function to get translated category name
+const getCategoryName = (slug: string) => {
+  const key = `category.${slug}` as keyof ReturnType<typeof useTranslations>;
+  return t(key) || slug;
+};
+---
+
+{categories.length > 0 && (
+  <section class="mb-12">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+        {lang === 'ar' ? 'التصنيفات' : 'Categories'}
+      </h2>
+    </div>
+
+    <div class="flex flex-wrap gap-3" id="category-tags">
+      <a
+        href={`/${lang === 'ar' ? 'ar/' : ''}blog`}
+        class={`px-4 py-2 rounded-lg font-medium transition-colors ${
+          !currentCategory
+            ? 'bg-blue-600 text-white shadow-md'
+            : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+        }`}
+      >
+        {lang === 'ar' ? 'الكل' : 'All'}
+      </a>
+
+      {categories.slice(0, maxVisible).map((category) => (
+        <a
+          href={`/${lang === 'ar' ? 'ar/' : ''}blog/category/${category.slug}`}
+          class={`px-4 py-2 rounded-lg font-medium transition-colors ${
+            currentCategory === category.slug
+              ? 'bg-blue-600 text-white shadow-md'
+              : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+          }`}
+        >
+          {getCategoryName(category.slug)}
+          <span class="ml-2 text-sm opacity-75">({category.count})</span>
+        </a>
+      ))}
+
+      {categories.length > maxVisible && (
+        <button
+          id="show-more-categories"
+          class="px-4 py-2 rounded-lg font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+          data-lang={lang}
+        >
+          {lang === 'ar' ? 'عرض المزيد' : 'Show More'} ({categories.length - maxVisible})
+        </button>
+      )}
+    </div>
+
+    <div id="hidden-categories" class="hidden mt-3 flex flex-wrap gap-3">
+      {categories.slice(maxVisible).map((category) => (
+        <a
+          href={`/${lang === 'ar' ? 'ar/' : ''}blog/category/${category.slug}`}
+          class={`px-4 py-2 rounded-lg font-medium transition-colors ${
+            currentCategory === category.slug
+              ? 'bg-blue-600 text-white shadow-md'
+              : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+          }`}
+        >
+          {getCategoryName(category.slug)}
+          <span class="ml-2 text-sm opacity-75">({category.count})</span>
+        </a>
+      ))}
+    </div>
+  </section>
+)}
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const showMoreBtn = document.getElementById('show-more-categories');
+    const hiddenCategories = document.getElementById('hidden-categories');
+    
+    if (showMoreBtn && hiddenCategories) {
+      let isExpanded = false;
+      const lang = showMoreBtn.dataset.lang;
+      
+      showMoreBtn.addEventListener('click', () => {
+        isExpanded = !isExpanded;
+        hiddenCategories.classList.toggle('hidden');
+        showMoreBtn.textContent = isExpanded 
+          ? (lang === 'ar' ? 'إخفاء' : 'Show Less')
+          : `${lang === 'ar' ? 'عرض المزيد' : 'Show More'} (${hiddenCategories.children.length})`;
+      });
+    }
+  });
+</script>

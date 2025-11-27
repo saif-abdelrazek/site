@@ -33,7 +33,8 @@ const t = useTranslations(lang);
 
 <div
   class="flex h-full w-full flex-col rounded-2xl border border-blue-200 bg-white p-6 shadow-md transition-all duration-250 ease-out hover:shadow-lg hover:border-blue-400 light:hover:bg-blue-50/30 dark:bg-slate-900 dark:border-sky-900 dark:hover:border-sky-700"
->
+  transition:name={"project-card-" + slug}
+  >
   <a
     href={`${lang === 'en' ? `` : `/${lang}`}/projects/${slug}`}
     class="flex h-full flex-col"

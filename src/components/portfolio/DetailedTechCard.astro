@@ -13,7 +13,7 @@ interface Props {
   slug?: string;
   link?: string;
 }
-const { name, icon, level, favorite, description, resources, details, link } =
+const { name, icon, level, favorite, description, resources, details, link, slug } =
   Astro.props;
 import { Icon } from "astro-icon/components";
 
@@ -40,7 +40,8 @@ const iconClass = icon?.startsWith("simple-icons:")
 
 <div
   class="rounded-2xl border border-blue-500 bg-white p-4 sm:p-6 shadow-md transition-all duration-250 ease-out hover:shadow-lg hover:border-blue-600 light:hover:bg-blue-50/30 dark:bg-slate-900 dark:hover:border-sky-700"
->
+ transition:name={"tech-card-" + slug}
+  >
   <!-- Header section with icon and title -->
   <div class="mb-4">
     <div class="flex items-center gap-3 sm:gap-4">

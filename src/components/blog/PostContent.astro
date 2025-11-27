@@ -4,33 +4,66 @@ import slugify from "@utils/slugify";
 import formatDate from "@utils/formateDate";
 import { getLangFromUrl } from "@i18n/utils";
 import { useTranslations } from "@i18n/translations";
+import { getSeriesData } from "@/data/series";
+import { Icon } from "astro-icon/components";
 
 interface PostProps {
   post: CollectionEntry<"posts">;
 }
 const { post } = Astro.props as PostProps;
 const { Content } = await render(post);
-const { title, author, date, category, description, tags } = post.data;
+const { title, author, date, lastUpdated, category, description, tags, series } = post.data;
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+// Use slug for language-agnostic transition names
+const transitionSlug = post.data.slug || post.id.split('/')[1];
+
+// Get series data if post is part of a series
+const seriesData = series ? getSeriesData(series) : undefined;
+
+// Get translated category name
+const getCategoryName = (slug: string) => {
+  const key = `category.${slug}` as any;
+  return t(key) || slug;
+};
 ---
 
-<div>
+<div
+transition:name={"post-card-" + transitionSlug}
+>
   <div class="my-6">
     <h1
       class="mb-2 text-4xl font-extrabold tracking-tight text-blue-700 drop-shadow dark:text-sky-200"
-    >
+      >
       {title}
     </h1>
-    {
+    <div class="flex flex-wrap items-center gap-2 mb-2">
+      {
       category && (
-        <span class="mb-1 text-blue-600/80 dark:text-sky-300/80 inline-flex items-center gap-2 rounded-full bg-blue-100 px-3 py-0.5 text-sm font-semibold text-blue-700 ring-1 ring-blue-200 dark:bg-sky-900/60 dark:text-sky-200 dark:ring-sky-700">
-          <span class="inline-block h-2 w-2 rounded-full bg-blue-600 dark:bg-sky-400"></span>
-          {category}
-        </span>
+        <a 
+        href={`/${lang !== 'en' ? `${lang}/` : ''}blog/category/${slugify(category)}`}
+        class="text-blue-600/80 dark:text-sky-300/80 inline-flex items-center gap-2 rounded-full bg-blue-100 px-3 py-0.5 text-sm font-semibold text-blue-700 ring-1 ring-blue-200 dark:bg-sky-900/60 dark:text-sky-200 dark:ring-sky-700 hover:bg-blue-200 dark:hover:bg-sky-800/60 transition-colors"
+        >
+        <span class="inline-block h-2 w-2 rounded-full bg-blue-600 dark:bg-sky-400"></span>
+        {getCategoryName(category)}
+        </a>
       )
-    }
+      }
+      {
+      seriesData && (
+        <a
+        href={`/${lang !== 'en' ? `${lang}/` : ''}blog/series/${series}`}
+        class="inline-flex items-center gap-2 rounded-full px-3 py-0.5 text-sm font-semibold ring-1 transition-colors hover:opacity-90"
+        style={`background: ${seriesData.color}20; color: ${seriesData.color}; border-color: ${seriesData.color}40;`}
+        >
+        <Icon name={seriesData.icon} class="w-4 h-4" />
+        <span>{lang === 'ar' ? 'جزء من سلسلة' : 'Part of'} {lang === 'ar' ? seriesData.titleAr : seriesData.title}</span>
+        </a>
+      )
+      }
+    </div>
     <p class="text-blue-600/80 dark:text-sky-300/80">
       {
         author && (
@@ -42,9 +75,16 @@ const t = useTranslations(lang);
       {date && <> {formatDate(date)}</>}
     </p>
     {
+      lastUpdated && (
+        <p class="text-sm text-blue-500/70 dark:text-sky-400/70 mt-1">
+          {lang === 'ar' ? 'آخر تحديث:' : 'Last updated:'} {formatDate(lastUpdated)}
+        </p>
+      )
+    }
+    {
       tags && (
         <div class="mt-2 flex flex-wrap gap-2">
-          {tags.map((tag) => (
+          {tags.map((tag: string) => (
             <span class="rounded bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-700 dark:bg-sky-900/60 dark:text-sky-200">
               {tag}
             </span>
@@ -61,36 +101,8 @@ const t = useTranslations(lang);
     }
   </div>
   <div class="prose prose-blue lg:prose-xl dark:prose-invert max-w-none prose-headings:scroll-mt-20">
-    <!-- Content rendered with H1 converted to H2 for SEO -->
     <div class="post-content">
       <Content />
     </div>
   </div>
 </div>
-
-<style>
-  /* Convert H1 in markdown content to H2 styling for SEO compliance */
-  .post-content :global(h1) {
-    font-size: 1.875rem; /* text-3xl equivalent */
-    line-height: 2.25rem;
-    font-weight: 700;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-  }
-</style>
-
-<script>
-  // Convert all H1 tags in post content to H2 for SEO (only one H1 per page)
-  document.addEventListener('DOMContentLoaded', () => {
-    const postContent = document.querySelector('.post-content');
-    if (postContent) {
-      const h1Elements = postContent.querySelectorAll('h1');
-      h1Elements.forEach((h1) => {
-        const h2 = document.createElement('h2');
-        h2.innerHTML = h1.innerHTML;
-        h2.className = h1.className;
-        h1.replaceWith(h2);
-      });
-    }
-  });
-</script>

@@ -34,6 +34,7 @@ const constants = createLocalizedConstants(lang);
   id={eduEntry.id}
   class="w-full rounded-2xl border border-blue-500 bg-white p-6 shadow-md transition-all duration-250 ease-out hover:shadow-lg hover:border-blue-600 light:hover:bg-blue-50/30 dark:bg-slate-900 dark:hover:border-sky-700"
   dir={constants.LANGUAGE_DIRECTION}
+  transition:name={"education-card-" + eduEntry.id}
 >
   <div class="mb-4 flex flex-col gap-6 md:flex-row md:items-center">
     {

@@ -216,6 +216,13 @@ export const ui = {
     'blog.noResults': 'لا توجد نتائج',
     'blog.author.posts': 'مقالات المؤلف',
     
+    // Blog Categories
+    'category.career': 'مسار مهني',
+    'category.technology': 'تقنية',
+    'category.web-development': 'تطوير الويب',
+    'category.programming': 'برمجة',
+    'category.tutorial': 'درس تعليمي',
+    
     // Contact form
     'contact.title': 'تواصل معي',
     'contact.name': 'الاسم',
@@ -620,6 +627,13 @@ export const ui = {
     'blog.searchPlaceholder': 'Search posts...',
     'blog.noResults': 'No results found',
     'blog.author.posts': 'Author\'s Posts',
+    
+    // Blog Categories
+    'category.career': 'Career',
+    'category.technology': 'Technology',
+    'category.web-development': 'Web Development',
+    'category.programming': 'Programming',
+    'category.tutorial': 'Tutorial',
     
     // Contact form
     'contact.title': 'Contact Me',
