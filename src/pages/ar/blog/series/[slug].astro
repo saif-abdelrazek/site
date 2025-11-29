@@ -55,10 +55,10 @@ const pageDescription = `${description} - سلسلة مكونة من ${seriesDat
 ---
 
 <BlogLayout
-  title={pageTitle}
-  description={pageDescription}
-  pageTitle={title}
-  pageDescription={`${seriesPosts.length} ${lang === 'ar' ? 'من' : 'of'} ${seriesData.total_parts} ${lang === 'ar' ? 'أجزاء' : 'parts'}`}
+  title={title}
+  description={`${seriesPosts.length} ${lang === 'ar' ? 'من' : 'of'} ${seriesData.total_parts} ${lang === 'ar' ? 'أجزاء' : 'parts'}`}
+  pageTitle={pageTitle}
+  pageDescription={pageDescription}
   lang={lang}
   categories={categories}
   currentSeries={slug as string}

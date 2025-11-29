@@ -70,10 +70,10 @@ const pageDescription = `استكشف ${categoryPosts.length} ${categoryPosts.le
 ---
 
 <BlogLayout
-  title={pageTitle}
-  description={pageDescription}
-  pageTitle={categoryDisplayName}
-  pageDescription={`${categoryPosts.length} ${categoryPosts.length === 1 ? 'مقال' : 'مقالات'}`}
+  title={categoryDisplayName}
+  description={`${categoryPosts.length} ${categoryPosts.length === 1 ? 'مقال' : 'مقالات'}`}
+  pageTitle={pageTitle}
+  pageDescription={pageDescription}
   lang={lang}
   categories={categories}
   currentCategory={slug}
