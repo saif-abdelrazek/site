@@ -13,11 +13,7 @@ const currentPath = Astro.url.pathname;
 
 // Helper function to check if a nav item is active
 const isActive = (itemHref: string) => {
-  // Exact match
-  if (currentPath === itemHref) return true;
-  
-  // Check if current path starts with the item href (for sub-pages)
-  // Remove trailing slash for comparison
+  // Normalize paths by removing trailing slashes
   const normalizedPath = currentPath.endsWith('/') && currentPath !== '/' 
     ? currentPath.slice(0, -1) 
     : currentPath;
@@ -25,6 +21,10 @@ const isActive = (itemHref: string) => {
     ? itemHref.slice(0, -1)
     : itemHref;
   
+  // Exact match
+  if (normalizedPath === normalizedHref) return true;
+  
+  // Check if current path starts with the item href (for sub-pages)
   return normalizedPath.startsWith(normalizedHref + '/');
 };
 
@@ -117,7 +117,7 @@ const navItems = [
                 }}
                 class={`flex w-full items-center justify-center gap-1 rounded-md px-3 py-5 text-sm font-medium transition-colors duration-200 ${
                   isActive(item.href)
-                    ? 'bg-blue-200 text-blue-900 dark:bg-sky-800 dark:text-sky-100'
+                    ? 'bg-blue-600 text-white dark:bg-sky-800 dark:text-sky-100'
                     : 'text-blue-700 hover:bg-blue-100 hover:text-blue-900 dark:text-sky-300 dark:hover:bg-sky-900/30 dark:hover:text-sky-100'
                 }`}
               />
