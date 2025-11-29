@@ -9,11 +9,12 @@ interface Category {
 
 interface Props {
   categories: Category[];
-  lang: string;
+  lang: 'ar' | 'en';
   currentCategory?: string;
+  currentSeries?: string;
 }
 
-const { categories, lang, currentCategory } = Astro.props;
+const { categories, lang, currentCategory, currentSeries } = Astro.props;
 const t = useTranslations(lang);
 const maxVisible = 8;
 
@@ -25,66 +26,60 @@ const getCategoryName = (slug: string) => {
 ---
 
 {categories.length > 0 && (
-  <section class="mb-12">
-    <div class="flex items-center justify-between mb-6">
-      <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
-        {lang === 'ar' ? 'التصنيفات' : 'Categories'}
-      </h2>
-    </div>
+  <div class="flex flex-wrap gap-2 mb-6">
+    <a
+      href={`/${lang === 'ar' ? 'ar/' : ''}blog`}
+      class={`px-3 py-1.5 text-sm rounded-lg font-medium transition-colors ${
+        !currentCategory && !currentSeries
+          ? 'bg-blue-600 text-white shadow-sm'
+          : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+      }`}
+    >
+      {lang === 'ar' ? 'الكل' : 'All'}
+    </a>
 
-    <div class="flex flex-wrap gap-3" id="category-tags">
+    {categories.slice(0, maxVisible).map((category) => (
       <a
-        href={`/${lang === 'ar' ? 'ar/' : ''}blog`}
-        class={`px-4 py-2 rounded-lg font-medium transition-colors ${
-          !currentCategory
-            ? 'bg-blue-600 text-white shadow-md'
+        href={`/${lang === 'ar' ? 'ar/' : ''}blog/category/${category.slug}`}
+        class={`px-3 py-1.5 text-sm rounded-lg font-medium transition-colors ${
+          currentCategory === category.slug
+            ? 'bg-blue-600 text-white shadow-sm'
             : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
         }`}
       >
-        {lang === 'ar' ? 'الكل' : 'All'}
+        {getCategoryName(category.slug)}
+        <span class="ml-1.5 text-xs opacity-75">({category.count})</span>
       </a>
+    ))}
 
-      {categories.slice(0, maxVisible).map((category) => (
-        <a
-          href={`/${lang === 'ar' ? 'ar/' : ''}blog/category/${category.slug}`}
-          class={`px-4 py-2 rounded-lg font-medium transition-colors ${
-            currentCategory === category.slug
-              ? 'bg-blue-600 text-white shadow-md'
-              : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-          }`}
-        >
-          {getCategoryName(category.slug)}
-          <span class="ml-2 text-sm opacity-75">({category.count})</span>
-        </a>
-      ))}
+    {categories.length > maxVisible && (
+      <button
+        id="show-more-categories"
+        class="px-3 py-1.5 text-sm rounded-lg font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+        data-lang={lang}
+      >
+        {lang === 'ar' ? 'عرض المزيد' : 'Show More'} ({categories.length - maxVisible})
+      </button>
+    )}
 
-      {categories.length > maxVisible && (
-        <button
-          id="show-more-categories"
-          class="px-4 py-2 rounded-lg font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-          data-lang={lang}
-        >
-          {lang === 'ar' ? 'عرض المزيد' : 'Show More'} ({categories.length - maxVisible})
-        </button>
-      )}
-    </div>
-
-    <div id="hidden-categories" class="hidden mt-3 flex flex-wrap gap-3">
-      {categories.slice(maxVisible).map((category) => (
-        <a
-          href={`/${lang === 'ar' ? 'ar/' : ''}blog/category/${category.slug}`}
-          class={`px-4 py-2 rounded-lg font-medium transition-colors ${
-            currentCategory === category.slug
-              ? 'bg-blue-600 text-white shadow-md'
-              : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-          }`}
-        >
-          {getCategoryName(category.slug)}
-          <span class="ml-2 text-sm opacity-75">({category.count})</span>
-        </a>
-      ))}
-    </div>
-  </section>
+    {categories.length > maxVisible && (
+      <div id="hidden-categories" class="hidden w-full flex flex-wrap gap-2 mt-2">
+        {categories.slice(maxVisible).map((category) => (
+          <a
+            href={`/${lang === 'ar' ? 'ar/' : ''}blog/category/${category.slug}`}
+            class={`px-3 py-1.5 text-sm rounded-lg font-medium transition-colors ${
+              currentCategory === category.slug
+                ? 'bg-blue-600 text-white shadow-sm'
+                : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+            }`}
+          >
+            {getCategoryName(category.slug)}
+            <span class="ml-1.5 text-xs opacity-75">({category.count})</span>
+          </a>
+        ))}
+      </div>
+    )}
+  </div>
 )}
 
 <script>

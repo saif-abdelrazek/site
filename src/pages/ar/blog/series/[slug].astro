@@ -1,14 +1,13 @@
 ---
 import { getCollection } from "astro:content";
 import type { GetStaticPaths } from "astro";
-import MainLayout from "@layouts/MainLayout.astro";
+import BlogLayout from "@layouts/BlogLayout.astro";
 import { getSeriesData, getAllSeries } from "@/data/series";
 import { Icon } from "astro-icon/components";
 import { getLangFromUrl } from "@i18n/utils";
 import { useTranslations } from "@i18n/translations";
 import type { CollectionEntry } from "astro:content";
 import BlogPostCard from "@components/blog/BlogPostCard.astro";
-import SeriesCarousel from "@components/blog/SeriesCarousel.astro";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const allSeries = getAllSeries();
@@ -49,104 +48,60 @@ const categories = Array.from(categoryMap.entries()).map(([name, count]) => ({
   count
 }));
 
-// Function to get translated category name
-const getCategoryName = (categorySlug: string) => {
-  const key = `category.${categorySlug}` as any;
-  return t(key) || categorySlug;
-};
-
 const title = lang === 'ar' ? seriesData.titleAr : seriesData.title;
 const description = lang === 'ar' ? seriesData.descriptionAr : seriesData.description;
 const pageTitle = `سلسلة ${title} | سيف عبدالرازق`;
 const pageDescription = `${description} - سلسلة مكونة من ${seriesData.total_parts} ${seriesData.status === 'completed' ? 'مقال مكتمل' : seriesData.status === 'ongoing' ? 'مقال جاري' : 'مقال مخطط'}.`;
 ---
 
-<MainLayout
+<BlogLayout
   title={pageTitle}
   description={pageDescription}
+  pageTitle={title}
+  pageDescription={`${seriesPosts.length} ${lang === 'ar' ? 'من' : 'of'} ${seriesData.total_parts} ${lang === 'ar' ? 'أجزاء' : 'parts'}`}
+  lang={lang}
+  categories={categories}
+  currentSeries={slug as string}
+  sectionTitle="أجزاء السلسلة"
 >
-  <div class="min-h-screen w-full bg-blue-50 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f] transition-all duration-300">
-    <main class="section-container py-12">
-      <div class="mx-auto max-w-7xl">
-        <!-- Header -->
-        <header class="mb-8 min-h-[120px]">
-          <nav class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-            <a href="/ar/blog" class="hover:text-blue-600 dark:hover:text-sky-300">المدونة</a>
-            <span class="mx-2">/</span>
-            <span>السلاسل</span>
-            <span class="mx-2">/</span>
-            <span class="text-gray-900 dark:text-white font-medium">{title}</span>
-          </nav>
-          <div class="flex items-start gap-4">
-            <div class="text-5xl flex-shrink-0">
-              <Icon name={seriesData.icon} class="w-12 h-12" style={`color: ${seriesData.color};`} />
-            </div>
-            <div class="flex-1">
-              <h1 class="text-4xl font-black mb-2 text-gray-900 dark:text-white leading-tight">
-                {title}
-              </h1>
-              <div class="flex items-center gap-3 text-sm">
-                <span class="px-3 py-1 rounded-full font-medium" style={`background: ${seriesData.color}20; color: ${seriesData.color};`}>
-                  {seriesData.status === 'completed' && (lang === 'ar' ? 'مكتمل' : 'Completed')}
-                  {seriesData.status === 'ongoing' && (lang === 'ar' ? 'جاري' : 'Ongoing')}
-                  {seriesData.status === 'planned' && (lang === 'ar' ? 'مخطط' : 'Planned')}
-                </span>
-                <span class="text-gray-600 dark:text-gray-400">
-                  {seriesPosts.length} {lang === 'ar' ? 'من' : 'of'} {seriesData.total_parts} {lang === 'ar' ? 'أجزاء' : 'parts'}
-                </span>
-              </div>
-            </div>
-          </div>
-        </header>
+  <Fragment slot="header-actions">
+    <nav class="mb-4 text-sm text-gray-600 dark:text-gray-400">
+      <a href="/ar/blog" class="hover:text-blue-600 dark:hover:text-sky-300">المدونة</a>
+      <span class="mx-2">/</span>
+      <span>السلاسل</span>
+      <span class="mx-2">/</span>
+      <span class="text-gray-900 dark:text-white font-medium">{title}</span>
+    </nav>
+  </Fragment>
 
-        <!-- Two Column Layout: Posts (Left) + Sidebar (Right) -->
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          <!-- Main Content: Posts (3/4 width on large screens) -->
-          <div class="lg:col-span-3">
-            <section>
-              <div class="flex items-center justify-between mb-6 gap-4 flex-wrap">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
-                  أجزاء السلسلة
-                </h2>
-                <div class="flex flex-wrap gap-2">
-                  <a
-                    href="/ar/blog"
-                    class="px-3 py-1.5 text-sm rounded-lg font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-                  >
-                    الكل
-                  </a>
-                  {categories.map((cat) => (
-                    <a
-                      href={`/ar/blog/category/${cat.slug}`}
-                      class="px-3 py-1.5 text-sm rounded-lg font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-                    >
-                      {getCategoryName(cat.slug)}
-                      <span class="ml-1.5 text-xs opacity-75">({cat.count})</span>
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              {seriesPosts.length > 0 ? (
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {seriesPosts.map((post: CollectionEntry<'posts'>) => (
-                    <BlogPostCard post={post} />
-                  ))}
-                </div>
-              ) : (
-                <div class="text-center py-12 text-gray-500 dark:text-gray-400">
-                  قريباً...
-                </div>
-              )}
-            </section>
-          </div>
-
-          <!-- Sidebar: Series (1/4 width on large screens) -->
-          <aside class="lg:col-span-1">
-            <SeriesCarousel lang={lang} currentSeries={slug as string} />
-          </aside>
+  <div slot="header-extra">
+    <div class="flex items-start gap-4 mb-4">
+      <div class="text-5xl flex-shrink-0">
+        <Icon name={seriesData.icon} class="w-12 h-12" style={`color: ${seriesData.color};`} />
+      </div>
+      <div class="flex-1">
+        <div class="flex items-center gap-3 text-sm mt-2">
+          <span class="px-3 py-1 rounded-full font-medium" style={`background: ${seriesData.color}20; color: ${seriesData.color};`}>
+            {seriesData.status === 'completed' && (lang === 'ar' ? 'مكتمل' : 'Completed')}
+            {seriesData.status === 'ongoing' && (lang === 'ar' ? 'جاري' : 'Ongoing')}
+            {seriesData.status === 'planned' && (lang === 'ar' ? 'مخطط' : 'Planned')}
+          </span>
         </div>
       </div>
-    </main>
+    </div>
   </div>
-</MainLayout>
+
+  <div slot="posts">
+    {seriesPosts.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {seriesPosts.map((post: CollectionEntry<'posts'>) => (
+          <BlogPostCard post={post} />
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-12 text-gray-500 dark:text-gray-400">
+        قريباً...
+      </div>
+    )}
+  </div>
+</BlogLayout>

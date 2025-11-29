@@ -1,7 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import MainLayout from "@layouts/MainLayout.astro";
-import SeriesCarousel from "@components/blog/SeriesCarousel.astro";
+import BlogLayout from "@layouts/BlogLayout.astro";
 import type { CollectionEntry } from "astro:content";
 import { createLocalizedConstants } from "@lib/constants";
 import { useTranslations } from "@i18n/translations";
@@ -9,11 +8,11 @@ import BlogPostCard from "@components/blog/BlogPostCard.astro";
 
 export async function getStaticPaths() {
   const allPosts = await getCollection("posts");
-  const enPosts = allPosts.filter((post) => post.id.startsWith("en/"));
+  const enPosts = allPosts.filter((post: CollectionEntry<'posts'>) => post.id.startsWith("en/"));
   
   // Get unique categories
   const categories = new Set<string>();
-  enPosts.forEach((post) => {
+  enPosts.forEach((post: CollectionEntry<'posts'>) => {
     if (post.data.category) {
       categories.add(post.data.category);
     }
@@ -73,82 +72,39 @@ const pageTitle = `${categoryDisplayName} Category | Saif Abdelrazek`;
 const pageDescription = `Explore ${categoryPosts.length} ${categoryPosts.length === 1 ? 'article' : 'articles'} about ${categoryDisplayName.toLowerCase()}. Discover insights, tutorials, and thoughts on ${categoryDisplayName.toLowerCase()}.`;
 ---
 
-<MainLayout title={pageTitle} description={pageDescription}>
-  <div class="min-h-screen w-full bg-blue-50 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f] transition-all duration-300">
-    <main class="section-container py-12">
-      <div class="mx-auto max-w-7xl">
-        <!-- Header -->
-        <header class="mb-8 min-h-[120px]">
-          <nav class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-            <a href="/blog" class="hover:text-blue-600 dark:hover:text-sky-300">Blog</a>
-            <span class="mx-2">/</span>
-            <span>Category</span>
-            <span class="mx-2">/</span>
-            <span class="text-gray-900 dark:text-white font-medium">{categoryDisplayName}</span>
-          </nav>
-          <h1 class="text-4xl font-black text-gray-900 dark:text-white mb-2">
-            {categoryDisplayName}
-          </h1>
-          <p class="text-base text-gray-600 dark:text-gray-400">
-            {categoryPosts.length} {categoryPosts.length === 1 ? 'post' : 'posts'}
-          </p>
-        </header>
+<BlogLayout
+  title={categoryDisplayName}
+  description={`${categoryPosts.length} ${categoryPosts.length === 1 ? 'post' : 'posts'}`}
+  pageTitle={pageTitle}
+  pageDescription={pageDescription}
+  lang={lang}
+  categories={categories}
+  currentCategory={slug}
+  sectionTitle="All Posts"
+>
+  <Fragment slot="header-actions">
+    <nav class="mb-4 text-sm text-gray-600 dark:text-gray-400">
+      <a href="/blog" class="hover:text-blue-600 dark:hover:text-sky-300">Blog</a>
+      <span class="mx-2">/</span>
+      <span>Category</span>
+      <span class="mx-2">/</span>
+      <span class="text-gray-900 dark:text-white font-medium">{categoryDisplayName}</span>
+    </nav>
+  </Fragment>
+  
+  <div slot="posts">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {categoryPosts.map((post: CollectionEntry<'posts'>) => (
+        <BlogPostCard post={post} />
+      ))}
+    </div>
 
-        <!-- Two Column Layout: Posts (Left) + Series Sidebar (Right) -->
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          <!-- Main Content: Posts (3/4 width on large screens) -->
-          <div class="lg:col-span-3">
-            <section>
-              <div class="flex items-center justify-between mb-6 gap-4 flex-wrap">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
-                  {lang === 'ar' ? 'جميع المقالات' : 'All Posts'}
-                </h2>
-                <div class="flex flex-wrap gap-2">
-                  <a
-                    href="/blog"
-                    class="px-3 py-1.5 text-sm rounded-lg font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-                  >
-                    All
-                  </a>
-                  {categories.map((cat) => (
-                    <a
-                      href={`/blog/category/${cat.slug}`}
-                      class={`px-3 py-1.5 text-sm rounded-lg font-medium transition-colors ${
-                        cat.slug === slug
-                          ? 'bg-blue-600 text-white shadow-sm hover:bg-blue-700'
-                          : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                      }`}
-                    >
-                      {getCategoryName(cat.slug)}
-                      <span class="ml-1.5 text-xs opacity-75">({cat.count})</span>
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              <!-- Posts Grid -->
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {categoryPosts.map((post) => (
-                  <BlogPostCard post={post} />
-                ))}
-              </div>
-
-              {categoryPosts.length === 0 && (
-                <div class="text-center py-12">
-                  <p class="text-gray-600 dark:text-gray-400 text-lg">
-                    No posts found in this category.
-                  </p>
-                </div>
-              )}
-            </section>
-          </div>
-
-          <!-- Sidebar: Series (1/4 width on large screens) -->
-          <aside class="lg:col-span-1">
-            <SeriesCarousel lang={lang} />
-          </aside>
-        </div>
+    {categoryPosts.length === 0 && (
+      <div class="text-center py-12">
+        <p class="text-gray-600 dark:text-gray-400 text-lg">
+          No posts found in this category.
+        </p>
       </div>
-    </main>
+    )}
   </div>
-</MainLayout>
+</BlogLayout>

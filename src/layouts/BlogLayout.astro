@@ -1,0 +1,92 @@
+---
+import MainLayout from "@layouts/MainLayout.astro";
+import SeriesCarousel from "@components/blog/SeriesCarousel.astro";
+import CategoryTags from "@components/blog/CategoryTags.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  pageTitle: string;
+  pageDescription: string;
+  lang: 'ar' | 'en';
+  categories: Array<{ name: string; slug: string; count: number }>;
+  currentCategory?: string;
+  currentSeries?: string;
+  sectionTitle: string;
+  linksInHead?: string[];
+  schemaData?: Record<string, any>;
+}
+
+const {
+  title,
+  description,
+  pageTitle,
+  pageDescription,
+  lang,
+  categories,
+  currentCategory,
+  currentSeries,
+  sectionTitle,
+  linksInHead = [],
+  schemaData,
+} = Astro.props;
+---
+
+<MainLayout title={pageTitle} description={pageDescription} linksInHead={linksInHead}>
+  <!-- Schema -->
+  {schemaData && (
+    <script type="application/ld+json" slot="head" set:html={JSON.stringify(schemaData)} />
+  )}
+
+  <div class="min-h-screen w-full bg-blue-50 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f] transition-all duration-300">
+    <main class="section-container py-12">
+      <div class="mx-auto max-w-7xl">
+        <!-- Header -->
+        <header class="mb-8 min-h-[120px]">
+          <slot name="header-actions" />
+          <div class="flex items-start gap-4 justify-between">
+            <div class="flex-1">
+              <h1 class="text-4xl font-black text-gray-900 dark:text-white mb-2">
+                {title}
+              </h1>
+              {description && (
+                <p class="text-base text-gray-600 dark:text-gray-400">
+                  {description}
+                </p>
+              )}
+            </div>
+            <slot name="header-extra" />
+          </div>
+        </header>
+
+        <!-- Two Column Layout: Posts (Left) + Series Sidebar (Right) -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <!-- Main Content: Posts (3/4 width on large screens) -->
+          <div class="lg:col-span-3">
+            <section>
+              <div class="flex items-center justify-between mb-6 gap-4 flex-wrap">
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+                  {sectionTitle}
+                </h2>
+                <CategoryTags 
+                  categories={categories} 
+                  lang={lang} 
+                  currentCategory={currentCategory}
+                  currentSeries={currentSeries}
+                />
+              </div>
+              
+              <!-- Posts Content Slot -->
+              <slot name="posts" />
+            </section>
+          </div>
+
+          <!-- Sidebar: Series (1/4 width on large screens, grid on medium screens) -->
+          <aside class="lg:col-span-1 order-first lg:order-last">
+            <SeriesCarousel lang={lang} currentSeries={currentSeries} />
+          </aside>
+        </div>
+      </div>
+    </main>
+  </div>
+</MainLayout>
