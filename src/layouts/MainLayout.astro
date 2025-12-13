@@ -94,13 +94,11 @@ const {
     <link rel="alternate" hreflang="ar" href={`https://saifabdelrazek.com/ar${Astro.url.pathname.replace(/^\/ar/, '')}`} />
     <link rel="alternate" hreflang="x-default" href={`https://saifabdelrazek.com${Astro.url.pathname.replace(/^\/ar/, '')}`} />
 
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content={constants.SITE_CONFIG.name} />
 
-    <!-- VIEW TRANSITIONS DISABLED - CAUSES FIREFOX LAG -->
-   <ClientRouter fallback="none" />
+   <ClientRouter  />
     {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
 
     <script>
