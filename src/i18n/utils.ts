@@ -58,3 +58,16 @@ export function getRouteFromUrl(url: URL): string | undefined {
 
   return path;
 }
+
+/**
+ * Generate static paths for i18n routes
+ * Returns paths for all supported languages
+ * Default language (en) returns undefined to use root path
+ */
+export function getI18nStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: {
+      lang: lang === defaultLang && !showDefaultLang ? undefined : lang,
+    },
+  }));
+}

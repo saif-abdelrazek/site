@@ -1,0 +1,51 @@
+---
+import { render, getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import BlogPost from "@components/blog/BlogPost.astro";
+import { languages, defaultLang, showDefaultLang } from "@i18n/utils";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts");
+
+  if (!posts || posts.length === 0) {
+    console.warn("No blog posts found.");
+    return [];
+  }
+
+  const paths = [];
+  
+  for (const lang of Object.keys(languages)) {
+    const langPosts = posts.filter(post => post.id.startsWith(`${lang}/`));
+    
+    for (const post of langPosts) {
+      const slug = post.id.replace(`${lang}/`, "");
+      paths.push({
+        params: { 
+          lang: lang === defaultLang && !showDefaultLang ? undefined : lang,
+          slug 
+        },
+        props: { post },
+      });
+    }
+  }
+  
+  return paths;
+}
+interface PostProps {
+  post: CollectionEntry<"posts">;
+}
+
+const { post } = Astro.props as PostProps;
+
+if (!post || !post.data) {
+  return Astro.redirect("/404");
+}
+
+const { data } = await post;
+
+if (!data) {
+  return Astro.redirect("/404");
+}
+---
+
+<BlogPost {post} />

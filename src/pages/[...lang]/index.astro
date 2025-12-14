@@ -1,0 +1,77 @@
+---
+import MainLayout from "@layouts/MainLayout.astro";
+import Home from "@sections/portfolio/Home.astro";
+import About from "@sections/portfolio/About.astro";
+import Technologies from "@sections/portfolio/Technologies.astro";
+import Projects from "@sections/portfolio/Projects.astro";
+import Education from "@sections/portfolio/Education.astro";
+import { getLangFromUrl, getI18nStaticPaths } from "@i18n/utils";
+import { useTranslations } from "@i18n/translations";
+import { createLocalizedConstants } from "@lib/constants";
+
+export const getStaticPaths = getI18nStaticPaths;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const constants = createLocalizedConstants(lang);
+
+const pageTitle = t('page.home.title');
+const pageDescription = t('page.home.description');
+---
+
+<MainLayout title={pageTitle} description={pageDescription} direction={constants.LANGUAGE_DIRECTION}>
+  <main
+    class="flex min-h-screen w-full flex-col items-center justify-center bg-blue-50 transition-colors duration-300 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
+  >
+        {Home && <Home />}
+    {
+      !Home && (
+        <div class="mx-auto max-w-5xl px-4 py-12">
+          <p class="text-2xl text-gray-600 dark:text-gray-300">
+            {t('section.unavailable.home')}
+          </p>
+        </div>
+      )
+    }
+    {About && <About />}
+    {
+      !About && (
+        <div class="mx-auto max-w-5xl px-4 py-12">
+          <p class="text-2xl text-gray-600 dark:text-gray-300">
+            {t('section.unavailable.about')}
+          </p>
+        </div>
+      )
+    }
+    {Technologies && <Technologies />}
+    {
+      !Technologies && (
+        <div class="mx-auto max-w-5xl px-4 py-12">
+          <p class="text-2xl text-gray-600 dark:text-gray-300">
+            {t('section.unavailable.technologies')}
+          </p>
+        </div>
+      )
+    }
+    {Projects && <Projects />}
+    {
+      !Projects && (
+        <div class="mx-auto max-w-5xl px-4 py-12">
+          <p class="text-2xl text-gray-600 dark:text-gray-300">
+            {t('section.unavailable.projects')}
+          </p>
+        </div>
+      )
+    }
+    {Education && <Education />}
+    {
+      !Education && (
+        <div class="mx-auto max-w-5xl px-4 py-12">
+          <p class="text-2xl text-gray-600 dark:text-gray-300">
+            {t('section.unavailable.education')}
+          </p>
+        </div>
+      )
+    }
+  </div>
+</MainLayout>

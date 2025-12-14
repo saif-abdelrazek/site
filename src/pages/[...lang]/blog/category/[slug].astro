@@ -1,0 +1,122 @@
+---
+import { getCollection } from "astro:content";
+import BlogLayout from "@layouts/BlogLayout.astro";
+import type { CollectionEntry } from "astro:content";
+import { createLocalizedConstants } from "@lib/constants";
+import { useTranslations } from "@i18n/translations";
+import BlogPostCard from "@components/blog/BlogPostCard.astro";
+import { languages, defaultLang, showDefaultLang, getLangFromUrl } from "@i18n/utils";
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection("posts");
+  const paths = [];
+  
+  for (const lang of Object.keys(languages)) {
+    const langPosts = allPosts.filter((post: CollectionEntry<'posts'>) => post.id.startsWith(`${lang}/`));
+    
+    // Get unique categories for this language
+    const categories = new Set<string>();
+    langPosts.forEach((post: CollectionEntry<'posts'>) => {
+      if (post.data.category) {
+        categories.add(post.data.category);
+      }
+    });
+    
+    for (const category of categories) {
+      paths.push({
+        params: { 
+          lang: lang === defaultLang && !showDefaultLang ? undefined : lang,
+          slug: category.toLowerCase().replace(/\s+/g, '-') 
+        },
+        props: { category },
+      });
+    }
+  }
+  
+  return paths;
+}
+
+const { category } = Astro.props;
+const { slug } = Astro.params;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const constants = createLocalizedConstants(lang);
+const { PAGE_TITLES } = constants;
+
+// Function to get translated category name
+const getCategoryName = (slug: string) => {
+  const key = `category.${slug}` as any;
+  return t(key) || slug;
+};
+
+const categoryDisplayName = getCategoryName(category);
+
+// Get all posts for the current language to build category list
+const allPosts = await getCollection("posts");
+const allLangPosts = allPosts.filter((post: CollectionEntry<'posts'>) => post.id.startsWith(`${lang}/`));
+
+// Extract unique categories with counts
+const categoryMap = new Map<string, number>();
+allLangPosts.forEach((post: CollectionEntry<'posts'>) => {
+  if (post.data.category) {
+    categoryMap.set(post.data.category, (categoryMap.get(post.data.category) || 0) + 1);
+  }
+});
+
+const categories = Array.from(categoryMap.entries()).map(([name, count]) => ({
+  name,
+  slug: name.toLowerCase().replace(/\s+/g, '-'),
+  count
+}));
+
+// Get posts for this category
+const categoryPosts = allLangPosts
+  .filter((post: CollectionEntry<'posts'>) => 
+    post.id.startsWith(`${lang}/`) && 
+    post.data.category === category
+  )
+  .sort((a: CollectionEntry<'posts'>, b: CollectionEntry<'posts'>) => 
+    new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+  );
+
+const pageTitle = `${categoryDisplayName} ${t('blog.category')} | ${constants.SITE_CONFIG.name}`;
+const pageDescription = `${t('blog.explore')} ${categoryPosts.length} ${categoryPosts.length === 1 ? t('blog.article') : t('blog.articles')} ${t('blog.about')} ${categoryDisplayName.toLowerCase()}. Discover insights, tutorials, and thoughts on ${categoryDisplayName.toLowerCase()}.`;
+---
+
+<BlogLayout
+  title={categoryDisplayName}
+  description={`${categoryPosts.length} ${categoryPosts.length === 1 ? t('blog.post') : t('blog.posts')}`}
+  pageTitle={pageTitle}
+  pageDescription={pageDescription}
+  lang={lang}
+  categories={categories}
+  currentCategory={slug}
+  sectionTitle={t('blog.allPosts')}
+>
+  <Fragment slot="header-actions">
+    <nav class="mb-4 text-sm text-gray-600 dark:text-gray-400">
+      <a href="/blog" class="hover:text-blue-600 dark:hover:text-sky-300">{t('nav.blog')}</a>
+      <span class="mx-2">/</span>
+      <span>{t('blog.category')}</span>
+      <span class="mx-2">/</span>
+      <span class="text-gray-900 dark:text-white font-medium">{categoryDisplayName}</span>
+    </nav>
+  </Fragment>
+  
+  <div slot="posts">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {categoryPosts.map((post: CollectionEntry<'posts'>) => (
+        <BlogPostCard post={post} />
+      ))}
+    </div>
+
+    {categoryPosts.length === 0 && (
+      <div class="text-center py-12">
+        <p class="text-gray-600 dark:text-gray-400 text-lg">
+          {t('blog.noPostsInCategory')}
+        </p>
+      </div>
+    )}
+  </div>
+</BlogLayout>

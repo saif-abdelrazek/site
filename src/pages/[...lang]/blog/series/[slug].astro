@@ -1,0 +1,114 @@
+---
+import { getCollection } from "astro:content";
+import type { GetStaticPaths } from "astro";
+import BlogLayout from "@layouts/BlogLayout.astro";
+import { getSeriesData, getAllSeries } from "@/data/series";
+import { Icon } from "astro-icon/components";
+import { getLangFromUrl, languages, defaultLang, showDefaultLang } from "@i18n/utils";
+import { useTranslations } from "@i18n/translations";
+import type { CollectionEntry } from "astro:content";
+import BlogPostCard from "@components/blog/BlogPostCard.astro";
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const allSeries = getAllSeries();
+  const paths = [];
+  
+  for (const lang of Object.keys(languages)) {
+    for (const series of allSeries) {
+      paths.push({
+        params: { 
+          lang: lang === defaultLang && !showDefaultLang ? undefined : lang,
+          slug: series.slug 
+        }
+      });
+    }
+  }
+  
+  return paths;
+};
+
+const { slug } = Astro.params;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const seriesData = getSeriesData(slug!);
+if (!seriesData) {
+  return Astro.redirect('/404');
+}
+
+const allPosts = await getCollection("posts");
+const seriesPosts = allPosts
+  .filter((post: CollectionEntry<'posts'>) => post.data.series === slug && post.id.startsWith(`${lang}/`))
+  .sort((a: CollectionEntry<'posts'>, b: CollectionEntry<'posts'>) => new Date(a.data.date).getTime() - new Date(b.data.date).getTime());
+
+// Get all posts for language to build category list
+const allLangPosts = allPosts.filter((post: CollectionEntry<'posts'>) => post.id.startsWith(`${lang}/`));
+
+// Extract unique categories with counts
+const categoryMap = new Map<string, number>();
+allLangPosts.forEach((post: CollectionEntry<'posts'>) => {
+  if (post.data.category) {
+    categoryMap.set(post.data.category, (categoryMap.get(post.data.category) || 0) + 1);
+  }
+});
+
+const categories = Array.from(categoryMap.entries()).map(([name, count]) => ({
+  name,
+  slug: name.toLowerCase().replace(/\s+/g, '-'),
+  count
+}));
+
+const title = lang === 'ar' ? seriesData.titleAr : seriesData.title;
+const description = lang === 'ar' ? seriesData.descriptionAr : seriesData.description;
+const pageTitle = `${title} ${t('blog.series')} | ${t('site.name')}`;
+const pageDescription = `${description} - A series of ${seriesData.total_parts} ${seriesData.status === 'completed' ? 'completed' : seriesData.status === 'ongoing' ? 'ongoing' : 'planned'} posts.`;
+
+const statusText = seriesData.status === 'completed' ? t('blog.status.completed') : seriesData.status === 'ongoing' ? t('blog.status.ongoing') : t('blog.status.planned');
+const countText = `${seriesPosts.length} ${t('blog.of')} ${seriesData.total_parts} ${t('blog.parts')}`;
+---
+
+<BlogLayout
+  title={title}
+  description={countText}
+  pageTitle={pageTitle}
+  pageDescription={pageDescription}
+  lang={lang}
+  categories={categories}
+  currentSeries={slug as string}
+  sectionTitle={t('blog.seriesParts')}
+>
+  <Fragment slot="header-actions">
+    <nav class="mb-4 text-sm text-gray-600 dark:text-gray-400">
+      <a href="/blog" class="hover:text-blue-600 dark:hover:text-sky-300">{t('nav.blog')}</a>
+      <span class="mx-2">/</span>
+      <span>{t('blog.series')}</span>
+      <span class="mx-2">/</span>
+      <span class="text-gray-900 dark:text-white font-medium">{title}</span>
+    </nav>
+  </Fragment>
+
+  <div slot="header-extra" class="flex items-start gap-4">
+    <div class="text-5xl flex-shrink-0">
+      <Icon name={seriesData.icon} class="w-12 h-12" style={`color: ${seriesData.color};`} />
+    </div>
+    <div class="flex items-center gap-3 text-sm">
+      <span class="px-3 py-1 rounded-full font-medium" style={`background: ${seriesData.color}20; color: ${seriesData.color};`}>
+        {statusText}
+      </span>
+    </div>
+  </div>
+
+  <div slot="posts">
+    {seriesPosts.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {seriesPosts.map((post: CollectionEntry<'posts'>) => (
+          <BlogPostCard post={post} />
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-12 text-gray-500 dark:text-gray-400">
+        {t('blog.comingSoon')}
+      </div>
+    )}
+  </div>
+</BlogLayout>
