@@ -18,8 +18,10 @@ const t = useTranslations(lang);
   data-success-fallback={t('contact.successFallback')}
   data-clear-form={t('contact.clearForm')}
   data-form-saved={t('contact.formSaved')}
-  data-confirm-clear-en="Are you sure you want to clear the form?"
-  data-confirm-clear-ar="هل أنت متأكد من مسح النموذج؟"
+  data-confirm-clear-title={t('contact.confirmClearTitle')}
+  data-confirm-clear-desc={t('contact.confirmClearDesc')}
+  data-cancel={t('contact.cancel')}
+  data-continue={t('contact.continue')}
   data-lang={lang}
 >
   <h2 class="text-2xl font-semibold text-blue-700 dark:text-sky-200 mb-2">
@@ -169,18 +171,18 @@ const t = useTranslations(lang);
 
     // Get translations from data attributes
     const translations = {
-      sending: submitButton?.getAttribute('data-sending') || 'Sending...',
-      sendButton: submitButton?.getAttribute('data-send') || 'Send Message',
-      correctErrors: form.getAttribute('data-correct-errors') || 'Please correct the errors above.',
-      errorOccurred: form.getAttribute('data-error') || 'An error occurred. Please try again.',
-      cooldown: form.getAttribute('data-cooldown') || 'Please wait {seconds} seconds before sending another message.',
-      successFallback: form.getAttribute('data-success-fallback') || 'Message sent successfully!',
-      clearForm: form.getAttribute('data-clear-form') || 'Clear Form',
-      formSaved: form.getAttribute('data-form-saved') || 'Your input is temporarily saved.',
-      confirmClearTitle: isArabic ? 'تأكيد مسح النموذج' : 'Clear Form',
-      confirmClearDesc: isArabic ? 'هل أنت متأكد من مسح جميع بيانات النموذج؟ لن تتمكن من استعادتها.' : 'Are you sure you want to clear all form data? This action cannot be undone.',
-      cancel: isArabic ? 'إلغاء' : 'Cancel',
-      continue: isArabic ? 'مسح' : 'Clear'
+      sending: submitButton?.getAttribute('data-sending') || '',
+      sendButton: submitButton?.getAttribute('data-send') || '',
+      correctErrors: form.getAttribute('data-correct-errors') || '',
+      errorOccurred: form.getAttribute('data-error') || '',
+      cooldown: form.getAttribute('data-cooldown') || '',
+      successFallback: form.getAttribute('data-success-fallback') || '',
+      clearForm: form.getAttribute('data-clear-form') || '',
+      formSaved: form.getAttribute('data-form-saved') || '',
+      confirmClearTitle: form.getAttribute('data-confirm-clear-title') || '',
+      confirmClearDesc: form.getAttribute('data-confirm-clear-desc') || '',
+      cancel: form.getAttribute('data-cancel') || '',
+      continue: form.getAttribute('data-continue') || ''
     };
 
     // Custom Alert Dialog Functions
@@ -196,6 +198,18 @@ const t = useTranslations(lang);
         alertDescription.textContent = description;
         alertCancel.textContent = cancelText;
         alertAction.textContent = actionText;
+        
+        // Set RTL direction for Arabic
+        const alertContent = document.getElementById('alert-dialog-content');
+        if (isArabic) {
+          alertContent.setAttribute('dir', 'rtl');
+          alertContent.querySelector('.flex.flex-col.gap-2').classList.remove('sm:text-left');
+          alertContent.querySelector('.flex.flex-col.gap-2').classList.add('sm:text-right');
+        } else {
+          alertContent.setAttribute('dir', 'ltr');
+          alertContent.querySelector('.flex.flex-col.gap-2').classList.remove('sm:text-right');
+          alertContent.querySelector('.flex.flex-col.gap-2').classList.add('sm:text-left');
+        }
         
         alertOverlay.classList.remove('hidden');
         alertOverlay.setAttribute('data-state', 'open');
@@ -241,7 +255,7 @@ const t = useTranslations(lang);
         
         if (hasContent) {
           // Re-read translations from data attributes to ensure correct language
-          const clearFormText = form.getAttribute('data-clear-form') || 'Clear';
+          const clearFormText = form.getAttribute('data-clear-form') || '';
           
           clearFormBtn.textContent = clearFormText;
           clearFormBtn.classList.remove('hidden');
