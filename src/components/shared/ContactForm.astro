@@ -1,0 +1,492 @@
+---
+import { actions } from 'astro:actions';
+import { getLangFromUrl } from "@i18n/utils";
+import { useTranslations } from "@i18n/translations";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<form
+  method="POST"
+  action={actions.contact}
+  class="bg-white/90 dark:bg-slate-900/90 rounded-xl border border-blue-100 dark:border-sky-900 p-6 shadow-lg backdrop-blur-md"
+  id="contact-form"
+  data-correct-errors={t('contact.correctErrors')}
+  data-error={t('contact.error')}
+  data-cooldown={t('contact.cooldown')}
+  data-success-fallback={t('contact.successFallback')}
+  data-clear-form={t('contact.clearForm')}
+  data-form-saved={t('contact.formSaved')}
+  data-confirm-clear-en="Are you sure you want to clear the form?"
+  data-confirm-clear-ar="هل أنت متأكد من مسح النموذج؟"
+  data-lang={lang}
+>
+  <h2 class="text-2xl font-semibold text-blue-700 dark:text-sky-200 mb-2">
+    {t('contact.sendMessage') || 'Send Me a Message'}
+  </h2>
+
+  <p class="text-xs text-blue-600/70 dark:text-sky-400/70 mb-6">
+    {t('contact.formSaved')}
+  </p>
+  
+  <div id="form-messages" class="mb-4"></div>
+  
+  <div class="grid md:grid-cols-2 gap-4 mb-4">
+    <div>
+      <label for="name" class="block text-sm font-medium text-blue-700 dark:text-sky-100 mb-2">
+        {t('contact.name')}
+      </label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        required
+        class="w-full rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-blue-900 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-sky-800 dark:bg-slate-900/60 dark:text-sky-100 dark:focus:border-sky-400 dark:focus:ring-sky-800"
+      />
+    </div>
+    <div>
+      <label for="email" class="block text-sm font-medium text-blue-700 dark:text-sky-100 mb-2">
+        {t('contact.email')}
+      </label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        required
+        dir="ltr"
+        class="w-full rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-blue-900 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-sky-800 dark:bg-slate-900/60 dark:text-sky-100 dark:focus:border-sky-400 dark:focus:ring-sky-800"
+      />
+    </div>
+  </div>
+  
+  <div class="mb-4">
+    <label for="subject" class="block text-sm font-medium text-blue-700 dark:text-sky-100 mb-2">
+      {t('contact.subject')}
+    </label>
+    <input
+      type="text"
+      id="subject"
+      name="subject"
+      required
+      class="w-full rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-blue-900 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-sky-800 dark:bg-slate-900/60 dark:text-sky-100 dark:focus:border-sky-400 dark:focus:ring-sky-800"
+    />
+  </div>
+  
+  <div class="mb-6">
+    <label for="message" class="block text-sm font-medium text-blue-700 dark:text-sky-100 mb-2">
+      {t('contact.message')}
+    </label>
+    <textarea
+      id="message"
+      name="message"
+      required
+      minlength="50"
+      rows="5"
+      class="w-full resize-none rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-blue-900 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-sky-800 dark:bg-slate-900/60 dark:text-sky-100 dark:focus:border-sky-400 dark:focus:ring-sky-800"
+      placeholder={t('contact.messagePlaceholder') || 'Tell me about your project or question...'}
+    ></textarea>
+    <p class="text-xs text-blue-600 dark:text-sky-300 mt-1">
+      {t('contact.minLength') || 'Minimum 50 characters'}
+    </p>
+  </div>
+  
+  <input type="hidden" name="theme" id="theme-input" value="light" />
+  <input type="hidden" name="lang" value={lang} />
+
+  <div class="flex gap-3">
+    <button
+      type="submit"
+      class="flex-1 rounded-lg bg-blue-700 px-6 py-3 text-white font-semibold shadow-lg transition hover:bg-blue-600 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-sky-700 dark:hover:bg-sky-600 dark:focus:ring-sky-800"
+      data-sending={t('contact.sending')}
+      data-send={t('contact.send')}
+    >
+      {t('contact.send')}
+    </button>
+    <button
+      type="button"
+      id="clear-form-btn"
+      class="hidden rounded-lg border border-blue-300 dark:border-sky-700 bg-white dark:bg-slate-800 px-6 py-3 text-blue-700 dark:text-sky-300 font-semibold shadow transition hover:bg-blue-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:focus:ring-sky-800"
+    >
+      {t('contact.clearForm')}
+    </button>
+  </div>
+</form>
+
+<!-- Custom Alert Dialog -->
+<div id="alert-dialog-overlay" class="hidden fixed inset-0 z-50 bg-black/50 animate-fade-in" data-state="closed">
+  <div id="alert-dialog-content" class="fixed top-[50%] left-[50%] z-50 w-full max-w-[calc(100%-2rem)] sm:max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-lg border border-blue-200 dark:border-sky-800 bg-white dark:bg-slate-900 p-6 shadow-lg animate-scale-in">
+    <div class="flex flex-col gap-2 text-center sm:text-left mb-4">
+      <h2 id="alert-dialog-title" class="text-lg font-semibold text-blue-900 dark:text-sky-100"></h2>
+      <p id="alert-dialog-description" class="text-sm text-blue-700/70 dark:text-sky-300/70"></p>
+    </div>
+    <div class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+      <button
+        id="alert-dialog-cancel"
+        class="rounded-lg border border-blue-300 dark:border-sky-700 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-medium text-blue-700 dark:text-sky-300 transition hover:bg-blue-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:focus:ring-sky-800"
+      >
+      </button>
+      <button
+        id="alert-dialog-action"
+        class="rounded-lg bg-blue-700 dark:bg-sky-700 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-600 dark:hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:focus:ring-sky-800"
+      >
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes scale-in {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(0.95); }
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.2s ease-out;
+  }
+  .animate-scale-in {
+    animation: scale-in 0.2s ease-out;
+  }
+</style>
+
+<script is:inline data-astro-rerun>
+  (() => {
+    const form = document.getElementById('contact-form');
+    if (!form) return;
+
+    const messagesDiv = document.getElementById('form-messages');
+    const submitButton = form.querySelector('button[type="submit"]');
+    const themeInput = document.getElementById('theme-input');
+    const clearFormBtn = document.getElementById('clear-form-btn');
+
+
+    const STORAGE_KEY = 'contact-form-draft';
+    const formLang = form.getAttribute('data-lang') || 'en';
+    const isArabic = formLang === 'ar';
+
+    // Get translations from data attributes
+    const translations = {
+      sending: submitButton?.getAttribute('data-sending') || 'Sending...',
+      sendButton: submitButton?.getAttribute('data-send') || 'Send Message',
+      correctErrors: form.getAttribute('data-correct-errors') || 'Please correct the errors above.',
+      errorOccurred: form.getAttribute('data-error') || 'An error occurred. Please try again.',
+      cooldown: form.getAttribute('data-cooldown') || 'Please wait {seconds} seconds before sending another message.',
+      successFallback: form.getAttribute('data-success-fallback') || 'Message sent successfully!',
+      clearForm: form.getAttribute('data-clear-form') || 'Clear Form',
+      formSaved: form.getAttribute('data-form-saved') || 'Your input is temporarily saved.',
+      confirmClearTitle: isArabic ? 'تأكيد مسح النموذج' : 'Clear Form',
+      confirmClearDesc: isArabic ? 'هل أنت متأكد من مسح جميع بيانات النموذج؟ لن تتمكن من استعادتها.' : 'Are you sure you want to clear all form data? This action cannot be undone.',
+      cancel: isArabic ? 'إلغاء' : 'Cancel',
+      continue: isArabic ? 'مسح' : 'Clear'
+    };
+
+    // Custom Alert Dialog Functions
+    const alertOverlay = document.getElementById('alert-dialog-overlay');
+    const alertTitle = document.getElementById('alert-dialog-title');
+    const alertDescription = document.getElementById('alert-dialog-description');
+    const alertCancel = document.getElementById('alert-dialog-cancel');
+    const alertAction = document.getElementById('alert-dialog-action');
+
+    function showAlertDialog(title, description, cancelText, actionText) {
+      return new Promise((resolve) => {
+        alertTitle.textContent = title;
+        alertDescription.textContent = description;
+        alertCancel.textContent = cancelText;
+        alertAction.textContent = actionText;
+        
+        alertOverlay.classList.remove('hidden');
+        alertOverlay.setAttribute('data-state', 'open');
+        document.body.style.overflow = 'hidden';
+
+        function handleCancel() {
+          closeDialog();
+          resolve(false);
+        }
+
+        function handleAction() {
+          closeDialog();
+          resolve(true);
+        }
+
+        function closeDialog() {
+          alertOverlay.classList.add('hidden');
+          alertOverlay.setAttribute('data-state', 'closed');
+          document.body.style.overflow = '';
+          alertCancel.removeEventListener('click', handleCancel);
+          alertAction.removeEventListener('click', handleAction);
+          alertOverlay.removeEventListener('click', handleOverlayClick);
+        }
+
+        function handleOverlayClick(e) {
+          if (e.target === alertOverlay) {
+            handleCancel();
+          }
+        }
+
+        alertCancel.addEventListener('click', handleCancel);
+        alertAction.addEventListener('click', handleAction);
+        alertOverlay.addEventListener('click', handleOverlayClick);
+      });
+    }
+
+    // Update UI based on whether form has saved data
+    function updateSavedStateUI() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        const hasSavedData = saved && JSON.parse(saved);
+        const hasContent = hasSavedData && Object.values(hasSavedData).some(val => val && val.trim());
+        
+        if (hasContent) {
+          // Re-read translations from data attributes to ensure correct language
+          const clearFormText = form.getAttribute('data-clear-form') || 'Clear';
+          
+          clearFormBtn.textContent = clearFormText;
+          clearFormBtn.classList.remove('hidden');
+        } else {
+          clearFormBtn.classList.add('hidden');
+        }
+      } catch (e) {
+        console.error('Failed to update UI:', e);
+      }
+    }
+
+    // Restore form data from localStorage
+    function restoreFormData() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const data = JSON.parse(saved);
+          // Only restore non-sensitive fields
+          const nameField = document.getElementById('name');
+          const emailField = document.getElementById('email');
+          const subjectField = document.getElementById('subject');
+          const messageField = document.getElementById('message');
+          
+          if (data.name && nameField) nameField.value = data.name;
+          if (data.email && emailField) emailField.value = data.email;
+          if (data.subject && subjectField) subjectField.value = data.subject;
+          if (data.message && messageField) messageField.value = data.message;
+        }
+        updateSavedStateUI();
+      } catch (e) {
+        console.error('Failed to restore form data:', e);
+      }
+    }
+
+    // Save form data to localStorage
+    function saveFormData() {
+      try {
+        const nameField = document.getElementById('name');
+        const emailField = document.getElementById('email');
+        const subjectField = document.getElementById('subject');
+        const messageField = document.getElementById('message');
+        
+        const data = {
+          name: nameField?.value?.trim() || '',
+          email: emailField?.value?.trim() || '',
+          subject: subjectField?.value?.trim() || '',
+          message: messageField?.value?.trim() || '',
+        };
+        
+        // Only save if at least one field has content
+        if (data.name || data.email || data.subject || data.message) {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        } else {
+          // Remove if all fields are empty
+          localStorage.removeItem(STORAGE_KEY);
+        }
+        updateSavedStateUI();
+      } catch (e) {
+        console.error('Failed to save form data:', e);
+      }
+    }
+
+    // Clear form and localStorage
+    function clearFormData() {
+      const nameField = document.getElementById('name');
+      const emailField = document.getElementById('email');
+      const subjectField = document.getElementById('subject');
+      const messageField = document.getElementById('message');
+      
+      if (nameField) nameField.value = '';
+      if (emailField) emailField.value = '';
+      if (subjectField) subjectField.value = '';
+      if (messageField) messageField.value = '';
+      
+      localStorage.removeItem(STORAGE_KEY);
+      messagesDiv.innerHTML = '';
+      form.querySelectorAll('.field-error').forEach(el => el.remove());
+      
+      // Reset theme after clear
+      if (themeInput) {
+        const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+        themeInput.value = currentTheme;
+      }
+      
+      updateSavedStateUI();
+    }
+
+    // Restore saved data on page load
+    restoreFormData();
+
+    // Save form data on input (debounced)
+    let saveTimeout;
+    ['name', 'email', 'subject', 'message'].forEach(fieldId => {
+      const field = document.getElementById(fieldId);
+      if (field) {
+        field.addEventListener('input', () => {
+          clearTimeout(saveTimeout);
+          saveTimeout = setTimeout(saveFormData, 500);
+        });
+      }
+    });
+
+    // Clear form button
+    if (clearFormBtn) {
+      clearFormBtn.addEventListener('click', async () => {
+        const confirmed = await showAlertDialog(
+          translations.confirmClearTitle,
+          translations.confirmClearDesc,
+          translations.cancel,
+          translations.continue
+        );
+        if (confirmed) {
+          clearFormData();
+        }
+      });
+    }
+
+    // Set theme based on current theme
+    if (themeInput) {
+      const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+      themeInput.value = currentTheme;
+    }
+
+    function showMessage(message, type) {
+      if (!messagesDiv) return;
+      
+      messagesDiv.innerHTML = `
+        <div class="p-4 rounded-lg ${
+          type === 'success'
+            ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800'
+            : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800'
+        }">
+          ${message}
+        </div>
+      `;
+    }
+
+    function showFieldErrors(fields) {
+      form.querySelectorAll('.field-error').forEach(el => el.remove());
+
+      Object.entries(fields).forEach(([fieldName, errors]) => {
+        if (!errors || errors.length === 0) return;
+        
+        const input = form.querySelector(`[name="${fieldName}"]`);
+        if (!input) return;
+
+        const errorDiv = document.createElement('p');
+        errorDiv.className = 'field-error text-xs text-red-600 dark:text-red-400 mt-1';
+        errorDiv.textContent = errors.join(', ');
+        input.parentElement?.appendChild(errorDiv);
+      });
+    }
+
+    let isSubmitting = false;
+    let lastSubmissionTime = 0;
+    const COOLDOWN_PERIOD = 3000; // 3 seconds cooldown
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      
+      if (!submitButton || !messagesDiv) return;
+
+      // Prevent double submission
+      if (isSubmitting) {
+        console.log('Form is already being submitted');
+        return;
+      }
+
+      // Check cooldown period
+      const now = Date.now();
+      if (now - lastSubmissionTime < COOLDOWN_PERIOD) {
+        const remainingTime = Math.ceil((COOLDOWN_PERIOD - (now - lastSubmissionTime)) / 1000);
+        const cooldownMessage = translations.cooldown.replace('{seconds}', remainingTime);
+        showMessage(cooldownMessage, 'error');
+        return;
+      }
+
+      // Set submission flag
+      isSubmitting = true;
+
+      // Disable submit button and show loading state
+      const originalText = submitButton.textContent;
+      submitButton.disabled = true;
+      submitButton.textContent = translations.sending;
+      messagesDiv.innerHTML = '';
+
+      // Clear previous field errors
+      form.querySelectorAll('.field-error').forEach(el => el.remove());
+
+      try {
+        const formData = new FormData(form);
+        
+        // Call the action via fetch
+        const response = await fetch('/_actions/contact', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json',
+          },
+        });
+
+        const result = await response.json();
+        console.log('Response:', result); // Debug log
+
+        if (!response.ok || result.error) {
+          const error = result.error;
+          if (error?.code === 'BAD_REQUEST' && error?.fields) {
+            // Show field-specific errors
+            showFieldErrors(error.fields);
+            showMessage(translations.correctErrors, 'error');
+          } else {
+            // Show general error
+            showMessage(error?.message || translations.errorOccurred, 'error');
+          }
+          // Re-enable button on error
+          submitButton.disabled = false;
+          submitButton.textContent = originalText;
+        } else {
+          // Success! (handle both result.data and direct result)
+          const data = result.data || result;
+          lastSubmissionTime = Date.now();
+          showMessage(data.message || translations.successFallback, 'success');
+          
+          // Clear form and localStorage on successful submission
+          clearFormData();
+          
+          // Scroll to message
+          messagesDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+          // Keep button disabled for cooldown period after success
+          setTimeout(() => {
+            submitButton.disabled = false;
+            submitButton.textContent = originalText;
+          }, COOLDOWN_PERIOD);
+        }
+      } catch (error) {
+        // Re-enable button on exception
+        submitButton.disabled = false;
+        submitButton.textContent = originalText;
+        showMessage(translations.errorOccurred, 'error');
+        console.error('Form submission error:', error);
+      } finally {
+        // Reset submission flag
+        isSubmitting = false;
+      }
+    });
+  })();
+</script>
