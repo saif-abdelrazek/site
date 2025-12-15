@@ -1,46 +1,131 @@
 ---
 import { getLangFromUrl } from "@i18n/utils";
 import { useTranslations } from "@i18n/translations";
+import { getCollection } from "astro:content";
+import { Icon } from "astro-icon/components";
+import { SECTION_CONFIG } from "@types/educationTypes";
+import type { EducationSection } from "@types/educationTypes";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const isRtl = lang === "ar";
 
-import { getCollection } from "astro:content";
-import EducationCards from "@components/education/EducationCards.astro";
+// Get institutions for current language
+const allInstitutions = await getCollection("institutions");
+const institutions = allInstitutions
+  .filter((i) => i.id.startsWith(`${lang}/`))
+  .sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
 
-const allEducation = await getCollection("education");
-// Filter for language-specific content
-const education = allEducation.filter((edu) => edu.id.startsWith(`${lang}/`));
-const hasEducation = education && education.length > 0;
+// Show current first, then recent ones (up to 3)
+const currentInstitutions = institutions.filter((i) => i.data.current);
+const pastInstitutions = institutions.filter((i) => !i.data.current);
+const displayInstitutions = [...currentInstitutions, ...pastInstitutions].slice(0, 3);
+
+const hasInstitutions = displayInstitutions.length > 0;
 ---
 
-<section id="education" class="w-full bg-blue-50 px-4 py-12 dark:bg-slate-900">
-  <div class="mx-auto max-w-6xl">
-    <h2
-      class="mb-2 text-center text-4xl font-bold text-sky-700 dark:text-sky-300"
-    >
+<section id="education" class="w-full bg-white dark:bg-slate-900 px-4 py-12">
+  <div class="mx-auto max-w-6xl" dir={isRtl ? "rtl" : "ltr"}>
+    <h2 class="mb-2 text-center text-4xl font-bold text-sky-700 dark:text-sky-300">
       {t('nav.education')}
     </h2>
     <p class="mb-8 text-center text-lg text-gray-700 dark:text-gray-300">
       {t('education.description')}
     </p>
-    {
-      hasEducation ? (
-          <div class="mx-auto max-w-6xl">
-            <EducationCards education={education} />
-          </div>
-      ) : (
-        <div class="text-center text-lg text-gray-500 dark:text-gray-400">
-          {t('education.noRecords')}
-        </div>
-      )
-    }
+
+    {hasInstitutions ? (
+      <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {displayInstitutions.map((institution) => {
+          const section = institution.data.section as EducationSection;
+          const sectionConfig = SECTION_CONFIG[section];
+          const url = lang === "en" 
+            ? `/education/${institution.data.slug}` 
+            : `/${lang}/education/${institution.data.slug}`;
+          
+          return (
+            <div
+              class="group flex h-full flex-col rounded-2xl border border-blue-200 bg-white p-6 shadow-md transition-all duration-250 ease-out hover:shadow-lg hover:border-blue-400 hover:bg-blue-50/30 dark:border-sky-900 dark:bg-slate-800 dark:hover:border-sky-700"
+            >
+              {/* Institution Logo */}
+              {institution.data.logo && (
+                <img
+                  src={institution.data.logo.src}
+                  alt={institution.data.name}
+                  class="mx-auto mb-4 h-24 w-24 rounded-full border-2 border-blue-200 object-cover shadow-md dark:border-sky-900"
+                  loading="lazy"
+                />
+              )}
+
+              {/* Institution Name */}
+              <h3 class="mb-1 text-center text-xl font-bold text-blue-700 dark:text-sky-300">
+                {institution.data.name}
+              </h3>
+
+              {/* Current Badge */}
+              {institution.data.current && (
+                <div class="mb-2 flex justify-center">
+                  <span class="inline-flex items-center gap-2 rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700 shadow dark:bg-green-900/60 dark:text-green-300">
+                    <svg class="h-4 w-4 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    {t('education.currentlyEnrolled')}
+                  </span>
+                </div>
+              )}
+
+              {/* Role */}
+              <div class="mb-1 text-center text-sm font-medium text-blue-500 dark:text-sky-400">
+                {institution.data.role}
+              </div>
+
+              {/* Section Badge */}
+              <div class="mb-2 text-center text-xs text-blue-400 dark:text-sky-400">
+                {isRtl ? sectionConfig.labelAr : sectionConfig.label}
+              </div>
+
+              {/* Location */}
+              {institution.data.location && (
+                <div class="mb-1 text-center text-xs text-gray-500 dark:text-gray-400">
+                  {institution.data.location}
+                </div>
+              )}
+
+              {/* Period */}
+              <div class="mb-2 text-center text-xs text-gray-600 dark:text-gray-400">
+                {institution.data.period}
+              </div>
+
+              {/* Description */}
+              <p class="mb-4 line-clamp-3 text-center text-sm text-gray-700 dark:text-gray-300">
+                {institution.data.description}
+              </p>
+
+              {/* More Info Button */}
+              <div class="mt-auto flex justify-center">
+                <a
+                  href={url}
+                  class="inline-block rounded-lg bg-blue-600 px-5 py-2 text-sm font-semibold text-white shadow transition hover:bg-blue-700 dark:bg-sky-700 dark:hover:bg-sky-800"
+                >
+                  {t('education.moreInfo')}
+                </a>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    ) : (
+      <div class="text-center text-lg text-gray-500 dark:text-gray-400">
+        {t('education.noRecords')}
+      </div>
+    )}
+
     <div class="mt-10 flex justify-center">
       <a
         href={lang === "en" ? "/education" : `/${lang}/education`}
-        class="inline-block rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 px-7 py-3 text-lg font-semibold text-white shadow-lg ring-2 ring-blue-400/20 transition hover:scale-105 hover:from-blue-700 hover:to-sky-600 hover:shadow-xl dark:from-sky-700 dark:to-blue-800 dark:hover:from-sky-800 dark:hover:to-blue-900"
+        class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 px-7 py-3 text-lg font-semibold text-white shadow-lg ring-2 ring-blue-400/20 transition hover:scale-105 hover:from-blue-700 hover:to-sky-600 hover:shadow-xl dark:from-sky-700 dark:to-blue-800 dark:hover:from-sky-800 dark:hover:to-blue-900"
       >
         {t('education.moreEducation')}
+        <Icon name={isRtl ? "mdi:arrow-left" : "mdi:arrow-right"} class="h-5 w-5" />
       </a>
     </div>
   </div>

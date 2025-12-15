@@ -1,0 +1,169 @@
+---
+/**
+ * InstitutionCarousel Component
+ * 
+ * A horizontally scrollable carousel for displaying institution cards
+ * with smooth scrolling and navigation controls.
+ */
+import { Icon } from "astro-icon/components";
+import type { CollectionEntry } from "astro:content";
+import EducationCard from "./EducationCard.astro";
+import { getLangFromUrl } from "@i18n/utils";
+
+interface Props {
+  institutions: CollectionEntry<"institutions">[];
+  moments?: CollectionEntry<"moments">[];
+  id: string;
+  class?: string;
+}
+
+const { institutions, moments = [], id, class: className = "" } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const isRtl = lang === "ar";
+
+// Create a map of moments by institution slug for quick lookup
+const momentsByInstitution = moments.reduce((acc, moment) => {
+  const slug = moment.data.institutionSlug;
+  if (!acc[slug]) acc[slug] = [];
+  acc[slug].push(moment);
+  return acc;
+}, {} as Record<string, CollectionEntry<"moments">[]>);
+---
+
+<div class:list={["relative group", className]} data-carousel={id}>
+  <!-- Navigation Buttons -->
+  <button
+    type="button"
+    class:list={[
+      "absolute top-1/2 -translate-y-1/2 z-10 hidden md:flex",
+      "h-10 w-10 items-center justify-center rounded-full",
+      "bg-white/90 dark:bg-slate-800/90 shadow-lg border border-gray-200 dark:border-gray-700",
+      "text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-slate-700",
+      "opacity-0 group-hover:opacity-100 transition-all duration-300",
+      "disabled:opacity-30 disabled:cursor-not-allowed",
+      isRtl ? "right-2" : "left-2",
+    ]}
+    data-carousel-prev={id}
+    aria-label="Previous"
+  >
+    <Icon name={isRtl ? "mdi:chevron-right" : "mdi:chevron-left"} class="h-6 w-6" />
+  </button>
+
+  <button
+    type="button"
+    class:list={[
+      "absolute top-1/2 -translate-y-1/2 z-10 hidden md:flex",
+      "h-10 w-10 items-center justify-center rounded-full",
+      "bg-white/90 dark:bg-slate-800/90 shadow-lg border border-gray-200 dark:border-gray-700",
+      "text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-slate-700",
+      "opacity-0 group-hover:opacity-100 transition-all duration-300",
+      "disabled:opacity-30 disabled:cursor-not-allowed",
+      isRtl ? "left-2" : "right-2",
+    ]}
+    data-carousel-next={id}
+    aria-label="Next"
+  >
+    <Icon name={isRtl ? "mdi:chevron-left" : "mdi:chevron-right"} class="h-6 w-6" />
+  </button>
+
+  <!-- Scrollable Container -->
+  <div
+    class="flex gap-4 overflow-x-auto scroll-smooth pb-4 snap-x snap-mandatory scrollbar-hide"
+    data-carousel-container={id}
+    style="scrollbar-width: none; -ms-overflow-style: none;"
+  >
+    {institutions.map((institution) => {
+      // Get featured moment for this institution, or use the first moment
+      const institutionMoments = momentsByInstitution[institution.data.slug] || [];
+      const featuredMoment = institutionMoments.find(m => m.data.featured) || institutionMoments[0];
+      
+      return (
+        <div class="flex-shrink-0 snap-start">
+          <EducationCard
+            institution={institution}
+            moment={featuredMoment}
+            variant="compact"
+          />
+        </div>
+      );
+    })}
+  </div>
+
+  <!-- Progress Dots (mobile) -->
+  <div class="flex justify-center gap-1.5 mt-2 md:hidden" data-carousel-dots={id}>
+    {institutions.map((_, index) => (
+      <button
+        type="button"
+        class="h-2 w-2 rounded-full bg-gray-300 dark:bg-gray-600 transition-colors"
+        data-carousel-dot={index}
+        aria-label={`Go to slide ${index + 1}`}
+      />
+    ))}
+  </div>
+</div>
+
+<script>
+  function initCarousels() {
+    const carousels = document.querySelectorAll('[data-carousel]');
+    
+    carousels.forEach((carousel) => {
+      const id = carousel.getAttribute('data-carousel');
+      const container = carousel.querySelector(`[data-carousel-container="${id}"]`) as HTMLElement;
+      const prevBtn = carousel.querySelector(`[data-carousel-prev="${id}"]`) as HTMLButtonElement;
+      const nextBtn = carousel.querySelector(`[data-carousel-next="${id}"]`) as HTMLButtonElement;
+      const dots = carousel.querySelectorAll(`[data-carousel-dot]`);
+      
+      if (!container) return;
+      
+      const cardWidth = 320 + 16; // card width + gap
+      const isRtl = document.documentElement.dir === 'rtl';
+      
+      const updateButtons = () => {
+        const scrollLeft = Math.abs(container.scrollLeft);
+        const maxScroll = container.scrollWidth - container.clientWidth;
+        
+        if (prevBtn) prevBtn.disabled = scrollLeft <= 0;
+        if (nextBtn) nextBtn.disabled = scrollLeft >= maxScroll - 1;
+        
+        // Update dots
+        const currentIndex = Math.round(scrollLeft / cardWidth);
+        dots.forEach((dot, index) => {
+          if (index === currentIndex) {
+            dot.classList.add('bg-blue-600', 'dark:bg-sky-500');
+            dot.classList.remove('bg-gray-300', 'dark:bg-gray-600');
+          } else {
+            dot.classList.remove('bg-blue-600', 'dark:bg-sky-500');
+            dot.classList.add('bg-gray-300', 'dark:bg-gray-600');
+          }
+        });
+      };
+      
+      const scrollBy = (direction: number) => {
+        const scrollAmount = direction * cardWidth * (isRtl ? -1 : 1);
+        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      };
+      
+      prevBtn?.addEventListener('click', () => scrollBy(-1));
+      nextBtn?.addEventListener('click', () => scrollBy(1));
+      
+      dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          container.scrollTo({ left: index * cardWidth * (isRtl ? -1 : 1), behavior: 'smooth' });
+        });
+      });
+      
+      container.addEventListener('scroll', updateButtons);
+      updateButtons();
+    });
+  }
+  
+  // Initialize on page load and after Astro page transitions
+  document.addEventListener('DOMContentLoaded', initCarousels);
+  document.addEventListener('astro:after-swap', initCarousels);
+</script>
+
+<style>
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+</style>

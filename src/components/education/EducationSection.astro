@@ -1,0 +1,315 @@
+---
+/**
+ * EducationSection Component
+ * 
+ * A themed section for the education page that displays:
+ * - Section title and narrative
+ * - Horizontal cards grid for moments
+ * - Show more/less functionality for overflow items
+ */
+import { Icon } from "astro-icon/components";
+import type { CollectionEntry } from "astro:content";
+import EducationCard from "./EducationCard.astro";
+import { SECTION_CONFIG, type EducationSection } from "@types/educationTypes";
+import { getLangFromUrl } from "@i18n/utils";
+
+interface Props {
+  sectionId: EducationSection;
+  title: string;
+  narrative: string;
+  institutions: CollectionEntry<"institutions">[];
+  moments: CollectionEntry<"moments">[];
+  featuredMoments?: string[]; // slugs of moments to feature
+  showCarousel?: boolean;
+  initialVisibleCount?: number; // number of items to show initially
+  class?: string;
+}
+
+const {
+  sectionId,
+  title,
+  narrative,
+  institutions,
+  moments,
+  featuredMoments = [],
+  showCarousel = true,
+  initialVisibleCount = 3,
+  class: className = "",
+} = Astro.props;
+
+const lang = getLangFromUrl(Astro.url);
+const isRtl = lang === "ar";
+const sectionConfig = SECTION_CONFIG[sectionId];
+
+// Filter institutions for this section
+const sectionInstitutions = institutions.filter(i => i.data.section === sectionId);
+
+// Filter moments for this section
+const sectionMoments = moments.filter(m => m.data.section === sectionId);
+
+// Get display moments - featured first, then others
+const displayMoments = featuredMoments.length > 0
+  ? sectionMoments.filter(m => featuredMoments.includes(m.data.slug))
+  : sectionMoments.filter(m => m.data.featured);
+
+// If no featured, show all moments in this section
+const allMomentsToShow = displayMoments.length > 0 ? displayMoments : sectionMoments;
+
+// Create institution map for cards
+const institutionMap = new Map(institutions.map(i => [i.data.slug, i]));
+
+// Alternating background patterns
+const bgPatterns: Record<EducationSection, string> = {
+  formal: "bg-gradient-to-br from-blue-50/50 via-white to-blue-50/50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900",
+  "self-learning": "bg-gradient-to-br from-teal-50/50 via-white to-teal-50/50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900",
+};
+---
+
+<section
+  id={sectionId}
+  class:list={[
+    "py-12 md:py-16",
+    bgPatterns[sectionId],
+    className,
+  ]}
+  dir={isRtl ? "rtl" : "ltr"}
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- Section Header - Horizontal layout -->
+    <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 mb-8">
+      <span
+        class:list={[
+          "flex items-center justify-center h-14 w-14 rounded-2xl shrink-0",
+          sectionConfig.bgColor,
+        ]}
+      >
+        <Icon name={sectionConfig.icon} class:list={["h-7 w-7", sectionConfig.color]} />
+      </span>
+      <div class="flex-1">
+        <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+          {title}
+        </h2>
+        <p class="text-base text-gray-600 dark:text-gray-400 leading-relaxed max-w-3xl">
+          {narrative}
+        </p>
+      </div>
+    </div>
+
+    <!-- Institutions Section -->
+    {sectionInstitutions.length > 0 && (
+      <div class="mb-8" data-expandable-section={`institutions-${sectionId}`}>
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
+            <Icon name="mdi:domain" class="h-5 w-5" />
+            {isRtl ? "المؤسسات التعليمية" : "Educational Institutions"}
+            {sectionInstitutions.length > initialVisibleCount && (
+              <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                ({sectionInstitutions.length})
+              </span>
+            )}
+          </h3>
+          {sectionInstitutions.length > initialVisibleCount && (
+            <button 
+              type="button"
+              class="show-more-btn flex items-center gap-1 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
+              data-target={`institutions-${sectionId}`}
+              data-show-text={isRtl ? "عرض المزيد" : "Show More"}
+              data-hide-text={isRtl ? "عرض أقل" : "Show Less"}
+            >
+              <span class="btn-text">{isRtl ? "عرض المزيد" : "Show More"}</span>
+              <Icon name="mdi:chevron-right" class="h-4 w-4 btn-icon transition-transform" />
+            </button>
+          )}
+        </div>
+        <div class="relative">
+          <div 
+            class="scroll-container flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
+            data-items-container={`institutions-${sectionId}`}
+          >
+            {sectionInstitutions.map((institution, index) => (
+              <div 
+                class:list={[
+                  "flex-shrink-0 snap-start w-[320px] md:w-[360px] pt-2 transition-all duration-300",
+                  index >= initialVisibleCount && "hidden-item"
+                ]}
+                data-item-index={index}
+              >
+                <EducationCard
+                  institution={institution}
+                  variant="compact"
+                  showSection={false}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    )}
+
+    <!-- Moments Section -->
+    {allMomentsToShow.length > 0 && (
+      <div data-expandable-section={`moments-${sectionId}`}>
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
+            <Icon name="mdi:star-outline" class="h-5 w-5" />
+            {isRtl ? "اللحظات والإنجازات" : "Moments & Milestones"}
+            {allMomentsToShow.length > initialVisibleCount && (
+              <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                ({allMomentsToShow.length})
+              </span>
+            )}
+          </h3>
+          {allMomentsToShow.length > initialVisibleCount && (
+            <button 
+              type="button"
+              class="show-more-btn flex items-center gap-1 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
+              data-target={`moments-${sectionId}`}
+              data-show-text={isRtl ? "عرض المزيد" : "Show More"}
+              data-hide-text={isRtl ? "عرض أقل" : "Show Less"}
+            >
+              <span class="btn-text">{isRtl ? "عرض المزيد" : "Show More"}</span>
+              <Icon name="mdi:chevron-right" class="h-4 w-4 btn-icon transition-transform" />
+            </button>
+          )}
+        </div>
+        <div class="relative">
+          <div 
+            class="scroll-container flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
+            data-items-container={`moments-${sectionId}`}
+          >
+            {allMomentsToShow.map((moment, index) => {
+              const institution = institutionMap.get(moment.data.institutionSlug);
+              if (!institution) return null;
+              return (
+                <div 
+                  class:list={[
+                    "flex-shrink-0 snap-start w-[320px] md:w-[360px] pt-2 transition-all duration-300",
+                    index >= initialVisibleCount && "hidden-item"
+                  ]}
+                  data-item-index={index}
+                >
+                  <EducationCard
+                    institution={institution}
+                    moment={moment}
+                    variant="compact"
+                    showSection={false}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    )}
+
+    <!-- Empty state -->
+    {sectionInstitutions.length === 0 && allMomentsToShow.length === 0 && (
+      <div class="text-center py-12 text-gray-500 dark:text-gray-400">
+        <Icon name="mdi:school-outline" class="h-12 w-12 mx-auto mb-3 opacity-50" />
+        <p>{isRtl ? "قريباً..." : "Coming soon..."}</p>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  /* Custom scrollbar for horizontal scroll containers */
+  .scroll-container {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(156 163 175) transparent;
+  }
+  
+  .scroll-container::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  .scroll-container::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 4px;
+    margin: 0 1rem;
+  }
+  
+  .scroll-container::-webkit-scrollbar-thumb {
+    background: rgb(209 213 219);
+    border-radius: 4px;
+  }
+  
+  .scroll-container::-webkit-scrollbar-thumb:hover {
+    background: rgb(156 163 175);
+  }
+  
+  :global(.dark) .scroll-container {
+    scrollbar-color: rgb(75 85 99) transparent;
+  }
+  
+  :global(.dark) .scroll-container::-webkit-scrollbar-thumb {
+    background: rgb(55 65 81);
+  }
+  
+  :global(.dark) .scroll-container::-webkit-scrollbar-thumb:hover {
+    background: rgb(75 85 99);
+  }
+
+  .hidden-item {
+    display: none !important;
+  }
+  
+  .show-all .hidden-item {
+    display: block !important;
+  }
+  
+  .btn-icon.rotated {
+    transform: rotate(90deg);
+  }
+  
+  [dir="rtl"] .btn-icon {
+    transform: rotate(180deg);
+  }
+  
+  [dir="rtl"] .btn-icon.rotated {
+    transform: rotate(270deg);
+  }
+</style>
+
+<script>
+  function initShowMoreButtons() {
+    const buttons = document.querySelectorAll('.show-more-btn');
+    
+    buttons.forEach(button => {
+      // Remove any existing listeners by cloning
+      const newButton = button.cloneNode(true) as HTMLElement;
+      button.parentNode?.replaceChild(newButton, button);
+      
+      newButton.addEventListener('click', () => {
+        const targetId = newButton.getAttribute('data-target');
+        const container = document.querySelector(`[data-items-container="${targetId}"]`);
+        const btnText = newButton.querySelector('.btn-text');
+        const btnIcon = newButton.querySelector('.btn-icon');
+        
+        if (!container || !btnText || !btnIcon) return;
+        
+        const isExpanded = container.classList.contains('show-all');
+        const showText = newButton.getAttribute('data-show-text') || 'Show More';
+        const hideText = newButton.getAttribute('data-hide-text') || 'Show Less';
+        
+        if (isExpanded) {
+          // Collapse
+          container.classList.remove('show-all');
+          btnText.textContent = showText;
+          btnIcon.classList.remove('rotated');
+        } else {
+          // Expand
+          container.classList.add('show-all');
+          btnText.textContent = hideText;
+          btnIcon.classList.add('rotated');
+        }
+      });
+    });
+  }
+  
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', initShowMoreButtons);
+  
+  // Re-initialize on Astro page transitions
+  document.addEventListener('astro:page-load', initShowMoreButtons);
+</script>

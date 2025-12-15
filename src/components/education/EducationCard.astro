@@ -1,0 +1,148 @@
+---
+/**
+ * Unified EducationCard Component
+ * 
+ * A versatile card that displays institution and moment information
+ * with visual indicators for the education section type.
+ * 
+ * Variants:
+ * - compact: For carousels and grids (horizontal scroll friendly)
+ * - detailed: For expanded views
+ * - featured: For hero/highlighted moments
+ */
+import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import { getLangFromUrl } from "@i18n/utils";
+import { useTranslations } from "@i18n/translations";
+import { SECTION_CONFIG, type EducationSection } from "@types/educationTypes";
+
+interface Props {
+  institution: CollectionEntry<"institutions">;
+  moment?: CollectionEntry<"moments">;
+  variant?: "compact" | "detailed" | "featured";
+  showSection?: boolean;
+  class?: string;
+}
+
+const {
+  institution,
+  moment,
+  variant = "compact",
+  showSection = true,
+  class: className = "",
+} = Astro.props;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const isRtl = lang === "ar";
+
+// Get section configuration
+const section = (moment?.data.section || institution.data.section) as EducationSection;
+const sectionConfig = SECTION_CONFIG[section];
+
+// Build the link URL
+const baseUrl = lang === "en" ? "/education" : `/${lang}/education`;
+const linkUrl = moment
+  ? `${baseUrl}/${institution.data.slug}/${moment.data.slug}`
+  : `${baseUrl}/${institution.data.slug}`;
+---
+
+<a
+  href={linkUrl}
+  class:list={[
+    "group block h-full rounded-2xl border bg-white transition-all duration-300 ease-out",
+    "hover:shadow-lg hover:border-blue-400 dark:hover:border-sky-600",
+    "dark:bg-slate-800 dark:border-slate-700",
+    "border-gray-200",
+    variant === "compact" ? "p-5" : variant === "detailed" ? "p-6" : "p-8",
+    className,
+  ]}
+  dir={isRtl ? "rtl" : "ltr"}
+>
+  <!-- Top Row: Section Badge + Current Status -->
+  <div class="flex items-center justify-between mb-4">
+    <span
+      class:list={[
+        "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold",
+        sectionConfig.bgColor,
+        sectionConfig.color,
+      ]}
+    >
+      <Icon name={sectionConfig.icon} class="h-3.5 w-3.5" />
+      {isRtl ? sectionConfig.labelAr : sectionConfig.label}
+    </span>
+    {institution.data.current && (
+      <span class="inline-flex items-center gap-1 rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700 dark:bg-green-900/40 dark:text-green-300">
+        <span class="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse"></span>
+        {isRtl ? "حالياً" : "Current"}
+      </span>
+    )}
+  </div>
+
+  <!-- Institution Logo + Title Row -->
+  <div class="flex items-start gap-3 mb-3">
+    {institution.data.logo && (
+      <div class="flex-shrink-0">
+        <Image
+          src={institution.data.logo}
+          alt={institution.data.name}
+          class="h-10 w-10 rounded-lg border border-gray-200 object-cover dark:border-gray-700"
+          loading="lazy"
+        />
+      </div>
+    )}
+    <div class="flex-1 min-w-0">
+      <h3
+        class:list={[
+          "font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-sky-400 transition-colors",
+          variant === "compact" ? "text-base line-clamp-2" : "text-lg",
+        ]}
+      >
+        {moment ? moment.data.title : institution.data.name}
+      </h3>
+      {moment && (
+        <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+          {institution.data.shortName || institution.data.name}
+        </p>
+      )}
+    </div>
+  </div>
+
+  <!-- Description -->
+  <p class:list={[
+    "text-gray-600 dark:text-gray-400 mb-4",
+    variant === "compact" ? "text-sm line-clamp-2" : "text-sm line-clamp-3",
+  ]}>
+    {moment ? moment.data.excerpt : institution.data.description}
+  </p>
+
+  <!-- Meta Row: Location + Period -->
+  <div class="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-500">
+    <div class="flex items-center gap-1">
+      <Icon name="mdi:map-marker-outline" class="h-3.5 w-3.5" />
+      <span class="truncate">{institution.data.location}</span>
+    </div>
+    <div class="flex items-center gap-1">
+      <Icon name="mdi:calendar-outline" class="h-3.5 w-3.5" />
+      <span>{institution.data.period}</span>
+    </div>
+  </div>
+
+  <!-- Tags (for moments in detailed/featured variants) -->
+  {moment?.data.tags && moment.data.tags.length > 0 && variant !== "compact" && (
+    <div class="mt-3 flex flex-wrap gap-1.5">
+      {moment.data.tags.slice(0, 4).map((tag) => (
+        <span class="rounded-md bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600 dark:bg-gray-800 dark:text-gray-400">
+          {tag}
+        </span>
+      ))}
+    </div>
+  )}
+
+  <!-- Hover Arrow -->
+  <div class="mt-4 flex items-center gap-1 text-sm font-medium text-blue-600 dark:text-sky-400 opacity-0 group-hover:opacity-100 transition-opacity">
+    <span>{isRtl ? "عرض التفاصيل" : "View details"}</span>
+    <Icon name={isRtl ? "mdi:arrow-left" : "mdi:arrow-right"} class="h-4 w-4" />
+  </div>
+</a>
