@@ -55,7 +55,7 @@
       ]
     },
     {
-      "source": "/(blog|education|projects|tech)/(.*)",
+      "source": "/(blog|education|projects|technologies)/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
