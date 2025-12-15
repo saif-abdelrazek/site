@@ -33,8 +33,8 @@ export default defineConfig({
   redirects: {
     "/projects/": "/#projects",
     "/ar/projects/": "/ar/#projects",
-    "/technologies/": "/#technologies",
-    "/ar/technologies/": "/ar/#technologies",
+    "/tech/": "/technologies",
+    "/ar/tech/": "/ar/technologies",
     "/about/": "/#about",
     "/ar/about/": "/ar/#about",
     "/post/": "/blog",

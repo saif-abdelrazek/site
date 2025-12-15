@@ -22,7 +22,7 @@ const ar: I18nStrings = {
     'nav.home': 'الرئيسية',
     'nav.projects': 'المشاريع',
     'nav.education': 'الرحلة التعليمية',
-    'nav.tech': 'التقنيات',
+    'nav.technologies': 'التقنيات',
     'nav.about': 'عني',
     
     // Page titles

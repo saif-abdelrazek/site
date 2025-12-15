@@ -54,6 +54,11 @@ export function createLocalizedConstants(lang: Language): any {
         icon: 'github' 
       },
       { 
+        label: t('nav.technologies'), 
+        href: lang === 'ar' ? '/ar/technologies' : '/technologies', 
+        icon: 'layers' 
+      },
+      { 
         label: t('nav.now'), 
         href: lang === 'ar' ? '/ar/now' : '/now', 
         icon: 'clock' 
@@ -74,7 +79,7 @@ export function createLocalizedConstants(lang: Language): any {
       blog: t('page.blog.title'),
       blogPage: t('page.blogPage.title'),
       repos: t('page.repos.title'),
-      tech: t('page.tech.title'),
+      technologies: t('page.tech.title'),
       contact: t('page.contact.title'),
       biolink: t('page.biolink.title'),
       now: t('page.now.title'),
@@ -87,7 +92,7 @@ export function createLocalizedConstants(lang: Language): any {
       blog: t('page.blog.description'),
       blogPage: t('page.blogPage.description'),
       repos: t('page.repos.description'),
-      tech: t('page.tech.description'),
+      technologies: t('page.tech.description'),
       contact: t('page.contact.description'),
       biolink: t('page.biolink.description'),
       now: t('page.now.description'),
@@ -404,23 +409,23 @@ export function createLocalizedConstants(lang: Language): any {
             slug: 'linux',
             link: 'https://www.linux.org/',
           },
-          {
-            name: 'VS Code',
-            icon: 'logos:visual-studio-code',
-            level: 'Expert',
-            category: 'code editor',
-            favorite: true,
-            description: lang === 'ar'
-              ? 'VS Code محرّر شيفرة غني بالميزات.'
-              : 'VS Code is a feature-rich code editor.',
-            slug: 'vs-code',
-            link: 'https://code.visualstudio.com/',
-          },
-          {
-            name: 'Vercel',
-            icon: 'simple-icons:vercel',
-            level: 'Intermediate',
-            category: 'deployment',
+      {
+        name: 'VS Code',
+        icon: 'logos:visual-studio-code',
+        level: 'Expert',
+        category: 'codeEditor',
+        favorite: true,
+        description: lang === 'ar'
+          ? 'VS Code محرّر شيفرة غني بالميزات.'
+          : 'VS Code is a feature-rich code editor.',
+        slug: 'vs-code',
+        link: 'https://code.visualstudio.com/',
+      },
+      {
+        name: 'Vercel',
+        icon: 'simple-icons:vercel',
+        level: 'Intermediate',
+        category: 'deployment',
             favorite: true,
             description: lang === 'ar'
               ? 'Vercel منصة سحابية لنشر أُطر الواجهة الأمامية والمواقع الساكنة بسهولة. توفّر معاينات فورية، وشبكة CDN عالمية، وتكاملًا سلسًا مع Git. مُحسّنة للأداء وتجربة المطوّر.'
@@ -432,7 +437,7 @@ export function createLocalizedConstants(lang: Language): any {
             name: 'Tailwind',
             icon: 'logos:tailwindcss-icon',
             level: 'Intermediate',
-            category: 'css framework',
+            category: 'cssFramework',
             favorite: true,
             description: lang === 'ar'
               ? 'Tailwind إطار CSS قائم على الأدوات المساعدة لتطوير واجهات سريعة ومتسقة. يوفّر أصنافًا منخفضة المستوى لبناء تصاميم مخصّصة من دون مغادرة HTML. يسرّع النمذجة الأولية ويفرض اتساق التصميم عبر المشاريع.'
@@ -475,6 +480,198 @@ export function createLocalizedConstants(lang: Language): any {
               : 'A custom and independent version of Firefox, with the primary goals of privacy, security and user freedom.',
             slug: 'librewolf',
             link: 'https://librewolf.net',
+          },
+          {
+            name: 'BunJS',
+            icon: 'logos:bun',
+            level: 'Novice',
+            category: 'backend',
+            favorite: false,
+            description: lang === 'ar'
+              ? 'BunJS بيئة تشغيل وأدوات جافاسكربت عالية الأداء لتطوير الويب الحديث. توفّر أوقات بدء سريعة، وتجميعًا أصليًا، وإدارة حزم. تهدف BunJS إلى تبسيط سير العمل وتحسين الكفاءة لمشاريع جافاسكربت.'
+              : 'BunJS is a high-performance JavaScript runtime and toolkit for modern web development. It offers fast startup times, native bundling, and package management. BunJS aims to streamline development workflows and improve efficiency for JavaScript projects.',
+            slug: 'bunjs',
+            link: 'https://bun.sh/',
+          },
+          {
+            name: 'EJS',
+            icon: 'simple-icons:ejs',
+            level: 'Beginner',
+            category: 'backend',
+            favorite: false,
+            description: lang === 'ar'
+              ? 'EJS محرك قوالب جافاسكربت مضمّن لتوليد HTML ديناميكي. يسمح بحقن البيانات والمنطق مباشرة في القوالب. EJS خفيف وسهل الدمج ومناسب للتصيير على الخادم في تطبيقات Node.js.'
+              : 'EJS is an embedded JavaScript templating engine for dynamic HTML generation. It allows developers to inject data and logic directly into templates. EJS is lightweight, easy to integrate, and suitable for server-side rendering in Node.js applications.',
+            slug: 'ejs',
+            link: 'https://ejs.co/',
+          },
+          {
+            name: 'NestJS',
+            icon: 'logos:nestjs',
+            level: 'Beginner',
+            category: 'backend',
+            favorite: false,
+            description: lang === 'ar'
+              ? 'NestJS إطار Node.js تقدّمي لبناء تطبيقات خادم فعّالة وقابلة للتوسّع. يستفيد من تايب سكربت ومعمارية معيارية مستوحاة من Angular. يدعم الحقن التبعي والاختبار والتكامل مع مكتبات وقواعد بيانات متنوعة.'
+              : 'NestJS is a progressive Node.js framework for building efficient, scalable server-side applications. It leverages TypeScript and modular architecture inspired by Angular. NestJS supports dependency injection, testing, and integration with various libraries and databases.',
+            slug: 'nestjs',
+            link: 'https://nestjs.com/',
+          },
+          {
+            name: 'PostgreSQL',
+            icon: 'logos:postgresql',
+            level: 'Beginner',
+            category: 'database',
+            favorite: false,
+            description: lang === 'ar'
+              ? 'PostgreSQL قاعدة بيانات علائقية مفتوحة المصدر وموثوقة بميزات متقدمة واعتمادية. تدعم استعلامات معقدة، والامتثال لمبادئ ACID، وقابلية التوسعة عبر الدوال المخصصة. تُعتمد PostgreSQL للتطبيقات الحرجة وسلامة البيانات.'
+              : 'PostgreSQL is a robust open-source relational database with advanced features and reliability. It supports complex queries, ACID compliance, and extensibility through custom functions. PostgreSQL is trusted for mission-critical applications and data integrity.',
+            slug: 'postgresql',
+            link: 'https://www.postgresql.org/',
+          },
+          {
+            name: 'Prisma',
+            icon: 'simple-icons:prisma',
+            level: 'Beginner',
+            category: 'database',
+            favorite: false,
+            description: lang === 'ar'
+              ? 'Prisma ORM آمن النوعية لـ Node.js وTypeScript، يسهّل سير عمل قواعد البيانات. يوفّر نمذجة مخطط بديهية، وهجرات، وبناء استعلامات. يعزّز إنتاجية المطوّر ويضمن الاتساق عبر العمليات.'
+              : 'Prisma is a type-safe ORM for Node.js and TypeScript, streamlining database workflows. It provides intuitive schema modeling, migrations, and query building. Prisma enhances developer productivity and ensures consistency across database operations.',
+            slug: 'prisma',
+            link: 'https://www.prisma.io/',
+          },
+          {
+            name: 'React Router',
+            icon: 'logos:react-router',
+            level: 'Intermediate',
+            category: 'frontend',
+            favorite: false,
+            description: lang === 'ar'
+              ? 'React Router مكتبة توجيه قوية لتطبيقات React، تمكّن التنقل الديناميكي وتصيير المكوّنات بناءً على المسارات. تدعم المسارات المتداخلة والمعاملات والتوجيه التصريحي، ما يجعلها أساسية لتطبيقات الصفحة الواحدة ذات الاحتياجات المعقدة.'
+              : 'React Router is a powerful routing library for React applications, enabling dynamic navigation and rendering of components based on URL paths. It supports nested routes, route parameters, and declarative navigation, making it essential for building single-page applications with complex routing needs.',
+            slug: 'react-router',
+            link: 'https://reactrouter.com/',
+          },
+          {
+            name: 'Docker',
+            icon: 'logos:docker-icon',
+            level: 'Intermediate',
+            category: 'tools',
+            favorite: false,
+            description: lang === 'ar'
+              ? 'Docker منصة حاويات لتوزيع التطبيقات بشكل متسق وقابل للتوسّع. تمكّن من تجميع التطبيقات مع التبعيات للنقل عبر البيئات. تبسّط Docker سير عمل DevOps وخطوط CI/CD وبنية الميكروسيرفس.'
+              : 'Docker is a containerization platform for consistent, scalable application deployment. It enables packaging applications with dependencies for portability across environments. Docker simplifies DevOps workflows, CI/CD pipelines, and microservices architecture.',
+            slug: 'docker',
+            link: 'https://www.docker.com/',
+          },
+          {
+            name: 'Netlify',
+            icon: 'logos:netlify-icon',
+            level: 'Intermediate',
+            category: 'deployment',
+            favorite: false,
+            description: lang === 'ar'
+              ? 'Netlify منصة حديثة لنشر واستضافة وأتمتة المواقع الساكنة وتطبيقات الويب. توفّر نشرًا مستمرًا، ودوال خالية من الخادم، واسترجاعًا فوريًا. تبسّط Netlify سير عمل التطوير لفرق الواجهة الأمامية.'
+              : 'Netlify is a modern platform for deploying, hosting, and automating static sites and web apps. It provides continuous deployment, serverless functions, and instant rollbacks. Netlify streamlines the development workflow for frontend teams.',
+            slug: 'netlify',
+            link: 'https://www.netlify.com/',
+          },
+          {
+            name: 'Vite',
+            icon: 'logos:vitejs',
+            level: 'Intermediate',
+            category: 'tools',
+            favorite: false,
+            description: lang === 'ar'
+              ? 'Vite أداة بناء فائقة السرعة لتطوير الويب الحديث. توفّر بدء خادم فوري، واستبدال وحدات ساخن، وتجميعًا محسّنًا. تعزّز Vite الإنتاجية وتسرّع دورات التطوير لمشاريع الواجهة الأمامية.'
+              : 'Vite is a lightning-fast build tool for modern web development workflows. It features instant server start, hot module replacement, and optimized bundling. Vite enhances productivity and speeds up development cycles for frontend projects.',
+            slug: 'vite',
+            link: 'https://vitejs.dev/',
+          },
+          {
+            name: 'Postman',
+            icon: 'logos:postman-icon',
+            level: 'Intermediate',
+            category: 'tools',
+            favorite: false,
+            description: lang === 'ar'
+              ? 'Postman أداة شاملة لتصميم واختبار وتوثيق واجهات API. تدعم الاختبار الآلي، وإدارة البيئات، والتعاون. تبسّط Postman تطوير واجهات API وتضمن تكاملًا موثوقًا بين الخدمات.'
+              : 'Postman is a comprehensive tool for designing, testing, and documenting APIs. It supports automated testing, environment management, and collaboration. Postman simplifies API development and ensures reliable integrations across services.',
+            slug: 'postman',
+            link: 'https://www.postman.com/',
+          },
+          {
+            name: 'DecapCMS',
+            icon: 'simple-icons:decapcms',
+            level: 'Intermediate',
+            category: 'cms',
+            favorite: false,
+            description: lang === 'ar'
+              ? 'DecapCMS نظام إدارة محتوى مفتوح المصدر للنشر السلس. يوفّر واجهة سهلة الاستخدام لتحرير وإدارة المحتوى. يندمج مع منشئي المواقع الساكنة ويدعم سير عمل مرن.'
+              : 'DecapCMS is an open-source content management system for streamlined publishing. It provides a user-friendly interface for editing and managing content. DecapCMS integrates with static site generators and supports flexible workflows.',
+            slug: 'decapcms',
+            link: 'https://decapcms.org/',
+          },
+          {
+            name: 'Markdown',
+            icon: 'simple-icons:markdown',
+            level: 'Advanced',
+            category: 'markup',
+            favorite: false,
+            description: lang === 'ar'
+              ? 'Markdown لغة ترميز خفيفة الوزن لتنسيق النص بسهولة ووضوح. تمكّن من التوثيق السريع وتدوين الملاحظات وإنشاء المحتوى بصياغة بسيطة. تُستخدم Markdown على نطاق واسع لملفات README والمدونات والكتابة التقنية.'
+              : 'Markdown is a lightweight markup language for easy and readable text formatting. It enables rapid documentation, note-taking, and content creation with simple syntax. Markdown is widely used for README files, blogs, and technical writing.',
+            slug: 'markdown',
+            link: 'https://www.markdownguide.org/',
+          },
+          {
+            name: 'MDX',
+            icon: 'simple-icons:mdx',
+            level: 'Intermediate',
+            category: 'markup',
+            favorite: false,
+            description: lang === 'ar'
+              ? 'MDX صيغة Markdown معزّزة بمكوّنات JSX مضمّنة لمحتوى ديناميكي. تتيح الجمع بين markdown ومكوّنات React التفاعلية. مثالية للتوثيق والمدونات وتطبيقات الويب المعتمدة على المحتوى.'
+              : 'MDX is a Markdown format enhanced with embedded JSX components for dynamic content. It allows developers to combine markdown with interactive React components. MDX is ideal for documentation, blogs, and content-driven web applications.',
+            slug: 'mdx',
+            link: 'https://mdxjs.com/',
+          },
+          {
+            name: 'Porkbun',
+            icon: 'simple-icons:porkbun',
+            level: 'Intermediate',
+            category: 'dns',
+            favorite: false,
+            description: lang === 'ar'
+              ? 'Porkbun مسجّل نطاقات معروف بأسعاره المعقولة وإدارة سهلة وخدمات DNS موثوقة. يوفّر نقل نطاقات سهلًا وشهادات SSL وحماية الخصوصية، ما يجعله خيارًا شائعًا للمطورين والشركات.'
+              : 'Porkbun is a domain registrar known for affordable pricing, user-friendly management, and reliable DNS services. It offers easy domain transfers, SSL certificates, and privacy protection, making it a popular choice for developers and businesses.',
+            slug: 'porkbun',
+            link: 'https://porkbun.com/',
+          },
+          {
+            name: 'Namecheap',
+            icon: 'logos:namecheap',
+            level: 'Intermediate',
+            category: 'dns',
+            favorite: false,
+            description: lang === 'ar'
+              ? 'Namecheap مسجّل نطاقات ومزوّد DNS رائد يقدّم أسعارًا تنافسية وأمانًا قويًا وأدوات إدارة بديهية. يدعم تسجيل النطاقات وشهادات SSL واستضافة DNS للأفراد والمؤسسات.'
+              : 'Namecheap is a leading domain registrar and DNS provider offering competitive pricing, robust security, and intuitive management tools. It supports domain registration, SSL certificates, and DNS hosting for individuals and organizations.',
+            slug: 'namecheap',
+            link: 'https://www.namecheap.com/',
+          },
+          {
+            name: 'OctoDNS',
+            icon: 'logos:octodns',
+            level: 'Intermediate',
+            category: 'tools',
+            favorite: false,
+            description: lang === 'ar'
+              ? 'OctoDNS أداة بنية تحتية ككود لإدارة إعدادات DNS بكفاءة. تدعم مزوّدين متعددين، والتحكم بالإصدارات، والنشر الآلي. تبسّط OctoDNS إدارة DNS لبيئات سحابية متعددة ومعقدة.'
+              : 'OctoDNS is an infrastructure-as-code tool for managing DNS configurations efficiently. It supports multiple providers, version control, and automated deployments. OctoDNS streamlines DNS management for complex, multi-cloud environments.',
+            slug: 'octodns',
+            link: 'https://github.com/octodns/octodns',
           },
         ],
       },

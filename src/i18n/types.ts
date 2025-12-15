@@ -25,6 +25,7 @@ export interface I18nStrings {
   'nav.projects': string;
   'nav.education': string;
   'nav.tech': string;
+  'nav.technologies': string;
   'nav.about': string;
 
   // Page titles

@@ -21,7 +21,7 @@ const en: I18nStrings = {
     'nav.home': 'Home',
     'nav.projects': 'Projects',
     'nav.education': 'Education',
-    'nav.tech': 'Technologies',
+    'nav.technologies': 'Technologies',
     'nav.about': 'About',
     
     // Page titles
