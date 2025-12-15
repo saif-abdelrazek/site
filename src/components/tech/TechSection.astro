@@ -1,0 +1,104 @@
+---
+/**
+ * TechSection Component
+ */
+import { Icon } from "astro-icon/components";
+import DetailedTechCard from "./DetailedTechCard.astro";
+import { TECH_CATEGORY_CONFIG, type TechCategory, type Technology } from "@types/techTypes";
+import { getLangFromUrl } from "@i18n/utils";
+import { useTranslations } from "@i18n/translations";
+
+interface Props {
+  categoryId: TechCategory;
+  technologies: Technology[];
+  class?: string;
+}
+
+const {
+  categoryId,
+  technologies = [],
+  class: className = "",
+} = Astro.props;
+
+const lang = getLangFromUrl(Astro.url);
+const isRtl = lang === "ar";
+const t = useTranslations(lang);
+const categoryConfig = TECH_CATEGORY_CONFIG[categoryId];
+
+// Sort: favorites first
+const sortedTechs = [...technologies].sort((a, b) => {
+  if (a.favorite && !b.favorite) return -1;
+  if (!a.favorite && b.favorite) return 1;
+  return 0;
+});
+
+const bgPatterns: Record<string, string> = {
+  language: "bg-gradient-to-br from-purple-50/50 via-white to-purple-50/50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900",
+  frontend: "bg-gradient-to-br from-blue-50/50 via-white to-blue-50/50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900",
+  backend: "bg-gradient-to-br from-green-50/50 via-white to-green-50/50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900",
+  database: "bg-gradient-to-br from-orange-50/50 via-white to-orange-50/50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900",
+  devops: "bg-gradient-to-br from-cyan-50/50 via-white to-cyan-50/50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900",
+  tools: "bg-gradient-to-br from-gray-50/50 via-white to-gray-50/50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900",
+  design: "bg-gradient-to-br from-pink-50/50 via-white to-pink-50/50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900",
+  other: "bg-gradient-to-br from-slate-50/50 via-white to-slate-50/50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900",
+};
+---
+
+<section
+  id={categoryId}
+  class:list={[
+    "py-12 md:py-16",
+    bgPatterns[categoryId] || bgPatterns.other,
+    className,
+  ]}
+  dir={isRtl ? "rtl" : "ltr"}
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- Section Header -->
+    <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 mb-8">
+      <span
+        class:list={[
+          "flex items-center justify-center h-14 w-14 rounded-2xl shrink-0",
+          categoryConfig.bgColor,
+        ]}
+      >
+        <Icon name={categoryConfig.icon} class:list={["h-7 w-7", categoryConfig.color]} />
+      </span>
+      <div class="flex-1">
+        <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-1">
+          {isRtl ? categoryConfig.labelAr : categoryConfig.label}
+        </h2>
+        <p class="text-sm text-gray-500 dark:text-gray-400">
+          {sortedTechs.length} {isRtl ? "تقنية" : sortedTechs.length === 1 ? "technology" : "technologies"}
+        </p>
+      </div>
+    </div>
+
+    <!-- Technologies Grid (Section Body Style) -->
+    {sortedTechs.length > 0 && (
+      <div class="flex flex-col gap-12">
+        {sortedTechs.map((tech) => (
+          <section class="w-full rounded-3xl bg-white/90 dark:bg-slate-900/80 shadow-lg border border-blue-100 dark:border-slate-800 px-0 md:px-8 py-8 transition-all">
+            <DetailedTechCard
+              name={tech.name}
+              icon={tech.icon}
+              level={tech.level}
+              favorite={tech.favorite}
+              description={tech.description}
+              resources={tech.resources}
+              link={tech.link}
+              slug={tech.slug}
+            />
+          </section>
+        ))}
+      </div>
+    )}
+
+    {sortedTechs.length === 0 && (
+      <div class="text-center py-12 text-gray-500 dark:text-gray-400">
+        <Icon name={categoryConfig.icon} class="h-12 w-12 mx-auto mb-3 opacity-50" />
+        <p>{isRtl ? "قريباً..." : "Coming soon..."}</p>
+      </div>
+    )}
+  </div>
+</section>

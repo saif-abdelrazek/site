@@ -1,45 +1,42 @@
 ---
+/**
+ * Unified TechCard Component
+ * 
+ * A versatile card that displays technology information
+ * with visual indicators for level and category.
+ * 
+ * Variants:
+ * - compact: For carousels and grids (horizontal scroll friendly)
+ * - detailed: For expanded views on tech detail pages
+ */
+import { Icon } from "astro-icon/components";
 import { getLangFromUrl } from "@i18n/utils";
 import { useTranslations } from "@i18n/translations";
+import { TECH_CATEGORY_CONFIG, LEVEL_CONFIG, type Technology, type TechCategory, type TechLevel } from "@types/techTypes";
 
 interface Props {
-  name: string;
-  icon?: string;
-  level?: string;
+  tech: Technology;
+  variant?: "compact" | "detailed";
+  showCategory?: boolean;
   class?: string;
-  style?: string;
-  slug?: string;
-  category?: string;
-  description?: string;
 }
 
 const {
-  name,
-  icon,
-  level,
-  class: className,
-  style,
-  slug,
-  category,
-  description,
+  tech,
+  variant = "compact",
+  showCategory = true,
+  class: className = "",
 } = Astro.props;
-import { Icon } from "astro-icon/components";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const isRtl = lang === "ar";
 
-// Function to translate category (using short names)
-const getTranslatedCategory = (category: string) => {
-  const categoryKey = category.replace(/\s/g, '').toLowerCase().replace('editor', 'Editor').replace('framework', 'Framework');
-  const shortTranslationKey = `tech.categories.short.${categoryKey}`;
-  return t(shortTranslationKey as any) || category
-    .replace(/(^|\s)\S/g, (l: string) => l.toUpperCase())
-    .replace("Os", "OS")
-    .replace("Cms", "CMS")
-    .replace("Dns", "DNS");
-};
+// Get category configuration
+const categoryConfig = TECH_CATEGORY_CONFIG[tech.category as TechCategory];
+const levelConfig = tech.level ? LEVEL_CONFIG[tech.level as TechLevel] : null;
 
-// Function to translate level
+// Translate level
 const getTranslatedLevel = (level: string) => {
   switch (level.toLowerCase()) {
     case 'expert': return t('tech.level.expert');
@@ -51,46 +48,111 @@ const getTranslatedLevel = (level: string) => {
   }
 };
 
-const displayCategory = category ? getTranslatedCategory(category) : "";
-const translatedLevel = level ? getTranslatedLevel(level) : "";
-
-const categoryHeading = displayCategory
-  ? `${t('tech.favorite')} ${displayCategory}`
-  : t('tech.favorite');
+// Build the link URL
+const linkUrl = lang === "en" ? `/technologies#${tech.slug}` : `/${lang}/technologies#${tech.slug}`;
 ---
 
-<a href={lang === 'en' ? `/tech/#${slug}` : `/${lang}/tech/#${slug}`} class="block h-full w-full"
-transition:name={"tech-card-" + slug}
+<a
+  href={linkUrl}
+  id={tech.slug}
+  class:list={[
+    "group block h-full rounded-2xl border bg-white transition-all duration-300 ease-out",
+    "hover:shadow-lg hover:border-blue-400 dark:hover:border-sky-600",
+    "dark:bg-slate-800 dark:border-slate-700",
+    "border-gray-200",
+    variant === "compact" ? "p-5" : "p-6",
+    className,
+  ]}
+  dir={isRtl ? "rtl" : "ltr"}
 >
-  <div
-    class={[
-      "flex flex-col items-center justify-between h-full w-full rounded-3xl border-2 border-blue-500 light:bg-blue-50 p-8 shadow-md transition-all duration-250 ease-out hover:shadow-xl hover:border-blue-600 light:hover:bg-blue-50/90",
-      " dark:border-sky-800 dark:bg-gradient-to-br dark:from-slate-900/80 dark:via-slate-800/80 dark:to-slate-900/60 dark:shadow-md dark:hover:shadow-xl dark:hover:border-sky-700",
-      className,
-    ].join(" ")}
-    style={style}
-  >
-    <h4
-      class="mb-3 text-center text-2xl font-bold text-blue-700 dark:text-sky-300"
-    >
-      {categoryHeading}
-    </h4>
-    <div class="mb-5 flex items-center justify-center gap-4"  transition:name={"tech-" + slug}>
-      {
-        icon && (
-          <Icon name={icon}   class="h-12 w-12 text-blue-700 dark:text-sky-300" />
-        )
-      }
-      <span class="text-3xl font-semibold text-blue-700 dark:text-sky-200"
-        >{name}</span
+  <!-- Top Row: Category Badge + Favorite -->
+  <div class="flex items-center justify-between mb-4">
+    {showCategory && categoryConfig && (
+      <span
+        class:list={[
+          "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold",
+          categoryConfig.bgColor,
+          categoryConfig.color,
+        ]}
       >
-    </div>
-    {
-      level && (
-        <span class="mb-2 inline-block rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700 dark:bg-sky-900/60 dark:text-sky-200">
-          {translatedLevel} · {displayCategory}
-        </span>
-      )
-    }
+        <Icon name={categoryConfig.icon} class="h-3.5 w-3.5" />
+        {isRtl ? categoryConfig.labelAr : categoryConfig.label}
+      </span>
+    )}
+    {tech.favorite && (
+      <span class="inline-flex items-center gap-1 rounded-full bg-yellow-100 px-2 py-0.5 text-xs font-medium text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-300">
+        <Icon name="mdi:star" class="h-3 w-3" />
+        {isRtl ? "مفضل" : "Favorite"}
+      </span>
+    )}
   </div>
+
+  <!-- Icon + Name Row -->
+  <div class="flex items-start gap-3 mb-3">
+    {tech.icon && (
+      <div class="flex-shrink-0">
+        <Icon
+          name={tech.icon}
+          class:list={[
+            "h-10 w-10 rounded-lg",
+            tech.icon.startsWith("simple-icons:") 
+              ? "text-gray-800 dark:text-white" 
+              : "text-blue-600 dark:text-sky-400"
+          ]}
+        />
+      </div>
+    )}
+    <div class="flex-1 min-w-0">
+      <h3
+        class:list={[
+          "font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-sky-400 transition-colors",
+          variant === "compact" ? "text-lg" : "text-xl",
+        ]}
+      >
+        {tech.name}
+      </h3>
+      {/* Level badge */}
+      {tech.level && levelConfig && (
+        <span
+          class:list={[
+            "inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium mt-1",
+            levelConfig.bgColor,
+            levelConfig.color,
+          ]}
+        >
+          {getTranslatedLevel(tech.level)}
+        </span>
+      )}
+    </div>
+  </div>
+
+  <!-- Description -->
+  {tech.description && (
+    <p class:list={[
+      "text-gray-600 dark:text-gray-400 mb-4",
+      variant === "compact" ? "text-sm line-clamp-2" : "text-sm line-clamp-3",
+    ]}>
+      {tech.description}
+    </p>
+  )}
+
+  <!-- External Link (for detailed variant) -->
+  {variant === "detailed" && tech.link && (
+    <div class="mt-4">
+      <span
+        class="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 dark:text-sky-400 hover:text-blue-700 dark:hover:text-sky-300"
+      >
+        <Icon name="mdi:open-in-new" class="h-4 w-4" />
+        {isRtl ? "المزيد" : "Learn more"}
+      </span>
+    </div>
+  )}
+
+  <!-- Hover Arrow (compact variant) -->
+  {variant === "compact" && (
+    <div class="mt-auto flex items-center gap-1 text-sm font-medium text-blue-600 dark:text-sky-400 opacity-0 group-hover:opacity-100 transition-opacity pt-2">
+      <span>{isRtl ? "عرض التفاصيل" : "View details"}</span>
+      <Icon name={isRtl ? "mdi:arrow-left" : "mdi:arrow-right"} class="h-4 w-4" />
+    </div>
+  )}
 </a>
