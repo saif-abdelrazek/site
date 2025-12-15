@@ -1,10 +1,9 @@
 ---
 import MainLayout from "@layouts/MainLayout.astro";
 import { createLocalizedConstants } from "@lib/constants";
-import { getLangFromUrl } from "@i18n/utils";
 import { useTranslations } from "@i18n/translations";
 
-const lang = getLangFromUrl(Astro.url);
+const lang = "en";
 const constants = createLocalizedConstants(lang);
 const t = useTranslations(lang);
 
@@ -41,14 +40,14 @@ const pageDescription = "The page you're looking for doesn't exist. It may have 
 
     <!-- Button -->
     <a
-      href={lang === "en" ? "/" : `/${lang}/`}
+      href="/"
       class="group relative inline-block rounded-lg bg-sky-600 px-6 py-3 font-semibold text-white shadow transition hover:bg-sky-700"
       data-astro-history="replace"
     >
       <span class="relative z-10">{t('error.404.button')}</span>
       <span
         class="absolute -top-2 -right-2 opacity-0 transition group-hover:opacity-100"
-        >👽</span
+        >✨</span
       >
     </a>
   </main>
