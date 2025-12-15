@@ -83,37 +83,69 @@ const projectsCollection = defineCollection({
     }),
 });
 
-const educationCollection = defineCollection({
+// Education Section enum for type safety
+const educationSectionEnum = z.enum(["formal", "self-learning"]);
+
+// Institution Collection - Schools, platforms, learning resources
+const institutionsCollection = defineCollection({
   loader: glob({
     pattern: "**/*.{md,mdx}",
-    base: "./src/content/education",
+    base: "./src/content/institutions",
     generateId: ({ entry, data }) => {
-      // Extract language prefix from entry path
       const pathParts = entry.split("/");
       const langPrefix = pathParts.length > 1 ? pathParts[0] + "/" : "";
-      
-      // Generate a slug from the entry path, removing the file extension
       if (data?.slug && typeof data.slug === "string") {
         return langPrefix + data.slug;
       }
       const slug = entry.replace(/\.mdx?$/, "");
-      return slug.startsWith("/") ? slug.slice(1) : slug; // Ensure the slug starts without a leading slash
+      return slug.startsWith("/") ? slug.slice(1) : slug;
+    },
+  }),
+  schema: ({ image }) =>
+    z.object({
+      name: z.string(),
+      shortName: z.string().optional(),
+      slug: z.string(),
+      period: z.string(),
+      role: z.string().default("Student"),
+      description: z.string(),
+      logo: image().optional(),
+      url: z.string().optional(),
+      location: z.string().optional(),
+      section: educationSectionEnum,
+      order: z.number().default(0),
+      current: z.boolean().default(false),
+      lang: z.enum(["en", "ar"]).optional(),
+    }),
+});
+
+// Moments Collection - Key learning events, achievements, milestones
+const momentsCollection = defineCollection({
+  loader: glob({
+    pattern: "**/*.{md,mdx}",
+    base: "./src/content/moments",
+    generateId: ({ entry, data }) => {
+      const pathParts = entry.split("/");
+      const langPrefix = pathParts.length > 1 ? pathParts[0] + "/" : "";
+      if (data?.slug && typeof data.slug === "string") {
+        return langPrefix + data.slug;
+      }
+      const slug = entry.replace(/\.mdx?$/, "");
+      return slug.startsWith("/") ? slug.slice(1) : slug;
     },
   }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
-      description: z.string().optional(),
-      institution: z.string().optional(),
-      location: z.string().optional(),
+      slug: z.string(),
+      date: z.date(),
+      excerpt: z.string(),
+      institutionSlug: z.string(),
+      section: educationSectionEnum,
       image: image().optional(),
-      startDate: z.date().optional(),
-      current: z.boolean().optional().default(false),
-      endDate: z.date().optional(),
-      type: z.enum(["Formal Education", "Self Learning", "Others", "التعليم النظامي", "التعلم الذاتي", "أخرى"]),
-      link: z.string().optional(),
       tags: z.array(z.string()).optional(),
-      degree: z.string().optional(),
+      featured: z.boolean().default(false),
+      order: z.number().default(0),
       lang: z.enum(["en", "ar"]).optional(),
     }),
 });
@@ -148,6 +180,7 @@ const educationCollection = defineCollection({
 export const collections = {
   posts: postsCollection,
   projects: projectsCollection,
-  education: educationCollection,
+  institutions: institutionsCollection,
+  moments: momentsCollection,
   // experience: experienceCollection,
 };
