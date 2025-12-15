@@ -1,9 +1,8 @@
 ---
-import { Icon } from "astro-icon/components";
+import TechCard from "@components/tech/TechCard.astro";
 import { useTranslations } from "@i18n/translations";
 import { getLangFromUrl } from "@i18n/utils";
 import { createLocalizedConstants } from "@lib/constants";
-import { TECH_CATEGORY_CONFIG, LEVEL_CONFIG, type TechCategory, type TechLevel, type Technology } from "@types/techTypes";
 
 const {
   lang = getLangFromUrl(Astro.url),
@@ -11,131 +10,59 @@ const {
 
 const t = useTranslations(lang);
 const constants = createLocalizedConstants(lang);
-const isRtl = lang === "ar";
 
 const { items: technologies, title, description } = constants.PORTFOLIO_CONTENT.technologies;
 
-// Get up to 9 favorite techs
-const favoriteTechs = technologies
-  ?.filter((tech: Technology) => tech.favorite)
-  .slice(0, 9) ?? [];
+// Extract unique categories from technologies
+const categories = [
+  ...new Set(
+    technologies
+      ?.map((tech: any) => tech.category)
+      .filter(Boolean)
+  ),
+];
 
-// Translate level
-const getTranslatedLevel = (level: string) => {
-  switch (level.toLowerCase()) {
-    case 'expert': return t('tech.level.expert');
-    case 'advanced': return t('tech.level.advanced');
-    case 'intermediate': return t('tech.level.intermediate');
-    case 'beginner': return t('tech.level.beginner');
-    case 'novice': return t('tech.level.novice');
-    default: return level;
-  }
-};
+// Helper to get favourite tech per category
+function getFavouriteTech(cat: string) {
+  return technologies?.find((tech: any) => tech.category === cat && tech.favorite);
+}
+
+// Get up to 9 favourite techs (one per category, max 9)
+const favouriteTechs = categories
+  .map((cat: any) => getFavouriteTech(cat))
+  .filter(Boolean)
+  .slice(0, 9);
 ---
 
 <section
   id="technologies"
-  class="section-container section-spacing flex w-full flex-col items-center bg-gradient-to-br from-teal-500 via-sky-500 to-blue-700 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900"
-  dir={isRtl ? "rtl" : "ltr"}
+  class="section-container section-spacing flex w-full flex-col items-center"
 >
   <h2
     class="mb-6 text-center text-4xl font-extrabold text-sky-700 dark:text-sky-300"
   >
     {title}
   </h2>
-  <p class="mb-10 text-center text-lg text-gray-700 dark:text-gray-300 max-w-3xl">
-    {description}
+  <p class="mb-10 text-center text-lg text-gray-700 dark:text-gray-300">
+    {description}<br />
   </p>
-  
-  {favoriteTechs.length === 0 ? (
-    <p class="text-lg text-gray-700 dark:text-gray-300">
-      {t('tech.noFavorites')}
-    </p>
-  ) : (
-    <div class="grid w-full max-w-6xl grid-cols-1 items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {favoriteTechs.map((tech: Technology) => {
-        const categoryConfig = TECH_CATEGORY_CONFIG[tech.category as TechCategory];
-        const levelConfig = tech.level ? LEVEL_CONFIG[tech.level as TechLevel] : null;
-        const linkUrl = lang === "en" ? `/technologies#${tech.slug}` : `/${lang}/technologies#${tech.slug}`;
-        
-        return (
-          <a
-            href={linkUrl}
-            class="group flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-6 shadow-md transition-all duration-250 ease-out hover:shadow-lg hover:border-blue-400 dark:border-slate-700 dark:bg-slate-800 dark:hover:border-sky-600"
-          >
-            {/* Top Row: Category + Favorite Badge */}
-            <div class="flex items-center justify-between mb-4">
-              {categoryConfig && (
-                <span
-                  class:list={[
-                    "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold",
-                    categoryConfig.bgColor,
-                    categoryConfig.color,
-                  ]}
-                >
-                  <Icon name={categoryConfig.icon} class="h-3.5 w-3.5" />
-                  {isRtl ? categoryConfig.labelAr : categoryConfig.label}
-                </span>
-              )}
-              <span class="inline-flex items-center gap-1 rounded-full bg-yellow-100 px-2 py-0.5 text-xs font-medium text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-300">
-                <Icon name="mdi:star" class="h-3 w-3" />
-                {isRtl ? "مفضل" : "Favorite"}
-              </span>
-            </div>
-
-            {/* Icon + Name */}
-            <div class="flex items-center gap-3 mb-3">
-              {tech.icon && (
-                <Icon
-                  name={tech.icon}
-                  class:list={[
-                    "h-10 w-10 flex-shrink-0",
-                    tech.icon.startsWith("simple-icons:") 
-                      ? "text-gray-800 dark:text-white" 
-                      : "text-blue-600 dark:text-sky-400"
-                  ]}
-                />
-              )}
-              <div>
-                <h3 class="text-lg font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-sky-400 transition-colors">
-                  {tech.name}
-                </h3>
-                {tech.level && levelConfig && (
-                  <span
-                    class:list={[
-                      "inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium",
-                      levelConfig.bgColor,
-                      levelConfig.color,
-                    ]}
-                  >
-                    {getTranslatedLevel(tech.level)}
-                  </span>
-                )}
-              </div>
-            </div>
-
-            {/* Description */}
-            {tech.description && (
-              <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 mb-4">
-                {tech.description}
-              </p>
-            )}
-
-            {/* Hover Arrow */}
-            <div class="mt-auto flex items-center gap-1 text-sm font-medium text-blue-600 dark:text-sky-400 opacity-0 group-hover:opacity-100 transition-opacity pt-2">
-              <span>{isRtl ? "عرض التفاصيل" : "View details"}</span>
-              <Icon name={isRtl ? "mdi:arrow-left" : "mdi:arrow-right"} class="h-4 w-4" />
-            </div>
-          </a>
-        );
-      })}
-    </div>
-  )}
-  
+  {
+    favouriteTechs.length === 0 ? (
+      <p class="text-lg text-gray-700 dark:text-gray-300">
+        {t('tech.noFavorites')}
+      </p>
+    ) : (
+      <div class="grid w-full grid-cols-1 items-stretch gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {favouriteTechs.map((tech) =>
+          tech ? <TechCard tech={tech} /> : null
+        )}
+      </div>
+    )
+  }
   <div class="mt-10 flex justify-center">
     <a
-      href={lang === 'en' ? "/technologies" : `/${lang}/technologies`}
-      class="inline-block rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 px-7 py-3 text-lg font-semibold text-white shadow-lg ring-2 ring-blue-400/20 transition hover:scale-105 hover:from-blue-700 hover:to-sky-600 hover:shadow-xl dark:from-sky-700 dark:to-blue-800 dark:hover:from-sky-800 dark:hover:to-blue-900 dark:focus:ring-sky-500/40  "
+      href={lang === 'en' ? "/tech" : `/${lang}/tech`}
+      class="inline-block rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 px-7 py-3 text-lg font-semibold text-white shadow-lg ring-2 ring-blue-400/20 transition hover:scale-105 hover:from-blue-700 hover:to-sky-600 hover:shadow-xl dark:from-sky-700 dark:to-blue-800 dark:hover:from-sky-800 dark:hover:to-blue-900"
     >
       {t('tech.moreTechnologies')}
     </a>
