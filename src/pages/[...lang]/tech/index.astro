@@ -1,6 +1,6 @@
 ---
 import MainLayout from "@layouts/MainLayout.astro";
-import DetailedTechCard from "@components/portfolio/DetailedTechCard.astro";
+import DetailedTechCard from "@components/tech/DetailedTechCard.astro";
 import { fade } from "astro:transitions";
 import { getLangFromUrl, getI18nStaticPaths } from "@i18n/utils";
 import { useTranslations } from "@i18n/translations";
@@ -44,17 +44,17 @@ const getTranslatedCategory = (category: string) => {
 const categories = [
   ...new Set(
     technologies
-      ?.map((tech) => tech.category)
+      ?.map((tech: { category: string }) => tech.category)
       .filter(Boolean)
   ),
 ];
 
 // Group technologies by category and sort: favourite first, then by level, then by name
 function getTechByCategory(cat: string) {
-  const techs = technologies.filter((t) => t.category === cat);
+  const techs = technologies.filter((t: { category: string; favorite?: boolean; level?: string; name: string; }) => t.category === cat);
   // Favourites first
-  const favs = techs.filter((t) => t.favorite);
-  const nonFavs = techs.filter((t) => !t.favorite);
+  const favs = techs.filter((t: { favorite?: boolean }) => t.favorite);
+  const nonFavs = techs.filter((t: { favorite?: boolean }) => !t.favorite);
   // Sort non-favourites by level then name
   nonFavs.sort((a, b) => {
     const aLevel = levelOrder.indexOf(a.level ?? "");

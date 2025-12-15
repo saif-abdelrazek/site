@@ -18,7 +18,7 @@
       "@lib/constants.ts*": ["src/lib/constants/*"],
       "@content/*": ["src/content/*"],
       "@sections/*": ["src/sections/*"],
-      "@utils/*": ["src/utils/*"],
+      "@utils/*": ["src/lib/utils/*"],
       "@i18n/*": ["src/i18n/*"],
       "@layouts/*": ["src/layouts/*"],
       "@/*": ["src/*"]

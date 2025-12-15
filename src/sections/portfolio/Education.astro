@@ -6,7 +6,7 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 import { getCollection } from "astro:content";
-import EducationCards from "@components/portfolio/EducationCards.astro";
+import EducationCards from "@components/education/EducationCards.astro";
 
 const allEducation = await getCollection("education");
 // Filter for language-specific content
