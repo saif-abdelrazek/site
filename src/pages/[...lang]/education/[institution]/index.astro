@@ -1,0 +1,208 @@
+---
+/**
+ * Institution Detail Page
+ * 
+ * Shows all moments from a specific institution
+ * Route: /education/[institution]
+ */
+import { getCollection, render } from "astro:content";
+import MainLayout from "@layouts/MainLayout.astro";
+import EducationCard from "@components/education/EducationCard.astro";
+import { Icon } from "astro-icon/components";
+import { getLangFromUrl } from "@i18n/utils";
+import { useTranslations } from "@i18n/translations";
+import { SECTION_CONFIG } from "@types/educationTypes";
+import type { EducationSection } from "@types/educationTypes";
+
+export async function getStaticPaths() {
+  const institutions = await getCollection("institutions");
+  const moments = await getCollection("moments");
+  
+  return institutions.map((institution) => {
+    const lang = institution.id.split("/")[0];
+    const slug = institution.data.slug;
+    
+    // Get all moments for this institution
+    const institutionMoments = moments.filter(
+      (m) => m.id.startsWith(`${lang}/`) && m.data.institutionSlug === slug
+    );
+    
+    return {
+      params: {
+        lang: lang === "en" ? undefined : lang,
+        institution: slug,
+      },
+      props: {
+        institution,
+        moments: institutionMoments,
+      },
+    };
+  });
+}
+
+const { institution, moments } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const isRtl = lang === "ar";
+
+// Render institution content
+const { Content } = await render(institution);
+
+// Get section config
+const sectionConfig = SECTION_CONFIG[institution.data.section as EducationSection];
+
+// Sort moments by order
+const sortedMoments = [...moments].sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+
+const pageTitle = `${institution.data.name} | ${t('nav.education')}`;
+const pageDescription = institution.data.description;
+---
+
+<MainLayout title={pageTitle} description={pageDescription}>
+  <!-- Breadcrumb & Header -->
+  <div class="py-8 bg-blue-50 light:bg-blue-50 dark:bg-slate-800">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" dir={isRtl ? "rtl" : "ltr"}>
+      <!-- Breadcrumb -->
+      <nav class="mb-6" aria-label="Breadcrumb">
+        <ol class="flex items-center gap-2 text-sm">
+          <li>
+            <a href={lang === "en" ? "/" : `/${lang}`} class="text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-sky-400">
+              {t('nav.home')}
+            </a>
+          </li>
+          <li class="text-gray-400 dark:text-gray-600">/</li>
+          <li>
+            <a href={lang === "en" ? "/education" : `/${lang}/education`} class="text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-sky-400">
+              {t('nav.education')}
+            </a>
+          </li>
+          <li class="text-gray-400 dark:text-gray-600">/</li>
+          <li class="font-medium text-blue-700 dark:text-sky-300">
+            {institution.data.shortName || institution.data.name}
+          </li>
+        </ol>
+      </nav>
+
+      <!-- Header -->
+      <div class="flex flex-col md:flex-row md:items-start gap-6">
+        {institution.data.logo && (
+          <img
+            src={institution.data.logo.src}
+            alt={institution.data.name}
+            class="h-24 w-24 rounded-2xl border-2 border-blue-200 shadow-lg object-cover dark:border-sky-900"
+          />
+        )}
+        <div class="flex-1">
+          <div class="flex items-center gap-3 mb-2">
+            <span
+              class:list={[
+                "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold",
+                sectionConfig.bgColor,
+                sectionConfig.color,
+              ]}
+            >
+              <Icon name={sectionConfig.icon} class="h-3.5 w-3.5" />
+              {isRtl ? sectionConfig.labelAr : sectionConfig.label}
+            </span>
+            {institution.data.current && (
+              <span class="inline-flex items-center gap-1 rounded-full bg-green-100 px-2.5 py-1 text-xs font-medium text-green-700 dark:bg-green-900/40 dark:text-green-300">
+                <span class="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                {t('education.currentlyEnrolled')}
+              </span>
+            )}
+          </div>
+          <h1 class="text-3xl md:text-4xl font-bold text-blue-700 dark:text-sky-300 mb-2">
+            {institution.data.name}
+          </h1>
+          <div class="flex flex-wrap items-center gap-4 text-gray-600 dark:text-gray-400">
+            <span class="flex items-center gap-1.5">
+              <Icon name="mdi:account-outline" class="h-4 w-4" />
+              {institution.data.role}
+            </span>
+            <span class="flex items-center gap-1.5">
+              <Icon name="mdi:map-marker-outline" class="h-4 w-4" />
+              {institution.data.location}
+            </span>
+            <span class="flex items-center gap-1.5">
+              <Icon name="mdi:calendar-outline" class="h-4 w-4" />
+              {institution.data.period}
+            </span>
+            {institution.data.url && (
+              <a
+                href={institution.data.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center gap-1.5 text-blue-600 hover:text-blue-700 dark:text-sky-400 dark:hover:text-sky-300"
+              >
+                <Icon name="mdi:open-in-new" class="h-4 w-4" />
+                {isRtl ? "الموقع الرسمي" : "Official Site"}
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="bg-white dark:bg-slate-900">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12" dir={isRtl ? "rtl" : "ltr"}>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <!-- Main Content -->
+      <div class="lg:col-span-2">
+        <article class="prose prose-lg dark:prose-invert max-w-none prose-headings:text-gray-900 dark:prose-headings:text-white prose-a:text-blue-600 dark:prose-a:text-sky-400">
+          <Content />
+        </article>
+      </div>
+
+      <!-- Sidebar: Moments -->
+      <div class="lg:col-span-1">
+        <div class="sticky top-24">
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+            <Icon name="mdi:star-outline" class="h-5 w-5" />
+            {isRtl ? "اللحظات والإنجازات" : "Moments & Milestones"}
+          </h2>
+          
+          {sortedMoments.length > 0 ? (
+            <div class="space-y-4">
+              {sortedMoments.map((moment) => (
+                <a
+                  href={`${lang === "en" ? "" : `/${lang}`}/education/${institution.data.slug}/${moment.data.slug}`}
+                  class="block p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-800 hover:border-blue-500 dark:hover:border-sky-500 transition-colors"
+                >
+                  <h3 class="font-medium text-gray-900 dark:text-white mb-1">
+                    {moment.data.title}
+                  </h3>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                    {moment.data.excerpt}
+                  </p>
+                  <div class="mt-2 text-xs text-gray-500 dark:text-gray-500">
+                    {new Date(moment.data.date).toLocaleDateString(lang, { year: 'numeric', month: 'long' })}
+                  </div>
+                </a>
+              ))}
+            </div>
+          ) : (
+            <p class="text-gray-500 dark:text-gray-400 text-sm">
+              {isRtl ? "لا توجد لحظات مسجلة بعد." : "No moments recorded yet."}
+            </p>
+          )}
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back Navigation -->
+  <div class="bg-white dark:bg-slate-900">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-12" dir={isRtl ? "rtl" : "ltr"}>
+    <a
+      href={lang === "en" ? "/education" : `/${lang}/education`}
+      class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 dark:text-sky-400 dark:hover:text-sky-300 font-medium"
+    >
+      <Icon name={isRtl ? "mdi:arrow-right" : "mdi:arrow-left"} class="h-5 w-5" />
+      {isRtl ? "العودة للتعليم" : "Back to Education"}
+    </a>
+    </div>
+  </div>
+</MainLayout>
