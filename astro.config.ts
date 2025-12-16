@@ -105,8 +105,6 @@ export default defineConfig({
         PWA_CONFIG.icons.faviconIco.replace('/', ''),
         PWA_CONFIG.icons.appleTouchIcon.replace('/', ''),
       ],
-      srcDir: "src",
-      filename: "sw.js",
       registerType: "autoUpdate",
       manifest: {
         name: SITE_CONFIG.title,
@@ -122,9 +120,9 @@ export default defineConfig({
         icons: PWA_CONFIG.manifestIcons as any,
       },
       workbox: {
-        navigateFallback: "/404",
-        globPatterns: ["**/*.{css,js,html,svg,png,ico,txt}"],
-        maximumFileSizeToCacheInBytes: 10000000,
+        navigateFallback: null,
+        globDirectory: 'dist',
+				globPatterns: ["**/*.{css,js,html,svg,png,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico,txt}",],
       },
       devOptions: {
         enabled: true,
