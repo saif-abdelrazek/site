@@ -123,6 +123,15 @@ export default defineConfig({
         navigateFallback: null,
         globDirectory: 'dist',
 				globPatterns: ["**/*.{css,js,html,svg,png,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico,txt}",],
+        runtimeCaching: [
+          {
+            urlPattern: /^https?.*/,
+            handler: "NetworkFirst",
+            options: {
+              cacheName: "http-cache",
+            },
+          },
+        ],
       },
       devOptions: {
         enabled: true,
