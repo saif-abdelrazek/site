@@ -1,6 +1,6 @@
 ---
 interface Props {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'portfolio';
   size?: 'sm' | 'md' | 'lg';
   href?: string;
   disabled?: boolean;
@@ -31,7 +31,8 @@ const variantClasses = {
   secondary: 'btn-secondary',
   outline: 'btn-outline',
   ghost: 'btn-ghost',
-  danger: 'bg-red-500 text-white hover:bg-red-600 shadow-sm hover:shadow-md'
+  danger: 'bg-red-500 text-white hover:bg-red-600 shadow-sm hover:shadow-md',
+  portfolio: 'inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 px-7 py-3 text-lg font-semibold text-white shadow-lg ring-2 ring-blue-400/20 transition-all duration-300 hover:ring-blue-500 hover:shadow-lg dark:from-sky-700 dark:to-blue-800 dark:hover:ring-sky-400'
 };
 
 const sizeClasses = {

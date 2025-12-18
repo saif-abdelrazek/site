@@ -7,6 +7,7 @@ const t = useTranslations(lang);
 
 import { getCollection } from "astro:content";
 import ProjectCard from "@components/portfolio/ProjectCard.astro";
+import Button from "@components/ui/Button.astro";
 
 const allProjects = await getCollection("projects", ({ data }) => {
   return data.shownInHome === true;
@@ -47,12 +48,12 @@ const hasProjects = projects && projects.length > 0;
       )}
     </div>
     <div class="mt-12 flex justify-center">
-      <a
+      <Button
+        variant="portfolio"
         href={lang === 'en' ? "/repos" : `/${lang}/repos`}
-        class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 px-7 py-3 text-lg font-semibold text-white shadow-lg ring-2 ring-blue-400/20 transition-all duration-300 hover:ring-blue-500 hover:shadow-lg dark:from-sky-700 dark:to-blue-800 dark:hover:ring-sky-400"
       >
         {t('projects.moreProjects')}
-      </a>
+      </Button>
     </div>
   </div>
 </section>

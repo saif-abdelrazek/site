@@ -3,6 +3,7 @@ import TechCard from "@components/tech/TechCard.astro";
 import { useTranslations } from "@i18n/translations";
 import { getLangFromUrl } from "@i18n/utils";
 import { createLocalizedConstants } from "@lib/constants";
+import Button from "@components/ui/Button.astro";
 
 const {
   lang = getLangFromUrl(Astro.url),
@@ -61,12 +62,12 @@ const favouriteTechs = categories
       )
     }
     <div class="mt-10 flex justify-center">
-      <a
+      <Button
+        variant="portfolio"
         href={lang === 'en' ? "/technologies" : `/${lang}/technologies`}
-        class="inline-block rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 px-7 py-3 text-lg font-semibold text-white shadow-lg ring-2 ring-blue-400/20 transition-all duration-300 hover:ring-blue-500 hover:shadow-lg dark:from-sky-700 dark:to-blue-800 dark:hover:ring-sky-400"
       >
         {t('tech.moreTechnologies')}
-      </a>
+      </Button>
     </div>
   </div>
 </section>

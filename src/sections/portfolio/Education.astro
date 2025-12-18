@@ -7,6 +7,7 @@ import { SECTION_CONFIG } from "@types/educationTypes";
 import type { EducationSection } from "@types/educationTypes";
 import { formatDate } from "@lib/utils/formateDate";
 import EducationCard from "@components/portfolio/EducationCard.astro";
+import Button from "@components/ui/Button.astro";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -57,12 +58,12 @@ const hasInstitutions = displayInstitutions.length > 0;
     )}
 
     <div class="mt-10 flex justify-center">
-      <a
+      <Button
+        variant="portfolio"
         href={lang === "en" ? "/education" : `/${lang}/education`}
-        class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 px-7 py-3 text-lg font-semibold text-white shadow-lg ring-2 ring-blue-400/20 transition-all duration-300 hover:ring-blue-500 hover:shadow-lg dark:from-sky-700 dark:to-blue-800 dark:hover:ring-sky-400"
       >
         {t('education.moreEducation')}
-      </a>
+      </Button>
     </div>
   </div>
 </section>
