@@ -18,8 +18,8 @@ technologies:
     icon: logos:tailwindcss-icon
     category: frontend
     slug: tailwindcss
-link: /?utm_source=portfolio&utm_medium=website&utm_campaign=projects
-repo: https://github.com/saif-abdelrazek/site?utm_source=portfolio&utm_medium=website&utm_campaign=project_github
+link: /
+repo: https://github.com/saif-abdelrazek/site
 slug: site
 shownInHome: false
 ---
