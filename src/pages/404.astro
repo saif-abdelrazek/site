@@ -2,6 +2,7 @@
 import MainLayout from "@layouts/MainLayout.astro";
 import { createLocalizedConstants } from "@lib/constants";
 import { useTranslations } from "@i18n/translations";
+import Button from "@components/ui/Button.astro";
 
 const lang = "en";
 const constants = createLocalizedConstants(lang);
@@ -39,9 +40,10 @@ const pageDescription = "The page you're looking for doesn't exist. It may have 
     </p>
 
     <!-- Button -->
-    <a
+    <Button
+      variant="go-home"
       href="/"
-      class="group relative inline-block rounded-lg bg-sky-600 px-6 py-3 font-semibold text-white shadow transition hover:bg-sky-700"
+      class="group relative"
       data-astro-history="replace"
     >
       <span class="relative z-10">{t('error.404.button')}</span>
@@ -49,6 +51,6 @@ const pageDescription = "The page you're looking for doesn't exist. It may have 
         class="absolute -top-2 -right-2 opacity-0 transition group-hover:opacity-100"
         >✨</span
       >
-    </a>
+    </Button>
   </main>
 </MainLayout>

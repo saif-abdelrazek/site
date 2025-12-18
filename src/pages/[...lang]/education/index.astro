@@ -14,6 +14,7 @@ import EducationSection from "@components/education/EducationSection.astro";
 import { Icon } from "astro-icon/components";
 import { getLangFromUrl, getI18nStaticPaths } from "@i18n/utils";
 import { useTranslations } from "@i18n/translations";
+import Button from "@components/ui/Button.astro";
 import { SECTION_CONFIG } from "@types/educationTypes";
 
 export const getStaticPaths = getI18nStaticPaths;
@@ -89,17 +90,13 @@ const pageDescription = t('page.education.description');
         <!-- Quick nav to sections -->
         <div class="flex flex-wrap gap-2">
           {Object.entries(SECTION_CONFIG).map(([key, config]) => (
-            <a
+            <Button
+              variant="filter"
               href={`#${key}`}
-              class:list={[
-                "inline-flex items-center gap-1.5 px-4 py-2 rounded-full",
-                "bg-white/10 hover:bg-white/20 text-white text-sm font-medium",
-                "transition-colors duration-200",
-              ]}
             >
               <Icon name={config.icon} class="h-4 w-4" />
               {isRtl ? config.labelAr : config.label}
-            </a>
+            </Button>
           ))}
         </div>
       </div>

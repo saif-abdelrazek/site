@@ -1,6 +1,6 @@
 ---
 interface Props {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'portfolio' | 'secondary-portfolio' | 'submit' | 'load-more' | 'back';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'portfolio' | 'secondary-portfolio' | 'submit' | 'load-more' | 'back' | 'cta-primary' | 'cta-secondary' | 'go-home' | 'filter';
   size?: 'sm' | 'md' | 'lg';
   href?: string;
   disabled?: boolean;
@@ -36,7 +36,11 @@ const variantClasses = {
   'secondary-portfolio': 'inline-flex items-center gap-2 rounded-xl border-2 border-blue-600 px-7 py-3 text-lg font-semibold text-blue-700 transition-all duration-300 hover:border-blue-700 hover:bg-blue-50 dark:border-sky-700 dark:text-sky-300 dark:hover:border-sky-600 dark:hover:bg-slate-800',
   submit: 'flex-1 rounded-lg bg-blue-700 px-6 py-3 text-white font-semibold shadow-lg ring-2 ring-transparent hover:ring-blue-300 transition-all duration-300 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-sky-700 dark:hover:bg-sky-600 dark:focus:ring-sky-800',
   'load-more': 'px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors duration-200 shadow-md hover:shadow-lg',
-  back: 'inline-flex items-center gap-2 rounded bg-blue-100 px-3 py-2 font-semibold text-blue-700 transition-colors hover:bg-blue-200 dark:bg-sky-900/60 dark:text-sky-200 dark:hover:bg-sky-800'
+  back: 'inline-flex items-center gap-2 rounded bg-blue-100 px-3 py-2 font-semibold text-blue-700 transition-colors hover:bg-blue-200 dark:bg-sky-900/60 dark:text-sky-200 dark:hover:bg-sky-800',
+  'cta-primary': 'inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-lg font-semibold text-white transition hover:bg-blue-700 dark:bg-sky-600 dark:hover:bg-sky-700',
+  'cta-secondary': 'inline-flex items-center gap-2 rounded-lg border-2 border-blue-600 px-6 py-3 text-lg font-semibold text-blue-600 transition hover:bg-blue-50 dark:border-sky-600 dark:text-sky-600 dark:hover:bg-sky-900/20',
+  'go-home': 'inline-block rounded bg-sky-700 px-6 py-2 text-base font-semibold text-white shadow transition hover:bg-sky-600',
+  filter: 'inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-colors duration-200'
 };
 
 const sizeClasses = {

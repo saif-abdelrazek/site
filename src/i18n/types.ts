@@ -426,6 +426,12 @@ export interface I18nStrings {
   'search.close': string;
 
   // A8K Brand Page
+  'page.a8k.header.title': string;
+  'page.a8k.header.subtitle': string;
+  'page.a8k.header.description': string;
+  'page.a8k.navigation.whatIs': string;
+  'page.a8k.navigation.howUsed': string;
+  'page.a8k.navigation.why': string;
   'a8k.hero.title': string;
   'a8k.subtitle': string;
   'a8k.heroDescription': string;

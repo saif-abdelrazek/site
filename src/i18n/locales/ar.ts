@@ -421,6 +421,12 @@ const ar: I18nStrings = {
     'search.close': 'اضغط Esc للإغلاق',
     
     // A8K Brand Page
+    'page.a8k.header.title': 'A8K - بصمة المطور',
+    'page.a8k.header.subtitle': 'بصمة المطور',
+    'page.a8k.header.description': 'بصمة A8K هي توقيع مطور رقمي مستوحى من اسم عبدالرازق، يتبع نمط الاختصارات الرقمية مثل i18n و l10n.',
+    'page.a8k.navigation.whatIs': 'ما هي A8K؟',
+    'page.a8k.navigation.howUsed': 'كيفية الاستخدام',
+    'page.a8k.navigation.why': 'لماذا A8K؟',
     'a8k.hero.title': 'A8K: بصمتي التطويرية',
     'a8k.subtitle': 'بصمة المطور والهوية المهنية',
     'a8k.heroDescription': 'A8K هي بصمة مطور على طراز numeronym مشتقة من "عبدالرازق" (A + 8 أحرف + K). تعمل كمعرف مهني عبر المنصات والمشاريع والمساحات الرقمية.',

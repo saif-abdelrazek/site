@@ -4,6 +4,8 @@ import Card from "@components/ui/Card.astro";
 import { getLangFromUrl, getI18nStaticPaths } from "@i18n/utils";
 import { useTranslations } from "@i18n/translations";
 import { createLocalizedConstants } from "@lib/constants";
+import Button from "@components/ui/Button.astro";
+import { Icon } from "astro-icon/components";
 
 export const getStaticPaths = getI18nStaticPaths;
 
@@ -67,218 +69,304 @@ const langPrefix = lang === 'en' ? '' : `/${lang}`;
     }
   </script>
 
-  <div
-    id="top"
-    class="min-h-screen w-full bg-blue-50 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
-  >
-    <!-- Hero Section -->
-    <section
-      class="mx-auto flex w-full max-w-6xl flex-col items-center rounded-2xl bg-blue-50 px-4 py-16 shadow-lg dark:bg-transparent"
-    >
-      <div class="mb-8 text-center">
-        <h1 class="mb-4 text-6xl font-extrabold tracking-tight text-blue-700 drop-shadow-lg dark:text-sky-200">
-          {t('a8k.hero.title')}
+  <!-- Hero Section -->
+  <div class="relative bg-gradient-to-br from-blue-600 via-indigo-700 to-blue-800 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+    <!-- Decorative elements -->
+    <div class="absolute inset-0 overflow-hidden">
+      <div class="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-indigo-500/20 blur-3xl"></div>
+      <div class="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-blue-500/20 blur-3xl"></div>
+    </div>
+
+    <div class="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+      <div class="max-w-3xl">
+        <div class="flex items-center gap-2 mb-4">
+          <Icon name="mdi:signature-text" class="h-8 w-8 text-blue-200" />
+          <span class="text-blue-200 font-medium">
+            {t('page.a8k.header.subtitle')}
+          </span>
+        </div>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+          {t('page.a8k.header.title')}
         </h1>
-        <p class="text-2xl font-semibold text-blue-600 dark:text-sky-300">
-          {t('a8k.subtitle')}
+        <p class="text-xl text-blue-100 leading-relaxed mb-8">
+          {t('page.a8k.header.description')}
         </p>
-      </div>
-      <p class="mb-10 max-w-3xl text-center text-lg text-gray-700 dark:text-gray-300">
-        {t('a8k.heroDescription')}
-      </p>
-    </section>
 
-    <div class="mx-auto max-w-5xl px-4 py-12">
-      <!-- What is A8K Section -->
-      <section class="mb-12">
-        <Card variant="elevated">
-          <div class="p-8">
-            <h2 class="mb-6 text-3xl font-bold text-blue-700 dark:text-sky-300">
-              {t('a8k.whatIs.title')}
-            </h2>
-            <div class="space-y-4 text-lg text-gray-700 dark:text-gray-300">
-              <p>{t('a8k.whatIs.intro')}</p>
-              
-              <div dir="ltr" class="my-6 rounded-lg bg-blue-100 p-6 dark:bg-slate-900/60">
-                <div class="flex flex-wrap items-center justify-center gap-3 text-2xl font-bold text-blue-700 dark:text-sky-200">
-                  <span >
-                    <span class="breakdown-letter text-4xl text-blue-600 dark:text-sky-300">A</span>bdelraze<span class="breakdown-letter text-4xl text-blue-600 dark:text-sky-300">k</span>
-                  </span>
-                  <span class="text-2xl">→</span>
-                  <span class="inline-flex items-center gap-1">
-                    <span class="breakdown-letter text-4xl text-blue-600 dark:text-sky-300">A</span>
-                    <span class="text-xl">{t('a8k.whatIs.plus')}</span>
-                    <span class="text-3xl text-blue-600 dark:text-sky-300">8</span>
-                    <span class="text-base whitespace-nowrap">{t('a8k.whatIs.letters')}</span>
-                    <span class="text-xl">{t('a8k.whatIs.plus')}</span>
-                    <span class="breakdown-letter text-4xl text-blue-600 dark:text-sky-300">K</span>
-                  </span>
-                  <span class="text-2xl">→</span>
-                  <span class="breakdown-final text-5xl font-extrabold text-blue-600 dark:text-sky-300">A8K</span>
-                </div>
-              </div>
-
-              <p>{t('a8k.whatIs.explanation')}</p>
-            </div>
-          </div>
-        </Card>
-      </section>
-
-      <!-- How It's Used Section -->
-      <section class="mb-12">
-        <Card variant="elevated">
-          <div class="p-8">
-            <h2 class="mb-6 text-3xl font-bold text-blue-700 dark:text-sky-300">
-              {t('a8k.howUsed.title')}
-            </h2>
-            <div class="space-y-6">
-              <div class="flex items-start gap-4">
-                <div>
-                  <h3 class="mb-2 text-xl font-semibold text-blue-700 dark:text-sky-300">
-                    {t('a8k.howUsed.signature.title')}
-                  </h3>
-                  <p class="text-gray-700 dark:text-gray-300">
-                    {t('a8k.howUsed.signature.description')}
-                  </p>
-                  <p class="mt-2 rounded-lg bg-blue-100 p-3 font-mono text-blue-700 dark:bg-slate-900/60 dark:text-sky-200">
-                    Saif Abdelrazek (A8K)
-                  </p>
-                </div>
-              </div>
-
-              <div class="flex items-start gap-4">
-                <div>
-                  <h3 class="mb-2 text-xl font-semibold text-blue-700 dark:text-sky-300">
-                    {t('a8k.howUsed.domain.title')}
-                  </h3>
-                  <p class="text-gray-700 dark:text-gray-300">
-                    {t('a8k.howUsed.domain.description')}
-                  </p>
-                  <a 
-                    href="https://a8k.dev" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    class="mt-2 inline-block rounded-lg bg-blue-100 p-3 font-mono text-blue-700 hover:bg-blue-200 dark:bg-slate-900/60 dark:text-sky-200 dark:hover:bg-slate-800"
-                  >
-                    a8k.dev
-                  </a>
-                </div>
-              </div>
-
-              <div class="flex items-start gap-4">
-                <div>
-                  <h3 class="mb-2 text-xl font-semibold text-blue-700 dark:text-sky-300">
-                    {t('a8k.howUsed.username.title')}
-                  </h3>
-                  <p class="text-gray-700 dark:text-gray-300">
-                    {t('a8k.howUsed.username.description')}
-                  </p>
-                  <div class="mt-2 flex gap-2">
-                    <span class="rounded-lg bg-blue-100 px-3 py-2 font-mono text-sm text-blue-700 dark:bg-slate-900/60 dark:text-sky-200">
-                      saifabdelrazek
-                    </span>
-                    <span class="rounded-lg bg-blue-100 px-3 py-2 font-mono text-sm text-blue-700 dark:bg-slate-900/60 dark:text-sky-200">
-                      saif-abdelrazek
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Card>
-      </section>
-
-      <!-- Why A8K Section -->
-      <section class="mb-12">
-        <Card variant="elevated">
-          <div class="p-8">
-            <h2 class="mb-6 text-3xl font-bold text-blue-700 dark:text-sky-300">
-              {t('a8k.why.title')}
-            </h2>
-            <div class="grid gap-6 md:grid-cols-2">
-              <div class="rounded-lg border border-blue-100 p-6 dark:border-sky-900">
-                <h3 class="mb-3 text-xl font-semibold text-blue-700 dark:text-sky-300">
-                  {t('a8k.why.memorable.title')}
-                </h3>
-                <p class="text-gray-700 dark:text-gray-300">
-                  {t('a8k.why.memorable.description')}
-                </p>
-              </div>
-
-              <div class="rounded-lg border border-blue-100 p-6 dark:border-sky-900">
-                <h3 class="mb-3 text-xl font-semibold text-blue-700 dark:text-sky-300">
-                  {t('a8k.why.professional.title')}
-                </h3>
-                <p class="text-gray-700 dark:text-gray-300">
-                  {t('a8k.why.professional.description')}
-                </p>
-              </div>
-
-              <div class="rounded-lg border border-blue-100 p-6 dark:border-sky-900">
-                <h3 class="mb-3 text-xl font-semibold text-blue-700 dark:text-sky-300">
-                  {t('a8k.why.consistent.title')}
-                </h3>
-                <p class="text-gray-700 dark:text-gray-300">
-                  {t('a8k.why.consistent.description')}
-                </p>
-              </div>
-
-              <div class="rounded-lg border border-blue-100 p-6 dark:border-sky-900">
-                <h3 class="mb-3 text-xl font-semibold text-blue-700 dark:text-sky-300">
-                  {t('a8k.why.inspired.title')}
-                </h3>
-                <p class="text-gray-700 dark:text-gray-300">
-                  {t('a8k.why.inspired.description')}
-                </p>
-              </div>
-            </div>
-          </div>
-        </Card>
-      </section>
-
-      <!-- Call to Action Section -->
-      <section class="mb-12">
-        <Card variant="elevated">
-          <div class="p-8 text-center">
-            <h2 class="mb-4 text-3xl font-bold text-blue-700 dark:text-sky-300">
-              {t('a8k.cta.title')}
-            </h2>
-            <p class="mb-6 text-lg text-gray-700 dark:text-gray-300">
-              {t('a8k.cta.description')}
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <a
-                href={`${langPrefix}/projects`}
-                class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-lg font-semibold text-white transition hover:bg-blue-700 dark:bg-sky-600 dark:hover:bg-sky-700"
-              >
-                {t('a8k.cta.button')}
-                </a>
-              <a
-                href={`${langPrefix}/blog/story-behind-a8k`}
-                class="inline-flex items-center gap-2 rounded-lg border-2 border-blue-600 px-6 py-3 text-lg font-semibold text-blue-600 transition hover:bg-blue-50 dark:border-sky-600 dark:text-sky-600 dark:hover:bg-sky-900/20"
-              >
-                {t('a8k.cta.blogLink')}
-              </a>
-            </div>
-          </div>
-        </Card>
-      </section>
-
-      <!-- Back to Top Button -->
-      <div class="mt-8 flex justify-end">
-        <a
-          id="backToTop"
-          href="#top"
-          class="pointer-events-none fixed right-8 bottom-8 z-50 inline-flex items-center gap-1 rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700 opacity-0 shadow transition hover:bg-blue-200 dark:bg-sky-900/60 dark:text-sky-200 dark:hover:bg-sky-900"
-          aria-label="Return to top"
-        >
-          <span class="text-lg">↑</span>
-          {t('ui.backToTop')}
-        </a>
+        <!-- Quick nav to sections -->
+        <div class="flex flex-wrap gap-2">
+          <Button variant="filter" href="#what-is-a8k">
+            <Icon name="mdi:help-circle-outline" class="h-4 w-4" />
+            {t('page.a8k.navigation.whatIs')}
+          </Button>
+          <Button variant="filter" href="#how-used">
+            <Icon name="mdi:application-cog-outline" class="h-4 w-4" />
+            {t('page.a8k.navigation.howUsed')}
+          </Button>
+          <Button variant="filter" href="#why-a8k">
+            <Icon name="mdi:lightbulb-outline" class="h-4 w-4" />
+            {t('page.a8k.navigation.why')}
+          </Button>
+        </div>
       </div>
     </div>
   </div>
-</MainLayout>
+
+  <!-- Main Content Sections -->
+  <main class="bg-white dark:bg-slate-900">
+    <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <!-- What is A8K Section -->
+    <section id="what-is-a8k" class="mb-12">
+      <Card variant="elevated">
+        <div class="p-6">
+          <h2 class="mb-4 text-3xl font-bold text-blue-700 dark:text-sky-300">
+            {t('a8k.whatIs.title')}
+          </h2>
+          <div class="space-y-3 text-lg text-gray-700 dark:text-gray-300">
+            <p>{t('a8k.whatIs.intro')}</p>
+
+            <div dir="ltr" class="my-4 rounded-lg bg-blue-50 p-6 dark:bg-slate-800/60">
+              <div class="flex flex-wrap items-center justify-center gap-3 text-2xl font-bold text-blue-700 dark:text-sky-200">
+                <span >
+                  <span class="breakdown-letter text-4xl text-blue-600 dark:text-sky-300">A</span>bdelraze<span class="breakdown-letter text-4xl text-blue-600 dark:text-sky-300">k</span>
+                </span>
+                <span class="text-2xl">→</span>
+                <span class="inline-flex items-center gap-1">
+                  <span class="breakdown-letter text-4xl text-blue-600 dark:text-sky-300">A</span>
+                  <span class="text-xl">{t('a8k.whatIs.plus')}</span>
+                  <span class="text-3xl text-blue-600 dark:text-sky-300">8</span>
+                  <span class="text-base whitespace-nowrap">{t('a8k.whatIs.letters')}</span>
+                  <span class="text-xl">{t('a8k.whatIs.plus')}</span>
+                  <span class="breakdown-letter text-4xl text-blue-600 dark:text-sky-300">K</span>
+                </span>
+                <span class="text-2xl">→</span>
+                <span class="breakdown-final text-5xl font-extrabold text-blue-600 dark:text-sky-300">A8K</span>
+              </div>
+            </div>
+
+            <p>{t('a8k.whatIs.explanation')}</p>
+          </div>
+        </div>
+      </Card>
+    </section>
+
+    <!-- How It's Used Section -->
+    <section id="how-used" class="mb-12">
+      <Card variant="elevated">
+        <div class="p-6">
+          <h2 class="mb-4 text-3xl font-bold text-blue-700 dark:text-sky-300">
+            {t('a8k.howUsed.title')}
+          </h2>
+          <div class="space-y-4">
+            <div class="flex items-start gap-4">
+              <div>
+                <h3 class="mb-1 text-xl font-semibold text-blue-700 dark:text-sky-300">
+                  {t('a8k.howUsed.signature.title')}
+                </h3>
+                <p class="text-gray-700 dark:text-gray-300">
+                  {t('a8k.howUsed.signature.description')}
+                </p>
+                <p class="mt-2 rounded-lg bg-blue-50 p-3 font-mono text-blue-700 dark:bg-slate-800/60 dark:text-sky-200">
+                  Saif Abdelrazek (A8K)
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div>
+                <h3 class="mb-1 text-xl font-semibold text-blue-700 dark:text-sky-300">
+                  {t('a8k.howUsed.domain.title')}
+                </h3>
+                <p class="text-gray-700 dark:text-gray-300">
+                  {t('a8k.howUsed.domain.description')}
+                </p>
+                <a
+                  href="https://a8k.dev"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="mt-2 inline-block rounded-lg bg-blue-50 p-3 font-mono text-blue-700 hover:bg-blue-100 dark:bg-slate-800/60 dark:text-sky-200 dark:hover:bg-slate-700"
+                >
+                  a8k.dev
+                </a>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div>
+                <h3 class="mb-1 text-xl font-semibold text-blue-700 dark:text-sky-300">
+                  {t('a8k.howUsed.username.title')}
+                </h3>
+                <p class="text-gray-700 dark:text-gray-300">
+                  {t('a8k.howUsed.username.description')}
+                </p>
+                <div class="mt-2 flex gap-2">
+                  <span class="rounded-lg bg-blue-50 px-3 py-2 font-mono text-sm text-blue-700 dark:bg-slate-800/60 dark:text-sky-200">
+                    saifabdelrazek
+                  </span>
+                  <span class="rounded-lg bg-blue-50 px-3 py-2 font-mono text-sm text-blue-700 dark:bg-slate-800/60 dark:text-sky-200">
+                    saif-abdelrazek
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Card>
+    </section>
+
+    <!-- Why A8K Section -->
+    <section id="why-a8k" class="mb-12">
+      <Card variant="elevated">
+        <div class="p-6">
+          <h2 class="mb-4 text-3xl font-bold text-blue-700 dark:text-sky-300">
+            {t('a8k.why.title')}
+          </h2>
+          <div class="grid gap-4 md:grid-cols-2">
+            <div class="rounded-lg border border-blue-100 p-4 dark:border-sky-900">
+              <h3 class="mb-2 text-xl font-semibold text-blue-700 dark:text-sky-300">
+                {t('a8k.why.memorable.title')}
+              </h3>
+              <p class="text-gray-700 dark:text-gray-300">
+                {t('a8k.why.memorable.description')}
+              </p>
+            </div>
+
+            <div class="rounded-lg border border-blue-100 p-4 dark:border-sky-900">
+              <h3 class="mb-2 text-xl font-semibold text-blue-700 dark:text-sky-300">
+                {t('a8k.why.professional.title')}
+              </h3>
+              <p class="text-gray-700 dark:text-gray-300">
+                {t('a8k.why.professional.description')}
+              </p>
+            </div>
+
+            <div class="rounded-lg border border-blue-100 p-4 dark:border-sky-900">
+              <h3 class="mb-2 text-xl font-semibold text-blue-700 dark:text-sky-300">
+                {t('a8k.why.consistent.title')}
+              </h3>
+              <p class="text-gray-700 dark:text-gray-300">
+                {t('a8k.why.consistent.description')}
+              </p>
+            </div>
+
+            <div class="rounded-lg border border-blue-100 p-4 dark:border-sky-900">
+              <h3 class="mb-2 text-xl font-semibold text-blue-700 dark:text-sky-300">
+                {t('a8k.why.inspired.title')}
+              </h3>
+              <p class="text-gray-700 dark:text-gray-300">
+                {t('a8k.why.inspired.description')}
+              </p>
+            </div>
+          </div>
+        </div>
+      </Card>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="mb-8">
+      <Card variant="elevated">
+        <div class="p-6 text-center">
+          <h2 class="mb-3 text-3xl font-bold text-blue-700 dark:text-sky-300">
+            {t('a8k.cta.title')}
+          </h2>
+          <p class="mb-4 text-lg text-gray-700 dark:text-gray-300">
+            {t('a8k.cta.description')}
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Button
+              variant="cta-primary"
+              href={`${langPrefix}/projects`}
+            >
+              {t('a8k.cta.button')}
+            </Button>
+            <Button
+              variant="cta-secondary"
+              href={`${langPrefix}/blog/story-behind-a8k`}
+            >
+              {t('a8k.cta.blogLink')}
+            </Button>
+          </div>
+        </div>
+      </Card>
+    </section>
+    </div>
+  </main>
+
+  <!-- Back to Top Button -->
+  <a
+    id="backToTop"
+    href="#"
+    class="pointer-events-none fixed right-6 bottom-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-blue-600 text-white opacity-0 shadow-lg transition-all duration-300 hover:bg-blue-700 dark:bg-indigo-600 dark:hover:bg-indigo-700"
+    aria-label="Back to top"
+  >
+    <Icon name="mdi:arrow-up" class="h-5 w-5" />
+  </a>
+
+  <script>
+    const initBackToTop = () => {
+      const btn = document.getElementById("backToTop");
+      if (!btn) return;
+
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 400) {
+          btn.classList.remove("opacity-0", "pointer-events-none");
+          btn.classList.add("opacity-100", "pointer-events-auto");
+        } else {
+          btn.classList.add("opacity-0", "pointer-events-none");
+          btn.classList.remove("opacity-100", "pointer-events-auto");
+        }
+      });
+
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    };
+
+    document.addEventListener("DOMContentLoaded", initBackToTop);
+    document.addEventListener("astro:after-swap", initBackToTop);
+  </script>
+
+
+<style>
+  .breakdown-letter {
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+
+  .breakdown-letter:hover {
+    transform: scale(1.1);
+    color: #2563eb;
+  }
+
+  .breakdown-final {
+    transition: all 0.4s ease;
+    display: inline-block;
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .font-arabic {
+    font-family: 'Cairo', 'Tajawal', sans-serif;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      transform: scale(1);
+      text-shadow: 0 0 10px rgba(37, 99, 235, 0.3);
+    }
+    50% {
+      transform: scale(1.05);
+      text-shadow: 0 0 20px rgba(37, 99, 235, 0.5);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .breakdown-letter,
+    .breakdown-final {
+      animation: none;
+      transition: none;
+    }
+  }
+</style>
 
 <script>
   window.addEventListener("scroll", () => {

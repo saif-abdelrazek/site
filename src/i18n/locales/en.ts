@@ -420,6 +420,12 @@ const en: I18nStrings = {
     'search.close': 'Press Esc to close',
     
     // A8K Brand Page
+    'page.a8k.header.title': 'A8K: Developer Signature',
+    'page.a8k.header.subtitle': 'Developer Signature',
+    'page.a8k.header.description': 'A8K is a numeronym-style developer signature derived from Abdelrazek, following the pattern of i18n and l10n.',
+    'page.a8k.navigation.whatIs': 'What is A8K?',
+    'page.a8k.navigation.howUsed': 'How It\'s Used',
+    'page.a8k.navigation.why': 'Why A8K?',
     'a8k.hero.title': 'A8K: My Developer Signature',
     'a8k.subtitle': 'Developer Signature & Professional Identity',
     'a8k.heroDescription': 'A8K is a numeronym-style developer signature derived from "Abdelrazek" (A + 8 letters + K). It serves as a professional identifier across platforms, projects, and digital spaces.',
