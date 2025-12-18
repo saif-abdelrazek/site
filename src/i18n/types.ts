@@ -48,6 +48,7 @@ export interface I18nStrings {
 
   // Page descriptions
   'page.home.description': string;
+  'page.home.tagline': string;
   'page.home.contactMe': string;
   'page.blog.description': string;
   'page.blogPage.description': string;
@@ -122,6 +123,7 @@ export interface I18nStrings {
   'education.types.selfLearning': string;
   'education.types.other': string;
   'education.description': string;
+  'page.education.heroDescription': string;
   'education.noRecords': string;
   'education.moreEducation': string;
   'education.institutions.safir': string;
@@ -207,6 +209,30 @@ export interface I18nStrings {
   'ui.loading': string;
   'ui.error': string;
   'ui.retry': string;
+  'ui.learnmore': string;
+  'ui.arrow': string;
+  'ui.showMore': string;
+  'ui.showLess': string;
+  'ui.current': string;
+  'ui.favorite': string;
+  'ui.comingSoon': string;
+  'ui.educationalInstitutions': string;
+  'ui.momentsMilestones': string;
+  'ui.officialSite': string;
+  'ui.noMomentsYet': string;
+  'ui.backToEducation': string;
+  'page.tech.descriptionLong': string;
+  'page.tech.heroDescription': string;
+  'ui.technologies': string;
+  'ui.technology': string;
+  'ui.advancedPlus': string;
+  'ui.favorites': string;
+  'education.formal.title': string;
+  'education.formal.narrative': string;
+  'education.selfLearning.title': string;
+  'education.selfLearning.narrative': string;
+  'tech.technologies': string;
+  'tech.advancedPlus': string;
 
   // Blog
   'blog.readTime': string;
@@ -359,6 +385,7 @@ export interface I18nStrings {
   'education.viewCertificate': string;
   'education.backToSection': string;
   'education.backToAll': string;
+  'education.backToInstitution': string;
   'education.noRecordsFound': string;
   'education.backToTop': string;
 
@@ -408,7 +435,6 @@ export interface I18nStrings {
   'a8k.whatIs.explanation': string;
   'a8k.whatIs.surname': string;
   'a8k.whatIs.plus': string;
-  'a8k.whatIs.arrow': string;
   'a8k.howUsed.title': string;
   'a8k.howUsed.signature.title': string;
   'a8k.howUsed.signature.description': string;
