@@ -13,29 +13,33 @@ const { title, content, fullName } = constants.PORTFOLIO_CONTENT.about;
 ---
 
 <section
-  class="w-full bg-blue-100 py-12 dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0a192f]"
+  class="w-full bg-gradient-to-br from-blue-50 via-white to-sky-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 px-4 py-16"
 >
-  <div class="section-container">
-    <div class="flex flex-col items-center gap-10 md:flex-row md:items-start">
-    {
-      aboutImage && (
-        <Image
-          src={aboutImage}
-          alt={title}
-          class="mb-6 h-100 w-100 rounded-full border-4 border-blue-100 object-cover shadow-lg transition-all duration-300 ease-out hover:shadow-xl hover:border-blue-200 md:mr-10 md:mb-0 dark:border-sky-900 dark:hover:border-sky-800"
-          loading="lazy"
-        />
-      )
-    }
-    <div class="flex-1">
-      <h2 class="mb-4 text-4xl font-bold text-sky-700 dark:text-sky-300">
-        {title}
-      </h2>
-      <div
-        class="prose prose-sky dark:prose-invert mb-6 text-lg text-gray-700 dark:text-gray-300 text-justify"
-      >
-        <h2>{t('about.fullName')}: {fullName}</h2>
-        <p>{content}</p>
+  <div class="mx-auto max-w-4xl section-container">
+    <div class="flex flex-col items-center gap-10 md:flex-row md:items-stretch">
+      <div class="flex-shrink-0 flex items-stretch min-h-[300px] max-h-[500px]">
+        {aboutImage && (
+          <div class="rounded-2xl border border-gray-200 bg-white p-0 shadow-md dark:bg-slate-800 dark:border-slate-700 flex items-stretch min-h-[300px] max-h-[500px]">
+            <Image
+              src={aboutImage}
+              alt={title}
+              class="h-full w-auto rounded-xl object-cover border-4 border-blue-100 dark:border-sky-900 min-h-[300px] max-h-[500px]"
+              style="aspect-ratio: 3/4;"
+              loading="lazy"
+            />
+          </div>
+        )}
+      </div>
+      <div class="flex-1 flex items-stretch min-h-[300px] max-h-[500px]">
+        <div class="rounded-2xl border border-gray-200 bg-white p-8 shadow-md dark:bg-slate-800 dark:border-slate-700 w-full flex flex-col justify-center min-h-[300px] max-h-[500px]">
+          <h2 class="mb-4 text-4xl font-bold text-sky-700 dark:text-sky-300">
+            {title}
+          </h2>
+          <div class="prose prose-sky dark:prose-invert mb-6 text-lg text-gray-700 dark:text-gray-300 text-justify">
+            <h2>{t('about.fullName')}: {fullName}</h2>
+            <p>{content}</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

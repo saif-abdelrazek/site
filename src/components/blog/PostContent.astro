@@ -70,12 +70,12 @@ const getCategoryName = (slug: string) => {
           </>
         )
       }
-      {date && <> {formatDate(date)}</>}
+      {date && <> {formatDate(date, lang)}</>}
     </p>
     {
       lastUpdated && (
         <p class="text-sm text-blue-500/70 dark:text-sky-400/70 mt-1">
-          {lang === 'ar' ? 'آخر تحديث:' : 'Last updated:'} {formatDate(lastUpdated)}
+          {lang === 'ar' ? 'آخر تحديث:' : 'Last updated:'} {formatDate(lastUpdated, lang)}
         </p>
       )
     }

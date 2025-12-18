@@ -36,35 +36,37 @@ const favouriteTechs = categories
 
 <section
   id="technologies"
-  class="section-container section-spacing flex w-full flex-col items-center"
+  class="w-full bg-gradient-to-br from-blue-50 via-white to-sky-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 px-4 py-16"
 >
-  <h2
-    class="mb-6 text-center text-4xl font-extrabold text-sky-700 dark:text-sky-300"
-  >
-    {title}
-  </h2>
-  <p class="mb-10 text-center text-lg text-gray-700 dark:text-gray-300">
-    {description}<br />
-  </p>
-  {
-    favouriteTechs.length === 0 ? (
-      <p class="text-lg text-gray-700 dark:text-gray-300">
-        {t('tech.noFavorites')}
-      </p>
-    ) : (
-      <div class="grid w-full grid-cols-1 items-stretch gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {favouriteTechs.map((tech) =>
-          tech ? <TechCard tech={tech} /> : null
-        )}
-      </div>
-    )
-  }
-  <div class="mt-10 flex justify-center">
-    <a
-      href={lang === 'en' ? "/technologies" : `/${lang}/technologies`}
-      class="inline-block rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 px-7 py-3 text-lg font-semibold text-white shadow-lg ring-2 ring-blue-400/20 transition hover:scale-105 hover:from-blue-700 hover:to-sky-600 hover:shadow-xl dark:from-sky-700 dark:to-blue-800 dark:hover:from-sky-800 dark:hover:to-blue-900"
+  <div class="mx-auto max-w-4xl section-container">
+    <h2
+      class="mb-6 text-center text-4xl font-extrabold text-sky-700 dark:text-sky-300"
     >
-      {t('tech.moreTechnologies')}
-    </a>
+      {title}
+    </h2>
+    <p class="mb-10 text-center text-lg text-gray-700 dark:text-gray-300">
+      {description}<br />
+    </p>
+    {
+      favouriteTechs.length === 0 ? (
+        <p class="text-lg text-gray-700 dark:text-gray-300">
+          {t('tech.noFavorites')}
+        </p>
+      ) : (
+        <div class="grid w-full grid-cols-1 items-stretch gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {favouriteTechs.map((tech) =>
+            tech ? <TechCard tech={tech} /> : null
+          )}
+        </div>
+      )
+    }
+    <div class="mt-10 flex justify-center">
+      <a
+        href={lang === 'en' ? "/technologies" : `/${lang}/technologies`}
+        class="inline-block rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 px-7 py-3 text-lg font-semibold text-white shadow-lg ring-2 ring-blue-400/20 transition hover:scale-105 hover:from-blue-700 hover:to-sky-600 hover:shadow-xl dark:from-sky-700 dark:to-blue-800 dark:hover:from-sky-800 dark:hover:to-blue-900"
+      >
+        {t('tech.moreTechnologies')}
+      </a>
+    </div>
   </div>
 </section>
