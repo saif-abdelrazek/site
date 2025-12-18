@@ -59,10 +59,9 @@ const hasInstitutions = displayInstitutions.length > 0;
     <div class="mt-10 flex justify-center">
       <a
         href={lang === "en" ? "/education" : `/${lang}/education`}
-        class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 px-7 py-3 text-lg font-semibold text-white shadow-lg ring-2 ring-blue-400/20 transition hover:scale-105 hover:from-blue-700 hover:to-sky-600 hover:shadow-xl dark:from-sky-700 dark:to-blue-800 dark:hover:from-sky-800 dark:hover:to-blue-900"
+        class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 px-7 py-3 text-lg font-semibold text-white shadow-lg ring-2 ring-blue-400/20 transition-all duration-300 hover:ring-blue-500 hover:shadow-lg dark:from-sky-700 dark:to-blue-800 dark:hover:ring-sky-400"
       >
         {t('education.moreEducation')}
-        <Icon name={t('ui.arrow')} class="h-5 w-5" />
       </a>
     </div>
   </div>

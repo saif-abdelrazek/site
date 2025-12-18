@@ -22,7 +22,7 @@ const filteredSeries = allSeries.filter((series: SeriesData) => series.slug !== 
       {filteredSeries.map((series: SeriesData) => (
         <a
         href={`/${lang === 'ar' ? 'ar/' : ''}blog/series/${series.slug}`}
-        class="block rounded-lg p-4 text-white shadow-md hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
+        class="block rounded-lg p-4 text-white shadow-md ring-2 ring-transparent hover:ring-white/20 transition-all duration-300"
         style={`background: linear-gradient(135deg, ${series.color} 0%, ${series.color}dd 100%);`}
         transition:name={"series-card-" + series.slug}
         >
