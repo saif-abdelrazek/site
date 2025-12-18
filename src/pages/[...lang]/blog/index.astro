@@ -5,6 +5,7 @@ import BlogPostCard from "@components/blog/BlogPostCard.astro";
 import { createLocalizedConstants } from "@lib/constants";
 import { getLangFromUrl, getI18nStaticPaths } from "@i18n/utils";
 import { useTranslations } from "@i18n/translations";
+import Button from "@components/ui/Button.astro";
 import type { CollectionEntry } from "astro:content";
 
 export const getStaticPaths = getI18nStaticPaths;
@@ -96,12 +97,12 @@ const blogUrl = new URL('/blog', Astro.site).toString();
     </div>
     {allPostsSorted.length > 6 && (
       <div class="mt-8 text-center">
-        <button
+        <Button
+          variant="load-more"
           id="load-more-btn"
-          class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors duration-200 shadow-md hover:shadow-lg"
         >
           {lang === 'ar' ? 'تحميل المزيد' : 'Load More'}
-        </button>
+        </Button>
       </div>
     )}
   </div>
