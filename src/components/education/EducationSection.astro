@@ -12,6 +12,7 @@ import type { CollectionEntry } from "astro:content";
 import EducationCard from "./EducationCard.astro";
 import { SECTION_CONFIG, type EducationSection } from "@types/educationTypes";
 import { getLangFromUrl } from "@i18n/utils";
+import { useTranslations } from "@i18n/translations";
 
 interface Props {
   sectionId: EducationSection;
@@ -38,7 +39,7 @@ const {
 } = Astro.props;
 
 const lang = getLangFromUrl(Astro.url);
-const isRtl = lang === "ar";
+const t = useTranslations(lang);
 const sectionConfig = SECTION_CONFIG[sectionId];
 
 // Filter institutions for this section
@@ -72,7 +73,6 @@ const bgPatterns: Record<EducationSection, string> = {
     bgPatterns[sectionId],
     className,
   ]}
-  dir={isRtl ? "rtl" : "ltr"}
 >
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <!-- Section Header - Horizontal layout -->
@@ -101,7 +101,7 @@ const bgPatterns: Record<EducationSection, string> = {
         <div class="flex items-center justify-between mb-4">
           <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
             <Icon name="mdi:domain" class="h-5 w-5" />
-            {isRtl ? "المؤسسات التعليمية" : "Educational Institutions"}
+            {t('ui.educationalInstitutions')}
             {sectionInstitutions.length > initialVisibleCount && (
               <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
                 ({sectionInstitutions.length})
@@ -113,10 +113,10 @@ const bgPatterns: Record<EducationSection, string> = {
               type="button"
               class="show-more-btn flex items-center gap-1 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
               data-target={`institutions-${sectionId}`}
-              data-show-text={isRtl ? "عرض المزيد" : "Show More"}
-              data-hide-text={isRtl ? "عرض أقل" : "Show Less"}
+              data-show-text={t('ui.showMore')}
+              data-hide-text={t('ui.showLess')}
             >
-              <span class="btn-text">{isRtl ? "عرض المزيد" : "Show More"}</span>
+              <span class="btn-text">{t('ui.showMore')}</span>
               <Icon name="mdi:chevron-right" class="h-4 w-4 btn-icon transition-transform" />
             </button>
           )}
@@ -152,7 +152,7 @@ const bgPatterns: Record<EducationSection, string> = {
         <div class="flex items-center justify-between mb-4">
           <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
             <Icon name="mdi:star-outline" class="h-5 w-5" />
-            {isRtl ? "اللحظات والإنجازات" : "Moments & Milestones"}
+            {t('ui.momentsMilestones')}
             {allMomentsToShow.length > initialVisibleCount && (
               <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
                 ({allMomentsToShow.length})
@@ -164,10 +164,10 @@ const bgPatterns: Record<EducationSection, string> = {
               type="button"
               class="show-more-btn flex items-center gap-1 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
               data-target={`moments-${sectionId}`}
-              data-show-text={isRtl ? "عرض المزيد" : "Show More"}
-              data-hide-text={isRtl ? "عرض أقل" : "Show Less"}
+              data-show-text={t('ui.showMore')}
+              data-hide-text={t('ui.showLess')}
             >
-              <span class="btn-text">{isRtl ? "عرض المزيد" : "Show More"}</span>
+              <span class="btn-text">{t('ui.showMore')}</span>
               <Icon name="mdi:chevron-right" class="h-4 w-4 btn-icon transition-transform" />
             </button>
           )}
@@ -206,7 +206,7 @@ const bgPatterns: Record<EducationSection, string> = {
     {sectionInstitutions.length === 0 && allMomentsToShow.length === 0 && (
       <div class="text-center py-12 text-gray-500 dark:text-gray-400">
         <Icon name="mdi:school-outline" class="h-12 w-12 mx-auto mb-3 opacity-50" />
-        <p>{isRtl ? "قريباً..." : "Coming soon..."}</p>
+        <p>{t('ui.comingSoon')}</p>
       </div>
     )}
   </div>

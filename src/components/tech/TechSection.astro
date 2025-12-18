@@ -21,7 +21,6 @@ const {
 } = Astro.props;
 
 const lang = getLangFromUrl(Astro.url);
-const isRtl = lang === "ar";
 const t = useTranslations(lang);
 const categoryConfig = TECH_CATEGORY_CONFIG[categoryId];
 
@@ -51,7 +50,6 @@ const bgPatterns: Record<string, string> = {
     bgPatterns[categoryId] || bgPatterns.other,
     className,
   ]}
-  dir={isRtl ? "rtl" : "ltr"}
 >
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <!-- Section Header -->
@@ -66,10 +64,10 @@ const bgPatterns: Record<string, string> = {
       </span>
       <div class="flex-1">
         <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-1">
-          {isRtl ? categoryConfig.labelAr : categoryConfig.label}
+          {t(`tech.categories.${categoryId}`)}
         </h2>
         <p class="text-sm text-gray-500 dark:text-gray-400">
-          {sortedTechs.length} {isRtl ? "تقنية" : sortedTechs.length === 1 ? "technology" : "technologies"}
+          {sortedTechs.length} {sortedTechs.length === 1 ? t('ui.technology') : t('ui.technologies')}
         </p>
       </div>
     </div>
@@ -97,7 +95,7 @@ const bgPatterns: Record<string, string> = {
     {sortedTechs.length === 0 && (
       <div class="text-center py-12 text-gray-500 dark:text-gray-400">
         <Icon name={categoryConfig.icon} class="h-12 w-12 mx-auto mb-3 opacity-50" />
-        <p>{isRtl ? "قريباً..." : "Coming soon..."}</p>
+        <p>{t('ui.comingSoon')}</p>
       </div>
     )}
   </div>

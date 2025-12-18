@@ -30,7 +30,6 @@ const {
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const isRtl = lang === "ar";
 
 // Get category configuration
 const categoryConfig = TECH_CATEGORY_CONFIG[tech.category as TechCategory];
@@ -63,7 +62,6 @@ const linkUrl = lang === "en" ? `/technologies#${tech.slug}` : `/${lang}/technol
     variant === "compact" ? "p-5" : "p-6",
     className,
   ]}
-  dir={isRtl ? "rtl" : "ltr"}
 >
   <!-- Top Row: Category Badge + Favorite -->
   <div class="flex items-center justify-between mb-4">
@@ -76,13 +74,13 @@ const linkUrl = lang === "en" ? `/technologies#${tech.slug}` : `/${lang}/technol
         ]}
       >
         <Icon name={categoryConfig.icon} class="h-3.5 w-3.5" />
-        {isRtl ? categoryConfig.labelAr : categoryConfig.label}
+        {t(`tech.categories.${tech.category}`)}
       </span>
     )}
     {tech.favorite && (
       <span class="inline-flex items-center gap-1 rounded-full bg-yellow-100 px-2 py-0.5 text-xs font-medium text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-300">
         <Icon name="mdi:star" class="h-3 w-3" />
-        {isRtl ? "مفضل" : "Favorite"}
+        {t('ui.favorite')}
       </span>
     )}
   </div>
@@ -143,7 +141,7 @@ const linkUrl = lang === "en" ? `/technologies#${tech.slug}` : `/${lang}/technol
         class="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 dark:text-sky-400 hover:text-blue-700 dark:hover:text-sky-300"
       >
         <Icon name="mdi:open-in-new" class="h-4 w-4" />
-        {isRtl ? "المزيد" : "Learn more"}
+      <span>{t('ui.learnmore')}</span>
       </span>
     </div>
   )}
@@ -151,8 +149,8 @@ const linkUrl = lang === "en" ? `/technologies#${tech.slug}` : `/${lang}/technol
   <!-- Hover Arrow (compact variant) -->
   {variant === "compact" && (
     <div class="mt-auto flex items-center gap-1 text-sm font-medium text-blue-600 dark:text-sky-400 opacity-0 group-hover:opacity-100 transition-opacity pt-2">
-      <span>{isRtl ? "عرض التفاصيل" : "View details"}</span>
-      <Icon name={isRtl ? "mdi:arrow-left" : "mdi:arrow-right"} class="h-4 w-4" />
+      <span>{t('ui.learnmore')}</span>
+      <Icon name={t('ui.arrow')} class="h-4 w-4" />
     </div>
   )}
 </a>

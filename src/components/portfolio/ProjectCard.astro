@@ -32,9 +32,9 @@ const t = useTranslations(lang);
 ---
 
 <div
-  class="flex h-full w-full flex-col rounded-2xl border border-blue-200 bg-white p-6 shadow-md transition-all duration-250 ease-out hover:shadow-lg hover:border-blue-400 light:hover:bg-blue-50/30 dark:bg-slate-900 dark:border-sky-900 dark:hover:border-sky-700"
+  class="group flex h-full w-full flex-col rounded-2xl border border-gray-200 light:bg-white p-6 shadow-md transition-all duration-250 ease-out hover:shadow-lg hover:border-blue-400 hover:light:bg-blue-50/30 dark:bg-slate-800 dark:border-slate-700 dark:hover:border-sky-600"
   transition:name={"project-card-" + slug}
-  >
+>
   <a
     href={`${lang === 'en' ? `` : `/${lang}`}/projects/${slug}`}
     class="flex h-full flex-col"
@@ -50,7 +50,7 @@ const t = useTranslations(lang);
         />
       )
     }
-    <h3 class="mb-2 text-xl font-bold text-blue-700 transition-colors duration-200 ease-out dark:text-sky-300">
+    <h3 class="mb-2 text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors duration-200 ease-out dark:text-white dark:group-hover:text-sky-400">
       {title}
     </h3>
     {
@@ -62,7 +62,7 @@ const t = useTranslations(lang);
       technologies && technologies.length > 0 && (
         <div class="mb-4 flex flex-wrap gap-2">
           {technologies.map((tech) => (
-            <span class="inline-flex items-center gap-1 rounded bg-blue-100 px-2 py-1 text-xs font-semibold text-blue-700 transition-all duration-200 ease-out hover:bg-blue-200 dark:bg-sky-900/60 dark:text-sky-200 dark:hover:bg-sky-800/80">
+            <span class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold bg-blue-100 text-blue-700 transition-all duration-200 ease-out hover:bg-blue-200 dark:bg-sky-900/60 dark:text-sky-200 dark:hover:bg-sky-800/80">
               {tech.icon && <Icon name={tech.icon} class="h-4 w-4" />}
               {tech.name}
             </span>
@@ -70,32 +70,38 @@ const t = useTranslations(lang);
         </div>
       )
     }
-    <div class="mt-auto flex gap-3">
-      {
-        link && (
-          <a
-            href={link}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="font-semibold text-blue-600 underline transition-colors duration-200 ease-out hover:text-blue-800 dark:text-sky-400 dark:hover:text-sky-200"
-            aria-label={`View live project ${title}`}
-          >
-            {t('projects.live')}
-          </a>
-        )
-      }
-      {
-        repo && (
-          <a
-            href={repo}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="font-semibold text-blue-600 underline transition-colors duration-200 ease-out hover:text-blue-800 dark:text-sky-400 dark:hover:text-sky-200"
-          >
-            {t('projects.repo')}
-          </a>
-        )
-      }
+    <div class="mt-auto flex items-center justify-between pt-2">
+      <div class="flex items-center gap-1 text-sm font-medium text-blue-600 dark:text-sky-400 opacity-0 group-hover:opacity-100 transition-opacity">
+        <span>{t('ui.learnmore')}</span>
+        <Icon name={t('ui.arrow')} class="h-4 w-4" />
+      </div>
+      <div class="flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+        {
+          link && (
+            <a
+              href={link}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-semibold text-blue-600 underline transition-colors duration-200 ease-out hover:text-blue-800 dark:text-sky-400 dark:hover:text-sky-200"
+              aria-label={`View live project ${title}`}
+            >
+              {t('projects.live')}
+            </a>
+          )
+        }
+        {
+          repo && (
+            <a
+              href={repo}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-semibold text-blue-600 underline transition-colors duration-200 ease-out hover:text-blue-800 dark:text-sky-400 dark:hover:text-sky-200"
+            >
+              {t('projects.repo')}
+            </a>
+          )
+        }
+      </div>
     </div>
   </a>
 </div>

@@ -19,7 +19,6 @@ interface Props {
 
 const { institutions, moments = [], id, class: className = "" } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
-const isRtl = lang === "ar";
 
 // Create a map of moments by institution slug for quick lookup
 const momentsByInstitution = moments.reduce((acc, moment) => {
@@ -41,12 +40,12 @@ const momentsByInstitution = moments.reduce((acc, moment) => {
       "text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-slate-700",
       "opacity-0 group-hover:opacity-100 transition-all duration-300",
       "disabled:opacity-30 disabled:cursor-not-allowed",
-      isRtl ? "right-2" : "left-2",
+      "left-2",
     ]}
     data-carousel-prev={id}
     aria-label="Previous"
   >
-    <Icon name={isRtl ? "mdi:chevron-right" : "mdi:chevron-left"} class="h-6 w-6" />
+    <Icon name="mdi:chevron-left" class="h-6 w-6" />
   </button>
 
   <button
@@ -58,12 +57,12 @@ const momentsByInstitution = moments.reduce((acc, moment) => {
       "text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-slate-700",
       "opacity-0 group-hover:opacity-100 transition-all duration-300",
       "disabled:opacity-30 disabled:cursor-not-allowed",
-      isRtl ? "left-2" : "right-2",
+      "right-2",
     ]}
     data-carousel-next={id}
     aria-label="Next"
   >
-    <Icon name={isRtl ? "mdi:chevron-left" : "mdi:chevron-right"} class="h-6 w-6" />
+    <Icon name="mdi:chevron-right" class="h-6 w-6" />
   </button>
 
   <!-- Scrollable Container -->
@@ -116,7 +115,6 @@ const momentsByInstitution = moments.reduce((acc, moment) => {
       if (!container) return;
       
       const cardWidth = 320 + 16; // card width + gap
-      const isRtl = document.documentElement.dir === 'rtl';
       
       const updateButtons = () => {
         const scrollLeft = Math.abs(container.scrollLeft);
@@ -139,7 +137,7 @@ const momentsByInstitution = moments.reduce((acc, moment) => {
       };
       
       const scrollBy = (direction: number) => {
-        const scrollAmount = direction * cardWidth * (isRtl ? -1 : 1);
+        const scrollAmount = direction * cardWidth * (document.documentElement.dir === 'rtl' ? -1 : 1);
         container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
       };
       
@@ -148,7 +146,7 @@ const momentsByInstitution = moments.reduce((acc, moment) => {
       
       dots.forEach((dot, index) => {
         dot.addEventListener('click', () => {
-          container.scrollTo({ left: index * cardWidth * (isRtl ? -1 : 1), behavior: 'smooth' });
+          container.scrollTo({ left: index * cardWidth * (document.documentElement.dir === 'rtl' ? -1 : 1), behavior: 'smooth' });
         });
       });
       
