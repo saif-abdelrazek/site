@@ -60,7 +60,6 @@ export async function getStaticPaths() {
 const { moment, institution, prevMoment, nextMoment } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const isRtl = lang === "ar";
 
 // Render moment content
 const { Content } = await render(moment);
@@ -80,7 +79,7 @@ const pageDescription = moment.data.excerpt;
       <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=&quot;60&quot; height=&quot;60&quot; viewBox=&quot;0 0 60 60&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;%3E%3Cg fill=&quot;none&quot; fill-rule=&quot;evenodd&quot;%3E%3Cg fill=&quot;%23ffffff&quot; fill-opacity=&quot;0.4&quot;%3E%3Cpath d=&quot;M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z&quot;/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
     </div>
     
-    <div class="relative mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8" dir={isRtl ? "rtl" : "ltr"}>
+    <div class="relative mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
       <!-- Breadcrumb -->
       <nav class="mb-8" aria-label="Breadcrumb">
         <ol class="flex items-center gap-2 text-sm text-gray-300">
@@ -117,7 +116,7 @@ const pageDescription = moment.data.excerpt;
         ]}
       >
         <Icon name={sectionConfig.icon} class="h-3.5 w-3.5" />
-        {isRtl ? sectionConfig.labelAr : sectionConfig.label}
+        {moment.data.section === 'formal' ? t('education.formal.title') : t('education.selfLearning.title')}
       </span>
 
       <!-- Title -->
@@ -166,7 +165,7 @@ const pageDescription = moment.data.excerpt;
 
   <!-- Content -->
   <div class="bg-white dark:bg-slate-900">
-    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12" dir={isRtl ? "rtl" : "ltr"}>
+    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12">
       <!-- Featured Image -->
       {moment.data.image && (
         <figure class="mb-12 -mt-20 relative z-10">
@@ -191,10 +190,10 @@ const pageDescription = moment.data.excerpt;
             href={`${lang === "en" ? "" : `/${lang}`}/education/${institution.data.slug}/${prevMoment.data.slug}`}
             class="group flex items-start gap-3 p-4 rounded-xl border border-gray-200 bg-gray-50 dark:bg-slate-800 dark:border-gray-700 hover:border-blue-500 dark:hover:border-sky-500 transition-colors"
           >
-            <Icon name={isRtl ? "mdi:arrow-right" : "mdi:arrow-left"} class="h-5 w-5 text-gray-400 group-hover:text-blue-600 dark:group-hover:text-sky-400 mt-0.5 flex-shrink-0" />
+            <Icon name="mdi:arrow-left" class="h-5 w-5 text-gray-400 group-hover:text-blue-600 dark:group-hover:text-sky-400 mt-0.5 flex-shrink-0" />
             <div>
               <span class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                {isRtl ? "السابق" : "Previous"}
+                {t('pagination.previous')}
               </span>
               <h4 class="font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-sky-400">
                 {prevMoment.data.title}
@@ -208,15 +207,12 @@ const pageDescription = moment.data.excerpt;
         {nextMoment ? (
           <a
             href={`${lang === "en" ? "" : `/${lang}`}/education/${institution.data.slug}/${nextMoment.data.slug}`}
-            class:list={[
-              "group flex items-start gap-3 p-4 rounded-xl border border-gray-200 bg-gray-50 dark:bg-slate-800 dark:border-gray-700 hover:border-blue-500 dark:hover:border-sky-500 transition-colors",
-              isRtl ? "" : "md:text-right md:flex-row-reverse",
-            ]}
+            class="group flex items-start gap-3 p-4 rounded-xl border border-gray-200 bg-gray-50 dark:bg-slate-800 dark:border-gray-700 hover:border-blue-500 dark:hover:border-sky-500 transition-colors md:text-right md:flex-row-reverse"
           >
-            <Icon name={isRtl ? "mdi:arrow-left" : "mdi:arrow-right"} class="h-5 w-5 text-gray-400 group-hover:text-blue-600 dark:group-hover:text-sky-400 mt-0.5 flex-shrink-0" />
+            <Icon name="mdi:arrow-right" class="h-5 w-5 text-gray-400 group-hover:text-blue-600 dark:group-hover:text-sky-400 mt-0.5 flex-shrink-0" />
             <div>
               <span class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                {isRtl ? "التالي" : "Next"}
+                {t('pagination.next')}
               </span>
               <h4 class="font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-sky-400">
                 {nextMoment.data.title}
@@ -236,7 +232,7 @@ const pageDescription = moment.data.excerpt;
           class="inline-flex items-center gap-2 text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-sky-400 font-medium transition-colors"
         >
           <Icon name="mdi:arrow-up" class="h-4 w-4" />
-          {isRtl ? `العودة إلى ${institution.data.name}` : `Back to ${institution.data.name}`}
+          {t('education.backToInstitution')} {institution.data.name}
         </a>
       </div>
     </div>

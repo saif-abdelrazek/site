@@ -43,7 +43,6 @@ export async function getStaticPaths() {
 const { institution, moments } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const isRtl = lang === "ar";
 
 // Render institution content
 const { Content } = await render(institution);
@@ -61,7 +60,7 @@ const pageDescription = institution.data.description;
 <MainLayout title={pageTitle} description={pageDescription}>
   <!-- Breadcrumb & Header -->
   <div class="py-8 bg-blue-50 light:bg-blue-50 dark:bg-slate-800">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" dir={isRtl ? "rtl" : "ltr"}>
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <!-- Breadcrumb -->
       <nav class="mb-6" aria-label="Breadcrumb">
         <ol class="flex items-center gap-2 text-sm">
@@ -102,7 +101,7 @@ const pageDescription = institution.data.description;
               ]}
             >
               <Icon name={sectionConfig.icon} class="h-3.5 w-3.5" />
-              {isRtl ? sectionConfig.labelAr : sectionConfig.label}
+              {institution.data.section === 'formal' ? t('education.formal.title') : t('education.selfLearning.title')}
             </span>
             {institution.data.current && (
               <span class="inline-flex items-center gap-1 rounded-full bg-green-100 px-2.5 py-1 text-xs font-medium text-green-700 dark:bg-green-900/40 dark:text-green-300">
@@ -135,7 +134,7 @@ const pageDescription = institution.data.description;
                 class="flex items-center gap-1.5 text-blue-600 hover:text-blue-700 dark:text-sky-400 dark:hover:text-sky-300"
               >
                 <Icon name="mdi:open-in-new" class="h-4 w-4" />
-                {isRtl ? "الموقع الرسمي" : "Official Site"}
+                {t('ui.officialSite')}
               </a>
             )}
           </div>
@@ -146,7 +145,7 @@ const pageDescription = institution.data.description;
 
   <!-- Content -->
   <div class="bg-white dark:bg-slate-900">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12" dir={isRtl ? "rtl" : "ltr"}>
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
       <!-- Main Content -->
       <div class="lg:col-span-2">
@@ -160,7 +159,7 @@ const pageDescription = institution.data.description;
         <div class="sticky top-24">
           <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
             <Icon name="mdi:star-outline" class="h-5 w-5" />
-            {isRtl ? "اللحظات والإنجازات" : "Moments & Milestones"}
+            {t('ui.momentsMilestones')}
           </h2>
           
           {sortedMoments.length > 0 ? (
@@ -184,7 +183,7 @@ const pageDescription = institution.data.description;
             </div>
           ) : (
             <p class="text-gray-500 dark:text-gray-400 text-sm">
-              {isRtl ? "لا توجد لحظات مسجلة بعد." : "No moments recorded yet."}
+              {t('ui.noMomentsYet')}
             </p>
           )}
         </div>
@@ -195,13 +194,13 @@ const pageDescription = institution.data.description;
 
   <!-- Back Navigation -->
   <div class="bg-white dark:bg-slate-900">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-12" dir={isRtl ? "rtl" : "ltr"}>
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-12">
     <a
       href={lang === "en" ? "/education" : `/${lang}/education`}
       class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 dark:text-sky-400 dark:hover:text-sky-300 font-medium"
     >
-      <Icon name={isRtl ? "mdi:arrow-right" : "mdi:arrow-left"} class="h-5 w-5" />
-      {isRtl ? "العودة للتعليم" : "Back to Education"}
+      <Icon name="mdi:arrow-left" class="h-5 w-5" />
+      {t('ui.backToEducation')}
     </a>
     </div>
   </div>
