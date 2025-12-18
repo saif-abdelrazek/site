@@ -1,11 +1,10 @@
 ---
-import MainLayout from "@layouts/MainLayout.astro";
+import CareerLayout from "@layouts/CareerLayout.astro";
 import Card from "@components/ui/Card.astro";
 import { getLangFromUrl, getI18nStaticPaths } from "@i18n/utils";
 import { useTranslations } from "@i18n/translations";
 import { createLocalizedConstants } from "@lib/constants";
 import Button from "@components/ui/Button.astro";
-import { Icon } from "astro-icon/components";
 
 export const getStaticPaths = getI18nStaticPaths;
 
@@ -18,9 +17,38 @@ const pageDescription = t('page.a8k.description');
 
 // Language prefix for links
 const langPrefix = lang === 'en' ? '' : `/${lang}`;
+
+// Hero configuration
+const heroConfig = {
+  gradientFrom: "blue-600",
+  gradientVia: "indigo-700",
+  gradientTo: "blue-800",
+  decorativeTop: {
+    position: "-top-40 -right-40",
+    color: "bg-indigo-500/20"
+  },
+  decorativeBottom: {
+    position: "-bottom-40 -left-40",
+    color: "bg-blue-500/20"
+  },
+  icon: "mdi:signature-text",
+  subtitle: t('page.a8k.header.subtitle'),
+  title: t('page.a8k.header.title'),
+  description: t('page.a8k.header.description'),
+  stats: [
+    { value: "A8K", label: t('a8k.stats.signature') },
+    { value: "2025", label: t('a8k.stats.birth') },
+    { value: "∞", label: t('a8k.stats.potential') }
+  ],
+  navigation: [
+    { href: "#what-is-a8k", icon: "mdi:help-circle-outline", label: t('page.a8k.navigation.whatIs') },
+    { href: "#how-used", icon: "mdi:application-cog-outline", label: t('page.a8k.navigation.howUsed') },
+    { href: "#why-a8k", icon: "mdi:lightbulb-outline", label: t('page.a8k.navigation.why') }
+  ]
+};
 ---
 
-<MainLayout title={pageTitle} description={pageDescription} direction={constants.LANGUAGE_DIRECTION}>
+<CareerLayout title={pageTitle} description={pageDescription} hero={heroConfig}>
   <!-- Enhanced JSON-LD for A8K Brand Page -->
   <script type="application/ld+json" slot="head">
     {
@@ -69,53 +97,9 @@ const langPrefix = lang === 'en' ? '' : `/${lang}`;
     }
   </script>
 
-  <!-- Hero Section -->
-  <div class="relative bg-gradient-to-br from-blue-600 via-indigo-700 to-blue-800 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
-    <!-- Decorative elements -->
-    <div class="absolute inset-0 overflow-hidden">
-      <div class="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-indigo-500/20 blur-3xl"></div>
-      <div class="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-blue-500/20 blur-3xl"></div>
-    </div>
-
-    <div class="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
-      <div class="max-w-3xl">
-        <div class="flex items-center gap-2 mb-4">
-          <Icon name="mdi:signature-text" class="h-8 w-8 text-blue-200" />
-          <span class="text-blue-200 font-medium">
-            {t('page.a8k.header.subtitle')}
-          </span>
-        </div>
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-          {t('page.a8k.header.title')}
-        </h1>
-        <p class="text-xl text-blue-100 leading-relaxed mb-8">
-          {t('page.a8k.header.description')}
-        </p>
-
-        <!-- Quick nav to sections -->
-        <div class="flex flex-wrap gap-2">
-          <Button variant="filter" href="#what-is-a8k">
-            <Icon name="mdi:help-circle-outline" class="h-4 w-4" />
-            {t('page.a8k.navigation.whatIs')}
-          </Button>
-          <Button variant="filter" href="#how-used">
-            <Icon name="mdi:application-cog-outline" class="h-4 w-4" />
-            {t('page.a8k.navigation.howUsed')}
-          </Button>
-          <Button variant="filter" href="#why-a8k">
-            <Icon name="mdi:lightbulb-outline" class="h-4 w-4" />
-            {t('page.a8k.navigation.why')}
-          </Button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Main Content Sections -->
-  <main class="bg-white dark:bg-slate-900">
-    <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-    <!-- What is A8K Section -->
-    <section id="what-is-a8k" class="mb-12">
+  <!-- What is A8K Section -->
+  <section id="what-is-a8k" class="mt-12 mb-12">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <Card variant="elevated">
         <div class="p-6">
           <h2 class="mb-4 text-3xl font-bold text-blue-700 dark:text-sky-300">
@@ -147,10 +131,12 @@ const langPrefix = lang === 'en' ? '' : `/${lang}`;
           </div>
         </div>
       </Card>
-    </section>
+    </div>
+  </section>
 
-    <!-- How It's Used Section -->
-    <section id="how-used" class="mb-12">
+  <!-- How It's Used Section -->
+  <section id="how-used" class="mb-12">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <Card variant="elevated">
         <div class="p-6">
           <h2 class="mb-4 text-3xl font-bold text-blue-700 dark:text-sky-300">
@@ -211,10 +197,12 @@ const langPrefix = lang === 'en' ? '' : `/${lang}`;
           </div>
         </div>
       </Card>
-    </section>
+    </div>
+  </section>
 
-    <!-- Why A8K Section -->
-    <section id="why-a8k" class="mb-12">
+  <!-- Why A8K Section -->
+  <section id="why-a8k" class="mb-12">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <Card variant="elevated">
         <div class="p-6">
           <h2 class="mb-4 text-3xl font-bold text-blue-700 dark:text-sky-300">
@@ -259,10 +247,12 @@ const langPrefix = lang === 'en' ? '' : `/${lang}`;
           </div>
         </div>
       </Card>
-    </section>
+    </div>
+  </section>
 
-    <!-- Call to Action Section -->
-    <section class="mb-8">
+  <!-- Call to Action Section -->
+  <section class="mb-8">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <Card variant="elevated">
         <div class="p-6 text-center">
           <h2 class="mb-3 text-3xl font-bold text-blue-700 dark:text-sky-300">
@@ -287,45 +277,9 @@ const langPrefix = lang === 'en' ? '' : `/${lang}`;
           </div>
         </div>
       </Card>
-    </section>
     </div>
-  </main>
-
-  <!-- Back to Top Button -->
-  <a
-    id="backToTop"
-    href="#"
-    class="pointer-events-none fixed right-6 bottom-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-blue-600 text-white opacity-0 shadow-lg transition-all duration-300 hover:bg-blue-700 dark:bg-indigo-600 dark:hover:bg-indigo-700"
-    aria-label="Back to top"
-  >
-    <Icon name="mdi:arrow-up" class="h-5 w-5" />
-  </a>
-
-  <script>
-    const initBackToTop = () => {
-      const btn = document.getElementById("backToTop");
-      if (!btn) return;
-
-      window.addEventListener("scroll", () => {
-        if (window.scrollY > 400) {
-          btn.classList.remove("opacity-0", "pointer-events-none");
-          btn.classList.add("opacity-100", "pointer-events-auto");
-        } else {
-          btn.classList.add("opacity-0", "pointer-events-none");
-          btn.classList.remove("opacity-100", "pointer-events-auto");
-        }
-      });
-
-      btn.addEventListener("click", (e) => {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
-    };
-
-    document.addEventListener("DOMContentLoaded", initBackToTop);
-    document.addEventListener("astro:after-swap", initBackToTop);
-  </script>
-
+  </section>
+</CareerLayout>
 
 <style>
   .breakdown-letter {
@@ -359,62 +313,6 @@ const langPrefix = lang === 'en' ? '' : `/${lang}`;
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .breakdown-letter,
-    .breakdown-final {
-      animation: none;
-      transition: none;
-    }
-  }
-</style>
-
-<script>
-  window.addEventListener("scroll", () => {
-    const btn = document.getElementById("backToTop");
-    if (!btn) return;
-    if (window.scrollY > 200) {
-      btn.classList.remove("opacity-0", "pointer-events-none");
-      btn.classList.add("opacity-100", "pointer-events-auto");
-    } else {
-      btn.classList.add("opacity-0", "pointer-events-none");
-      btn.classList.remove("opacity-100", "pointer-events-auto");
-    }
-  });
-</script>
-
-
-<style>
-  .breakdown-letter {
-    transition: all 0.3s ease;
-    display: inline-block;
-  }
-  
-  .breakdown-letter:hover {
-    transform: scale(1.1);
-    color: #2563eb;
-  }
-  
-  .breakdown-final {
-    transition: all 0.4s ease;
-    display: inline-block;
-    animation: pulse-glow 2s ease-in-out infinite;
-  }
-  
-  .font-arabic {
-    font-family: 'Cairo', 'Tajawal', sans-serif;
-  }
-  
-  @keyframes pulse-glow {
-    0%, 100% {
-      transform: scale(1);
-      text-shadow: 0 0 10px rgba(37, 99, 235, 0.3);
-    }
-    50% {
-      transform: scale(1.05);
-      text-shadow: 0 0 20px rgba(37, 99, 235, 0.5);
-    }
-  }
-  
   @media (prefers-reduced-motion: reduce) {
     .breakdown-letter,
     .breakdown-final {

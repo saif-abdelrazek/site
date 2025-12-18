@@ -1,7 +1,7 @@
 ---
 /**
  * Education Landing Page
- * 
+ *
  * A narrative-driven education page divided into thematic sections:
  * 1. Formal Academic Foundation
  * 2. Autodidact & Developer Journey
@@ -9,7 +9,7 @@
  * 4. Vision & Forward Path
  */
 import { getCollection } from "astro:content";
-import MainLayout from "@layouts/MainLayout.astro";
+import CareerLayout from "@layouts/CareerLayout.astro";
 import EducationSection from "@components/education/EducationSection.astro";
 import { Icon } from "astro-icon/components";
 import { getLangFromUrl, getI18nStaticPaths } from "@i18n/utils";
@@ -21,7 +21,6 @@ export const getStaticPaths = getI18nStaticPaths;
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const isRtl = lang === "ar";
 
 // Fetch all institutions and moments for current language
 const allInstitutions = await getCollection("institutions");
@@ -39,19 +38,15 @@ moments.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
 const sections = [
   {
     id: "formal" as const,
-    title: isRtl ? "الأساس الأكاديمي النظامي" : "Formal Academic Foundation",
-    narrative: isRtl
-      ? "التعليم النظامي في مدرسة STEM يوفر أساساً صارماً في التفكير العلمي ومنهجية البحث. هذه الخبرة تشكل الأساس للتحضير لكلية الطب وتطوير التفكير التحليلي."
-      : "Formal education at STEM High School provides a rigorous foundation in scientific thinking and research methodology. This experience forms the backbone of medical school preparation and the development of analytical thinking.",
+    title: t('education.formal.title'),
+    narrative: t('education.formal.narrative'),
     featuredMoments: ["thanaweya-amma-focus"],
     showCarousel: true,
   },
   {
     id: "self-learning" as const,
-    title: isRtl ? "رحلة التعلم الذاتي والتطوير" : "Autodidact & Developer Journey",
-    narrative: isRtl
-      ? "التعلم الذاتي في تطوير البرمجيات ليس مجرد هواية - إنه تعلم تطبيقي موازٍ في التفكير المنظومي وحل المشكلات وإدارة المشاريع. كل مشروع برمجي يعزز نفس المهارات المطلوبة في الطب."
-      : "Self-taught software development isn't just a hobby—it's parallel, applied learning in systems thinking, problem-solving, and project management. Every coding project reinforces the same skills needed in medicine.",
+    title: t('education.selfLearning.title'),
+    narrative: t('education.selfLearning.narrative'),
     featuredMoments: ["starting-html-css", "mastering-javascript", "opensource-portfolio"],
     showCarousel: true,
   },
@@ -59,97 +54,46 @@ const sections = [
 
 const pageTitle = t('page.education.title');
 const pageDescription = t('page.education.description');
+
+// Hero configuration
+const heroConfig = {
+  gradientFrom: "teal-500",
+  gradientVia: "sky-500",
+  gradientTo: "blue-700",
+  decorativeTop: {
+    position: "-top-40 -right-40",
+    color: "bg-blue-500/20"
+  },
+  decorativeBottom: {
+    position: "-bottom-40 -left-40",
+    color: "bg-indigo-500/20"
+  },
+  icon: "mdi:school-outline",
+  subtitle: t('page.education.header.subtitle'),
+  title: t('page.education.header.title'),
+  description: t('page.education.header.description'),
+  stats: [
+    { value: institutions.length, label: t('ui.institutions') },
+    { value: moments.length, label: t('ui.moments') },
+    { value: sections.length, label: t('ui.sections') }
+  ],
+  navigation: [
+    { href: "#formal", icon: "mdi:school", label: t('nav.formalEducation') },
+    { href: "#self-learning", icon: "mdi:book-open-page-variant", label: t('nav.selfLearning') }
+  ]
+};
 ---
 
-<MainLayout title={pageTitle} description={pageDescription}>
-  <!-- Hero Section -->
-  <div class="relative bg-gradient-to-br from-teal-500 via-sky-500 to-blue-700 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
-    <!-- Decorative elements -->
-    <div class="absolute inset-0 overflow-hidden">
-      <div class="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-blue-500/20 blur-3xl"></div>
-      <div class="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-indigo-500/20 blur-3xl"></div>
-    </div>
-    
-    <div class="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8" dir={isRtl ? "rtl" : "ltr"}>
-      <div class="max-w-3xl">
-        <div class="flex items-center gap-2 mb-4">
-          <Icon name="mdi:school-outline" class="h-8 w-8 text-blue-200" />
-          <span class="text-blue-200 font-medium">
-            {isRtl ? "رحلة التعلم" : "Learning Journey"}
-          </span>
-        </div>
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-          {isRtl ? "التعليم والتطوير" : "Education & Growth"}
-        </h1>
-        <p class="text-xl text-blue-100 leading-relaxed mb-8">
-          {isRtl
-            ? "رحلة من الفصول الدراسية النظامية إلى التعلم الذاتي - بناء جسر بين الطب والتكنولوجيا."
-            : "A journey from formal classrooms to self-directed learning—building a bridge between medicine and technology."}
-        </p>
-        
-        <!-- Quick nav to sections -->
-        <div class="flex flex-wrap gap-2">
-          {Object.entries(SECTION_CONFIG).map(([key, config]) => (
-            <Button
-              variant="filter"
-              href={`#${key}`}
-            >
-              <Icon name={config.icon} class="h-4 w-4" />
-              {isRtl ? config.labelAr : config.label}
-            </Button>
-          ))}
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Main Content Sections -->
-  <main>
-    {sections.map((section) => (
-      <EducationSection
-        sectionId={section.id}
-        title={section.title}
-        narrative={section.narrative}
-        institutions={institutions}
-        moments={moments}
-        featuredMoments={section.featuredMoments}
-        showCarousel={section.showCarousel}
-      />
-    ))}
-  </main>
-
-  <!-- Back to Top Button -->
-  <a
-    id="backToTop"
-    href="#"
-    class="pointer-events-none fixed right-6 bottom-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-blue-600 text-white opacity-0 shadow-lg transition-all duration-300 hover:bg-blue-700 dark:bg-sky-600 dark:hover:bg-sky-700"
-    aria-label="Back to top"
-  >
-    <Icon name="mdi:arrow-up" class="h-5 w-5" />
-  </a>
-
-  <script>
-    const initBackToTop = () => {
-      const btn = document.getElementById("backToTop");
-      if (!btn) return;
-
-      window.addEventListener("scroll", () => {
-        if (window.scrollY > 400) {
-          btn.classList.remove("opacity-0", "pointer-events-none");
-          btn.classList.add("opacity-100", "pointer-events-auto");
-        } else {
-          btn.classList.add("opacity-0", "pointer-events-none");
-          btn.classList.remove("opacity-100", "pointer-events-auto");
-        }
-      });
-
-      btn.addEventListener("click", (e) => {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
-    };
-
-    document.addEventListener("DOMContentLoaded", initBackToTop);
-    document.addEventListener("astro:after-swap", initBackToTop);
-  </script>
-</MainLayout>
+<CareerLayout title={pageTitle} description={pageDescription} hero={heroConfig}>
+  {sections.map((section) => (
+    <EducationSection
+      sectionId={section.id}
+      title={section.title}
+      narrative={section.narrative}
+      institutions={institutions}
+      moments={moments}
+      featuredMoments={section.featuredMoments}
+      showCarousel={section.showCarousel}
+    />
+  ))}
+</CareerLayout>

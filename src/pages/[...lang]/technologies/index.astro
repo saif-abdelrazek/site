@@ -1,11 +1,11 @@
 ---
 /**
  * Technologies Landing Page
- * 
+ *
  * A visual showcase of technical skills organized by category:
  * - Languages, Frontend, Backend, Database, DevOps, Tools, Design
  */
-import MainLayout from "@layouts/MainLayout.astro";
+import CareerLayout from "@layouts/CareerLayout.astro";
 import TechSection from "@components/tech/TechSection.astro";
 import { Icon } from "astro-icon/components";
 import { getLangFromUrl, getI18nStaticPaths } from "@i18n/utils";
@@ -19,7 +19,6 @@ export const getStaticPaths = getI18nStaticPaths;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const constants = createLocalizedConstants(lang);
-const isRtl = lang === "ar";
 
 // Get technologies from constants
 const technologies = constants.PORTFOLIO_CONTENT.technologies.items ?? [];
@@ -43,112 +42,55 @@ const expertTechs = technologies.filter((t: Technology) => t.level === "Expert" 
 
 const pageTitle = constants.PAGE_TITLES.technologies;
 const pageDescription = constants.PAGE_DESCRIPTIONS.technologies;
+
+// Hero configuration
+const heroConfig = {
+  gradientFrom: "purple-600",
+  gradientVia: "indigo-700",
+  gradientTo: "blue-800",
+  decorativeTop: {
+    position: "-top-40 -right-40",
+    color: "bg-purple-500/20"
+  },
+  decorativeBottom: {
+    position: "-bottom-40 -left-40",
+    color: "bg-blue-500/20"
+  },
+  icon: "mdi:code-tags",
+  subtitle: t('page.tech.header.subtitle'),
+  title: t('page.tech.header.title'),
+  description: t('page.tech.header.description'),
+  stats: [
+    { value: totalTechs, label: t('ui.technologies') },
+    { value: expertTechs, label: t('ui.advancedPlus') },
+    { value: favoriteTechs, label: t('ui.favorites') }
+  ],
+  navigation: activeCategories.map((categoryId) => {
+    const config = TECH_CATEGORY_CONFIG[categoryId];
+    const navKeyMap: Record<string, string> = {
+      language: 'nav.languages',
+      frontend: 'nav.frontend',
+      backend: 'nav.backend',
+      database: 'nav.databases',
+      devops: 'nav.devops',
+      tools: 'nav.tools',
+      design: 'nav.design',
+      other: 'nav.tools'
+    };
+    return {
+      href: `#${categoryId}`,
+      icon: config.icon,
+      label: t(navKeyMap[categoryId] || 'nav.tools')
+    };
+  })
+};
 ---
 
-<MainLayout title={pageTitle} description={pageDescription}>
-  <!-- Hero Section -->
-  <div class="relative bg-gradient-to-br from-purple-600 via-indigo-700 to-blue-800 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
-    <!-- Decorative elements -->
-    <div class="absolute inset-0 overflow-hidden">
-      <div class="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-purple-500/20 blur-3xl"></div>
-      <div class="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-blue-500/20 blur-3xl"></div>
-    </div>
-    
-    <div class="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8" dir={isRtl ? "rtl" : "ltr"}>
-      <div class="max-w-3xl">
-        <div class="flex items-center gap-2 mb-4">
-          <Icon name="mdi:code-tags" class="h-8 w-8 text-purple-200" />
-          <span class="text-purple-200 font-medium">
-            {isRtl ? "مهاراتي التقنية" : "Technical Skills"}
-          </span>
-        </div>
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-          {isRtl ? "التقنيات والأدوات" : "Technologies & Tools"}
-        </h1>
-        <p class="text-xl text-purple-100 leading-relaxed mb-8">
-          {isRtl
-            ? "مجموعة من التقنيات والأدوات التي أستخدمها لبناء تطبيقات ويب حديثة وقابلة للتطوير."
-            : "A collection of technologies and tools I use to build modern, scalable web applications."}
-        </p>
-        
-        <!-- Stats -->
-        <div class="flex flex-wrap gap-6 mb-8">
-          <div class="flex items-center gap-2">
-            <span class="text-3xl font-bold text-white">{totalTechs}</span>
-            <span class="text-purple-200">{isRtl ? "تقنية" : "Technologies"}</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="text-3xl font-bold text-white">{expertTechs}</span>
-            <span class="text-purple-200">{isRtl ? "متقدم+" : "Advanced+"}</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="text-3xl font-bold text-white">{favoriteTechs}</span>
-            <span class="text-purple-200">{isRtl ? "مفضل" : "Favorites"}</span>
-          </div>
-        </div>
-        
-        <!-- Quick nav to categories -->
-        <div class="flex flex-wrap gap-2">
-          {activeCategories.map((categoryId) => {
-            const config = TECH_CATEGORY_CONFIG[categoryId];
-            return (
-              <Button
-                variant="filter"
-                href={`#${categoryId}`}
-              >
-                <Icon name={config.icon} class="h-4 w-4" />
-                {isRtl ? config.labelAr : config.label}
-                <span class="text-white/60 text-xs">({groupedTechnologies[categoryId].length})</span>
-              </Button>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Main Content Sections -->
-  <main>
-    {activeCategories.map((categoryId) => (
-      <TechSection
-        categoryId={categoryId}
-        technologies={groupedTechnologies[categoryId]}
-      />
-    ))}
-  </main>
-
-  <!-- Back to Top Button -->
-  <a
-    id="backToTop"
-    href="#"
-    class="pointer-events-none fixed right-6 bottom-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-purple-600 text-white opacity-0 shadow-lg transition-all duration-300 hover:bg-purple-700 dark:bg-indigo-600 dark:hover:bg-indigo-700"
-    aria-label="Back to top"
-  >
-    <Icon name="mdi:arrow-up" class="h-5 w-5" />
-  </a>
-
-  <script>
-    const initBackToTop = () => {
-      const btn = document.getElementById("backToTop");
-      if (!btn) return;
-
-      window.addEventListener("scroll", () => {
-        if (window.scrollY > 400) {
-          btn.classList.remove("opacity-0", "pointer-events-none");
-          btn.classList.add("opacity-100", "pointer-events-auto");
-        } else {
-          btn.classList.add("opacity-0", "pointer-events-none");
-          btn.classList.remove("opacity-100", "pointer-events-auto");
-        }
-      });
-
-      btn.addEventListener("click", (e) => {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
-    };
-
-    document.addEventListener("DOMContentLoaded", initBackToTop);
-    document.addEventListener("astro:after-swap", initBackToTop);
-  </script>
-</MainLayout>
+<CareerLayout title={pageTitle} description={pageDescription} hero={heroConfig}>
+  {activeCategories.map((categoryId) => (
+    <TechSection
+      categoryId={categoryId}
+      technologies={groupedTechnologies[categoryId]}
+    />
+  ))}
+</CareerLayout>

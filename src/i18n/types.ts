@@ -36,7 +36,13 @@ export interface I18nStrings {
   'page.contact.title': string;
   'page.projects.title': string;
   'page.education.title': string;
+  'page.education.header.subtitle': string;
+  'page.education.header.title': string;
+  'page.education.header.description': string;
   'page.tech.title': string;
+  'page.tech.header.subtitle': string;
+  'page.tech.header.title': string;
+  'page.tech.header.description': string;
   'page.about.title': string;
   'page.repos.title': string;
   'page.now.title': string;
@@ -227,6 +233,18 @@ export interface I18nStrings {
   'ui.technology': string;
   'ui.advancedPlus': string;
   'ui.favorites': string;
+  'ui.institutions': string;
+  'ui.moments': string;
+  'ui.sections': string;
+  'nav.formalEducation': string;
+  'nav.selfLearning': string;
+  'nav.languages': string;
+  'nav.frontend': string;
+  'nav.backend': string;
+  'nav.databases': string;
+  'nav.devops': string;
+  'nav.tools': string;
+  'nav.design': string;
   'education.formal.title': string;
   'education.formal.narrative': string;
   'education.selfLearning.title': string;
@@ -461,6 +479,9 @@ export interface I18nStrings {
   'a8k.cta.description': string;
   'a8k.cta.button': string;
   'a8k.cta.blogLink': string;
+  'a8k.stats.signature': string;
+  'a8k.stats.birth': string;
+  'a8k.stats.potential': string;
 
   // Blog components
   'blog.footer.siteName': string;
