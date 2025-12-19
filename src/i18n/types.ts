@@ -27,6 +27,7 @@ export interface I18nStrings {
   'nav.tech': string;
   'nav.technologies': string;
   'nav.about': string;
+  'nav.more': string;
 
   // Page titles
   'page.home.title': string;
@@ -447,6 +448,9 @@ export interface I18nStrings {
   'pagination.of': string;
   'pagination.first': string;
   'pagination.last': string;
+
+  'nav.arrow.previous': string;
+  'nav.arrow.next': string;
 
   // Language switcher
   'language.switch': string;

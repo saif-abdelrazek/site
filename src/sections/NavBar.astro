@@ -2,6 +2,7 @@
 import Link from "@components/shared/Link.astro";
 import ThemeToggle from "@components/theme/ThemeToggle.astro";
 import LanguageSwitcher from "@components/shared/LanguageSwitcher.astro";
+import { Icon } from "astro-icon/components";
 import { getLangFromUrl } from "@i18n/utils";
 import { useTranslations } from "@i18n/translations";
 
@@ -29,11 +30,16 @@ const isActive = (itemHref: string) => {
 };
 
 // Navigation items based on language
-const navItems = [
-  { href: lang === 'ar' ? '/ar/blog' : '/blog', label: t('nav.blog'), icon: 'mdi:post' },
-  { href: lang === 'ar' ? '/ar/projects' : '/projects', label: t('nav.projects'), icon: 'mdi:github' },
-  { href: lang === 'ar' ? '/ar/now' : '/now', label: t('nav.now'), icon: 'mdi:clock' },
-  { href: lang === 'ar' ? '/ar/contact' : '/contact', label: t('nav.contact'), icon: 'mdi:email' },
+const mainNavItems = [
+  { href: lang === 'ar' ? '/ar/blog' : '/blog', label: t('nav.blog'), icon: 'mdi:newspaper-variant-outline' },
+  { href: lang === 'ar' ? '/ar/contact' : '/contact', label: t('nav.contact'), icon: 'mdi:email-outline' },
+];
+
+const moreNavItems = [
+  { href: lang === 'ar' ? '/ar/projects' : '/projects', label: t('nav.projects'), icon: 'mdi:code-braces' },
+  { href: lang === 'ar' ? '/ar/education' : '/education', label: t('nav.education'), icon: 'mdi:school-outline' },
+  { href: lang === 'ar' ? '/ar/technologies' : '/technologies', label: t('nav.technologies'), icon: 'mdi:code-tags' },
+  { href: lang === 'ar' ? '/ar/now' : '/now', label: t('nav.now'), icon: 'mdi:clock-outline' },
 ];
 ---
 
@@ -94,15 +100,16 @@ const navItems = [
         id="navbar-links"
         class="fixed top-16 left-0 z-40 hidden max-h-0 w-full flex-col items-center overflow-visible border-b border-blue-100 bg-blue-50 text-center shadow-lg transition-all duration-300 lg:static lg:z-auto lg:flex lg:max-h-none lg:w-auto lg:flex-row lg:items-center lg:gap-6 lg:overflow-visible lg:border-none lg:bg-transparent lg:shadow-none dark:bg-[#0f172a] dark:lg:bg-transparent"
       >
+        <!-- Main navigation items -->
         {
-          navItems.map((item, idx) => (
+          mainNavItems.map((item, idx) => (
               <li
               class={`w-full lg:w-auto ${
                 idx === 0
                   ? "border-t border-blue-100 lg:border-none dark:border-sky-900" // Blog link: separator at top on mobile
                   : ""
               } ${
-                idx < navItems.length - 1
+                idx < mainNavItems.length - 1
                   ? "border-b border-blue-100 lg:border-none dark:border-sky-900"
                   : ""
               }`}
@@ -124,6 +131,63 @@ const navItems = [
             </li>
           ))
         }
+
+        <!-- More button with dropdown -->
+        <li class="relative w-full lg:w-auto">
+          <button
+            id="navbar-more-button"
+            type="button"
+            class="flex w-full items-center justify-center gap-2 rounded-md px-3 py-5 text-sm font-medium transition-colors duration-200 text-blue-700 hover:bg-blue-100 hover:text-blue-900 dark:text-sky-300 dark:hover:bg-sky-900/30 dark:hover:text-sky-100 lg:px-3 lg:py-2"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-label="Show more navigation options"
+          >
+            <span>{t('nav.more') || 'More'}</span>
+            <svg class="h-4 w-4 text-current transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" id="navbar-more-chevron">
+              <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+            </svg>
+          </button>
+
+          <!-- More dropdown -->
+          <div
+            id="navbar-more-dropdown"
+            class="absolute right-0 z-[9999] mt-2 w-48 origin-top-right rounded-lg border border-blue-100 bg-blue-50 shadow-xl backdrop-blur-md transition-all duration-200 scale-95 opacity-0 pointer-events-none dark:border-sky-900 dark:bg-[#0f172a] lg:right-0"
+            role="menu"
+            aria-orientation="vertical"
+            aria-labelledby="navbar-more-button"
+          >
+            <div class="py-1" role="none">
+              {moreNavItems.map((item) => (
+                <a
+                  href={item.href}
+                  class={`flex items-center gap-3 px-4 py-3 text-sm transition-colors duration-200 hover:bg-blue-100 dark:hover:bg-sky-900/30 ${
+                    isActive(item.href)
+                      ? 'bg-blue-100 text-blue-900 dark:bg-sky-900/50 dark:text-sky-100 font-medium'
+                      : 'text-blue-700 dark:text-sky-300'
+                  }`}
+                  role="menuitem"
+                >
+                  <Icon
+                    name={
+                      item.icon === 'mdi:code-braces' ? 'mdi:code-braces' :
+                      item.icon === 'mdi:school-outline' ? 'mdi:school-outline' :
+                      item.icon === 'mdi:code-tags' ? 'mdi:code-tags' :
+                      'mdi:clock-outline'
+                    }
+                    class={`h-4 w-4 ${isActive(item.href) ? 'text-blue-600 dark:text-sky-400' : 'text-blue-500 dark:text-sky-400'}`}
+                  />
+                  <span class="flex-1">{item.label}</span>
+                  {isActive(item.href) && (
+                    <Icon
+                      name="mdi:check"
+                      class="h-4 w-4 text-blue-600 dark:text-sky-400"
+                    />
+                  )}
+                </a>
+              ))}
+            </div>
+          </div>
+        </li>
         <!-- Theme toggle and Language switcher with separator above and full width on mobile -->
         <li
           class="flex w-full justify-center gap-2 border-t border-blue-100 px-3 py-3 lg:mt-0 lg:ml-4 lg:w-auto lg:border-none lg:px-0 lg:py-0 dark:border-sky-900"
@@ -189,6 +253,16 @@ const navItems = [
     links?.addEventListener("click", (e) => {
       if (e.target.tagName === "A" && window.innerWidth < 1024) {
         closeMenu();
+        // Also close More dropdown if open
+        const moreDropdown = document.getElementById("navbar-more-dropdown");
+        const moreChevron = document.getElementById("navbar-more-chevron");
+        const moreBtn = document.getElementById("navbar-more-button");
+        if (moreDropdown && moreChevron && moreBtn) {
+          moreDropdown.classList.add("pointer-events-none", "opacity-0", "scale-95");
+          moreDropdown.classList.remove("opacity-100", "scale-100");
+          moreChevron.style.transform = "rotate(0deg)";
+          moreBtn.setAttribute("aria-expanded", "false");
+        }
       }
     });
 
@@ -213,6 +287,54 @@ const navItems = [
     if (links) {
       links.classList.add("initialized");
     }
+    
+    // Handle More button dropdown
+    const moreBtn = document.getElementById("navbar-more-button");
+    const moreDropdown = document.getElementById("navbar-more-dropdown");
+    const moreChevron = document.getElementById("navbar-more-chevron");
+    
+    if (moreBtn && moreDropdown && moreChevron) {
+      moreBtn.addEventListener("click", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const isOpen = !moreDropdown.classList.contains("pointer-events-none");
+        
+        if (isOpen) {
+          // Close dropdown
+          moreDropdown.classList.add("pointer-events-none", "opacity-0", "scale-95");
+          moreDropdown.classList.remove("opacity-100", "scale-100");
+          moreChevron.style.transform = "rotate(0deg)";
+          moreBtn.setAttribute("aria-expanded", "false");
+        } else {
+          // Open dropdown
+          moreDropdown.classList.remove("pointer-events-none", "opacity-0", "scale-95");
+          moreDropdown.classList.add("opacity-100", "scale-100");
+          moreChevron.style.transform = "rotate(180deg)";
+          moreBtn.setAttribute("aria-expanded", "true");
+        }
+      });
+      
+      // Close dropdown when clicking outside
+      document.addEventListener("click", function(event) {
+        if (!moreBtn.contains(event.target) && !moreDropdown.contains(event.target)) {
+          moreDropdown.classList.add("pointer-events-none", "opacity-0", "scale-95");
+          moreDropdown.classList.remove("opacity-100", "scale-100");
+          moreChevron.style.transform = "rotate(0deg)";
+          moreBtn.setAttribute("aria-expanded", "false");
+        }
+      });
+      
+      // Close dropdown on escape key
+      document.addEventListener("keydown", function(event) {
+        if (event.key === "Escape") {
+          moreDropdown.classList.add("pointer-events-none", "opacity-0", "scale-95");
+          moreDropdown.classList.remove("opacity-100", "scale-100");
+          moreChevron.style.transform = "rotate(0deg)";
+          moreBtn.setAttribute("aria-expanded", "false");
+        }
+      });
+    }
   });
   
   document.addEventListener("DOMContentLoaded", () => {
@@ -221,6 +343,54 @@ const navItems = [
     const links = document.getElementById("navbar-links");
     if (links) {
       links.classList.add("initialized");
+    }
+    
+    // Handle More button dropdown
+    const moreBtn = document.getElementById("navbar-more-button");
+    const moreDropdown = document.getElementById("navbar-more-dropdown");
+    const moreChevron = document.getElementById("navbar-more-chevron");
+    
+    if (moreBtn && moreDropdown && moreChevron) {
+      moreBtn.addEventListener("click", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const isOpen = !moreDropdown.classList.contains("pointer-events-none");
+        
+        if (isOpen) {
+          // Close dropdown
+          moreDropdown.classList.add("pointer-events-none", "opacity-0", "scale-95");
+          moreDropdown.classList.remove("opacity-100", "scale-100");
+          moreChevron.style.transform = "rotate(0deg)";
+          moreBtn.setAttribute("aria-expanded", "false");
+        } else {
+          // Open dropdown
+          moreDropdown.classList.remove("pointer-events-none", "opacity-0", "scale-95");
+          moreDropdown.classList.add("opacity-100", "scale-100");
+          moreChevron.style.transform = "rotate(180deg)";
+          moreBtn.setAttribute("aria-expanded", "true");
+        }
+      });
+      
+      // Close dropdown when clicking outside
+      document.addEventListener("click", function(event) {
+        if (!moreBtn.contains(event.target) && !moreDropdown.contains(event.target)) {
+          moreDropdown.classList.add("pointer-events-none", "opacity-0", "scale-95");
+          moreDropdown.classList.remove("opacity-100", "scale-100");
+          moreChevron.style.transform = "rotate(0deg)";
+          moreBtn.setAttribute("aria-expanded", "false");
+        }
+      });
+      
+      // Close dropdown on escape key
+      document.addEventListener("keydown", function(event) {
+        if (event.key === "Escape") {
+          moreDropdown.classList.add("pointer-events-none", "opacity-0", "scale-95");
+          moreDropdown.classList.remove("opacity-100", "scale-100");
+          moreChevron.style.transform = "rotate(0deg)";
+          moreBtn.setAttribute("aria-expanded", "false");
+        }
+      });
     }
   });
 </script>

@@ -23,8 +23,8 @@ const ar: I18nStrings = {
     'nav.projects': 'المشاريع',
     'nav.education': 'الرحلة التعليمية',
     'nav.technologies': 'التقنيات',
-    'nav.about': 'عني',
-    
+    'nav.about': 'عني',     
+    'nav.more': 'المزيد',    
     // Page titles
     'page.home.title': 'سيف عبدالرازق | مطوّر متكامل وطالب ثانوي',
     'page.home.viewProjects': 'تصفّح المشاريع',

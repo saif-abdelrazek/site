@@ -23,6 +23,8 @@ const en: I18nStrings = {
     'nav.education': 'Education',
     'nav.technologies': 'Technologies',
     'nav.about': 'About',
+    'nav.more': 'More',
+    'nav.tech': 'Tech',
     
     // Page titles
     'page.home.title': 'Saif Abdelrazek | Full Stack Developer & Student',
@@ -360,6 +362,8 @@ const en: I18nStrings = {
     // Technologies
     'tech.title': 'Technologies & Tools',
     'tech.description': 'Explore the technologies and tools I use in my projects',
+    'tech.technologies': 'Technologies',
+    'tech.advancedPlus': 'Advanced+',
     'tech.level.expert': 'Expert',
     'tech.level.advanced': 'Advanced',
     'tech.level.intermediate': 'Intermediate',
