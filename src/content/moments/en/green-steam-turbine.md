@@ -7,7 +7,7 @@ institutionSlug: "stem-gharbiya"
 section: "formal"
 tags: ["Capstone", "Renewable Energy", "Thermal Dynamics", "Sustainable Prototyping"]
 featured: true
-order: 3
+order: 2
 lang: en
 ---
 

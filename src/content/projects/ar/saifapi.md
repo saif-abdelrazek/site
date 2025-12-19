@@ -1,5 +1,5 @@
 ---
-title: "SaifAPI - واجهة برمجة التطبيقات للمصادقة والخدمات"
+title: "SaifAPI"
 description: "خدمة API آمنة وغنية بالميزات مبنية بـ Express.js مع تكامل البوتات والأمان الحديث وتقييد المعدل."
 technologies:
   [
@@ -25,6 +25,7 @@ technologies:
   ]
 repo: "https://github.com/saif-abdelrazek/saifapi"
 slug: "saifapi"
+order: 1
 shownInHome: true
 ---
 

@@ -7,7 +7,7 @@ institutionSlug: "stem-gharbiya"
 section: "formal"
 tags: ["كابستون", "الهندسة المستدامة", "جودة الهواء", "أردوينو", "علم المواد"]
 featured: true
-order: 1
+order: 4
 lang: ar
 ---
 

@@ -7,7 +7,7 @@ institutionSlug: "stem-gharbiya"
 section: "formal"
 tags: ["Capstone", "Sustainable Engineering", "Air Quality", "Arduino", "Material Science"]
 featured: true
-order: 1
+order: 4
 lang: en
 ---
 

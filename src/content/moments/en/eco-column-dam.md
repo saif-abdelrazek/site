@@ -7,7 +7,7 @@ institutionSlug: "stem-gharbiya"
 section: "formal"
 tags: ["Capstone", "Structural Engineering", "Hydraulic Systems", "Sustainable Materials"]
 featured: true
-order: 4
+order: 1
 lang: en
 ---
 

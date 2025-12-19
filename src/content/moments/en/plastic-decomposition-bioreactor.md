@@ -7,7 +7,7 @@ institutionSlug: "stem-gharbiya"
 section: "formal"
 tags: ["ISEF", "Bioreactor", "Arduino", "Sustainable Engineering", "Bio-Remediation"]
 featured: true
-order: 2
+order: 3
 lang: en
 ---
 

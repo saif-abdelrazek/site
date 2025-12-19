@@ -7,7 +7,7 @@ institutionSlug: "stem-gharbiya"
 section: "formal"
 tags: ["ISEF", "مفاعل حيوي", "أردوينو", "الهندسة المستدامة", "المعالجة الحيوية"]
 featured: true
-order: 2
+order: 3
 lang: ar
 ---
 

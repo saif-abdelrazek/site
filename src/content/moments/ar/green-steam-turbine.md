@@ -7,7 +7,7 @@ institutionSlug: "stem-gharbiya"
 section: "formal"
 tags: ["كابستون", "الطاقة المتجددة", "الديناميكا الحرارية", "النمذجة المستدامة"]
 featured: true
-order: 3
+order: 2
 lang: ar
 ---
 

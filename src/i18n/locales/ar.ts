@@ -441,8 +441,10 @@ const ar: I18nStrings = {
     'pagination.page': 'صفحة',
     'pagination.of': 'من',
     'pagination.first': 'الأولى',
-    'pagination.last': 'الأخيرة',
-    
+    'pagination.last': 'الأخيرة',    
+    // Navigation arrows
+    'nav.arrow.previous': 'mdi:arrow-right',
+    'nav.arrow.next': 'mdi:arrow-left',    
     // Language switcher
     'language.switch': 'تبديل اللغة',
     'language.current': 'اللغة الحالية',

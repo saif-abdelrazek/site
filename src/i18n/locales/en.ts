@@ -442,6 +442,10 @@ const en: I18nStrings = {
     'pagination.first': 'First',
     'pagination.last': 'Last',
     
+    // Navigation arrows
+    'nav.arrow.previous': 'mdi:arrow-left',
+    'nav.arrow.next': 'mdi:arrow-right',
+    
     // Language switcher
     'language.switch': 'Switch Language',
     'language.current': 'Current Language',

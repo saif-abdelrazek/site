@@ -1,5 +1,5 @@
 ---
-title: "SaifAPI - Authentication & Services API"
+title: "SaifAPI"
 description: "A secure, feature-rich Express.js API service with bot integration, modern security, and rate limiting."
 technologies:
   [
@@ -25,6 +25,7 @@ technologies:
   ]
 repo: "https://github.com/saif-abdelrazek/saifapi"
 slug: "saifapi"
+order: 1
 shownInHome: true
 ---
 
