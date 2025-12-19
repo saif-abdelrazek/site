@@ -5,6 +5,14 @@ export interface RepoType {
   repolink?: string;
   website?: string;
   mainlang?: string;
+  stars?: number;
+  forks?: number;
+  commits?: number;
+  license?: string;
+  updatedAt?: string;
+  size?: number;
+  topics?: string[];
+  archived?: boolean;
 }
 export interface RepoLoaderReturnType {
   id: string;
@@ -20,6 +28,23 @@ export interface FetchedRepoResponse {
   homepage?: string;
   language?: string;
   fork: boolean;
+  stargazers_count?: number;
+  forks_count?: number;
+  watchers_count?: number;
+  size?: number;
+  created_at?: string;
+  updated_at?: string;
+  pushed_at?: string;
+  license?: {
+    key: string;
+    name: string;
+    spdx_id: string;
+    url: string;
+    node_id: string;
+  } | null;
+  archived?: boolean;
+  disabled?: boolean;
+  topics?: string[];
 }
 
 export interface FetchReposParams {

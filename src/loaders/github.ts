@@ -130,14 +130,14 @@ export const fetchRepos = async ({
         (repos && repos.message ? repos.message : "Unknown error"),
     );
   }
-  const reposWithoutSite = repos.filter(
+  const wantedRepos = repos.filter(
     (repo: FetchedRepoResponse) =>
-      repo.name !== "site" && repo.name !== "saif-abdelrazek",
+      repo.name !== "saif-abdelrazek",
   );
-  if (!Array.isArray(reposWithoutSite)) {
+  if (!Array.isArray(wantedRepos)) {
     throw new Error("Failed to fetch repositories");
   }
-  if (reposWithoutSite.length === 0) {
+  if (wantedRepos.length === 0) {
     throw new Error("No repositories found");
   }
   if (response.status !== 200) {
@@ -146,31 +146,56 @@ export const fetchRepos = async ({
     );
   }
 
-  return reposWithoutSite;
+  return wantedRepos;
 };
 
-/**  I created this but stop using becasue it takes a lot from my rate limit
- * @param languages_url - The URL to fetch the languages from
+/**
+ * Fetches the total commit count for a repository using GitHub's contributors stats API.
+ * @param owner - Repository owner
+ * @param repo - Repository name
  * @param apikey - Optional GitHub API key for authentication
- * @returns A promise that resolves to the languages of the repository
+ * @returns Total commit count or null if stats are not available
  */
-
-const fetchRepoLanguages = async (languages_url: string, apikey?: string) => {
+const fetchRepoCommitCount = async (
+  owner: string,
+  repo: string,
+  apikey?: string
+): Promise<number | null> => {
   try {
-    const response = await fetch(languages_url, {
-      headers: {
-        ...(apikey ? { Authorization: `Bearer ${apikey}` } : {}),
-      },
-    });
-    if (response.status !== 200) {
-      throw new Error(
-        `Failed to fetch repository languages: ${response.status} ${response.statusText}`,
-      );
+    const response = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/stats/contributors`,
+      {
+        headers: {
+          ...(apikey ? { Authorization: `Bearer ${apikey}` } : {}),
+        },
+      }
+    );
+
+    if (response.status === 202) {
+      // Stats are being computed, not ready yet
+      return null;
     }
-    return response.json();
+
+    if (!response.ok) {
+      console.warn(`Failed to fetch commit stats for ${owner}/${repo}: ${response.status}`);
+      return null;
+    }
+
+    const contributors = await response.json();
+
+    if (!Array.isArray(contributors)) {
+      return null;
+    }
+
+    // Sum up all contributor commit counts
+    const totalCommits = contributors.reduce((sum: number, contributor: any) => {
+      return sum + (contributor.total || 0);
+    }, 0);
+
+    return totalCommits;
   } catch (error) {
-    console.error("Error fetching repository languages:", error);
-    throw error;
+    console.warn(`Error fetching commit count for ${owner}/${repo}:`, error);
+    return null;
   }
 };
 
@@ -204,9 +229,32 @@ export const reposLoader = (config: {
         const nonForkRepos = repos.filter(
           (repo: FetchedRepoResponse) => !repo.fork,
         );
+
+        // Remove duplicates based on repo ID
+        const uniqueRepos = nonForkRepos.filter(
+          (repo, index, self) =>
+            index === self.findIndex((r) => r.id === repo.id)
+        );
+
+        // Fetch commit counts for each repository (with rate limiting consideration)
+        const reposWithCommits = await Promise.all(
+          uniqueRepos.map(async (repo: FetchedRepoResponse) => {
+            const commitCount = await fetchRepoCommitCount(
+              "saif-abdelrazek",
+              repo.name,
+              config.apikey
+            );
+
+            return {
+              ...repo,
+              commitCount,
+            };
+          })
+        );
+
         return {
-          entries: nonForkRepos.map(
-            (repo: FetchedRepoResponse): RepoLoaderReturnType => ({
+          entries: reposWithCommits.map(
+            (repo: FetchedRepoResponse & { commitCount: number | null }): RepoLoaderReturnType => ({
               id: repo.id,
               data: {
                 id: repo.id,
@@ -215,6 +263,14 @@ export const reposLoader = (config: {
                 repolink: repo.html_url || "",
                 website: repo.homepage || "",
                 mainlang: repo.language ? repo.language : "Unknown",
+                stars: repo.stargazers_count || 0,
+                forks: repo.forks_count || 0,
+                commits: repo.commitCount || undefined,
+                license: repo.license?.spdx_id || repo.license?.key?.toUpperCase() || undefined,
+                updatedAt: repo.updated_at || "",
+                size: repo.size || 0,
+                topics: repo.topics || [],
+                archived: repo.archived || false,
               },
             }),
           ),

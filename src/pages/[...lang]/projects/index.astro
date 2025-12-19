@@ -1,0 +1,229 @@
+---
+import { getLiveCollection, getLiveEntry } from "astro:content";
+import { getCollection } from "astro:content";
+import CareerLayout from "@layouts/CareerLayout.astro";
+import RepoCard from "@components/repos/RepoCard.astro";
+import ProjectCard from "@components/portfolio/ProjectCard.astro";
+import StatsCard from "@components/stats/CodingStatsCard.astro";
+import { getLangFromUrl, getI18nStaticPaths } from "@i18n/utils";
+import { useTranslations } from "@i18n/translations";
+import { createLocalizedConstants } from "@lib/constants";
+import { Icon } from "astro-icon/components";
+
+export const getStaticPaths = getI18nStaticPaths;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const constants = createLocalizedConstants(lang);
+
+// Fetch projects
+const allProjects = await getCollection("projects");
+const projects = allProjects.filter((p) => p.id.startsWith(`${lang}/`));
+
+// Fetch repos
+const { entries: repos, error: reposError } = await getLiveCollection("repos", {
+  since: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000 ) // 1 year ago
+    .toISOString()
+    .split("T")[0],
+  visibility: "public",
+  sort: "updated",
+  direction: "desc",
+});
+
+// Fetch coding stats
+const { entry: codingStats, error: codingStatsError } = await getLiveEntry(
+  "codingStats",
+  {
+    startDate: new Date(Date.now() - 365 * 24 * 60 * 60 * 500)
+      .toISOString()
+      .split("T")[0],
+  },
+);
+
+// Calculate stats for hero
+const totalProjects = projects.length;
+
+const totalRepos = repos ? repos.length : 0;
+const codingHours = codingStats?.data?.totalcodingseconds
+  ? Math.round((codingStats.data.totalcodingseconds / 3600))
+  : 0;
+
+const pageTitle = t('page.projects.title');
+const pageDescription = t('page.projects.description');
+
+// Hero configuration
+const heroConfig = {
+  gradientFrom: "purple-600",
+  gradientVia: "indigo-700",
+  gradientTo: "blue-800",
+  decorativeTop: {
+    position: "-top-40 -right-40",
+    color: "bg-purple-500/20"
+  },
+  decorativeBottom: {
+    position: "-bottom-40 -left-40",
+    color: "bg-blue-500/20"
+  },
+  icon: "mdi:code-braces",
+  subtitle: t('page.projects.header.subtitle'),
+  title: t('page.projects.header.title'),
+  description: t('page.projects.header.description'),
+  stats: [
+    { value: totalProjects, label: t('page.projects.stats.totalProjects') },
+    { value: totalRepos, label: t('page.projects.stats.totalRepos') }
+  ],
+  navigation: [
+    { href: "#stats", icon: "mdi:chart-line", label: t('page.projects.section.stats') },
+    { href: "#projects", icon: "mdi:folder-multiple-outline", label: t('page.projects.section.projects') },
+    { href: "#repos", icon: "mdi:github", label: t('page.projects.section.repos') }
+  ]
+};
+---
+
+<CareerLayout title={pageTitle} description={pageDescription} hero={heroConfig} gradientClass="bg-gradient-to-br from-purple-600 via-indigo-700 to-blue-800">
+  <!-- Coding Stats Section -->
+  <section id="stats" class="py-12 md:py-16 bg-gradient-to-br from-indigo-50/50 via-white to-indigo-50/50 dark:from-indigo-950/20 dark:via-slate-900 dark:to-indigo-950/20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <!-- Section Header and Cards -->
+      <div class="flex flex-col lg:flex-row lg:items-start gap-8 lg:gap-12">
+        <!-- Section Header -->
+        <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 lg:flex-col lg:items-start lg:gap-4 lg:min-w-0 lg:flex-1">
+          <span class="flex items-center justify-center h-14 w-14 rounded-2xl shrink-0 bg-indigo-100 dark:bg-indigo-900/60">
+            <Icon name="mdi:chart-line" class="h-7 w-7 text-indigo-600 dark:text-indigo-400" />
+          </span>
+          <div class="flex-1 lg:flex-none">
+            <h2 class="text-2xl md:text-3xl font-bold text-slate-800 dark:text-white mb-1">
+              {t('page.projects.section.stats')}
+            </h2>
+            <p class="text-sm text-slate-600 dark:text-gray-400">
+              {t('repos.lastHalfYear')}
+            </p>
+          </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="flex-1">
+          {codingStatsError ? (
+            <div class="flex w-full flex-col gap-4 md:flex-row md:items-center justify-center">
+              <div class="flex-1 rounded-xl bg-red-100 p-6 text-center text-red-700 shadow dark:bg-red-900/60 dark:text-red-200">
+                <span class="font-semibold">
+                  {codingStatsError &&
+                  "status" in codingStatsError &&
+                  codingStatsError.status === 500
+                    ? t('repos.hackatimeUnavailable')
+                    : codingStatsError &&
+                      "status" in codingStatsError &&
+                      codingStatsError.status === 404
+                    ? t('repos.noCodingStats')
+                    : codingStatsError?.message || ""}
+                </span>
+              </div>
+            </div>
+          ) : codingStats && codingStats.data ? (
+            <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+              <StatsCard
+                label={t('repos.totalCodingTime')}
+                value={`${(codingStats.data.totalcodingseconds / 3600).toFixed(1)} ${t('stats.hrs')}`}
+              />
+              <StatsCard
+                label={t('repos.dailyAverage')}
+                value={`${(codingStats.data.dailyaverage / 3600).toFixed(1)} ${t('stats.hrs')}`}
+              />
+              {codingStats.data.languages &&
+                codingStats.data.languages.length > 0 && (
+                  <StatsCard
+                    label={t('repos.topLanguages')}
+                    value={codingStats.data.languages[0].name}
+                    subvalue={codingStats.data.languages[1]?.name}
+                  />
+                )}
+              {codingStats.data.projects &&
+                codingStats.data.projects.length > 0 && (
+                  <StatsCard
+                    label={t('repos.topProject')}
+                    value={codingStats.data.projects[0].name}
+                  />
+                )}
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="py-12 md:py-16 bg-gradient-to-br from-purple-50/50 via-white to-purple-50/50 dark:from-purple-950/20 dark:via-slate-900 dark:to-purple-950/20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 mb-8">
+        <span class="flex items-center justify-center h-14 w-14 rounded-2xl shrink-0 bg-purple-100 dark:bg-purple-900/60">
+          <Icon name="mdi:folder-multiple-outline" class="h-7 w-7 text-purple-600 dark:text-purple-400" />
+        </span>
+        <div class="flex-1">
+          <h2 class="text-2xl md:text-3xl font-bold text-slate-800 dark:text-white mb-1">
+            {t('page.projects.section.projects')}
+          </h2>
+          <p class="text-sm text-slate-600 dark:text-gray-400">
+            {projects.length} {projects.length === 1 ? t('ui.project') : t('ui.projects')}
+          </p>
+        </div>
+      </div>
+
+      {projects && projects.length > 0 ? (
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project) => (
+            <ProjectCard
+              slug={project.id.replace(`${lang}/`, '')}
+              title={project.data.title}
+              image={project.data.image}
+              description={project.data.description}
+              tags={project.data.tags}
+              link={project.data.link}
+              technologies={project.data.technologies}
+              repo={project.data.repo}
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-12 text-gray-500 dark:text-gray-400">
+          <Icon name="mdi:folder-outline" class="h-12 w-12 mx-auto mb-3 opacity-50" />
+          <p>{t('projects.noProjectsFound')}</p>
+        </div>
+      )}
+    </div>
+  </section>
+  <section id="repos" class="py-12 md:py-16 bg-gradient-to-br from-blue-50/50 via-white to-blue-50/50 dark:from-blue-950/20 dark:via-slate-900 dark:to-blue-950/20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 mb-8">
+        <span class="flex items-center justify-center h-14 w-14 rounded-2xl shrink-0 bg-blue-100 dark:bg-blue-900/60">
+          <Icon name="mdi:github" class="h-7 w-7 text-blue-600 dark:text-blue-400" />
+        </span>
+        <div class="flex-1">
+          <h2 class="text-2xl md:text-3xl font-bold text-slate-800 dark:text-white mb-1">
+            {t('page.projects.section.repos')}
+          </h2>
+          <p class="text-sm text-slate-600 dark:text-gray-400">
+            {repos ? repos.length : 0} {repos && repos.length === 1 ? t('ui.repository') : t('ui.repositories')}
+          </p>
+        </div>
+      </div>
+
+      {reposError ? (
+        <div class="rounded-xl bg-red-100 p-6 text-center text-red-700 shadow dark:bg-red-900/60 dark:text-red-200">
+          <span class="font-semibold">{t('repos.failedToLoad')}</span>
+          <span class="ml-2">{reposError.message}</span>
+        </div>
+      ) : repos && repos.length > 0 ? (
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {repos.map((repo) => <RepoCard repo={repo} />)}
+        </div>
+      ) : (
+        <div class="text-center py-12 text-gray-500 dark:text-gray-400">
+          <Icon name="mdi:github" class="h-12 w-12 mx-auto mb-3 opacity-50" />
+          <p>{t('repos.noReposFound')}</p>
+        </div>
+      )}
+    </div>
+  </section>
+</CareerLayout>

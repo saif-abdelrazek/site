@@ -35,6 +35,15 @@ export interface I18nStrings {
   'page.blogPage.title': string;
   'page.contact.title': string;
   'page.projects.title': string;
+  'page.projects.header.subtitle': string;
+  'page.projects.header.title': string;
+  'page.projects.header.description': string;
+  'page.projects.section.projects': string;
+  'page.projects.section.repos': string;
+  'page.projects.section.stats': string;
+  'page.projects.stats.totalProjects': string;
+  'page.projects.stats.totalRepos': string;
+  'page.projects.stats.codingHours': string;
   'page.education.title': string;
   'page.education.header.subtitle': string;
   'page.education.header.title': string;
@@ -236,6 +245,10 @@ export interface I18nStrings {
   'ui.institutions': string;
   'ui.moments': string;
   'ui.sections': string;
+  'ui.project': string;
+  'ui.projects': string;
+  'ui.repository': string;
+  'ui.repositories': string;
   'nav.formalEducation': string;
   'nav.selfLearning': string;
   'nav.languages': string;
@@ -509,6 +522,7 @@ export interface I18nStrings {
   'projects.githubRepo': string;
   'projects.mainLanguage': string;
   'projects.noDescription': string;
+  'projects.archived': string;
   'projects.backToSection': string;
 }
 

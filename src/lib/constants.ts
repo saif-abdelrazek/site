@@ -49,8 +49,8 @@ export function createLocalizedConstants(lang: Language): any {
         icon: 'blog' 
       },
       { 
-        label: t('nav.repos'), 
-        href: lang === 'ar' ? '/ar/repos' : '/repos', 
+        label: t('nav.projects'), 
+        href: lang === 'ar' ? '/ar/projects' : '/projects', 
         icon: 'github' 
       },
       { 

@@ -3,63 +3,118 @@ import type { RepoType } from "@types/reposTypes";
 import type { LiveDataEntry } from "astro";
 import { getLangFromUrl } from "@i18n/utils";
 import { useTranslations } from "@i18n/translations";
+import { Icon } from "astro-icon/components";
 
 interface Props {
   repo: LiveDataEntry<RepoType>;
 }
 
 const { repo }: Props = Astro.props;
-const { name, description, repolink, website, mainlang } = repo.data;
+const { name, description, repolink, website, mainlang, stars, forks, commits, license, updatedAt, size, topics, archived } = repo.data;
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
 
 <div
-  class="light:bg-blue-50 flex w-full flex-col justify-between rounded-2xl border border-blue-100 p-6 shadow-md backdrop-blur-md text-left transition-all duration-250 ease-out hover:shadow-lg hover:border-blue-300 light:hover:bg-blue-50/80 dark:border-sky-800 dark:bg-gradient-to-br dark:from-slate-900/80 dark:via-slate-800/80 dark:to-slate-900/60 dark:shadow-md dark:backdrop-blur-md dark:hover:border-sky-700"
+  class="group flex h-full w-full flex-col rounded-2xl border border-gray-200 light:bg-white p-6 transition-all duration-300 ease-out hover:border-blue-500 hover:shadow-sm dark:bg-slate-800 dark:border-slate-700 dark:hover:border-sky-500"
+  transition:name={"repo-card-" + name}
 >
-  <div>
-    <h2
-      class="mb-2 text-2xl font-extrabold tracking-tight text-blue-700 drop-shadow dark:text-sky-300"
-    >
-      {name}
-    </h2>
-    <p class="mb-4 min-h-[48px] text-blue-700/90 dark:text-sky-100/90">
-      {description ? description : t('projects.noDescription')}
-    </p>
+  <!-- Top Row: GitHub Badge -->
+  <div class="flex items-center justify-between mb-4">
+    <span class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300">
+      <Icon name="mdi:github" class="h-3.5 w-3.5" />
+      {t('ui.repository')}
+    </span>
   </div>
-  <div class="mb-4 flex flex-wrap gap-2">
-    {
-      website && (
-        <a
-          href={website}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="rounded-full bg-blue-600 px-4 py-1.5 text-sm font-semibold text-white shadow transition hover:bg-blue-500 dark:bg-sky-900/60 dark:text-sky-100 dark:hover:bg-sky-800/80"
-        >
-          {t('projects.website')}
-        </a>
-      )
-    }
+
+  <!-- Repo Title with Badges -->
+  <div class="mb-3">
+    <div class="flex items-center gap-2 mb-2">
+      <h3 class="text-lg font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-sky-400 transition-colors line-clamp-2 flex-1">
+        {name}
+      </h3>
+      <div class="flex items-center gap-1.5 flex-shrink-0">
+        {mainlang && (
+          <span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold bg-blue-100 text-blue-700 dark:bg-sky-900/60 dark:text-sky-200">
+            <Icon name="mdi:code-tags" class="h-3 w-3" />
+            {mainlang}
+          </span>
+        )}
+        {license && (
+          <span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold bg-purple-100 text-purple-700 dark:bg-purple-900/60 dark:text-purple-200">
+            <Icon name="mdi:scale-balance" class="h-3 w-3" />
+            {license}
+          </span>
+        )}
+        {archived && (
+          <span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold bg-amber-100 text-amber-700 dark:bg-amber-900/60 dark:text-amber-200">
+            <Icon name="mdi:archive" class="h-3 w-3" />
+            {t('projects.archived')}
+          </span>
+        )}
+      </div>
+    </div>
+  </div>
+
+  <!-- Description -->
+  <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-3 flex-1">
+    {description ? description : t('projects.noDescription')}
+  </p>
+
+  <!-- Repository Stats -->
+  <div class="mb-4 flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
+    {stars !== undefined && stars > 0 && (
+      <div class="flex items-center gap-1.5 bg-gray-50 dark:bg-gray-800/50 px-2 py-1 rounded-md">
+        <Icon name="mdi:star" class="h-3.5 w-3.5 text-yellow-500" />
+        <span class="font-medium">{stars}</span>
+      </div>
+    )}
+    {forks !== undefined && forks > 0 && (
+      <div class="flex items-center gap-1.5 bg-gray-50 dark:bg-gray-800/50 px-2 py-1 rounded-md">
+        <Icon name="mdi:source-fork" class="h-3.5 w-3.5 text-blue-500" />
+        <span class="font-medium">{forks}</span>
+      </div>
+    )}
+    {commits !== undefined && commits > 0 && (
+      <div class="flex items-center gap-1.5 bg-gray-50 dark:bg-gray-800/50 px-2 py-1 rounded-md">
+        <Icon name="mdi:source-commit" class="h-3.5 w-3.5 text-green-500" />
+        <span class="font-medium">{commits}</span>
+      </div>
+    )}
+    {updatedAt && (
+      <div class="flex items-center gap-1.5 text-xs">
+        <Icon name="mdi:clock-outline" class="h-3.5 w-3.5" />
+        <span>{new Date(updatedAt).toLocaleDateString(lang === 'ar' ? 'ar-EG' : 'en-US', { month: 'short', year: '2-digit' })}</span>
+      </div>
+    )}
+  </div>
+
+  <!-- Links Row -->
+  <div class="flex items-center gap-3 mt-auto pt-2">
+    {website && (
+      <a
+        href={website}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-1 text-sm font-medium text-green-600 transition-colors duration-200 ease-out hover:text-green-800 dark:text-green-400 dark:hover:text-green-200"
+        aria-label={`View website for ${name}`}
+      >
+        <Icon name="mdi:web" class="h-4 w-4" />
+        <span class="underline">{t('projects.website')}</span>
+        <Icon name="mdi:open-in-new" class="h-3 w-3 opacity-60" />
+      </a>
+    )}
     <a
       href={repolink}
       target="_blank"
       rel="noopener noreferrer"
-      class="rounded-full bg-blue-100 px-4 py-1.5 text-sm font-semibold text-blue-700 shadow transition hover:bg-blue-200 dark:bg-sky-900/60 dark:text-sky-100 dark:hover:bg-sky-800/80"
+      class="inline-flex items-center gap-1 text-sm font-medium text-gray-600 transition-colors duration-200 ease-out hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
+      aria-label={`View repository for ${name}`}
     >
-      {t('projects.githubRepo')}
+      <Icon name="mdi:github" class="h-4 w-4" />
+      <span class="underline">{name}</span>
+      <Icon name="mdi:open-in-new" class="h-3 w-3 opacity-60" />
     </a>
   </div>
-  {
-    mainlang && (
-      <div class="mt-2 flex items-center gap-2 text-xs text-blue-500/80 dark:text-sky-200/80">
-        <span class="font-semibold tracking-wider uppercase">
-          {t('projects.mainLanguage')}
-        </span>
-        <span class="rounded bg-blue-50 px-2 py-1 font-mono text-blue-700 dark:bg-sky-900/60 dark:text-sky-300">
-          {mainlang}
-        </span>
-      </div>
-    )
-  }
 </div>
