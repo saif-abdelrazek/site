@@ -1,14 +1,15 @@
 ---
-import { getCollection } from "astro:content";
-import type { GetStaticPaths } from "astro";
-import type { CollectionEntry } from "astro:content";
-import MainLayout from "@layouts/MainLayout.astro";
+/**
+ * Project Detail Page
+ *
+ * Shows a specific project
+ * Route: /projects/[slug]
+ */
+import { getCollection, render } from "astro:content";
+import MomentLayout from "@layouts/MomentLayout.astro";
 import { Icon } from "astro-icon/components";
-import { Image } from "astro:assets";
-import { render } from "astro:content";
 import { getLangFromUrl, languages, defaultLang, showDefaultLang } from "@i18n/utils";
 import { useTranslations } from "@i18n/translations";
-import Button from "@components/ui/Button.astro";
 import { createLocalizedConstants } from "@lib/constants";
 
 const lang = getLangFromUrl(Astro.url);
@@ -18,124 +19,202 @@ const constants = createLocalizedConstants(lang);
 export const getStaticPaths: GetStaticPaths = async () => {
   const projects = await getCollection("projects");
   const paths = [];
-  
+
   for (const lang of Object.keys(languages)) {
-    const langProjects = projects.filter(project => project.id.startsWith(`${lang}/`));
-    
-    for (const project of langProjects) {
+    const langProjects = projects.filter(project => project.id.startsWith(`${lang}/`))
+      .sort((a, b) => {
+        // Sort by order field (ascending), then by date (newest first) as fallback
+        const aOrder = a.data.order || 0;
+        const bOrder = b.data.order || 0;
+        if (aOrder !== bOrder) {
+          return aOrder - bOrder;
+        }
+        // Fallback to date sorting if order is the same
+        const aDate = a.data.date || new Date(0);
+        const bDate = b.data.date || new Date(0);
+        return new Date(bDate).getTime() - new Date(aDate).getTime();
+      });
+
+    for (let i = 0; i < langProjects.length; i++) {
+      const project = langProjects[i];
       const slug = project.id.replace(`${lang}/`, '');
+
       paths.push({
-        params: { 
+        params: {
           lang: lang === defaultLang && !showDefaultLang ? undefined : lang,
-          slug 
+          slug
         },
-        props: { project },
+        props: {
+          project,
+          prevProject: i > 0 ? langProjects[i - 1] : null,
+          nextProject: i < langProjects.length - 1 ? langProjects[i + 1] : null,
+        },
       });
     }
   }
-  
+
   return paths;
 };
 
 interface Props {
   project: CollectionEntry<"projects">;
+  prevProject: CollectionEntry<"projects"> | null;
+  nextProject: CollectionEntry<"projects"> | null;
 }
 
 const { slug } = Astro.params;
-const { project } = Astro.props as Props;
+const { project, prevProject, nextProject } = Astro.props as Props;
 
 if (!project) {
   throw new Error("Project not found");
 }
 
-const { title, description, image, technologies, link, repo } = project.data;
+const { title, description, image, technologies, link, repo, status, categories } = project.data;
 const { Content } = await render(project);
 
-const pageTitle = `${title} - ${t('projects.title')}`;
+// Build breadcrumb
+const breadcrumb = [
+  {
+    label: t('nav.home'),
+    href: lang === 'en' ? '/#projects' : `/${lang}/#projects`
+  },
+  {
+    label: t('nav.projects'),
+    href: lang === 'en' ? '/projects' : `/${lang}/projects`
+  },
+  {
+    label: title,
+    href: "#"
+  }
+];
+
+// Navigation items
+const prevItem = prevProject ? {
+  title: prevProject.data.title,
+  href: lang === 'en' ? `/projects/${prevProject.data.slug}` : `/${lang}/projects/${prevProject.data.slug}`
+} : undefined;
+
+const nextItem = nextProject ? {
+  title: nextProject.data.title,
+  href: lang === 'en' ? `/projects/${nextProject.data.slug}` : `/${lang}/projects/${nextProject.data.slug}`
+} : undefined;
+
+// Back to section
+const backToSection = {
+  label: t('projects.backToSection'),
+  href: lang === 'en' ? '/projects' : `/${lang}/projects`
+};
+
+// Create proper page title like blog posts
+const pageTitle = (title || 'Untitled Project') + " | " + t('page.projects.title');
 ---
 
-<MainLayout title={pageTitle} description={description} direction={constants.LANGUAGE_DIRECTION}>
-  <main
-    class="flex min-h-screen flex-col items-center justify-center bg-blue-50 py-12 dark:bg-slate-900"
-    >
-    <div class="mb-6 flex w-full max-w-3xl justify-start">
-      <Button
-        variant="back"
-        href={lang === 'en' ? '/#projects' : `/${lang}/#projects`}
-        aria-label={t('ui.backToTop')}
+<MomentLayout
+  title={pageTitle}
+  headerTitle={title}
+  description={description}
+  image={image}
+  date={project.data.date ? new Date(project.data.date) : undefined}
+  lang={lang}
+  breadcrumb={breadcrumb}
+  backToSection={backToSection}
+  prevItem={prevItem}
+  nextItem={nextItem}
+>
+  <!-- Header Slot -->
+  <fragment slot="header">
+    <!-- Status Badge -->
+    {status && (
+      <span
+        class:list={[
+          "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold mb-4",
+          status === 'completed' ? "bg-green-100 text-green-800 dark:bg-green-900/60 dark:text-green-200" :
+          status === 'inProgress' ? "bg-blue-100 text-blue-800 dark:bg-blue-900/60 dark:text-blue-200" :
+          status === 'planning' ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/60 dark:text-yellow-200" :
+          "bg-gray-100 text-gray-800 dark:bg-gray-900/60 dark:text-gray-200"
+        ]}
       >
-        <Icon name={constants.LANGUAGE_DIRECTION === "rtl" ? "mdi:arrow-right" : "mdi:arrow-left"} class="h-5 w-5" />
-        {t('projects.backToSection')}
-      </Button>
-    </div>
-  <div
-  class="w-full max-w-3xl rounded-2xl bg-white p-8 shadow-xl dark:bg-slate-800"
-  transition:name={"project-card-" + slug}
-  >
-  {
-        image && (
-          <Image
-            src={image}
-            alt={title}
-            class="mb-6 h-56 w-full rounded-xl object-cover"
-            loading="lazy"
-            />
-          )
-        }
-      <h1 class="mb-4 text-3xl font-bold text-sky-700 dark:text-sky-300">
-        {title}
-      </h1>
-      {
-        description && (
-          <p class="mb-6 text-lg text-gray-700 dark:text-gray-200">
-            {description}
-          </p>
-        )
-      }
-      {
-        technologies && technologies.length > 0 && (
-          <div class="mb-6 flex flex-wrap gap-3">
-            {technologies.map((tech) => (
-              <a
-              href={`/technologies/#${tech.slug}`}
-              class="inline-flex items-center gap-1 rounded bg-blue-100 px-2 py-1 text-xs font-semibold text-blue-700 dark:bg-sky-900/60 dark:text-sky-200"
-              >
-                {tech.icon && <Icon name={tech.icon} class="h-5 w-5" />}
-                {tech.name}
-              </a>
-            ))}
-          </div>
-        )
-      }
-      <div class="flex gap-4">
-        {
-          link && (
-            <a
-            href={link}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="font-semibold text-blue-600 underline hover:text-blue-800 dark:text-sky-400 dark:hover:text-sky-200"
-              >
-              {t('projects.live')}
-            </a>
-          )
-        }
-        {
-          repo && (
-            <a
-              href={repo}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="font-semibold text-blue-600 underline hover:text-blue-800 dark:text-sky-400 dark:hover:text-sky-200"
-            >
-              {t('ui.sourceCode')}
-            </a>
-          )
-        }
+        <Icon name={
+          status === 'completed' ? "mdi:check-circle" :
+          status === 'inProgress' ? "mdi:progress-clock" :
+          status === 'planning' ? "mdi:lightbulb" :
+          "mdi:archive"
+        } class="h-3.5 w-3.5" />
+        {t(`projects.status.${status}`)}
+      </span>
+    )}
+  </fragment>
+
+  <!-- Meta Slot -->
+  <fragment slot="meta">
+    {technologies && technologies.length > 0 && (
+      <span class="flex items-center gap-1.5">
+        <Icon name="mdi:code-tags" class="h-4 w-4" />
+        {technologies.length} {t('ui.technologies')}
+      </span>
+    )}
+  </fragment>
+
+  <!-- Header Footer Slot -->
+  <fragment slot="header-footer">
+    <!-- Categories -->
+    {categories && categories.length > 0 && (
+      <div class="mt-6 flex flex-wrap gap-2">
+        {categories.map((category: string) => (
+          <span class="rounded-full bg-white/10 px-3 py-1 text-sm font-medium text-white">
+            {t(`projects.categories.${category}`)}
+          </span>
+        ))}
       </div>
-      <article class="prose prose-sky dark:prose-invert mt-8">
-        <Content />
-      </article>
+    )}
+
+    <!-- Action Buttons -->
+    <div class="mt-8 flex flex-wrap gap-4">
+      {link && (
+        <a
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 font-semibold text-blue-700 hover:bg-blue-50 transition-colors"
+        >
+          <Icon name="mdi:external-link" class="h-5 w-5" />
+          {t('projects.liveDemo')}
+        </a>
+      )}
+      {repo && (
+        <a
+          href={repo}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 rounded-lg bg-blue-500/20 px-6 py-3 font-semibold text-white hover:bg-blue-500/30 transition-colors"
+        >
+          <Icon name="mdi:github" class="h-5 w-5" />
+          {t('ui.sourceCode')}
+        </a>
+      )}
     </div>
-  </main>
-</MainLayout>
+  </fragment>
+
+  <!-- Content Slot -->
+  <fragment slot="content">
+    <!-- Technologies -->
+    {technologies && technologies.length > 0 && (
+      <div class="mb-8 flex flex-wrap gap-3">
+        {technologies.map((tech) => (
+          <a
+            href={lang === 'en' ? `/technologies/#${tech.slug}` : `/${lang}/technologies/#${tech.slug}`}
+            class="inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-2 text-sm font-medium text-blue-700 hover:bg-blue-200 dark:bg-blue-900/60 dark:text-blue-200 dark:hover:bg-blue-900/80 transition-colors"
+          >
+            {tech.icon && <Icon name={tech.icon} class="h-4 w-4" />}
+            {tech.name}
+          </a>
+        ))}
+      </div>
+    )}
+  </fragment>
+
+  <!-- Article Slot -->
+  <fragment slot="article">
+    <Content />
+  </fragment>
+</MomentLayout>

@@ -1,0 +1,197 @@
+---
+/**
+ * MomentLayout.astro
+ *
+ * Shared layout for detail pages (projects, education moments)
+ * Provides common structure with customizable slots
+ */
+
+import MainLayout from "@layouts/MainLayout.astro";
+import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
+import { useTranslations } from "@i18n/translations";
+
+export interface Props {
+  title: string;
+  headerTitle?: string;
+  description?: string;
+  image?: any;
+  date?: Date;
+  lang: string;
+  breadcrumb: Array<{
+    label: string;
+    href: string;
+  }>;
+  backToSection: {
+    label: string;
+    href: string;
+  };
+  prevItem?: {
+    title: string;
+    href: string;
+  };
+  nextItem?: {
+    title: string;
+    href: string;
+  };
+}
+
+const {
+  title,
+  headerTitle,
+  description,
+  image,
+  date,
+  lang,
+  breadcrumb,
+  backToSection,
+  prevItem,
+  nextItem,
+  ...rest
+} = Astro.props as Props;
+
+const t = useTranslations(lang);
+const pageTitle = title;
+const displayTitle = headerTitle || title;
+---
+
+<MainLayout title={pageTitle} description={description} {...rest}>
+  <!-- Hero Header -->
+  <div class="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 light:from-blue-600 light:via-indigo-700 light:to-purple-800 text-white overflow-hidden">
+    <!-- Background pattern -->
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=&quot;60&quot; height=&quot;60&quot; viewBox=&quot;0 0 60 60&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;%3E%3Cg fill=&quot;none&quot; fill-rule=&quot;evenodd&quot;%3E%3Cg fill=&quot;%23ffffff&quot; fill-opacity=&quot;0.4&quot;%3E%3Cpath d=&quot;M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z&quot;/%3E%3C/g%3E%3C/svg%3E');"></div>
+    </div>
+
+    <div class="relative mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <!-- Breadcrumb -->
+      <nav class="mb-8" aria-label="Breadcrumb">
+        <div class="flex items-center gap-1 text-sm text-blue-200">
+          {breadcrumb.map((item, index) => (
+            <fragment>
+              {index > 0 && <span class="text-blue-400">/</span>}
+              {index === breadcrumb.length - 1 ? (
+                <span class="font-semibold text-white">
+                  {item.label}
+                </span>
+              ) : (
+                <a href={item.href} class="hover:text-white transition-colors">
+                  {item.label}
+                </a>
+              )}
+            </fragment>
+          ))}
+        </div>
+      </nav>
+
+      <!-- Custom Header Content Slot -->
+      <slot name="header" />
+
+      <!-- Title -->
+      <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+        {displayTitle}
+      </h1>
+
+      <!-- Description -->
+      {description && (
+        <p class="text-xl text-blue-100 leading-relaxed mb-6">
+          {description}
+        </p>
+      )}
+
+      <!-- Meta -->
+      <div class="flex flex-wrap items-center gap-4 text-blue-200">
+        <slot name="meta" />
+        {date && (
+          <span class="flex items-center gap-1.5">
+            <Icon name="mdi:calendar-outline" class="h-4 w-4" />
+            {date.toLocaleDateString(lang, { year: 'numeric', month: 'long', day: 'numeric' })}
+          </span>
+        )}
+      </div>
+
+      <!-- Custom Footer Slot -->
+      <slot name="header-footer" />
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="bg-white dark:bg-slate-900">
+    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12">
+      <!-- Featured Image -->
+      {image && (
+        <figure class="mb-12 -mt-20 relative z-10">
+          <Image
+            src={image}
+            alt={title}
+            class="w-full rounded-2xl shadow-2xl"
+          />
+        </figure>
+      )}
+
+      <!-- Custom Content Slot -->
+      <slot name="content" />
+
+      <!-- Article Content -->
+      <article class="prose prose-lg dark:prose-invert max-w-none prose-headings:text-gray-900 dark:prose-headings:text-white prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-img:rounded-xl prose-pre:bg-gray-900 dark:prose-pre:bg-slate-800 prose-pre:text-gray-100">
+        <slot name="article" />
+      </article>
+
+      <!-- Navigation -->
+      {(prevItem || nextItem) && (
+        <nav class="mt-16 pt-8 border-t border-gray-200 dark:border-gray-700">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {prevItem ? (
+              <a
+                href={prevItem.href}
+                class="group flex items-start gap-3 p-4 rounded-xl border border-gray-200 bg-gray-50 dark:bg-slate-800 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500 transition-colors"
+              >
+                <Icon name={t('nav.arrow.previous')} class="h-5 w-5 text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 mt-0.5 flex-shrink-0" />
+                <div>
+                  <span class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    {t('pagination.previous')}
+                  </span>
+                  <h4 class="font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                    {prevItem.title}
+                  </h4>
+                </div>
+              </a>
+            ) : (
+              <div></div>
+            )}
+
+            {nextItem ? (
+              <a
+                href={nextItem.href}
+                class="group flex items-start gap-3 p-4 rounded-xl border border-gray-200 bg-gray-50 dark:bg-slate-800 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500 transition-colors md:text-right md:flex-row-reverse"
+              >
+                <Icon name={t('nav.arrow.next')} class="h-5 w-5 text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 mt-0.5 flex-shrink-0" />
+                <div>
+                  <span class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    {t('pagination.next')}
+                  </span>
+                  <h4 class="font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                    {nextItem.title}
+                  </h4>
+                </div>
+              </a>
+            ) : (
+              <div></div>
+            )}
+          </div>
+        </nav>
+      )}
+
+      <!-- Back to Section -->
+      <div class="mt-8 text-center">
+        <a
+          href={backToSection.href}
+          class="inline-flex items-center gap-2 text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 font-medium transition-colors"
+        >
+          <Icon name="mdi:arrow-up" class="h-4 w-4" />
+          {backToSection.label}
+        </a>
+      </div>
+    </div>
+  </div>
+</MainLayout>

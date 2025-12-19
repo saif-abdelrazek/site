@@ -1,14 +1,13 @@
 ---
 /**
  * Moment Detail Page
- * 
+ *
  * Shows a specific learning moment/milestone
  * Route: /education/[institution]/[moment]
  */
 import { getCollection, render } from "astro:content";
-import MainLayout from "@layouts/MainLayout.astro";
+import MomentLayout from "@layouts/MomentLayout.astro";
 import { Icon } from "astro-icon/components";
-import { Image } from "astro:assets";
 import { getLangFromUrl } from "@i18n/utils";
 import { useTranslations } from "@i18n/translations";
 import { SECTION_CONFIG } from "@types/educationTypes";
@@ -17,27 +16,27 @@ import type { EducationSection } from "@types/educationTypes";
 export async function getStaticPaths() {
   const institutions = await getCollection("institutions");
   const moments = await getCollection("moments");
-  
+
   const paths = [];
-  
+
   for (const moment of moments) {
     const lang = moment.id.split("/")[0];
     const institutionSlug = moment.data.institutionSlug;
     const momentSlug = moment.data.slug;
-    
+
     // Find the corresponding institution
     const institution = institutions.find(
       (i) => i.id.startsWith(`${lang}/`) && i.data.slug === institutionSlug
     );
-    
+
     if (institution) {
       // Get other moments from same institution for navigation
       const siblingMoments = moments.filter(
         (m) => m.id.startsWith(`${lang}/`) && m.data.institutionSlug === institutionSlug
       ).sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
-      
+
       const currentIndex = siblingMoments.findIndex(m => m.data.slug === momentSlug);
-      
+
       paths.push({
         params: {
           lang: lang === "en" ? undefined : lang,
@@ -53,7 +52,7 @@ export async function getStaticPaths() {
       });
     }
   }
-  
+
   return paths;
 }
 
@@ -67,174 +66,107 @@ const { Content } = await render(moment);
 // Get section config
 const sectionConfig = SECTION_CONFIG[moment.data.section as EducationSection];
 
-const pageTitle = `${moment.data.title} | ${institution.data.name}`;
-const pageDescription = moment.data.excerpt;
+// Build breadcrumb
+const breadcrumb = [
+  {
+    label: t('nav.home'),
+    href: lang === "en" ? "/#education" : `/${lang}/#education`
+  },
+  {
+    label: t('nav.education'),
+    href: lang === "en" ? "/education" : `/${lang}/education`
+  },
+  {
+    label: institution.data.shortName || institution.data.name,
+    href: `${lang === "en" ? "" : `/${lang}`}/education/${institution.data.slug}`
+  },
+  {
+    label: moment.data.title,
+    href: "#"
+  }
+];
+
+// Navigation items
+const prevItem = prevMoment ? {
+  title: prevMoment.data.title,
+  href: `${lang === "en" ? "" : `/${lang}`}/education/${institution.data.slug}/${prevMoment.data.slug}`
+} : undefined;
+
+const nextItem = nextMoment ? {
+  title: nextMoment.data.title,
+  href: `${lang === "en" ? "" : `/${lang}`}/education/${institution.data.slug}/${nextMoment.data.slug}`
+} : undefined;
+
+// Back to section
+const backToSection = {
+  label: `${t('education.backToInstitution')} ${institution.data.name}`,
+  href: `${lang === "en" ? "" : `/${lang}`}/education/${institution.data.slug}`
+};
+
+// Create proper page title like blog posts
+const pageTitle = (moment.data.title || 'Untitled Moment') + " | " + t('page.education.title');
 ---
 
-<MainLayout title={pageTitle} description={pageDescription}>
-  <!-- Hero Header -->
-  <div class="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white overflow-hidden">
-    <!-- Background pattern -->
-    <div class="absolute inset-0 opacity-10">
-      <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=&quot;60&quot; height=&quot;60&quot; viewBox=&quot;0 0 60 60&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;%3E%3Cg fill=&quot;none&quot; fill-rule=&quot;evenodd&quot;%3E%3Cg fill=&quot;%23ffffff&quot; fill-opacity=&quot;0.4&quot;%3E%3Cpath d=&quot;M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z&quot;/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
-    </div>
-    
-    <div class="relative mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-      <!-- Breadcrumb -->
-      <nav class="mb-8" aria-label="Breadcrumb">
-        <ol class="flex items-center gap-2 text-sm text-gray-300">
-          <li>
-            <a href={lang === "en" ? "/#education" : `/${lang}/#education`} class="hover:text-white transition-colors">
-              {t('nav.home')}
-            </a>
-          </li>
-          <li class="text-gray-500">/</li>
-          <li>
-            <a href={lang === "en" ? "/education" : `/${lang}/education`} class="hover:text-white transition-colors">
-              {t('nav.education')}
-            </a>
-          </li>
-          <li class="text-gray-500">/</li>
-          <li>
-            <a href={`${lang === "en" ? "" : `/${lang}`}/education/${institution.data.slug}`} class="hover:text-white transition-colors">
-              {institution.data.shortName || institution.data.name}
-            </a>
-          </li>
-          <li class="text-gray-500">/</li>
-          <li class="text-white font-medium truncate max-w-[200px]">
-            {moment.data.title}
-          </li>
-        </ol>
-      </nav>
+<MomentLayout
+  title={pageTitle}
+  headerTitle={moment.data.title}
+  description={moment.data.excerpt}
+  image={moment.data.image}
+  date={new Date(moment.data.date)}
+  lang={lang}
+  breadcrumb={breadcrumb}
+  backToSection={backToSection}
+  prevItem={prevItem}
+  nextItem={nextItem}
+>
+  <!-- Header Slot -->
+  <fragment slot="header">
+    <!-- Section Badge -->
+    <span
+      class:list={[
+        "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold mb-4",
+        sectionConfig.bgColor,
+        sectionConfig.color,
+      ]}
+    >
+      <Icon name={sectionConfig.icon} class="h-3.5 w-3.5" />
+      {moment.data.section === 'formal' ? t('education.formal.title') : t('education.selfLearning.title')}
+    </span>
+  </fragment>
 
-      <!-- Section Badge -->
-      <span
-        class:list={[
-          "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold mb-4",
-          sectionConfig.bgColor,
-          sectionConfig.color,
-        ]}
-      >
-        <Icon name={sectionConfig.icon} class="h-3.5 w-3.5" />
-        {moment.data.section === 'formal' ? t('education.formal.title') : t('education.selfLearning.title')}
-      </span>
-
-      <!-- Title -->
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-        {moment.data.title}
-      </h1>
-
-      <!-- Excerpt -->
-      <p class="text-xl text-gray-300 leading-relaxed mb-6">
-        {moment.data.excerpt}
-      </p>
-
-      <!-- Meta -->
-      <div class="flex flex-wrap items-center gap-4 text-gray-400">
-        <a
-          href={`${lang === "en" ? "" : `/${lang}`}/education/${institution.data.slug}`}
-          class="flex items-center gap-2 hover:text-white transition-colors"
-        >
-          {institution.data.logo && (
-            <img
-              src={institution.data.logo.src}
-              alt={institution.data.name}
-              class="h-6 w-6 rounded-md object-cover"
-            />
-          )}
-          <span>{institution.data.name}</span>
-        </a>
-        <span class="flex items-center gap-1.5">
-          <Icon name="mdi:calendar-outline" class="h-4 w-4" />
-          {new Date(moment.data.date).toLocaleDateString(lang, { year: 'numeric', month: 'long', day: 'numeric' })}
-        </span>
-      </div>
-
-      <!-- Tags -->
-      {moment.data.tags && moment.data.tags.length > 0 && (
-        <div class="mt-6 flex flex-wrap gap-2">
-          {moment.data.tags.map((tag: string) => (
-            <span class="rounded-full bg-white/10 px-3 py-1 text-sm font-medium text-white">
-              {tag}
-            </span>
-          ))}
-        </div>
+  <!-- Meta Slot -->
+  <fragment slot="meta">
+    <a
+      href={`${lang === "en" ? "" : `/${lang}`}/education/${institution.data.slug}`}
+      class="flex items-center gap-2 hover:text-white transition-colors"
+    >
+      {institution.data.logo && (
+        <img
+          src={institution.data.logo.src}
+          alt={institution.data.name}
+          class="h-6 w-6 rounded-md object-cover"
+        />
       )}
-    </div>
-  </div>
+      <span>{institution.data.name}</span>
+    </a>
+  </fragment>
 
-  <!-- Content -->
-  <div class="bg-white dark:bg-slate-900">
-    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12">
-      <!-- Featured Image -->
-      {moment.data.image && (
-        <figure class="mb-12 -mt-20 relative z-10">
-          <Image
-            src={moment.data.image}
-            alt={moment.data.title}
-            class="w-full rounded-2xl shadow-2xl"
-          />
-        </figure>
-      )}
-
-      <!-- Article Content -->
-      <article class="prose prose-lg dark:prose-invert max-w-none prose-headings:text-gray-900 dark:prose-headings:text-white prose-a:text-blue-600 dark:prose-a:text-sky-400 prose-img:rounded-xl prose-pre:bg-gray-900 dark:prose-pre:bg-slate-800 prose-pre:text-gray-100">
-        <Content />
-      </article>
-
-      <!-- Navigation -->
-      <nav class="mt-16 pt-8 border-t border-gray-200 dark:border-gray-700">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {prevMoment ? (
-          <a
-            href={`${lang === "en" ? "" : `/${lang}`}/education/${institution.data.slug}/${prevMoment.data.slug}`}
-            class="group flex items-start gap-3 p-4 rounded-xl border border-gray-200 bg-gray-50 dark:bg-slate-800 dark:border-gray-700 hover:border-blue-500 dark:hover:border-sky-500 transition-colors"
-          >
-            <Icon name="mdi:arrow-left" class="h-5 w-5 text-gray-400 group-hover:text-blue-600 dark:group-hover:text-sky-400 mt-0.5 flex-shrink-0" />
-            <div>
-              <span class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                {t('pagination.previous')}
-              </span>
-              <h4 class="font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-sky-400">
-                {prevMoment.data.title}
-              </h4>
-            </div>
-          </a>
-        ) : (
-          <div></div>
-        )}
-        
-        {nextMoment ? (
-          <a
-            href={`${lang === "en" ? "" : `/${lang}`}/education/${institution.data.slug}/${nextMoment.data.slug}`}
-            class="group flex items-start gap-3 p-4 rounded-xl border border-gray-200 bg-gray-50 dark:bg-slate-800 dark:border-gray-700 hover:border-blue-500 dark:hover:border-sky-500 transition-colors md:text-right md:flex-row-reverse"
-          >
-            <Icon name="mdi:arrow-right" class="h-5 w-5 text-gray-400 group-hover:text-blue-600 dark:group-hover:text-sky-400 mt-0.5 flex-shrink-0" />
-            <div>
-              <span class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                {t('pagination.next')}
-              </span>
-              <h4 class="font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-sky-400">
-                {nextMoment.data.title}
-              </h4>
-            </div>
-          </a>
-        ) : (
-          <div></div>
-        )}
+  <!-- Header Footer Slot -->
+  <fragment slot="header-footer">
+    <!-- Tags -->
+    {moment.data.tags && moment.data.tags.length > 0 && (
+      <div class="mt-6 flex flex-wrap gap-2">
+        {moment.data.tags.map((tag: string) => (
+          <span class="rounded-full bg-white/10 px-3 py-1 text-sm font-medium text-white">
+            {tag}
+          </span>
+        ))}
       </div>
-    </nav>
+    )}
+  </fragment>
 
-      <!-- Back to Institution -->
-      <div class="mt-8 text-center">
-        <a
-          href={`${lang === "en" ? "" : `/${lang}`}/education/${institution.data.slug}`}
-          class="inline-flex items-center gap-2 text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-sky-400 font-medium transition-colors"
-        >
-          <Icon name="mdi:arrow-up" class="h-4 w-4" />
-          {t('education.backToInstitution')} {institution.data.name}
-        </a>
-      </div>
-    </div>
-  </div>
-</MainLayout>
+  <!-- Article Slot -->
+  <fragment slot="article">
+    <Content />
+  </fragment>
+</MomentLayout>
