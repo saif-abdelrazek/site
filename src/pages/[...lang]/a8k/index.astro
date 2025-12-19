@@ -48,7 +48,7 @@ const heroConfig = {
 };
 ---
 
-<CareerLayout title={pageTitle} description={pageDescription} hero={heroConfig}>
+<CareerLayout title={pageTitle} description={pageDescription} hero={heroConfig} gradientClass="bg-gradient-to-br from-blue-600 via-indigo-700 to-blue-800">
   <!-- Enhanced JSON-LD for A8K Brand Page -->
   <script type="application/ld+json" slot="head">
     {
@@ -97,8 +97,10 @@ const heroConfig = {
     }
   </script>
 
-  <!-- What is A8K Section -->
-  <section id="what-is-a8k" class="mt-12 mb-12">
+  <!-- Main Content Container -->
+  <div class="bg-white dark:bg-slate-900 py-8">
+    <!-- What is A8K Section -->
+    <section id="what-is-a8k" class="mb-12">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <Card variant="elevated">
         <div class="p-6">
@@ -279,6 +281,7 @@ const heroConfig = {
       </Card>
     </div>
   </section>
+  </div>
 </CareerLayout>
 
 <style>

@@ -46,6 +46,7 @@ export interface Props {
   title: string;
   description: string;
   hero: HeroConfig;
+  gradientClass?: string;
   children?: any;
 }
 
@@ -53,13 +54,14 @@ const {
   title,
   description,
   hero,
+  gradientClass = "bg-gradient-to-br from-teal-500 via-sky-500 to-blue-700",
   children
 } = Astro.props;
 ---
 
 <MainLayout title={title} description={description}>
   <!-- Hero Section -->
-  <div class={`relative bg-gradient-to-br from-${hero.gradientFrom} via-${hero.gradientVia} to-${hero.gradientTo} dark:from-slate-900 dark:via-slate-800 dark:to-slate-900`}>
+  <div class={`relative ${gradientClass} dark:from-slate-900 dark:via-slate-800 dark:to-slate-900`}>
     <!-- Decorative elements -->
     <div class="absolute inset-0 overflow-hidden">
       <div class={`absolute ${hero.decorativeTop.position} h-80 w-80 rounded-full ${hero.decorativeTop.color} blur-3xl`}></div>
