@@ -2,7 +2,7 @@
 
 /**
  * Simple IndexNow submission - just submit URLs manually when needed
- * Usage: node scripts/simple-indexnow.js <url1> [url2] [url3]
+ * Usage: node scripts/indexnow.js <url1> [url2] [url3]
  */
 
 const SITE_URL = 'https://saifabdelrazek.com';
@@ -37,8 +37,8 @@ async function submitToIndexNow(urls) {
 
 const args = process.argv.slice(2);
 if (args.length === 0) {
-  console.log('Usage: node scripts/simple-indexnow.js <url1> [url2] [url3]');
-  console.log('Example: node scripts/simple-indexnow.js https://saifabdelrazek.com/blog/new-post');
+  console.log('Usage: node scripts/indexnow.js <url1> [url2] [url3]');
+  console.log('Example: node scripts/indexnow.js https://saifabdelrazek.com/blog/new-post');
   process.exit(0);
 }
 
