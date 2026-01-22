@@ -80,7 +80,7 @@ const ar: I18nStrings = {
     'repos.title': 'مستودعاتي',
     'repos.description': 'أحدث مشاريع GitHub والأعمال مفتوحة المصدر (آخر نصف سنة).',
     'repos.codingStats': 'إحصائيات البرمجة',
-    'repos.lastHalfYear': '(آخر سنة)',
+    'repos.lastYear': '(آخر سنة)',
     'repos.totalCodingTime': 'إجمالي الوقت',
     'repos.dailyAverage': 'المعدل اليومي',
     'repos.topLanguage': 'اللغة الأولى',

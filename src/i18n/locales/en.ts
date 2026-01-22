@@ -81,7 +81,7 @@ const en: I18nStrings = {
     'repos.title': 'My Repositories',
     'repos.description': 'Latest GitHub projects and open source work (last 1/2 year).',
     'repos.codingStats': 'Coding Stats',
-    'repos.lastHalfYear': '(last year)',
+    'repos.lastYear': '(last year)',
     'repos.totalCodingTime': 'Total Time',
     'repos.dailyAverage': 'Daily Avg',
     'repos.topLanguage': 'Top Language',

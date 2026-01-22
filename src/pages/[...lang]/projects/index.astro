@@ -34,7 +34,7 @@ const { entries: repos, error: reposError } = await getLiveCollection("repos", {
 const { entry: codingStats, error: codingStatsError } = await getLiveEntry(
   "codingStats",
   {
-    startDate: new Date(Date.now() - 365 * 24 * 60 * 60 * 500)
+    startDate: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000)
       .toISOString()
       .split("T")[0],
   },
@@ -96,7 +96,7 @@ const heroConfig = {
               {t('page.projects.section.stats')}
             </h2>
             <p class="text-sm text-slate-600 dark:text-gray-400">
-              {t('repos.lastHalfYear')}
+              {t('repos.lastYear')}
             </p>
           </div>
         </div>

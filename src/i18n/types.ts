@@ -90,7 +90,7 @@ export interface I18nStrings {
   'repos.title': string;
   'repos.description': string;
   'repos.codingStats': string;
-  'repos.lastHalfYear': string;
+  'repos.lastYear': string;
   'repos.totalCodingTime': string;
   'repos.dailyAverage': string;
   'repos.topLanguage': string;
