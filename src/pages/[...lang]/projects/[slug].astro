@@ -62,14 +62,13 @@ interface Props {
   nextProject: CollectionEntry<"projects"> | null;
 }
 
-const { slug } = Astro.params;
 const { project, prevProject, nextProject } = Astro.props as Props;
 
 if (!project) {
   throw new Error("Project not found");
 }
 
-const { title, description, image, technologies, link, repo, status, categories } = project.data;
+const { title, description, image, technologies, link, repo, status, categories, package: packageUrl } = project.data;
 const { Content } = await render(project);
 
 // Build breadcrumb
@@ -190,6 +189,17 @@ const pageTitle = (title || 'Untitled Project') + " | " + t('page.projects.title
         >
           <Icon name="mdi:github" class="h-5 w-5" />
           {t('ui.sourceCode')}
+        </a>
+      )}
+      {packageUrl && (
+        <a
+          href={packageUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 rounded-lg bg-gray-800/10 px-6 py-3 font-semibold text-white hover:bg-gray-800/20 transition-colors"
+        >
+          <Icon name="simple-icons:npm" class="h-5 w-5" />
+          Package
         </a>
       )}
     </div>

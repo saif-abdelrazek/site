@@ -77,6 +77,7 @@ const projectsCollection = defineCollection({
       date: z.date().optional(),
       order: z.number().default(0),
       repo: z.string().optional(),
+      package: z.string().url().optional(),
       tags: z.array(z.string()).optional(),
       slug: z.string().optional(),
       shownInHome: z.boolean().default(false),
