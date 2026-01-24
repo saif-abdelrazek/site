@@ -2,13 +2,10 @@
 title: HC Starlight
 description: سِمة Starlight مخصّصة بعلامة Hack Club — مولّد مواقع توثيق مُصغر مع توثيق ونسخة تجريبية للإظهار.
 technologies:
-  - name: Astro
+  - name: Astro Starlight
     icon: logos:astro-icon
     category: frontend
     slug: astro
-  - name: Starlight
-    category: framework
-    slug: starlight
   - name: Hack Club CSS
     icon: simple-icons:hackclub
     category: design

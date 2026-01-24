@@ -2,13 +2,10 @@
 title: HC Starlight
 description: An Astro + Starlight theme styled with Hack Club branding—a documentation/theme starter and the first npm package I published while learning Starlight theming.
 technologies:
-  - name: Astro
+  - name: Astro Starlight
     icon: logos:astro-icon
     category: frontend
     slug: astro
-  - name: Starlight
-    category: framework
-    slug: starlight
   - name: Hack Club CSS
     icon: simple-icons:hackclub
     category: design

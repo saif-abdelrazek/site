@@ -2,13 +2,10 @@
 title: غربية فاب لاب
 description: موقع توثيق شامل لمختبر التصنيع الرقمي مبني باستخدام Astro و Starlight. يتضمن أدلة المعدات وموارد البرامج ومواد التعلم وإدارة المخزون والمشاريع المجتمعية وملفات الفريق مع نشر مؤتمت على GitHub Pages.
 technologies:
-  - name: Astro
+  - name: Astro Starlight
     icon: logos:astro-icon
     category: frontend
     slug: astro
-  - name: Starlight
-    category: framework
-    slug: starlight
   - name: TypeScript
     icon: logos:typescript-icon
     category: language

@@ -2,7 +2,7 @@
 title: Gharbiya FabLab
 description: A comprehensive digital fabrication laboratory documentation site built with Astro and Starlight. Features equipment guides, software resources, learning materials, inventory management, community projects, and team profiles with automated GitHub Pages deployment.
 technologies:
-  - name: Astro
+  - name: Astro Starlight
     icon: logos:astro-icon
     category: frontend
     slug: astro
