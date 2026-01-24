@@ -19,9 +19,22 @@ export interface Props {
     level?: string;
   }[];
   repo?: string;
+  pkg?: string;
+  maxWords?: number;
+  maxTechs?: number;
 }
-const { slug, title, image, description, tags, link, technologies, repo } =
-  Astro.props as Props;
+const props = Astro.props as Props & Record<string, any>;
+const { slug, title, image, description, link, technologies, repo, maxWords = 15, maxTechs = 2 } = props;
+const pkg = props.pkg || props['package'];
+function truncateWords(text: string | undefined, max: number) {
+  if (!text) return text;
+  const words = text.trim().split(/\s+/);
+  if (words.length <= max) return text;
+  return words.slice(0, max).join(' ') + '…';
+}
+const descToShow = truncateWords(description, maxWords);
+const shownTechs = technologies ? technologies.slice(0, maxTechs) : [];
+const techRemaining = technologies ? Math.max(0, technologies.length - shownTechs.length) : 0;
 import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
 import { getLangFromUrl } from "@i18n/utils";
@@ -54,19 +67,22 @@ const t = useTranslations(lang);
       {title}
     </h3>
     {
-      description && (
-        <p class="mb-4 text-gray-700 transition-colors duration-200 ease-out dark:text-gray-300">{description}</p>
+      descToShow && (
+        <p class="mb-4 text-gray-700 transition-colors duration-200 ease-out dark:text-gray-300">{descToShow}</p>
       )
     }
     {
-      technologies && technologies.length > 0 && (
-        <div class="mb-4 flex flex-wrap gap-2">
-          {technologies.map((tech) => (
+      shownTechs && shownTechs.length > 0 && (
+        <div class="mb-4 flex flex-wrap items-center gap-2">
+          {shownTechs.map((tech) => (
             <span class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold bg-blue-100 text-blue-700 transition-all duration-200 ease-out hover:bg-blue-200 dark:bg-sky-900/60 dark:text-sky-200 dark:hover:bg-sky-800/80">
               {tech.icon && <Icon name={tech.icon} class="h-4 w-4" />}
               {tech.name}
             </span>
           ))}
+          {techRemaining > 0 && (
+            <span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold bg-gray-100 text-gray-700 dark:bg-slate-700 dark:text-slate-200">+{techRemaining}</span>
+          )}
         </div>
       )
     }
@@ -86,6 +102,19 @@ const t = useTranslations(lang);
               aria-label={`View live project ${title}`}
             >
               {t('projects.live')}
+            </a>
+          )
+        }
+        {
+          pkg && (
+            <a
+              href={pkg}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-semibold text-blue-600 underline transition-colors duration-200 ease-out hover:text-blue-800 dark:text-sky-400 dark:hover:text-sky-200"
+              aria-label={`View package ${title}`}
+            >
+              {t('projects.package')}
             </a>
           )
         }

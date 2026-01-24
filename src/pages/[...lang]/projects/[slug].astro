@@ -5,7 +5,7 @@
  * Shows a specific project
  * Route: /projects/[slug]
  */
-import { getCollection, render } from "astro:content";
+import { getCollection, render, type CollectionEntry } from "astro:content";
 import MomentLayout from "@layouts/MomentLayout.astro";
 import { Icon } from "astro-icon/components";
 import { getLangFromUrl, languages, defaultLang, showDefaultLang } from "@i18n/utils";
@@ -14,9 +14,8 @@ import { createLocalizedConstants } from "@lib/constants";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const constants = createLocalizedConstants(lang);
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths = async () => {
   const projects = await getCollection("projects");
   const paths = [];
 

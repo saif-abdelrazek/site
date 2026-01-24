@@ -123,6 +123,7 @@ const en: I18nStrings = {
     'projects.status.archived': 'archived',
     'projects.description': 'A selection of my favorite and most recent work. For more, check out all my repositories.',
     'projects.noProjects': 'No projects found.',
+    'projects.noProjectsFound': 'No projects found.',
     'projects.moreProjects': 'More Projects',
     
     // Education Config
@@ -356,7 +357,8 @@ const en: I18nStrings = {
     'projects.title': 'My Projects',
     'projects.tech': 'Technologies Used',
     'projects.liveDemo': 'Live Demo',
-    'projects.github': 'GitHub Repository',
+    'projects.github': 'Repository',
+    'projects.package': 'Package',
     'projects.comingSoon': 'Coming Soon',
     
     // Technologies

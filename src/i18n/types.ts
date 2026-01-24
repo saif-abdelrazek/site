@@ -132,6 +132,7 @@ export interface I18nStrings {
   'projects.status.archived': string;
   'projects.description': string;
   'projects.noProjects': string;
+  'projects.noProjectsFound': string;
   'projects.moreProjects': string;
 
   // Education Config
@@ -362,6 +363,7 @@ export interface I18nStrings {
   'projects.tech': string;
   'projects.liveDemo': string;
   'projects.github': string;
+  'projects.package': string;
   'projects.comingSoon': string;
 
   // Technologies

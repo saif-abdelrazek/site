@@ -173,14 +173,8 @@ const heroConfig = {
         <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
             <ProjectCard
-              slug={project.id.replace(`${lang}/`, '')}
-              title={project.data.title}
-              image={project.data.image}
-              description={project.data.description}
-              tags={project.data.tags}
-              link={project.data.link}
-              technologies={project.data.technologies}
-              repo={project.data.repo}
+          {...project.data}
+          slug={project.data.slug ?? project.id.replace(/^(en|ar)\//, '')}
             />
           ))}
         </div>

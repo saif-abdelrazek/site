@@ -122,6 +122,7 @@ const ar: I18nStrings = {
     'projects.status.archived': 'مؤرشف',
     'projects.description': 'مجموعة من مشاريعي المفضلة والأحدث. للمزيد، تحقق من جميع مستودعاتي.',
     'projects.noProjects': 'لا توجد مشاريع.',
+    'projects.noProjectsFound': 'لم يتم العثور على مشاريع.',
     'projects.moreProjects': 'المزيد من المشاريع',
     
     // Education Config
@@ -355,7 +356,8 @@ const ar: I18nStrings = {
     'projects.title': 'مشاريعي',
     'projects.tech': 'التقنيات المستخدمة',
     'projects.liveDemo': 'عرض مباشر',
-    'projects.github': 'مستودع GitHub',
+    'projects.github': 'مستودع',
+    'projects.package': 'حزمة',
     'projects.comingSoon': 'قريباً',
     
     // Technologies

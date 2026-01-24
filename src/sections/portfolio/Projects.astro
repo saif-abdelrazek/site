@@ -14,7 +14,7 @@ const allProjects = await getCollection("projects", ({ data }) => {
 });
 
 // Filter for language-specific content
-const projects = allProjects.filter((proj) => proj.id.startsWith(`${lang}/`));
+const projects = allProjects.filter((proj) => proj.id.startsWith(`${lang}/`)).slice(0, 6);
 const hasProjects = projects && projects.length > 0;
 ---
 
