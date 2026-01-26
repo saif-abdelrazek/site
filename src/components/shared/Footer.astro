@@ -1,10 +1,8 @@
 ---
 import { getLangFromUrl } from "@i18n/utils";
-import { useTranslations } from "@i18n/translations";
 import { SOCIAL_LINKS, COPYRIGHT_CONFIG } from "@lib/constants";
 
 const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
 
 import { Icon } from "astro-icon/components";
 const year = new Date().getFullYear();
@@ -14,58 +12,70 @@ const year = new Date().getFullYear();
   class="w-full border-t border-blue-200 bg-blue-50 py-8 text-center transition-all duration-300 ease-in-out dark:border-sky-900 dark:bg-slate-900"
 >
   <div class="section-container">
-    <div class="flex flex-col items-center justify-between gap-4 md:flex-row">
-    <div class="text-base text-blue-700 dark:text-sky-200">
-      &copy; {year} <a 
-        href={COPYRIGHT_CONFIG.website} 
-        class="hover:text-blue-800 dark:hover:text-sky-100 transition-colors"
-        target="_blank" 
-        rel="noopener noreferrer"
-      >
-        {lang === 'ar' ? 'سيف عبدالرازق' : COPYRIGHT_CONFIG.owner}
-      </a> (<a 
-        href={lang === 'ar' ? '/ar/a8k' : '/a8k'}
-        class="font-semibold hover:text-blue-800 dark:hover:text-sky-100 transition-colors hover:underline"
-        title={lang === 'ar' ? 'تعرّف على A8K' : 'Learn about A8K'}
-      >A8K</a>). {COPYRIGHT_CONFIG.statement[lang]}
+    <div class="flex flex-col items-center justify-between gap-4 md:flex-row text-center">
+      <div class="flex flex-col items-center gap-3 md:flex-row md:gap-4 md:items-center">
+        <div class="text-base text-blue-700 dark:text-sky-200">
+          &copy; {year} <a 
+            href={COPYRIGHT_CONFIG.website} 
+            class="hover:text-blue-800 dark:hover:text-sky-100 transition-colors"
+            target="_blank" 
+            rel="noopener noreferrer"
+          >
+            {lang === 'ar' ? 'سيف عبدالرازق' : COPYRIGHT_CONFIG.owner}
+          </a> (<a 
+            href={lang === 'ar' ? '/ar/a8k' : '/a8k'}
+            class="font-semibold hover:text-blue-800 dark:hover:text-sky-100 transition-colors hover:underline"
+            title={lang === 'ar' ? 'تعرّف على A8K' : 'Learn about A8K'}
+          >A8K</a>). {COPYRIGHT_CONFIG.statement[lang]}
+        </div>
+        <iframe
+          src="https://webring.hackclub.com/embed.html"
+          width="140"
+          height="36"
+          frameborder="0"
+          scrolling="no"
+          class="rounded border-0"
+          title="Hack Club Webring"
+        ></iframe>
+      </div>
+      <div class="flex flex-col items-center gap-3 md:flex-row md:gap-4">
+        <div class="flex justify-center items-center gap-4">
+          <a
+            href={SOCIAL_LINKS.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-blue-600 transition hover:text-blue-800 dark:text-sky-300 dark:hover:text-sky-100"
+            aria-label="GitHub"
+          >
+            <Icon name="simple-icons:github" class="h-6 w-6" />
+          </a>
+          <a
+            href={SOCIAL_LINKS.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-blue-600 transition hover:text-blue-800 dark:text-sky-300 dark:hover:text-sky-100"
+            aria-label="LinkedIn"
+          >
+            <Icon name="simple-icons:linkedin" class="h-6 w-6" />
+          </a>
+          <a
+            href={SOCIAL_LINKS.email}
+            class="text-blue-600 transition hover:text-blue-800 dark:text-sky-300 dark:hover:text-sky-100"
+            aria-label="Email"
+          >
+            <Icon name="mdi:email" class="h-6 w-6" />
+          </a>
+          <a
+            href={lang === 'en' ? "/blog/rss.xml" : `/${lang}/blog/rss.xml`}
+            target="_blank"
+            rel="noopener"
+            class="text-blue-600 transition hover:text-blue-800 dark:text-sky-300 dark:hover:text-sky-100"
+            aria-label="RSS Feed"
+          >
+            <Icon name="mdi:rss" class="h-6 w-6" />
+          </a>
+        </div>
+      </div>
     </div>
-    <div class="flex justify-center gap-4">
-      <a
-        href={SOCIAL_LINKS.github}
-        target="_blank"
-    <div class="flex justify-center gap-4">
-      <a
-        href={SOCIAL_LINKS.github}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="text-blue-600 transition hover:text-blue-800 dark:text-sky-300 dark:hover:text-sky-100"
-        aria-label="GitHub"
-      >
-        <Icon name="simple-icons:github" class="h-6 w-6" />
-      </a>
-      <a
-        href={SOCIAL_LINKS.linkedin}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="text-blue-600 transition hover:text-blue-800 dark:text-sky-300 dark:hover:text-sky-100"
-        aria-label="LinkedIn"
-      >
-        <Icon name="simple-icons:linkedin" class="h-6 w-6" />
-      </a>
-      <a
-        href={SOCIAL_LINKS.email}
-        class="text-blue-600 transition hover:text-blue-800 dark:text-sky-300 dark:hover:text-sky-100"
-        aria-label="Email"
-      >
-        <Icon name="mdi:email" class="h-6 w-6" />
-      </a>
-      <a
-        href={lang === 'en' ? "/blog/rss.xml" : `/${lang}/blog/rss.xml`}
-        target="_blank"
-        rel="noopener"
-        class="text-blue-600 transition hover:text-blue-800 dark:text-sky-300 dark:hover:text-sky-100"
-        aria-label="RSS Feed"
-      >
-        <Icon name="mdi:rss" class="h-6 w-6" />
-      </a>
-    </div>
+  </div>
+</footer>
