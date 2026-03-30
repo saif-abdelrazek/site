@@ -9,6 +9,7 @@ location: "Gharbiya, Egypt"
 section: "formal"
 order: 1
 current: true
+url: "https://stemgh.org"
 lang: en
 ---
 
@@ -18,7 +19,7 @@ STEM (Science, Technology, Engineering, and Mathematics) High Schools in Egypt a
 
 ## About Gharbiya STEM High School
 
-Gharbiya STEM High School (or STEM Gharbiya) is a coed boarding 3-year high school located in Gharbiya, Egypt. Founded in 2014, it operates on a two-semester system from October to July. The school targets high-potential students who demonstrate strong academic skills and a passion for STEM fields.
+Gharbiya STEM High School (or STEM Gharbiya) is a coed boarding 3-year high school located in Gharbiya, Egypt. Founded in 2016, it operates on a two-semester system from October to July. The school targets high-potential students who demonstrate strong academic skills and a passion for STEM fields.
 
 The core skills and values emphasized throughout the curriculum include:
 
